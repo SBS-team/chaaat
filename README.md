@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 Chat
 =========
 
@@ -139,3 +140,7 @@ License
 -------
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+=======
+chaaat
+======
+>>>>>>> 4a273eadbcf153bfec5ebd59e773c5ee97c5e249
