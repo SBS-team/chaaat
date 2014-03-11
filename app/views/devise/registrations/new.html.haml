@@ -1,25 +1,31 @@
-%h2 Sign up
-= form_for(resource, :as => resource_name, :url => registration_path(resource_name)) do |f|
-  = devise_error_messages!
-  %p
-    = f.label :firstname
-    %br/
-    = f.text_field :firstname
-  %div
-    = f.label :lastname
-    %br/
-    = f.text_field :lastname
-  %div
-    = f.label :email
-    %br/
-    = f.email_field :email
-  %div
-    = f.label :password
-    %br/
-    = f.password_field :password
-  %div
-    = f.label :password_confirmation
-    %br/
-    = f.password_field :password_confirmation
-  %div= f.submit "Sign up"
-= render "devise/shared/links"
+.authform
+  %h2 Sign up
+  = form_for(resource, :as => resource_name, :url => registration_path(resource_name)) do |f|
+    = devise_error_messages!
+    .form-group
+      %div
+        = f.label :firstname
+        %br/
+        = f.text_field :firstname, class: 'form-control'
+    .form-group
+      %div
+        = f.label :lastname
+        %br/
+        = f.text_field :lastname, class: 'form-control'
+    .form-group
+      %div
+        = f.label :email
+        %br/
+        = f.email_field :email, class: 'form-control'
+    .form-group
+      %div
+        = f.label :password
+        %br/
+        = f.password_field :password, class: 'form-control'
+    .form-group
+      %div
+        = f.label :password_confirmation
+        %br/
+        = f.password_field :password_confirmation, class: 'form-control'
+    %div= f.submit "Sign up", :class => 'button right'
+  = render "devise/shared/links"
