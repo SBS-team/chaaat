@@ -1,31 +1,42 @@
-%h2
-  Edit #{resource_name.to_s.humanize}
-= form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => { :method => :put }) do |f|
-  = devise_error_messages!
+.authform
+  %h2
+    Edit #{resource_name.to_s.humanize}
+  = form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => { :method => :put }) do |f|
+    = devise_error_messages!
+    .form-group
+      %div
+        = f.label :firstname
+        %br/
+        = f.text_field :firstname, class: 'form-control'
+    .form-group
+      %div
+        = f.label :lastname
+        %br/
+        = f.text_field :lastname, class: 'form-control'
+    .form-group
+      %div
+        = f.label :email
+        %br/
+        = f.email_field :email, class: 'form-control'
+    .form-group
+      %div
+        = f.label :password
+        %i (leave blank if you don't want to change it)
+        %br/
+        = f.password_field :password, :autocomplete => "off", class: 'form-control'
+    .form-group
+      %div
+        = f.label :password_confirmation
+        %br/
+        = f.password_field :password_confirmation, class: 'form-control'
+    .form-group
+      %div
+        = f.label :current_password
+        %i (we need your current password to confirm your changes)
+        %br/
+        = f.password_field :current_password, class: 'form-control'
+    %div= f.submit "Update", :class => 'button right'
+  %h3 Cancel my account
   %p
-    = f.label :name
-    %br/
-    = f.text_field :name
-  %div
-    = f.label :email
-    %br/
-    = f.email_field :email
-  %div
-    = f.label :password
-    %i (leave blank if you don't want to change it)
-    %br/
-    = f.password_field :password, :autocomplete => "off"
-  %div
-    = f.label :password_confirmation
-    %br/
-    = f.password_field :password_confirmation
-  %div
-    = f.label :current_password
-    %i (we need your current password to confirm your changes)
-    %br/
-    = f.password_field :current_password
-  %div= f.submit "Update"
-%h3 Cancel my account
-%p
-  Unhappy? #{link_to "Cancel my account", registration_path(resource_name), :data => { :confirm => "Are you sure?" }, :method => :delete}.
-= link_to "Back", :back
+    Unhappy? #{link_to "Cancel my account", registration_path(resource_name), :data => { :confirm => "Are you sure?" }, :method => :delete}.
+  = link_to "Back", :back, :class => 'button right'
