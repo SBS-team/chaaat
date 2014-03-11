@@ -14,4 +14,30 @@
 //= require jquery_ujs
 //= require turbolinks
 //= require bootstrap
-//= require_tree .
+//= require_tree
+
+$(document).ready(function(){	
+	$("#send_message").click(function(){
+		$.ajax({
+		  type: "POST",
+		  url: "message/new",
+		  data: { message: $("#message").val() }
+		})
+		  .done(function(msg) {
+		  	$("#message").val('');
+		  });
+	});
+
+
+    Pusher.log = function(message) {
+      if (window.console && window.console.log) {
+        window.console.log(message);
+      }
+    };
+
+    var pusher = new Pusher('255267aae6802ec7914f');
+    var channel = pusher.subscribe('chaaat');
+    channel.bind('my_event', function(data) {
+    	$('#messages').append(data.firstname+':'+data.message+"<br>");
+    });
+});
