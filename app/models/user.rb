@@ -1,11 +1,8 @@
 class User < ActiveRecord::Base
   has_many :message
-<<<<<<< HEAD
   has_many :room
   devise :omniauthable, :omniauth_providers => [:github,:facebook]
-=======
   has_many :rooms_users
->>>>>>> f79d2bee34605d8403b51f6a65b2098e6dc6cda8
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,

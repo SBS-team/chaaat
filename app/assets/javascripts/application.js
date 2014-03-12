@@ -38,6 +38,10 @@ $(document).ready(function(){
     var pusher = new Pusher('255267aae6802ec7914f');
     var channel = pusher.subscribe('chaaat');
     channel.bind('my_event', function(data) {
-    	$('#messages').append(data.firstname+':'+data.message+"<br>");
+        $('#messages').append(data.firstname+':'+HtmlEncode(data.message)+"<br>");
     });
 });
+
+function HtmlEncode(val) {
+    return $("<div/>").text(val).html();
+}
