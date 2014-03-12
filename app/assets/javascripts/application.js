@@ -43,5 +43,6 @@ $(document).ready(function(){
 });
 
 function HtmlEncode(val) {
+
     return $("<div/>").text(val).html();
 }
