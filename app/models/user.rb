@@ -18,7 +18,9 @@
 #  firstname              :string(255)
 #  lastname               :string(255)
 #  provider               :string(255)
+
 #  uid                    :string(255)
+#  sign_out_at            :datetime
 #
 # Indexes
 #
@@ -26,10 +28,14 @@
 #  index_users_on_reset_password_token  (reset_password_token) UNIQUE
 #
 
+
 class User < ActiveRecord::Base
   has_many :message
   devise :omniauthable, :omniauth_providers => [:github,:facebook]
   has_many :rooms_users
+  has_many :friendships
+  has_many :friends, :through => :friendships
+
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,

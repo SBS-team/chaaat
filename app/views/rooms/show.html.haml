@@ -3,3 +3,7 @@
 %br
 = "Topic:"
 = @room.topic
+%ul.right
+  - @user_friends.each do |friend|
+    %li
+      =link_to friend.firstname + ' ' + friend.lastname , {:controller => 'rooms_users', :action => 'create', :room_id => @room.id, :user_id => friend.id}

@@ -19,6 +19,7 @@
 #  lastname               :string(255)
 #  provider               :string(255)
 #  uid                    :string(255)
+#  sign_out_at            :datetime
 #
 # Indexes
 #
