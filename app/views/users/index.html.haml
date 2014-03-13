@@ -1,0 +1,19 @@
+- if user_signed_in?
+  %h2
+    = link_to current_user.firstname + ' ' + current_user.lastname, current_user
+  = form_tag users_path, :method => 'get'
+  = text_field_tag 'search', params[:search]
+  = submit_tag 'Search'
+  %h3
+    User List
+  - @possible_friends.each  do |user|
+    - if user.sign_out_at.nil? or user.current_sign_in_at > user.sign_out_at
+      %strong
+        status: online
+    - else
+      %strong
+        status: offline
+    %p
+      %strong
+      = link_to user.firstname + ' ' + user.lastname, user_path(user.id)
+      = link_to 'Add Friend', friendships_path(:friend_id => user), :method => :post

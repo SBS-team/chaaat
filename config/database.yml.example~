@@ -1,0 +1,26 @@
+development:
+  adapter: postgresql
+  encoding: unicode
+  database: chat_development
+  pool: 5
+  timeout: 5000
+  username: moroka
+  password: dmm_trued
+
+test:
+  adapter: postgresql
+  encoding: unicode
+  database: chat_test
+  pool: 5
+  timeout: 5000
+  username: moroka
+  password: dmm_trued
+production:
+  adapter:  postgresql
+  host:     localhost
+  encoding: unicode
+  database: chat_production
+  pool:     5
+  username: moroka
+  password: dmm_trued
+  template: template0

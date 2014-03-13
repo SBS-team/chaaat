@@ -1,0 +1,22 @@
+- if user_signed_in?
+  %h2
+    My Profile
+  %p
+    User name:
+    = @user.firstname + ' ' + @user.lastname
+  %h3
+    My friends
+  %ul
+    - for friendship in @user.friendships
+      %li
+        = friendship.friend.firstname + ' ' + friendship.friend.lastname
+        = link_to 'Remove', friendship, :method => :delete
+  -#- if @user.inverse_friends.count > 0
+  -#  %h3
+  -#    Friended by Users
+  -#  %ul
+  -#    - for user in @user.inverse_friends
+  -#      %li
+  -#        = user.firstname + ' ' + user.lastname
+  %p
+    = link_to 'Find new friends', users_path
