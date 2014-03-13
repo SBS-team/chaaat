@@ -15,19 +15,7 @@
 //= require turbolinks
 //= require bootstrap
 //= require_tree
-
-$(document).ready(function(){	
-	$("#send_message").click(function(){
-		$.ajax({
-		  type: "POST",
-		  url: "message/new",
-		  data: { message: $("#message").val() }
-		})
-		  .done(function(msg) {
-		  	$("#message").val('');
-		  });
-	});
-
+$(document).ready(function(){
 
     Pusher.log = function(message) {
       if (window.console && window.console.log) {
@@ -38,6 +26,6 @@ $(document).ready(function(){
     var pusher = new Pusher('255267aae6802ec7914f');
     var channel = pusher.subscribe('chaaat');
     channel.bind('my_event', function(data) {
-    	$('#messages').append(data.firstname+':'+data.message+"<br>");
+    	$('#messages').append(data.firstname+':'+data.message+"<span class=\"pull-right time\">"+data.create_at+"</span><br>");
     });
 });

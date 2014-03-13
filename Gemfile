@@ -14,16 +14,10 @@ gem 'pg'
 gem 'therubyracer', :platform=>:ruby
 gem 'unicorn'
 gem 'unicorn-rails'
-<<<<<<< HEAD
-<<<<<<< HEAD
 gem 'omniauth-facebook'
 gem 'omniauth-github'
-=======
-=======
 gem 'pusher'
->>>>>>> 42e8f611161dc3482f62c5dee33a95dbdefae416
 gem "rails-erd"
->>>>>>> f79d2bee34605d8403b51f6a65b2098e6dc6cda8
 group :development do
   gem 'better_errors'
   gem 'binding_of_caller', :platforms=>[:mri_19, :mri_20, :rbx]
