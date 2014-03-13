@@ -26,6 +26,11 @@ $(document).ready(function(){
     var pusher = new Pusher('255267aae6802ec7914f');
     var channel = pusher.subscribe('chaaat');
     channel.bind('my_event', function(data) {
-    	$('#messages').append(data.firstname+':'+data.message+"<span class=\"pull-right time\">"+data.create_at+"</span><br>");
+    	$('#messages').append(data.firstname+':'+HtmlEncode(data.message)+"<span class=\"pull-right time\">"+data.create_at+"</span><br>");
     });
 });
+
+function HtmlEncode(val) {
+
+    return $("<div/>").text(val).html();
+}

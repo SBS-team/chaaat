@@ -1,10 +1,18 @@
-.container
-  #messages
-    -@messages.each do |message|
-      =User.find(message.user_id).firstname+": "+message.body
+%input.form-control#search{:placeholder=>"Search..."}
+.container-fluid
+  .span6.content
+    %br
+    #messages
+      -@messages.each do |message|
+        =message.user_id.to_s+": "+message.body
+        %span.pull-right.time
+          =message.created_at.strftime("%a %T")
+        %br
+    .row
       %br
-  %textarea.form-control#message
-  %br
-  .row
-    %button.btn.btn-success.pull-right#send_message
-      Send message
+      %textarea.form-control#message
+      %br
+      %button.btn.btn-success#send_message
+        Send message
+  / .span2.hidden-sm.sidebar
+  /   Users in chat
