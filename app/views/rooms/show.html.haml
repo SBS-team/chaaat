@@ -1,0 +1,20 @@
+= "Name:"
+= @room.name
+%br
+= "Topic:"
+= @room.topic
+%ul
+  - @room_users.each do |user|
+    %li
+      - if user.id == current_user.id
+        = user.firstname + " " + user.lastname
+        = link_to "Leave room", rooms_user_path(:user_id => user.id), :method => :delete
+      - else
+        = user.firstname + " " + user.lastname
+
+%ul.right
+  - @user_friends.each do |friend|
+    %li
+      = friend.firstname + " " + friend.lastname
+      = link_to "+", rooms_users_path(:room_id => @room.id,:user_id => friend.id), :method => :post
+

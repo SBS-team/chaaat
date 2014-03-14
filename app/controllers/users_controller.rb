@@ -17,4 +17,9 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
   end
 
+  def search
+    found_users = User.where('id != ? AND id NOT IN (?) AND firstname LIKE ?', current_user.id, friend_ids, "#{params[:search]}%").order(:lastname => :asc)
+    render :json=> found_users.to_json
+  end
+
 end

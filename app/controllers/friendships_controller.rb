@@ -1,4 +1,5 @@
 class FriendshipsController < ApplicationController
+
   def create
     friendship = current_user.friendships.build(:friend_id => params[:friend_id])
     added_friend = friendship.friend
@@ -9,7 +10,6 @@ class FriendshipsController < ApplicationController
       redirect_to user_path(current_user.id)
     else
       flash[:error] = 'User rejected your friendship'
-      redirect_to current_user
     end
   end
 
@@ -21,4 +21,5 @@ class FriendshipsController < ApplicationController
     flash[:notice] = 'Friendship is over'
     redirect_to current_user
   end
+
 end
