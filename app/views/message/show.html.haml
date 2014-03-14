@@ -2,17 +2,20 @@
 .container-fluid
   .span6.content
     %br
-    #messages
+    #messages-wrapper
       -@messages.each do |message|
-        =message.user_id.to_s+": "+message.body
-        %span.pull-right.time
-          =message.created_at.strftime("%a %T")
-        %br
-    .row
-      %br
-      %textarea.form-control#message
-      %br
-      %button.btn.btn-success#send_message
-        Send message
-  / .span2.hidden-sm.sidebar
-  /   Users in chat
+        -if message.user_id==current_user.id
+          .message.to
+            =message.user.login+": "+message.body
+            %span.pull-right.time
+              =message.created_at.strftime("%a %T")
+        -else
+          .message.from
+            =message.user.login+": "+message.body
+            %span.pull-right.time
+              =message.created_at.strftime("%a %T")
+    %br
+    %textarea.form-control#message
+    %br
+    %button.btn.btn-success#send_message
+      Send message

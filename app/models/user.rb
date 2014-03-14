@@ -28,6 +28,7 @@ class User < ActiveRecord::Base
         user = User.create(firstname:auth.info.name,
                            provider:auth.provider,
                            uid:auth.uid,
+                           login:auth.name,
                            email:auth.info.email,
                            password:Devise.friendly_token[0,20],
         )
@@ -48,6 +49,7 @@ class User < ActiveRecord::Base
         user = User.create(firstname:auth.extra.raw_info.first_name,
                            lastname:auth.extra.raw_info.last_name,
                            provider:auth.provider,
+                           login:auth.extra.raw_info.username,
                            uid:auth.uid,
                            email:auth.info.email,
                            password:Devise.friendly_token[0,20],

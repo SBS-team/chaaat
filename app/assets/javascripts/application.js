@@ -22,10 +22,5 @@ $(document).ready(function(){
         window.console.log(message);
       }
     };
-
-    var pusher = new Pusher('255267aae6802ec7914f');
-    var channel = pusher.subscribe('chaaat');
-    channel.bind('my_event', function(data) {
-    	$('#messages').append(data.firstname+':'+data.message+"<span class=\"pull-right time\">"+data.create_at+"</span><br>");
-    });
+    
 });

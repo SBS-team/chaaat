@@ -6,17 +6,23 @@ class MessageController < ApplicationController
 	end
 
 	def show
+		gon.user_id = current_user.id
 		@messages=Message.all.preload(:user)
 	end
 
 	def new
 		message=Message.create(:user_id=>current_user.id,:body=>params[:message])
-		Pusher['chaaat'].trigger('my_event', {:firstname=>current_user.firstname,:message=>message.body ,:create_at=>message.created_at.strftime("%T")})
+		Pusher['chaaat'].trigger('new_message', {:user_id=>current_user.id, :login=>current_user.login, :message=>message.body, :create_at=>message.created_at.strftime("%a %T")})
 	end
 
 	def search
-		search=Message.where("body like ?", "%#{params[:query]}%")
-		render :json=>search.to_json 
+		messages=Message.where("body like ?", "%#{params[:query]}%").preload(:user)
+		result = Array.new()
+		messages.each do |res|
+			message={:user_id=>res.user_id, :login=>res.user.login, :body=>res.body, :created_at=>res.created_at.strftime("%a %T")}
+			result.push(message)
+		end
+		render :json=>result
 	end
 
 end
