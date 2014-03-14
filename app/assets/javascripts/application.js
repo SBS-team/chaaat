@@ -15,9 +15,10 @@
 //= require turbolinks
 //= require bootstrap
 
+
 //= require_tree
 
-$(document).ready(function(){
+//$(document).ready(function(){
 //    $("#send_message").click(function(){
 //        $.ajax({
 //            type: "POST",
@@ -52,62 +53,29 @@ $(document).ready(function(){
 //        $('#messages').append(data.firstname+':'+data.message+"<br>");
 //    });
 
-    src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"
-    src="http://js.pusher.com/2.0/pusher.min.js"
-    $(function() {
+//    $(function() {
+//
+//
+//        // Some useful debug msgs
+//        pusher.connection.bind('connecting', function() {
+//            $('div#status').text('Connecting to Pusher...');
+//        });
+//        pusher.connection.bind('connected', function() {
+//            $('div#status').text('Connected to Pusher!');
+//        });
+//        pusher.connection.bind('failed', function() {
+//            $('div#status').text('Connection to Pusher failed :(');
+//        });
+//        channel.bind('subscription_error', function(status) {
+//            $('div#status').text('Pusher subscription_error');
+//        });
+//    });
 
 
-        // Some useful debug msgs
-        pusher.connection.bind('connecting', function() {
-            $('div#status').text('Connecting to Pusher...');
-        });
-        pusher.connection.bind('connected', function() {
-            $('div#status').text('Connected to Pusher!');
-        });
-        pusher.connection.bind('failed', function() {
-            $('div#status').text('Connection to Pusher failed :(');
-        });
-        channel.bind('subscription_error', function(status) {
-            $('div#status').text('Pusher subscription_error');
-        });
-    });
+//});
 
 
-
-
-    $("#send_message").click(function(){
-       send_message();
-    });
-
-
-    function send_message(){
-        $.ajax({
-            type: "POST",
-            url: "message/new",
-            data: { message: $("#message").val().replace(/\n/g,"<br>") }
-        })
-            .done(function(msg) {
-                $("#message").val('');
-            });
-    };
 //    $('#messages' + 'fffffffffff').hide();
 //  Pusher.channel_auth_endpoint = '/pusher/auth?user_id=' +gon.user_id.toString();
-    var pusher =new Pusher('255267aae6802ec7914f');
-    var channel = pusher.subscribe('private-'+gon.user_id.toString());
-    channel.bind('new_message', function(data) {
-        $('#messages').append("<div id='user_name'>"+data.firstname+':'+"</div>"+"<div id='message_body'>"+data.message+"</div>"+"<br>");
-    });
 
-    $('#message').keydown(function(e)
-    {
-        if (e.keyCode == 13 && e.ctrlKey==false) { send_message(); return false; }
-        if (e.keyCode ==13 && e.ctrlKey) {document.getElementById('message').value += "\r\n"; return false;}
-    });
-
-});
-
-
-
-
-//= require_tree .
 

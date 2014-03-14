@@ -7,7 +7,7 @@
         -if message.user_id==current_user.id
           %pre.message.to
             .message_login
-              =message.user.login+":"
+              =message.user.firstname+":"
             .message_body
               =message.body
             %span.pull-right.time
@@ -15,13 +15,13 @@
         -else
           %pre.message.from
             .message_login
-              =message.user.login+":"
+              =message.user.firstname+":"
             .message_body
               =message.body
             %span.pull-right.time
               =message.created_at.strftime("%a %T")
     %br
-    .navbar-fixed-bottom.row-fluid
-      %textarea.form-control#message
-      %button.btn.btn-success#send_message
-        Send message
+    %textarea.form-control#message
+    %br
+    %button.btn.btn-success#send_message
+      Send message

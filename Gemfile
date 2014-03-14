@@ -19,6 +19,9 @@ gem 'omniauth-github'
 gem 'pusher'
 gem 'rails-erd'
 gem 'gon'
+gem "rails-erd"
+gem "annotate"
+gem 'sanitize'
 
 group :development do
   gem 'better_errors'
