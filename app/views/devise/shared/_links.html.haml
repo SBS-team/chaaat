@@ -15,5 +15,9 @@
   %br/
 - if devise_mapping.omniauthable?
   - resource_class.omniauth_providers.each do |provider|
+<<<<<<< HEAD
     =# link_to "Sign in with #{provider.to_s.titleize}", omniauth_authorize_path(resource_name, provider)
+=======
+    = link_to "Sign in with #{provider.to_s.titleize}", omniauth_authorize_path(resource_name, provider)
+>>>>>>> 1dd6511a12485de0a268766817a965bb00354674
     %br/

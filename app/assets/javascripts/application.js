@@ -14,6 +14,7 @@
 //= require jquery_ujs
 //= require turbolinks
 //= require bootstrap
+
 //= require_tree
 
 $(document).ready(function(){
@@ -106,4 +107,7 @@ $(document).ready(function(){
 });
 
 
+
+
+//= require_tree .
 

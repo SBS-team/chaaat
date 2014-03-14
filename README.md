@@ -1,9 +1,19 @@
+<<<<<<< HEAD
 Chat
+=======
+<<<<<<< HEAD
+Chat
+=========
+>>>>>>> 1dd6511a12485de0a268766817a965bb00354674
 
 This application was generated with the [rails_apps_composer](https://github.com/RailsApps/rails_apps_composer) gem
 provided by the [RailsApps Project](http://railsapps.github.io/).
 
 Diagnostics
+<<<<<<< HEAD
+=======
+-----------
+>>>>>>> 1dd6511a12485de0a268766817a965bb00354674
 
 This application was built with recipes that are known to work together.
 
