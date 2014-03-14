@@ -1,0 +1,15 @@
+.container
+  #messages
+    -@messages.each do |message|
+      .user_name
+        =message.user.firstname+": "
+      .message_body
+        =message.body.sub(/[\n]/,'<br>').html_safe
+      %br
+  %textarea.form-control#message
+  %br
+  .row
+    .col-md-10
+    .col-md-2
+      %button.btn.btn-success#send_message
+        Send message
