@@ -4,6 +4,7 @@ Chat::Application.routes.draw do
   get "message/index", to: "message#index"
   get "message/:id", to: "message#show"
   post "message/new", to: "message#new", as: "new_message"
+  get "rooms/new", to: "rooms#new", as: "new_room"
   post "message/search", to: "message#search"
   get "message/search/:search", to: "message#search"
   resources :rooms
