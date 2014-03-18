@@ -76,6 +76,7 @@ var message_textarea=$("#message");
         if(gon.user_id==user_id){
             $('#messages-wrapper').append("<pre class=\"message to\">"+"<div class=\"message_login\" style=margin:0px;>"+login+':'+"</div>"+"<div class=\"message_body\" style=margin:0px;>"+HtmlEncode(body)+"</div><span class=\"pull-right time\">"+time+"</span></pre>");
         }else{
+            document.getElementById('new-message').play();
             $('#messages-wrapper').append("<pre class=\"message from\">"+"<div class=\"message_login\" style=margin:0px;>"+login+':'+"</div>"+"<div class=\"message_body\" style=margin:0px;>"+HtmlEncode(body)+"</div><span class=\"pull-right time\">"+time+"</span></pre>");
         }
     }
