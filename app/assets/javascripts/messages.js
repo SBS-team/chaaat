@@ -1,27 +1,37 @@
 $(document).ready(function(){
+//        var t=document.getElementsByTagName('p')[0].innerHTML.trim();
+//    alert(document.getElementsByTagName('p')[0].innerHTML);
+//    document.getElementsByTagName('p')[0].innerHTML=t;
 
+    document.getElementsByClassName('panel-body')[0].style.height=$(window).height()-200+"px";
 
-    $("#send_message").click(function(){
-        send_message();
-
+    $( window ).resize(function() {
+        document.getElementsByClassName('panel-body')[0].style.height=$(window).height()-200+"px";
     });
 
+    $("#send_message").click(function(){
 
-    function send_message(){
-        $.ajax({
-            type: "POST",
-            url: "message/new",
-            data: { message: $("#message").val() }
-        })
-            .done(function(msg) {
-                $("#message").val('');
-            });
-    };
+        send_message();
+    });
 
     $('#message').keydown(function(e)
     {
-        if (e.keyCode == 13 && e.ctrlKey==false) { send_message();$('html, body').animate({scrollTop: $("body").height()}, 800); return false; }
-        if (e.keyCode ==13 && e.ctrlKey) {document.getElementById('message').value += "\r\n"; return false;}
+        if (e.keyCode == 13 && e.ctrlKey==false) {
+            send_message();
+            return false;
+        }
+        if (e.keyCode ==13 && e.ctrlKey) {
+            document.getElementById('message').value += "\r\n";
+            return false;
+        }
+    });
+
+    $('#message').keyup(function(){
+        if ((this.value.indexOf(' @')>-1) || (this.value.indexOf('@')>-1 && this.value.indexOf('@')<1)){
+            // $("#request-user").css("display","block");
+        }else{
+            // $("#request-user").css("display","none");
+        }
     });
 
 
@@ -39,28 +49,66 @@ $(document).ready(function(){
             });
     });
 
-
-    var pusher =new Pusher('255267aae6802ec7914f');
+    var pusher = new Pusher('255267aae6802ec7914f');
     var channel = pusher.subscribe('private');
-    //+gon.user_id.toString()
     channel.bind('new_message', function(data) {
-
         render_message(data.user_id,data.login,data.message,data.create_at);
-//        $('#messages').append("<div id='user_name'>"+data.firstname+':'+"</div>"+"<div id='message_body'>"+HtmlEncode(data.message).replace(/\n/g,"<br>")+"</div>"+"<span class=\"pull-right time\">"+data.create_at+"</span><br>");
     });
+
 
     function render_message(user_id,login,body,time){
         if(gon.user_id==user_id){
-            $('#messages-wrapper').append("<pre class=\"message to\">"+"<div class=\"message_login\" style=margin:0px;>"+login+':'+"</div>"+"<div class=\"message_body\" style=margin:0px;>"+HtmlEncode(body)+"</div>"+"<span class=\"pull-right time\">"+time+"</span></pre>");
+
+            $('#messages-wrapper').append("<li class=\"from clearfix\">"+
+            "<span class=\"chat-img pull-left\">"+
+                "<img class=\"img-circle\" src=\"http://placehold.it/50/55C1E7/fff&text=ME\" alt=\"User Avatar\">"+
+            "</span>"+
+                "<div class=\"chat-body clearfix\">"+
+                "<div class=\"header\">"+
+                    "<strong class=\"primary-font\">"+login+"</strong>"+
+                    "<small class=\"pull-right text-muted\">"+
+                        "<span class=\"glyphicon glyphicon-time\"></span>"+time+
+                    "</small>"+
+                "</div>"+
+                "<p>"+ HtmlEncode(body).trim()+"</p>"+
+            "</div>"+
+            "</li>");
+
         }else{
-            $('#messages-wrapper').append("<pre class=\"message from\">"+"<div class=\"message_login\" style=margin:0px;>"+login+':'+"</div>"+"<div class=\"message_body\" style=margin:0px;>"+HtmlEncode(body)+"</div>"+"<span class=\"pull-right time\">"+time+"</span></pre>");
+            $('#messages-wrapper').append("<li class=\"to clearfix\">"+
+                "<span class=\"chat-img pull-left\">"+
+                "<img class=\"img-circle\" src=\"http://placehold.it/50/FA6F57/fff&text=U\" alt=\"User Avatar\">"+
+                "</span>"+
+                "<div class=\"chat-body clearfix\">"+
+                "<div class=\"header\">"+
+                "<strong class=\"primary-font\">"+login+"</strong>"+
+                "<small class=\"pull-right text-muted\">"+
+                "<span class=\"glyphicon glyphicon-time\"></span>"+time+
+                "</small>"+
+                "</div>"+
+                "<p>"+ HtmlEncode(body).trim()+"</p>"+
+                "</div>"+
+                "</li>");
+        }
+        var objDiv = document.getElementsByClassName('panel-body')[0];
+        objDiv.scrollTop = objDiv.scrollHeight+2000;
+    }
+
+    function send_message(){
+        if ($.trim( $('#message').val()).length>0){
+
+            $.ajax({
+                type: "POST",
+                url: "../message/new",
+                data: { message:  $('#message').val() }
+            }).done(function(msg) {
+                    $('#message').val('');
+                });
         }
     }
 
+    function HtmlEncode(val) {
+        return $("<div/>").text(val).html();
+    }
 
 });
-
-function HtmlEncode(val) {
-
-    return $("<div/>").text(val).html();
-}

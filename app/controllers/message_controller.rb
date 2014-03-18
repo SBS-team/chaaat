@@ -3,18 +3,17 @@ class MessageController < ApplicationController
   include MessageHelper
 
 	def index
+    gon.user_id = current_user.id
 		@messages=Message.all.preload(:user)
-    #@messages.each do |message|
-    #  message.body.sub!(/[\n]/,raw('<br>'))
-    #end
 	end
 
   def new
-    message=Message.create(:user_id=>current_user.id,:body=>params[:message])
-    Pusher['private'].trigger('new_message', {:user_id=>current_user.id,:login=>current_user.login,:message=>message.body ,:create_at=>message.created_at.strftime("%T")})
+    message=Message.create(:user_id=>current_user.id,:body=>params[:message].gsub(/[\n]/,"\r"))
+    Pusher['private'].trigger('new_message', {:user_id=>current_user.id,:login=>current_user.login,:message=>message.body ,:create_at=>message.created_at.strftime("%a %T")})
   end
 
 	def show
+    gon.user_id = current_user.id
 		@messages=Message.all.preload(:user)
 	end
 

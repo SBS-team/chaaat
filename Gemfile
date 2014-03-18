@@ -19,7 +19,6 @@ gem 'omniauth-github'
 gem 'pusher'
 gem 'rails-erd'
 gem 'gon'
-gem "rails-erd"
 gem "annotate"
 gem 'sanitize'
 
@@ -30,6 +29,7 @@ group :development do
   gem 'html2haml'
   gem 'quiet_assets'
   gem 'rails_layout'
+
 end
 group :development, :test do
   gem 'factory_girl_rails'
