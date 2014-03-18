@@ -1,21 +1,28 @@
-%input.form-control#search{:placeholder=>"Search..."}
+%input.form-control#search{:placeholder=>"Search...",:type=>"search"}
 .container-fluid
   .span6.content
     %br
     #messages-wrapper
       -@messages.each do |message|
         -if message.user_id==current_user.id
-          .message.to
-            ="#{message.user.login}: #{message.body}"
+          %pre.message.to
+            .message_login
+              =message.user.login+":"
+            .message_body
+              =message.body
             %span.pull-right.time
-              ="#{message.created_at.strftime("%a %T")}"
+              =message.created_at.strftime("%a %T")
         -else
-          .message.from
-            ="#{message.user.login}: #{message.body}"
+          %pre.message.from
+            .message_login
+              =message.user.login+":"
+            .message_body
+              =message.body
             %span.pull-right.time
-              ="#{message.created_at.strftime("%a %T")}"
+              =message.created_at.strftime("%a %T")
     %br
-    %textarea.form-control#message
-    %br
-    %button.btn.btn-success#send_message
-      Send message
+    .navbar-fixed-bottom.row-fluid
+      #request-user
+      %textarea.form-control#message
+      %button.btn.btn-success#send_message
+        Send message

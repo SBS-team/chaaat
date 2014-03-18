@@ -14,12 +14,3 @@
 //= require jquery_ujs
 //= require bootstrap
 //= require_tree
-$(document).ready(function(){
-
-    Pusher.log = function(message) {
-      if (window.console && window.console.log) {
-        window.console.log(message);
-      }
-    };
-    
-});

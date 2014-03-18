@@ -1,4 +1,8 @@
 -if user_signed_in?
+  %li
+    = link_to 'Edit account', edit_user_registration_path
+  %li
+    = link_to 'Logout', destroy_user_session_path, :method=>'delete'
   %li.dropdown.user-dropdown
     %a.dropdown-toggle{:href=>"#",:data=>{:toggle=>"dropdown"}}
       %i.fa.fa-user
