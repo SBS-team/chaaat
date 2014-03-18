@@ -1,38 +1,51 @@
 $(document).ready(function(){
-//        var t=document.getElementsByTagName('p')[0].innerHTML.trim();
-//    alert(document.getElementsByTagName('p')[0].innerHTML);
-//    document.getElementsByTagName('p')[0].innerHTML=t;
 
-    document.getElementsByClassName('panel-body')[0].style.height=$(window).height()-200+"px";
+
+    document.getElementsByClassName('panel-body')[0].style.height=$(window).height()-152+"px";
 
     $( window ).resize(function() {
-        document.getElementsByClassName('panel-body')[0].style.height=$(window).height()-200+"px";
+        document.getElementsByClassName('panel-body')[0].style.height=$(window).height()-152+"px";
     });
 
-    $("#send_message").click(function(){
+var message_textarea=$("#message");
 
+    $("#send_message").click(function(){
         send_message();
     });
 
-    $('#message').keydown(function(e)
+    message_textarea.keydown(function(e)
     {
         if (e.keyCode == 13 && e.ctrlKey==false) {
             send_message();
-            return false;
+            $('html, body').animate({scrollTop: $("body").height()}, 800);
         }
         if (e.keyCode ==13 && e.ctrlKey) {
             document.getElementById('message').value += "\r\n";
-            return false;
         }
     });
 
-    $('#message').keyup(function(){
-        if ((this.value.indexOf(' @')>-1) || (this.value.indexOf('@')>-1 && this.value.indexOf('@')<1)){
-            // $("#request-user").css("display","block");
-        }else{
-            // $("#request-user").css("display","none");
-        }
-    });
+
+    message_textarea.keyup(function(){
+        message_textarea_value=message_textarea.val();
+        if ((message_textarea_value.indexOf(' @')>-1) || (message_textarea_value.indexOf('@')>-1 && message_textarea_value.indexOf('@')<1)){
+            $('#request-user').html('');
+            $.ajax({
+                type: "POST",
+                url: "../users/search/",
+                data: { login: $.trim(message_textarea_value.match(/\@(\S+.)/)[1]) }
+            }).done(function(msg) {
+                    if ((msg.length==0) || (msg[0].login==$.trim(message_textarea_value.match(/\@(\S+.)/)[1]))) {
+                        $("#request-user").css("display","none");
+                    }else{
+                    for (var i = msg.length - 1; i >= 0; i--) {
+                        $('#request-user').append('<div data-login="@'+msg[i].login+'" class="replace">@'+msg[i].login+'</div>');
+                    };
+                    $("#request-user").css("display","block");
+                }
+                });
+                
+            }
+        });
 
 
     $("#search").keyup(function(){
@@ -49,12 +62,36 @@ $(document).ready(function(){
             });
     });
 
+
+    $('#request-user').on('click', '.replace', function(event){
+            login=$('#message').val();
+            login=login.replace($.trim($('#message').val().match(/\@(\S+.)/)[0]),$(event.currentTarget).attr('data-login'));
+            $('#message').val(login);
+            $(this).css('display','none');
+    });
+
+
     var pusher = new Pusher('255267aae6802ec7914f');
     var channel = pusher.subscribe('private');
     channel.bind('new_message', function(data) {
         render_message(data.user_id,data.login,data.message,data.create_at);
     });
 
+    function send_message(){
+        if ($.trim(message_textarea.val()).length>0){
+            $.ajax({
+                type: "POST",
+                url: "../message/new",
+                data: { message: $.trim(message_textarea.val()) }
+                }).done(function(msg) {
+                    message_textarea.val('');
+                });
+        }
+    }
+
+    function HtmlEncode(val) {
+        return $("<div/>").text(val).html();
+    }
 
     function render_message(user_id,login,body,time){
         if(gon.user_id==user_id){
@@ -75,6 +112,7 @@ $(document).ready(function(){
             "</li>");
 
         }else{
+            document.getElementById('new-message').play();
             $('#messages-wrapper').append("<li class=\"to clearfix\">"+
                 "<span class=\"chat-img pull-left\">"+
                 "<img class=\"img-circle\" src=\"http://placehold.it/50/FA6F57/fff&text=U\" alt=\"User Avatar\">"+
@@ -94,21 +132,6 @@ $(document).ready(function(){
         objDiv.scrollTop = objDiv.scrollHeight+2000;
     }
 
-    function send_message(){
-        if ($.trim( $('#message').val()).length>0){
 
-            $.ajax({
-                type: "POST",
-                url: "../message/new",
-                data: { message:  $('#message').val() }
-            }).done(function(msg) {
-                    $('#message').val('');
-                });
-        }
-    }
-
-    function HtmlEncode(val) {
-        return $("<div/>").text(val).html();
-    }
 
 });

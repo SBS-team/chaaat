@@ -1,3 +1,4 @@
+
 Chat
 <<<<<<< HEAD
 =======
@@ -7,6 +8,7 @@ Chat
 >>>>>>> 1dd6511a12485de0a268766817a965bb00354674
 =======
 >>>>>>> 9dde62727069a06226059d77ebb237c88094d748
+
 
 This application was generated with the [rails_apps_composer](https://github.com/RailsApps/rails_apps_composer) gem
 provided by the [RailsApps Project](http://railsapps.github.io/).
@@ -19,6 +21,7 @@ Diagnostics
 >>>>>>> 1dd6511a12485de0a268766817a965bb00354674
 =======
 >>>>>>> 9dde62727069a06226059d77ebb237c88094d748
+
 
 This application was built with recipes that are known to work together.
 
@@ -152,7 +155,4 @@ License
 -------
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-=======
-chaaat
-======
->>>>>>> 4a273eadbcf153bfec5ebd59e773c5ee97c5e249
+

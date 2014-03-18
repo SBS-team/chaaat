@@ -1,37 +1,39 @@
-%input.form-control#search{:placeholder=>"Search...",:type=>"search"}
-.container-fluid
-  .span6.content
-    %br
-    #messages-wrapper
-      -@messages.each do |message|
-        -if message.user_id==current_user.id
-          %pre.message.to
-            %p.message_login{"data-target"=>"#myModal", "data-toggle"=>"modal"}#{message.user.login}
-
-            .message_body
-              =message.body
-            %span.pull-right.time
-              =message.created_at.strftime("%a %T")
-        -else
-          %pre.message.from
-            .message_login
-              %p{"data-target"=>"#myModal", "data-toggle"=>"modal"}#{message.user.login}
-            .message_body
-              =message.body
-            %span.pull-right.time
-              =message.created_at.strftime("%a %T")
-    %br
-    .navbar-fixed-bottom.row-fluid
+.col-md-2
+  = render 'layouts/left_panel'
+.col-md-8
+  .panel.panel-primary
+    .panel-body
+      %ul.chat
+        #messages-wrapper
+          -@messages.each do |message|
+            -if message.user_id==current_user.id
+              %li.from.clearfix
+                %span.chat-img.pull-left
+                  %img.img-circle{:alt => "User Avatar", :src => "http://placehold.it/50/55C1E7/fff&text=ME"}/
+                .chat-body.clearfix
+                  .header
+                    %strong.primary-font=message.user.login
+                    %small.pull-right.text-muted
+                      %span.glyphicon.glyphicon-time
+                      =message.created_at.strftime("%a %T")
+                  %p=message.body
+            -else
+              %li.to.clearfix
+                %span.chat-img.pull-left
+                  %img.img-circle{:alt => "User Avatar", :src => "http://placehold.it/50/FA6F57/fff&text=U"}/
+                .chat-body.clearfix
+                  .header
+                    %strong.primary-font=message.user.login
+                    %small.pull-right.text-muted
+                      %span.glyphicon.glyphicon-time
+                      =message.created_at.strftime("%a %T")
+                  %p=message.body
+    .panel-footer
       %textarea.form-control#message
       %button.btn.btn-success#send_message
         Send message
-.modal.fade{"aria-hidden" => "true", "aria-labelledby" => "myModalLabel",role: "dialog", tabindex: "-1", id:"myModal"}
-  .modal-dialog
-    .modal-content
-      .modal-header
-        %button.close{"aria-hidden" => "true", "data-dismiss" => "modal", type: "button"} ×
-        %h4#myModalLabel.modal-title Profile
-        .modal-body
-          User info
-        .modal-footer
-          %button.btn.btn-default{"data-dismiss" => "modal", type: "button"} Close
+%audio#new-message
+  %source{:src=>"../sounds/button_tiny.ogg", :type=>"audio/ogg"}
+  %source{:src=>"../sounds/button_tiny.mp3", :type=>"audio/mp3"}
+.col-md-2
+  = render 'layouts/rigth_panel'

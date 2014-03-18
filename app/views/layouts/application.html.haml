@@ -10,17 +10,10 @@
     = stylesheet_link_tag "application", media: "all", "data-turbolinks-track" => true
     = javascript_include_tag "application", "data-turbolinks-track" => true
     = csrf_meta_tags
-  %body
+  %body{:style=>("background-image:url('../background/#{background_image()}');" unless user_signed_in?)}
     .container-fluid
       %header
         = render 'layouts/navigation'
-      .row
-        .col-md-2
-          = render 'layouts/left_panel'
-        .col-md-8
-          = render 'layouts/messages'
-          = yield
-        .col-md-2
-          = render 'layouts/rigth_panel'
-
-
+      .row.navbar-fixed-bottom
+        = render 'layouts/messages'
+        = yield

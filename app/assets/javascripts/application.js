@@ -13,44 +13,45 @@
 //= require jquery
 //= require jquery_ujs
 //= require bootstrap
-
-
-//= require_tree
-
-//$(document).ready(function(){
-//    $("#send_message").click(function(){
-//        $.ajax({
-//            type: "POST",
-//            url: "message/new",
-//            data: { message: $("#message").val() }
-//        })
-//            .done(function(msg) {
-//                $("#message").val('');
-//            });
-//    });
+//<<<<<<< HEAD
 //
 //
-//    Pusher.log = function(message) {
-//        if (window.console && window.console.log) {
-//            window.console.log(message);
-//        }
-//    };
+////= require_tree
 //
-////    Pusher.channel_auth_endpoint = '/api/authenticate?user_id=' + user_id;
-////    var pusher = new Pusher('255267aae6802ec7914f');
-////    var channel = pusher.subscribe(gon.user_id.toString());
-//
-//
-//    Pusher.channel_auth_edpoint = '/api/authenticate/'
-//    var socket = new Pusher('255267aae6802ec7914f');
-//
-//// Global variable "channel" is set in the view
-////    var presenceChannel = socket.subscribe('presence-' + channel);
-//    var channel = socket.subscribe(gon.user_id.toString());
-//
-//    channel.bind('my_event', function(data) {
-//        $('#messages').append(data.firstname+':'+data.message+"<br>");
-//    });
+////$(document).ready(function(){
+////    $("#send_message").click(function(){
+////        $.ajax({
+////            type: "POST",
+////            url: "message/new",
+////            data: { message: $("#message").val() }
+////        })
+////            .done(function(msg) {
+////                $("#message").val('');
+////            });
+////    });
+////
+////
+////    Pusher.log = function(message) {
+////        if (window.console && window.console.log) {
+////            window.console.log(message);
+////        }
+////    };
+////
+//////    Pusher.channel_auth_endpoint = '/api/authenticate?user_id=' + user_id;
+//////    var pusher = new Pusher('255267aae6802ec7914f');
+//////    var channel = pusher.subscribe(gon.user_id.toString());
+////
+////
+////    Pusher.channel_auth_edpoint = '/api/authenticate/'
+////    var socket = new Pusher('255267aae6802ec7914f');
+////
+////// Global variable "channel" is set in the view
+//////    var presenceChannel = socket.subscribe('presence-' + channel);
+////    var channel = socket.subscribe(gon.user_id.toString());
+////
+////    channel.bind('my_event', function(data) {
+////        $('#messages').append(data.firstname+':'+data.message+"<br>");
+////    });
 
 //    $(function() {
 //
@@ -77,4 +78,7 @@
 //    $('#messages' + 'fffffffffff').hide();
 //  Pusher.channel_auth_endpoint = '/pusher/auth?user_id=' +gon.user_id.toString();
 
+
+
+//= require_tree
 
