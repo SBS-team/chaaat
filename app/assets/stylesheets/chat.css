@@ -78,10 +78,6 @@ textarea .panel-footer {
     color: #777777;
     white-space: pre-line;
 
-    /*white-space: -moz-pre-line;*/
-    /*white-space: -pre-line;*/
-    /*white-space: -o-pre-line;*/
-    /*word-wrap: break-word;*/
 }
 
 .panel .slidedown .glyphicon, .chat .glyphicon
