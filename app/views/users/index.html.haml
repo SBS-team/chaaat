@@ -1,0 +1,12 @@
+- if user_signed_in?
+  %h2
+    = link_to current_user.firstname + ' ' + current_user.lastname, current_user
+  = form_tag users_path, :method => 'get'
+  = text_field_tag 'search', params[:search], :id => 'search-box'
+  = submit_tag 'Search'
+  %h3
+    User List
+  - @possible_friends.each  do |user|
+    %p
+      = link_to user.firstname + ' ' + user.lastname, user_path(user.id)
+      = link_to 'Add Friend', friendships_path(:friend_id => user), :method => :post

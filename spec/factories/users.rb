@@ -21,7 +21,15 @@
 #  uid                    :string(255)
 #  login                  :string(255)
 #  avatar                 :string(255)
+#  sign_out_at            :datetime
 #
+# Indexes
+#
+#  index_users_on_email                 (email) UNIQUE
+#  index_users_on_login                 (login) UNIQUE
+#  index_users_on_reset_password_token  (reset_password_token) UNIQUE
+#
+
 # Indexes
 #
 #  index_users_on_email                 (email) UNIQUE

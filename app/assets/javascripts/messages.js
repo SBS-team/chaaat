@@ -6,7 +6,7 @@ $(document).ready(function(){
         document.getElementsByClassName('panel-body')[0].style.height=$(window).height()-152+"px";
     });
 
-var message_textarea=$("#message");
+    var message_textarea=$("#message");
 
     $("#send_message").click(function(){
         send_message();
@@ -36,15 +36,15 @@ var message_textarea=$("#message");
                     if ((msg.length==0) || (msg[0].login==$.trim(message_textarea_value.match(/\@(\S+.)/)[1]))) {
                         $("#request-user").css("display","none");
                     }else{
-                    for (var i = msg.length - 1; i >= 0; i--) {
-                        $('#request-user').append('<div data-login="@'+msg[i].login+'" class="replace">@'+msg[i].login+'</div>');
-                    };
-                    $("#request-user").css("display","block");
-                }
+                        for (var i = msg.length - 1; i >= 0; i--) {
+                            $('#request-user').append('<div data-login="@'+msg[i].login+'" class="replace">@'+msg[i].login+'</div>');
+                        };
+                        $("#request-user").css("display","block");
+                    }
                 });
-                
-            }
-        });
+
+        }
+    });
 
 
     $("#search").keyup(function(){
@@ -63,10 +63,10 @@ var message_textarea=$("#message");
 
 
     $('#request-user').on('click', '.replace', function(event){
-            login=$('#message').val();
-            login=login.replace($.trim($('#message').val().match(/\@(\S+.)/)[0]),$(event.currentTarget).attr('data-login'));
-            $('#message').val(login);
-            $(this).css('display','none');
+        login=$('#message').val();
+        login=login.replace($.trim($('#message').val().match(/\@(\S+.)/)[0]),$(event.currentTarget).attr('data-login'));
+        $('#message').val(login);
+        $(this).css('display','none');
     });
 
 
@@ -82,7 +82,7 @@ var message_textarea=$("#message");
                 type: "POST",
                 url: "../message/new",
                 data: { message: $.trim(message_textarea.val()) }
-                }).done(function(msg) {
+            }).done(function(msg) {
                     message_textarea.val('');
                 });
         }
@@ -100,19 +100,19 @@ var message_textarea=$("#message");
         if(gon.user_id==user_id){
 
             $('#messages-wrapper').append("<li class=\"from clearfix\">"+
-            "<span class=\"chat-img pull-left\">"+
+                "<span class=\"chat-img pull-left\">"+
                 "<img class=\"avatar\""+"src="+avatar+">"+
-            "</span>"+
+                "</span>"+
                 "<div class=\"chat-body clearfix\">"+
                 "<div class=\"header\">"+
-                    "<strong class=\"primary-font\">"+login+"</strong>"+
-                    "<small class=\"pull-right text-muted\">"+
-                        "<span class=\"glyphicon glyphicon-time\"></span>"+time+
-                    "</small>"+
+                "<strong class=\"primary-font\">"+login+"</strong>"+
+                "<small class=\"pull-right text-muted\">"+
+                "<span class=\"glyphicon glyphicon-time\"></span>"+time+
+                "</small>"+
                 "</div>"+
                 "<p>"+ HtmlEncode(body).trim()+"</p>"+
-            "</div>"+
-            "</li>");
+                "</div>"+
+                "</li>");
 
         }else{
             document.getElementById('new-message').play();

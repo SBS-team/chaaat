@@ -1,5 +1,6 @@
 class MessageController < ApplicationController
 	before_filter :authenticate_user!
+
   include ApplicationHelper
 
 	def index
@@ -18,15 +19,5 @@ class MessageController < ApplicationController
     @messages=Message.all.preload(:user)
 	end
 
-  def search
-    messages=Message.where("body like ?", "%#{params[:query]}%").preload(:user)
-    result = Array.new()
-    messages.each do |res|
-      message={:user_id=>res.user_id, :login=>res.user.login, :body=>res.body, :created_at=>res.created_at.strftime("%a %T")}
-      result.push(message)
-    end
-    render :json=>result
-    render json: messages, :root=>false
-  end
 
 end

@@ -16,6 +16,13 @@ ActiveRecord::Schema.define(version: 20140319084743) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
+  create_table "friendships", force: true do |t|
+    t.integer  "user_id"
+    t.integer  "friend_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "messages", force: true do |t|
     t.integer  "user_id"
     t.text     "body"
@@ -62,6 +69,7 @@ ActiveRecord::Schema.define(version: 20140319084743) do
     t.string   "uid"
     t.string   "login"
     t.string   "avatar"
+    t.datetime "sign_out_at"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
