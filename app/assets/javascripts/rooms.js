@@ -29,7 +29,7 @@ jQuery(function($){
     });
 
 
-    $('body').on('DOMNodeInserted', '.joined_friend', function(e) {
+    $('ul').on('click', '.joined_friend', function(e) {
         $(".joined_friend").click(function(){
             var list_item = $(this);
             $.ajax({
