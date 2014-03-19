@@ -2,7 +2,6 @@ require 'spec_helper'
 
 describe FriendshipsController do
 
-<<<<<<< HEAD
   describe "GET 'create'" do
     it "returns http success" do
       get 'create'
@@ -17,6 +16,4 @@ describe FriendshipsController do
     end
   end
 
-=======
->>>>>>> room_user
 end

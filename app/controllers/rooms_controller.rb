@@ -2,7 +2,7 @@ class RoomsController < ApplicationController
   before_filter :authenticate_user!
 
   def new
-    @room = Room.new
+    @new_room = Room.new
   end
 
   def create

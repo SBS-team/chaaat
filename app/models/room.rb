@@ -1,3 +1,7 @@
+class Room < ActiveRecord::Base
+  has_many :message
+  has_many :rooms_users
+
 # == Schema Information
 #
 # Table name: rooms
@@ -9,7 +13,4 @@
 #  updated_at :datetime
 #
 
-class Room < ActiveRecord::Base
-  has_many :message
-  has_many :rooms_user
 end

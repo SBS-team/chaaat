@@ -1,0 +1,12 @@
+- if !@room.nil?
+  %li.active
+    = link_to "Room: #{@room.name}", root_path
+  - current_user.friends.each do |friend|
+    %li.user_friend{:data_user_id => friend.id, :data_room_id => @room.id}
+      -#= link_to rooms_users_path(:room_id => @room.id,:user_id => friend.id),:method => :post do
+      = "#{friend.firstname} #{friend.lastname}"
+      %span.glyphicon.glyphicon-plus.pull-right
+%li
+  = link_to new_room_path do
+    %span.glyphicon.glyphicon-plus
+    Create room

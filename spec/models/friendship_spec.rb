@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-=======
 # == Schema Information
 #
 # Table name: friendships
@@ -10,8 +8,6 @@
 #  created_at :datetime
 #  updated_at :datetime
 #
-
->>>>>>> room_user
 require 'spec_helper'
 
 describe Friendship do
