@@ -1,48 +1,45 @@
-
 .navbar-fixed-bottom {
-top: 50px;
+    top: 51px;
 }
-
-.row{
-
-    width: 100%;
+.dropdown.user-dropdown.open{
+    z-index: 2;
+}
+.row-fluid{
     height: 100%;
     overflow-y: hidden;
-    /*height: 300px;*/
-
 }
-
 .col-md-2{
-    z-index: -2;
+    z-index: 0;
 }
-.container{
+.avatar{
+    border-radius: 15px;
 
 }
-
+.container-fluid.navbar-fixed-top{
+    top:50px;
+}
 .panel.panel-primary{
     border: none;
+}
+.panel.panel-primary .panel-body{
 
 }
 .panel.panel-primary .panel-footer {
     padding: 0px;
-
 }
 .panel.panel-primary .panel-footer button{
     width: 100%;
 }
-textarea .panel-footer {
-    position: fixed;
+.panel.panel-primary .panel-footer textarea{
     bottom: 0;
     width: 100%;
+    resize: none;
 }
-.chat
-{
+.chat {
     list-style: none;
     margin: 0;
     padding: 0;
-
 }
-
 .chat li
 {
     margin-bottom: 10px;
@@ -74,6 +71,10 @@ textarea .panel-footer {
     margin: 0;
     color: #777777;
     white-space: pre-line;
+    white-space: -moz-pre-line;  /* Mozilla, since 1999 */
+    white-space: -pre-line;      /* Opera 4-6 */
+    white-space: -o-pre-line;    /* Opera 7 */
+    word-wrap: break-word;       /* Internet Explorer 5.5+ */
 
 }
 

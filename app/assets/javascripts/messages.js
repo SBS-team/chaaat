@@ -1,6 +1,5 @@
 $(document).ready(function(){
 
-
     document.getElementsByClassName('panel-body')[0].style.height=$(window).height()-152+"px";
 
     $( window ).resize(function() {
@@ -74,7 +73,7 @@ var message_textarea=$("#message");
     var pusher = new Pusher('255267aae6802ec7914f');
     var channel = pusher.subscribe('private');
     channel.bind('new_message', function(data) {
-        render_message(data.user_id,data.login,data.message,data.create_at);
+        render_message(data.user_id,data.login,data.message,data.avatar,data.create_at);
     });
 
     function send_message(){
@@ -90,15 +89,19 @@ var message_textarea=$("#message");
     }
 
     function HtmlEncode(val) {
+        var el = $(val);
+        if (el.is('iframe')) return val;
+        if (el.is('img')) return val;
         return $("<div/>").text(val).html();
+
     }
 
-    function render_message(user_id,login,body,time){
+    function render_message(user_id,login,body,avatar,time){
         if(gon.user_id==user_id){
 
             $('#messages-wrapper').append("<li class=\"from clearfix\">"+
             "<span class=\"chat-img pull-left\">"+
-                "<img class=\"img-circle\" src=\"http://placehold.it/50/55C1E7/fff&text=ME\" alt=\"User Avatar\">"+
+                "<img class=\"avatar\""+"src="+avatar+">"+
             "</span>"+
                 "<div class=\"chat-body clearfix\">"+
                 "<div class=\"header\">"+
@@ -115,7 +118,7 @@ var message_textarea=$("#message");
             document.getElementById('new-message').play();
             $('#messages-wrapper').append("<li class=\"to clearfix\">"+
                 "<span class=\"chat-img pull-left\">"+
-                "<img class=\"img-circle\" src=\"http://placehold.it/50/FA6F57/fff&text=U\" alt=\"User Avatar\">"+
+                "<img class=\"avatar\""+"src="+avatar+">"+
                 "</span>"+
                 "<div class=\"chat-body clearfix\">"+
                 "<div class=\"header\">"+

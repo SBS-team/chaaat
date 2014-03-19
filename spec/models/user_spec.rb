@@ -20,6 +20,7 @@
 #  provider               :string(255)
 #  uid                    :string(255)
 #  login                  :string(255)
+#  avatar                 :string(255)
 #
 # Indexes
 #

@@ -9,25 +9,25 @@
             -if message.user_id==current_user.id
               %li.from.clearfix
                 %span.chat-img.pull-left
-                  %img.img-circle{:alt => "User Avatar", :src => "http://placehold.it/50/55C1E7/fff&text=ME"}/
+                  =image_tag avatar_url(message.user),:class => "avatar",:alt=>""
                 .chat-body.clearfix
                   .header
                     %strong.primary-font=message.user.login
                     %small.pull-right.text-muted
                       %span.glyphicon.glyphicon-time
                       =message.created_at.strftime("%a %T")
-                  %p=message.body
+                  %p=with_link message.body
             -else
               %li.to.clearfix
                 %span.chat-img.pull-left
-                  %img.img-circle{:alt => "User Avatar", :src => "http://placehold.it/50/FA6F57/fff&text=U"}/
+                  =image_tag avatar_url(message.user),:class => "avatar",:alt=>""
                 .chat-body.clearfix
                   .header
                     %strong.primary-font=message.user.login
                     %small.pull-right.text-muted
                       %span.glyphicon.glyphicon-time
                       =message.created_at.strftime("%a %T")
-                  %p=message.body
+                  %p=with_link message.body
     .panel-footer
       %textarea.form-control#message
       %button.btn.btn-success#send_message
