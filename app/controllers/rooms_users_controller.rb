@@ -21,7 +21,7 @@ class RoomsUsersController < ApplicationController
     if (room_users_count -= 1).zero?
       room = Room.find(params[:room_id])
       room.destroy
-      #change to main page
+      #change redirect to main page
       redirect_to root_path
     else
       redirect_to room_path(params[:room_id])

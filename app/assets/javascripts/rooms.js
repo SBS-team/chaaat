@@ -47,4 +47,23 @@ jQuery(function($){
         });
     });
 
+    $("#new_room").submit(function(e){
+        e.preventDefault();
+
+        var $form  = $(this),
+            url = $form.attr('action');
+
+        var posting = $.post(url, {
+            room: {
+                name:  $('input[type="text"]#room_name').val(),
+                topic: $('input[type="text"]#room_topic').val()
+            }
+        });
+        posting.done(function(response){
+           alert("ROOM WAS CREATED");
+           //Code to kill modal window for creating form here
+           //and redirect to room#show page
+        });
+    });
+
 });
