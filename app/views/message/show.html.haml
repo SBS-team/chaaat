@@ -9,7 +9,7 @@
             -if message.user_id==current_user.id
               %li.from.clearfix
                 %span.chat-img.pull-left
-                  =image_tag avatar_url(message.user),:class => "avatar",:alt=>""
+                  =image_tag avatar_url(message.user, 50),:class => "avatar",:alt=>""
                 .chat-body.clearfix
                   .header
                     %strong.primary-font=message.user.login
@@ -20,7 +20,7 @@
             -else
               %li.to.clearfix
                 %span.chat-img.pull-left
-                  =image_tag avatar_url(message.user),:class => "avatar",:alt=>""
+                  =image_tag avatar_url(message.user, 50),:class => "avatar",:alt=>""
                 .chat-body.clearfix
                   .header
                     %strong.primary-font=message.user.login

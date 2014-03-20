@@ -2,6 +2,7 @@
  * Created by moroka on 18.03.14.
  */
 jQuery(function($){
+
     $(".user_friend").click(function(event){
         $.ajax({
             url: '/rooms_users',

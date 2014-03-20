@@ -22,6 +22,7 @@
 #  login                  :string(255)
 #  avatar                 :string(255)
 #  sign_out_at            :datetime
+#  profile_avatar         :string(255)
 #
 # Indexes
 #
@@ -38,9 +39,6 @@ class User < ActiveRecord::Base
   has_many :inverse_friends, :through => :inverse_friendships, :source => :user
   has_many :rooms_users
   has_many :friends, :through => :friendships
-
-
-
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
@@ -63,7 +61,6 @@ class User < ActiveRecord::Base
         user = User.create(login:auth.info.name,
                            provider:auth.provider,
                            uid:auth.uid,
-                           avatar:auth.info.image,
                            email:auth.info.email,
                            password:Devise.friendly_token[0,20],
         )
@@ -85,6 +82,7 @@ class User < ActiveRecord::Base
                            provider:auth.provider,
                            uid:auth.uid,
                            avatar:auth.info.image+"?width=50&height=50",
+                           profile_avatar:auth.info.image+"?width=125&height=125",
                            email:auth.info.email,
                            login:auth.extra.raw_info.username,
                            password:Devise.friendly_token[0,20],

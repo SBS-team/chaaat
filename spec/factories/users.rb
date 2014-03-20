@@ -22,6 +22,7 @@
 #  login                  :string(255)
 #  avatar                 :string(255)
 #  sign_out_at            :datetime
+#  profile_avatar         :string(255)
 #
 # Indexes
 #
