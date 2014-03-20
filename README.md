@@ -1,5 +1,6 @@
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 Chat
 <<<<<<< HEAD
 =======
@@ -11,6 +12,10 @@ Chat
 >>>>>>> 1dd6511a12485de0a268766817a965bb00354674
 =======
 >>>>>>> 9dde62727069a06226059d77ebb237c88094d748
+=======
+Chat
+
+>>>>>>> develop
 
 
 
@@ -18,13 +23,7 @@ This application was generated with the [rails_apps_composer](https://github.com
 provided by the [RailsApps Project](http://railsapps.github.io/).
 
 Diagnostics
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
------------
->>>>>>> 1dd6511a12485de0a268766817a965bb00354674
-=======
->>>>>>> 9dde62727069a06226059d77ebb237c88094d748
+
 
 
 
