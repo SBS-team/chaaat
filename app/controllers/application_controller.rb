@@ -10,21 +10,16 @@ class ApplicationController < ActionController::Base
 
   def after_sign_in_path_for(resource)
     if resource.is_a? User
-      new_room_path
+      if RoomsUser.where(:user_id=>current_user.id).first==nil
+        rooms_path
+      else
+        room_path(:id=>RoomsUser.where(:user_id=>current_user.id).pluck(:room_id).first)
+      end
+
     else
       super
     end
   end
-
-  def after_sign_out_path_for(resource)
-    User.update(current_user.id, :sign_out_at => Time.now)
-    if resource.is_a? User
-      root_path
-    else
-      super
-    end
-  end
-
 
   def background_image()
     Dir.chdir(Rails.root+"public/background")

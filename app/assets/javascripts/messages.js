@@ -1,10 +1,12 @@
 $(document).ready(function(){
 
-    document.getElementsByClassName('panel-body')[0].style.height=$(window).height()-152+"px";
-
-    $( window ).resize(function() {
+    if (document.getElementsByClassName('panel-body')[0]!=undefined){
         document.getElementsByClassName('panel-body')[0].style.height=$(window).height()-152+"px";
-    });
+
+        $( window ).resize(function() {
+            document.getElementsByClassName('panel-body')[0].style.height=$(window).height()-152+"px";
+        });
+    }
 
     var message_textarea=$("#message");
 
@@ -69,10 +71,12 @@ $(document).ready(function(){
         $(this).css('display','none');
     });
 
-
+    Pusher.channel_auth_endpoint = '/pusher/auth?room_id=' + gon.room_id.toString();
     var pusher = new Pusher('255267aae6802ec7914f');
-    var channel = pusher.subscribe('private');
+    var channel = pusher.subscribe('private-'+gon.room_id.toString());
+
     channel.bind('new_message', function(data) {
+
         render_message(data.user_id,data.login,data.message,data.avatar,data.create_at);
     });
 
@@ -81,7 +85,7 @@ $(document).ready(function(){
             $.ajax({
                 type: "POST",
                 url: "../message/new",
-                data: { message: $.trim(message_textarea.val()) }
+                data: { message: $.trim(message_textarea.val()),room_id: gon.room_id }
             }).done(function(msg) {
                     message_textarea.val('');
                 });
