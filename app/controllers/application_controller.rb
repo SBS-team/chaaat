@@ -3,7 +3,16 @@ class ApplicationController < ActionController::Base
 
   def configure_permitted_parameters
     devise_parameter_sanitizer.for(:sign_in) { |u| u.permit(:email, :password, :remember_me) }
-    devise_parameter_sanitizer.for(:sign_up) { |u| u.permit(:firstname,:lastname, :email, :password, :password_confirmation) }
+    devise_parameter_sanitizer.for(:sign_up) { |u| u.permit(:firstname,:lastname, :email, :password, :password_confirmation,:login) }
+  end
+
+  def after_sign_in_path_for(resource)
+    gon.user_id = current_user.id
+    if resource.is_a? User
+      root_path
+    else
+      super
+    end
   end
 
   def after_sign_out_path_for(resource)

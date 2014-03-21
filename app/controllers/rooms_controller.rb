@@ -11,6 +11,7 @@ class RoomsController < ApplicationController
   def show
     @room = Room.find(params[:id])
     @user_friends = current_user.friends
+
   end
   def update
 

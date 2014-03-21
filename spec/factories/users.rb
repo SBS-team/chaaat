@@ -20,14 +20,15 @@
 #  provider               :string(255)
 #  uid                    :string(255)
 #  sign_out_at            :datetime
+#  login                  :string(255)
 #
 # Indexes
 #
 #  index_users_on_email                 (email) UNIQUE
+#  index_users_on_login                 (login) UNIQUE
 #  index_users_on_reset_password_token  (reset_password_token) UNIQUE
 #
 
-# Read about factories at https://github.com/thoughtbot/factory_girl
 
 FactoryGirl.define do
   factory :user do

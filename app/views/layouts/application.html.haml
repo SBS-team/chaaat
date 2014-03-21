@@ -1,6 +1,7 @@
 !!!
 %html
   %head
+    = include_gon(:init => true)
     %meta{:name => "viewport", :content => "width=device-width, initial-scale=1.0"}
     %title= content_for?(:title) ? yield(:title) : 'Chat'
     %meta{:name => "description", :content => "#{content_for?(:description) ? yield(:description) : 'Chat'}"}
@@ -9,8 +10,12 @@
     = javascript_include_tag "application", "data-turbolinks-track" => true
     = csrf_meta_tags
   %body
-    %header
-      = render 'layouts/navigation'
-    %main{:role => "main"}
-      = render 'layouts/messages'
-      = yield
+    #wrapper
+      %header
+        = render 'layouts/navigation'
+      %main{:role => "main"}
+        = render 'layouts/messages'
+        = yield
+
+
+

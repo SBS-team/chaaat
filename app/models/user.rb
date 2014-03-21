@@ -18,28 +18,34 @@
 #  firstname              :string(255)
 #  lastname               :string(255)
 #  provider               :string(255)
-
 #  uid                    :string(255)
 #  sign_out_at            :datetime
+#  login                  :string(255)
 #
 # Indexes
 #
 #  index_users_on_email                 (email) UNIQUE
+#  index_users_on_login                 (login) UNIQUE
 #  index_users_on_reset_password_token  (reset_password_token) UNIQUE
 #
 
 
+
 class User < ActiveRecord::Base
   has_many :message
-  devise :omniauthable, :omniauth_providers => [:github,:facebook]
+  has_many :room
   has_many :rooms_users
   has_many :friendships
   has_many :friends, :through => :friendships
 
+
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :trackable, :validatable
+         :recoverable, :rememberable, :trackable, :validatable,:omniauthable, :omniauth_providers => [:github,:facebook]
+
+  # Include default devise modules. Others available are:
+  # :confirmable, :lockable, :timeoutable and :omniauthable
 
   #def self.create_with_omniauth(auth)
   #  create! do |user|
@@ -58,7 +64,7 @@ class User < ActiveRecord::Base
       if registered_user
         return registered_user
       else
-        user = User.create(firstname:auth.info.name,
+        user = User.create(login:auth.info.name,
                            provider:auth.provider,
                            uid:auth.uid,
                            email:auth.info.email,
@@ -67,7 +73,6 @@ class User < ActiveRecord::Base
       end
     end
   end
-
 
   def self.find_for_facebook_oauth(auth, signed_in_resource=nil)
     user = User.where(:provider => auth.provider, :uid => auth.uid).first
@@ -83,6 +88,7 @@ class User < ActiveRecord::Base
                            provider:auth.provider,
                            uid:auth.uid,
                            email:auth.info.email,
+                           login:auth.extra.raw_info.username,
                            password:Devise.friendly_token[0,20],
         )
       end

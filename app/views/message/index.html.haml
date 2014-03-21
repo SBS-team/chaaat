@@ -1,12 +1,32 @@
-.container
-  #messages
-    -@messages.each do |message|
-      =User.find(message.user_id).firstname+": "+message.body
-      %br
-  %textarea.form-control#message
-  %br
-  .row
-    .col-md-10
-    .col-md-2
+%input.form-control#search{:placeholder=>"Search...",:type=>"search"}
+.container-fluid
+  .span6.content
+    %br
+    #messages-wrapper
+      -@messages.each do |message|
+        -if message.user_id==current_user.id
+          %pre.message.to
+            .message_login
+              =message.user.login+":"
+            .message_body
+              =message.body
+            %span.pull-right.time
+              =message.created_at.strftime("%a %T")
+        -else
+          %pre.message.from
+            .message_login
+              =message.user.login+":"
+            .message_body
+              =message.body
+            %span.pull-right.time
+              =message.created_at.strftime("%a %T")
+    %br
+    .navbar-fixed-bottom.row-fluid
+      .btn-group.dropup
+        %button.btn.btn-default.dropdown-toggle{"data-toggle" => "dropdown", type: "button"}
+          %span.caret
+        %ul#dropdown-list.dropdown-menu{role: "menu"}
+          = render 'layouts/index'
+      %textarea.form-control#message
       %button.btn.btn-success#send_message
         Send message

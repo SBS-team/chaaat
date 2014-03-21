@@ -1,9 +1,9 @@
 source 'https://rubygems.org'
 ruby '2.1.0'
 gem 'rails', '4.0.3'
-gem 'sass-rails', '~> 4.0.0'
+gem 'sass-rails'
 gem 'uglifier', '>= 1.3.0'
-gem 'coffee-rails', '~> 4.0.0'
+gem 'coffee-rails'
 gem 'jquery-rails'
 gem 'turbolinks'
 gem 'jbuilder', '~> 1.2'
@@ -17,8 +17,13 @@ gem 'unicorn-rails'
 gem 'omniauth-facebook'
 gem 'omniauth-github'
 gem 'pusher'
+gem 'rails-erd'
+gem 'gon'
 gem "rails-erd"
 gem "annotate"
+gem 'sanitize'
+gem 'emoji'
+
 group :development do
   gem 'better_errors'
   gem 'binding_of_caller', :platforms=>[:mri_19, :mri_20, :rbx]
