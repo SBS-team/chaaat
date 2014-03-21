@@ -7,4 +7,5 @@ class UserMailer < ActionMailer::Base
     @url = "http://localhost:3000"
     mail(to: @user.email, subject: 'Welcome to InYourShoes!')
   end
+
 end

@@ -12,11 +12,11 @@
 //
 //= require jquery
 //= require jquery_ujs
-//= require turbolinks
 //= require emojify
 //= require bootstrap
 //=require emojify
 //= require_tree
+
 
 
 
