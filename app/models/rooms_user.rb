@@ -10,5 +10,9 @@ class RoomsUser < ActiveRecord::Base
 #  created_at :datetime
 #  updated_at :datetime
 #
+  belongs_to :user
+  belongs_to :room
+
+  validates :user_id, :uniqueness => {:scope => :room_id}
 
 end
