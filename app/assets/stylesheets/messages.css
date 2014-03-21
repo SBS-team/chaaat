@@ -1,3 +1,4 @@
+/*my*/
 body {
     margin-top: 50%;
     width: 100%;
@@ -26,6 +27,10 @@ body {
     background-color: #222222;
     overflow-y: auto;
 }
+.nav.side-nav li{
+
+}
+
 #send_message{
     width: 100%;
 }
@@ -260,3 +265,4 @@ pre {
         margin-top: 0px;
     }
 }
+/*my-end*/

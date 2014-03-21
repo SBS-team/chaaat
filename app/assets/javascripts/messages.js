@@ -1,3 +1,4 @@
+//my
 $(document).ready(function(){
 
     if (document.getElementsByClassName('panel-body')[0]!=undefined){
@@ -81,6 +82,37 @@ $(document).ready(function(){
         render_message(data.user_id,data.login,data.message,data.avatar,data.create_at);
     });
 
+    var channel2 = pusher.subscribe('private-'+gon.user_id.toString());
+
+    channel2.bind('user_add_to_room', function(data) {
+        $.bootstrapGrowl("You have been added to the room: "+data.rooms_name, {
+            type: 'success', // (null, 'info', 'error', 'success')
+            offset: {from: 'top', amount: 50}, // 'top', or 'bottom'
+            align: 'center', // ('left', 'right', or 'center')
+            width: 250, // (integer, or 'auto')
+            delay: 10000,
+            allow_dismiss: true,
+            stackup_spacing: 10 // spacing between consecutively stacked growls.
+        });
+        $("ul.nav.side-nav").append("<li><a href=/rooms/"+data.rooms_id+">"+data.rooms_name+"</li>");
+    });
+
+    channel.bind('add_user_to_room', function(data) {
+        $.bootstrapGrowl("User "+data.user_login+" have been added to room: "+data.rooms_name, {
+            type: 'success', // (null, 'info', 'error', 'success')
+            offset: {from: 'top', amount: 50}, // 'top', or 'bottom'
+            align: 'center', // ('left', 'right', or 'center')
+            width: 250, // (integer, or 'auto')
+            delay: 1700,
+            allow_dismiss: true,
+            stackup_spacing: 10 // spacing between consecutively stacked growls.
+        });
+//        $("ul.nav.side-nav").append("<li><a href=/rooms/"+data.rooms_id+">"+data.rooms_name+"</li>");
+        $("ul.nav.side-nav-rigth").append("<li><a href=#>"+data.user_login+"</li>");
+    });
+
+
+
     function send_message(){
         if ($.trim(message_textarea.val()).length>0){
             $.ajax({
@@ -140,6 +172,5 @@ $(document).ready(function(){
         objDiv.scrollTop = objDiv.scrollHeight+2000;
     }
 
-
-
 });
+//my-end

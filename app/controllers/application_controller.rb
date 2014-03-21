@@ -10,11 +10,11 @@ class ApplicationController < ActionController::Base
 
   def after_sign_in_path_for(resource)
     if resource.is_a? User
-      if RoomsUser.where(:user_id=>current_user.id).first==nil
+      #if RoomsUser.where(:user_id=>current_user.id).first==nil
         rooms_path
-      else
-        room_path(:id=>RoomsUser.where(:user_id=>current_user.id).pluck(:room_id).first)
-      end
+      #else
+      #  room_path(:id=>RoomsUser.where(:user_id=>current_user.id).pluck(:room_id).first)
+      #end
 
     else
       super

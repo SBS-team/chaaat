@@ -1,8 +1,5 @@
 Chat::Application.routes.draw do
 
-
-  #root "message#index"
-
   get "message/index", to: "message#index"
   resources :friendships, :only => [:create, :destroy]
   resources :users,:path => :persons, :only => [:index, :show]

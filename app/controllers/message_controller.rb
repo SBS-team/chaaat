@@ -4,8 +4,8 @@ class MessageController < ApplicationController
   include ApplicationHelper
 
 	def index
-    gon.user_id = current_user.id
-		@messages=Message.all.preload(:user)
+    #gon.user_id = current_user.id
+		#@messages=Message.all.preload(:user)
 
 	end
 
@@ -18,9 +18,8 @@ class MessageController < ApplicationController
   end
 
 	def show
-    gon.user_id=current_user.id
-    @messages=Message.all.preload(:user)
-
+    #gon.user_id=current_user.id
+    #@messages=Message.all.preload(:user)
 	end
 
 
