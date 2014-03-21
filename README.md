@@ -1,8 +1,34 @@
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+Chat
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+>>>>>>> rooms_users_ajax
+Chat
+=========
+>>>>>>> 1dd6511a12485de0a268766817a965bb00354674
+=======
+>>>>>>> 9dde62727069a06226059d77ebb237c88094d748
+
+
+
+>>>>>>> 4e5c26566a116d042684198a641a5ba293a72979
 This application was generated with the [rails_apps_composer](https://github.com/RailsApps/rails_apps_composer) gem
 provided by the [RailsApps Project](http://railsapps.github.io/).
 
 Diagnostics
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+-----------
+>>>>>>> 1dd6511a12485de0a268766817a965bb00354674
+=======
+>>>>>>> 9dde62727069a06226059d77ebb237c88094d748
+
 
 
 

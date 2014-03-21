@@ -35,6 +35,7 @@ class RoomsUsersController < ApplicationController
     end
     render json: {:drop_user_id => params[:user_id], :cur_user_id => current_user.id}
     #redirect_to room_path(params[:room_id])
+
   end
 
 end

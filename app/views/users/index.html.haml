@@ -1,12 +1,33 @@
-- if user_signed_in?
-  %h2
-    = link_to current_user.firstname + ' ' + current_user.lastname, current_user
-  = form_tag users_path, :method => 'get'
+%h2
+  = link_to "#{current_user.firstname} #{current_user.lastname}", current_user
+%br
+.dropdown
+  %button.btn.dropdown-toggle#userStatus{:type=>"button", :data=>{:toggle=>"dropdown"}}>
+    ="#{current_user.user_stat.status_name}"
+    %span.caret
+  %ul.dropdown-menu{:role=>"menu", :aria=>{:labelledby=>"dropdownMenu1"}}
+    %li{:role=>"presentation"}
+      %a.change-status{:role=>"menuitem", :tabindex=>"-1", :data=>{:id=>"1"}, :href=>"#"} Online
+    %li{:role=>"presentation"}
+      %a.change-status{:role=>"menuitem", :tabindex=>"-1", :data=>{:id=>"2"}, :href=>"#"} Away
+    %li{:role=>"presentation"}
+      %a.change-status{:role=>"menuitem", :tabindex=>"-1", :data=>{:id=>"3"}, :href=>"#"} Do Not Distrub
+    %li.divider{:role=>"presentation"}
+    %li{:role=>"presentation"}
+      = link_to 'Logout', destroy_user_session_path, {:method=>'delete', :role=>"menuitem", :tabindex=>"-1"}
+%br
+= form_tag users_path, :method => 'get' do
   = text_field_tag 'search', params[:search], :id => 'search-box'
-  = submit_tag 'Search'
-  %h3
-    User List
-  - @possible_friends.each  do |user|
-    %p
-      = link_to user.firstname + ' ' + user.lastname, user_path(user.id)
-      = link_to 'Add Friend', friendships_path(:friend_id => user), :method => :post
+  = submit_tag 'Search', :class=>"btn btn-success"
+%br
+%h3 Invite user
+= form_tag invite_user_path, :method => 'post' do
+  = text_field_tag 'email', nil, :placeholder=>"E-mail", :type => 'email'
+  = submit_tag 'Send invite', :class=>"btn btn-success"
+%h3
+  User List
+- @possible_friends.each do |user|
+  %p
+    = link_to "#{user.firstname} #{user.lastname}", user_path(user.id)
+    = link_to 'Add Friend', friendships_path(:friend_id => user), :method => :post
+

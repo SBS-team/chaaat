@@ -6,13 +6,17 @@ Chat::Application.routes.draw do
   resources :friendships, :only => [:create, :destroy]
 
   get "message/:id", to: "message#show"
-  post "message/new", to: "message#new",as: "new_message"
+  post "message/new", to: "message#new", as: "new_message"
   post "message/search", to: "message#search"
+  get "message/search/:search", to: "message#search"
   post "users/search", to: "users#search"
   get "users/search/:id", to: "users#search"
+
   get "message/search/:search", to: "message#search"
   resources :rooms, :only => [:new, :create, :show, :index]
   resources :rooms_users, :only => [:create, :destroy]
+  get "users/status/", :to=>"users#change_status"
+  post "users/invite_user", :to=>"users#invite_user", :as=>"invite_user"
 
   devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }
   post 'pusher/auth'

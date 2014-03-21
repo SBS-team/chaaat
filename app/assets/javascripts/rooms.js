@@ -9,6 +9,7 @@ jQuery(function($){
             data: {
                 room_id: $(this).attr('data_room_id'),
                 user_id: $(this).attr('data_user_id')
+
            }
 
         });
@@ -26,6 +27,7 @@ jQuery(function($){
                     user_id: list_item.attr('data_user_id')
                 },
                 success: function(response){
+
                     if(response.drop_user_id == response.cur_user_id){
                         list_item.remove();
                     }else{
@@ -44,4 +46,3 @@ jQuery(function($){
 
     });
 });
-//my_end

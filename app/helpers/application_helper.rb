@@ -9,33 +9,4 @@ module ApplicationHelper
     end
   end
 
-  def with_link(message_str)
-    flag=false
-    split_message=message_str.split(" ")
-    mas_str =[]
-    split_message.each do |str|
-      if str.scan("http://")+str.scan(".jpg")==["http://", ".jpg"]
-        str=str.gsub(str, "<img src=\""+str+"\" >")
-        flag=true
-      end
-
-
-          if str.scan(/youtube(.*)v/)!=[]
-            split_str=str.split("=")
-        if str.scan(/youtube(.*)v/)==[[".com/watch?"]]
-          str= "<br><iframe width=\"560\" height=\"315\" src=\"//www.youtube.com/embed/"+split_str[1].to_s+"\" frameborder=\"0\" allowfullscreen></iframe><br>"
-          flag=true
-        end
-      end
-      mas_str+=[str]
-    end
-
-    if flag==true
-      res= mas_str.join("\r")
-      CGI::escapeHTML(res)
-      res.html_safe
-    else
-      res= mas_str.join(" ")
-    end
-  end
 end
