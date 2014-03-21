@@ -4,11 +4,3 @@
     %div{:class => "alert alert-#{name.to_s == 'notice' ? 'success' : 'danger'}"}
       %button.close{"aria-hidden" => "true", "data-dismiss" => "alert", :type => "button"} &times;
       = content_tag :div, msg, :id => "flash_#{name}"
-      .btn-group.dropup
-        %button.btn.btn-default{type: "button"} Dropup
-        %button.btn.btn-default.dropdown-toggle{"data-toggle" => "dropdown", type: "button"}
-          %span.caret
-          %span.sr-only Toggle Dropdown
-        %ul.dropdown-menu
-          / Dropdown menu links
-      = content_tag :div, msg, :id => "flash_#{name}"

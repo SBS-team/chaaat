@@ -1,8 +1,5 @@
 source 'https://rubygems.org'
 ruby '2.1.0'
-gem 'rails', '4.0.3'
-gem 'sass-rails'
-gem 'uglifier', '>= 1.3.0'
 gem 'rails'
 gem 'sass-rails'
 gem 'uglifier'
@@ -24,10 +21,8 @@ gem 'rails-erd'
 gem 'gon'
 gem "annotate"
 gem 'sanitize'
-
 gem "active_model_serializers"
 gem 'emoji'
-gem "active_model_serializers"
 group :development do
   gem 'better_errors'
   gem 'binding_of_caller', :platforms=>[:mri_19, :mri_20, :rbx]

@@ -19,13 +19,10 @@
 #  lastname               :string(255)
 #  provider               :string(255)
 #  uid                    :string(255)
-<<<<<<< HEAD
 #  sign_out_at            :datetime
-#  login                  :string(255)
-=======
 #  login                  :string(255)
 #  avatar                 :string(255)
-#  sign_out_at            :datetime
+#  profile_avatar         :string(255)
 #  invitation_token       :string(255)
 #  invitation_created_at  :datetime
 #  invitation_sent_at     :datetime
@@ -35,7 +32,6 @@
 #  invited_by_type        :string(255)
 #  invitations_count      :integer          default(0)
 #  user_stat_id           :integer
->>>>>>> develop
 #
 # Indexes
 #
@@ -47,6 +43,8 @@
 #  index_users_on_reset_password_token  (reset_password_token) UNIQUE
 #  index_users_on_user_stat_id          (user_stat_id)
 #
+
+
 
 
 

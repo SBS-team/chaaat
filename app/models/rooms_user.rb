@@ -8,13 +8,13 @@
 #  created_at :datetime
 #  updated_at :datetime
 #
+
+
+class RoomsUser < ActiveRecord::Base
+
   belongs_to :user
   belongs_to :room
 
   validates :user_id, :uniqueness => {:scope => :room_id}
-
-class RoomsUser < ActiveRecord::Base
-
-
 
 end

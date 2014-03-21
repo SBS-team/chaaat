@@ -3,17 +3,15 @@ $(document).ready(function(){
         $("#message").val($("#message").val() + $(e.target).attr("title"));
     });
     emojify.setConfig({ emoticons_enabled: true, people_enabled: true, nature_enabled: true, objects_enabled: true, places_enabled: true, symbols_enabled: true });
-    for(var i= 0;i<document.getElementsByClassName('chat-body.clearfix').length; i++){
-        emojify.run(document.getElementsByClassName('chat-body clearfix')[i]);
+    for(var i= 0;i<document.getElementsByClassName('chat-body').length; i++){
+        emojify.run(document.getElementsByClassName('chat-body')[i]);
     }
-});
-
     if (document.getElementsByClassName('panel-body')[0]!=undefined){
 
-        document.getElementsByClassName('panel-body')[0].style.height=$(window).height()-152+"px";
+        document.getElementsByClassName('panel-body')[0].style.height=$(window).height()-252+"px";
 
         $( window ).resize(function() {
-            document.getElementsByClassName('panel-body')[0].style.height=$(window).height()-152+"px";
+            document.getElementsByClassName('panel-body')[0].style.height=$(window).height()-252+"px";
         });
     }
 

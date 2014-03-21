@@ -8,29 +8,25 @@
               -if message.user_id==current_user.id
                 %li.from.clearfix
                   %span.chat-img.pull-left
+                    =image_tag avatar_url(message.user),:class => "avatar",:alt=>""
                   .chat-body.clearfix
                     .header
-                      %strong.primary-font
-                        =link_to message.user.login, user_path(message.user.id)
-                    =image_tag avatar_url(message.user),:class => "avatar",:alt=>""
-
+                      %strong.primary-font=message.user.login
                       %small.pull-right.text-muted
                         %span.glyphicon.glyphicon-time
                         =message.created_at.strftime("%a %T")
-                    %p=with_link message.body
+                    %p= message.body
               -else
                 %li.to.clearfix
                   %span.chat-img.pull-left
-                    =image_tag avatar_url(message.user,50),:class => "avatar",:alt=>""
+                    =image_tag avatar_url(message.user),:class => "avatar",:alt=>""
                   .chat-body.clearfix
                     .header
-                      %strong.primary-font
-                        =link_to message.user.login, user_path(message.user.id)
+                      %strong.primary-font=message.user.login
                       %small.pull-right.text-muted
                         %span.glyphicon.glyphicon-time
                         =message.created_at.strftime("%a %T")
-                    %p=with_link message.body
-
+                    %p= message.body
     .panel-footer
       .btn-group.dropup
         %button.btn.btn-default.dropdown-toggle{"data-toggle" => "dropdown", type: "button"}
@@ -40,5 +36,6 @@
       %textarea.form-control#message
       %button.btn.btn-success#send_message
         Send message
-    :javascript
-      emojify.run()
+%audio#new-message
+  %source{:src=>"../sounds/button_tiny.ogg", :type=>"audio/ogg"}
+  %source{:src=>"../sounds/button_tiny.mp3", :type=>"audio/mp3"}
