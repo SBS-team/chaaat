@@ -1,6 +1,5 @@
-
 .authform
-  = form_for @new_room do |f|
+  = form_for (@new_room)  do |f|
     .form-group
       = "Name:"
       =f.text_field :name, class: 'form-control'

@@ -19,7 +19,7 @@
   %div.some{:style =>"position: relative; margin-top:85px;"}
     %h3
       Friends
-    %ul
+    %ul.friends_list
       -for friendship in @user.friendships
         %div.some{:style => "position: relative; margin-top:40px;"}
           =image_tag avatar_url(friendship.friend,50),:class => "avatar", :style =>"float: left"
