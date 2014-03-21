@@ -1,9 +1,12 @@
 $(document).ready(function(){
 
-
-    $( window ).resize(function() {
+if (document.getElementsByClassName('panel-body')[0]!=undefined){
         document.getElementsByClassName('panel-body')[0].style.height=$(window).height()-152+"px";
-    });
+
+        $( window ).resize(function() {
+            document.getElementsByClassName('panel-body')[0].style.height=$(window).height()-152+"px";
+        });
+    }
 
     var message_textarea=$("#message");
 
@@ -148,15 +151,15 @@ function invoted_users(){
 function changetags(text){
     if((text.match(/\@(\S+.)/)) && (!text.match(/<span>\@(\S+.)/))){
         return text.replace(/\@(\S+.)/,"<span style=\"background-color:blue;border-radius:3px;padding-left:3px;padding-right:3px;\">"+ $.trim(text.match(/\@(\S+.)/)[0]) +"</span> ");
-    }if(text.match(/h.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?]\S\w*)/)){
-        return text.replace(/h.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?]\S\w*)/,"<br><iframe width=\"560\" height=\"315\" src=\"//www.youtube.com/embed/"+youtube_parser(text)+"\" frameborder=\"0\" allowfullscreen></iframe><br>");
+    }if(text.match(/h.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?].-\S\w*)/)){
+        return text.replace(/h.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?].-\S\w*)/,"<br><iframe width=\"560\" height=\"315\" src=\"//www.youtube.com/embed/"+youtube_parser(text)+"\" frameborder=\"0\" allowfullscreen></iframe><br>");
     }else{
         return text;
     }
 }
 
 function youtube_parser(url){
-    var regExp = /h.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?]\S\w*)/;
+    var regExp = /h.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?].-\S\w*)/;
     var match = url.match(regExp);
     if (match&&match[7].length==11){
         return match[7];
