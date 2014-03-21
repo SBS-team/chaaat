@@ -1,14 +1,15 @@
 class ApplicationController < ActionController::Base
   before_filter :configure_permitted_parameters, if: :devise_controller?
 
-   helper_method :background_image
+  helper_method :background_image
 
   def configure_permitted_parameters
     devise_parameter_sanitizer.for(:sign_in) { |u| u.permit(:email, :password, :remember_me) }
-    devise_parameter_sanitizer.for(:sign_up) { |u| u.permit(:firstname,:lastname, :email, :password, :password_confirmation,:login) }
+    devise_parameter_sanitizer.for(:sign_up) { |u| u.permit(:firstname,:lastname,:avatar, :email, :password, :password_confirmation,:login) }
   end
 
   def after_sign_in_path_for(resource)
+    User.update(current_user.id, :user_stat_id=>1)
     if resource.is_a? User
       new_room_path
     else
@@ -16,9 +17,16 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def after_sign_out_path_for(resource_or_scope)
-    root_path
+  def after_sign_out_path_for(resource)
+    User.update(current_user.id, :user_stat_id=>4)
+    User.update(current_user.id, :sign_out_at => Time.now)
+    if resource.is_a? User
+      root_path
+    else
+      super
+    end
   end
+
 
   def background_image()
     Dir.chdir(Rails.root+"public/background")

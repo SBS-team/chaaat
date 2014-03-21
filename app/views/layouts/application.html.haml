@@ -11,9 +11,13 @@
     = javascript_include_tag "application", "data-turbolinks-track" => true
     = csrf_meta_tags
   %body{:style=>("background-image:url('../background/#{background_image()}');" unless user_signed_in?)}
-    #wrapper
+    .container-fluid.navbar-fixed-top
       %header
         = render 'layouts/navigation'
-      #main{:role => "main"}
-        = render 'layouts/messages'
+      .row-fluid
+        - flash.each do |name, msg|
+          - if msg.is_a?(String)
+            %div{:class => "alert alert-#{name.to_s == 'notice' ? 'success' : 'danger'}"}
+              %button.close{"aria-hidden" => "true", "data-dismiss" => "alert", :type => "button"} &times;
+              = content_tag :div, msg, :id => "flash_#{name}"
         = yield
