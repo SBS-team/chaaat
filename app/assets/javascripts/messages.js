@@ -48,7 +48,6 @@ $(document).ready(function(){
         }
     });
 
-
     $("#search").keyup(function(){
         $.ajax({
             type: "POST",

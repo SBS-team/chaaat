@@ -7,7 +7,7 @@
         -if message.user_id==current_user.id
           %pre.message.to
             .message_login
-              =message.user.login+":"
+              =link_to message.user.login, user_path(message.user.id)
             .message_body
               =message.body
             %span.pull-right.time
@@ -15,7 +15,7 @@
         -else
           %pre.message.from
             .message_login
-              =message.user.login+":"
+              =link_to message.user.login, user_path(message.user.id)
             .message_body
               =message.body
             %span.pull-right.time
