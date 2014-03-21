@@ -9,14 +9,13 @@
   %ul
     - for friendship in @user.friendships
       %li
-        = "#{friendship.friend.firstname} #{friendship.friend.lastname}"
-        = link_to 'Remove', friendship, :method => :delete
-  -#- if @user.inverse_friends.count > 0
-  -#  %h3
-  -#    Friended by Users
-  -#  %ul
-  -#    - for user in @user.inverse_friends
-  -#      %li
-  -#        = user.firstname + ' ' + user.lastname
+        = link_to "#{friendship.friend.firstname} #{friendship.friend.lastname}", user_path(friendship.friend.id)
+        - if (@user.id == current_user.id)
+          = link_to 'Remove', friendship, :method => :delete
+        - elsif friendship.friend.id != current_user.id
+          - if !is_friend? friendship.friend.id
+            = link_to 'Add Friend', friendships_path(:friend_id => friendship.friend.id), :method => :post
+
+
   %p
     = link_to 'Find new friends', users_path

@@ -43,7 +43,7 @@ $(document).ready(function(){
     });
 
 
-    var pusher =new Pusher('255267aae6802ec7914f');
+    var pusher = new Pusher('255267aae6802ec7914f');
     var channel = pusher.subscribe('private');
     //+gon.user_id.toString()
     channel.bind('new_message', function(data) {
@@ -53,7 +53,7 @@ $(document).ready(function(){
     });
 
     function render_message(user_id,login,body,time){
-        if(gon.user_id==user_id){
+        if(gon.user_id == user_id){
             $('#messages-wrapper').append("<pre class=\"message to\">"+"<div class=\"message_login\" style=margin:0px;>"+login+':'+"</div>"+"<div class=\"message_body\" style=margin:0px;>"+HtmlEncode(body)+"</div>"+"<span class=\"pull-right time\">"+time+"</span></pre>");
         }else{
             $('#messages-wrapper').append("<pre class=\"message from\">"+"<div class=\"message_login\" style=margin:0px;>"+login+':'+"</div>"+"<div class=\"message_body\" style=margin:0px;>"+HtmlEncode(body)+"</div>"+"<span class=\"pull-right time\">"+time+"</span></pre>");
