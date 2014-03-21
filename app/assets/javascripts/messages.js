@@ -2,10 +2,7 @@ $(document).ready(function(){
     $(document).on('click', '.bla', function(e) {
         $("#message").val($("#message").val() + $(e.target).attr("title"));
     });
-    emojify.setConfig({ emoticons_enabled: true, people_enabled: true, nature_enabled: true, objects_enabled: true, places_enabled: true, symbols_enabled: true });
-    for(var i= 0;i<document.getElementsByClassName('chat-body').length; i++){
-        emojify.run(document.getElementsByClassName('chat-body')[i]);
-    }
+
     if (document.getElementsByClassName('panel-body')[0]!=undefined){
 
         document.getElementsByClassName('panel-body')[0].style.height=$(window).height()-252+"px";
@@ -178,9 +175,14 @@ $(document).ready(function(){
                 "<p>"+ $.trim(changetags(safe_tags_replace(body))) +"</p>"+
                 "</div>"+
                 "</li>");
+
         }
         var objDiv = document.getElementsByClassName('panel-body')[0];
         objDiv.scrollTop = objDiv.scrollHeight+2000;
+        emojify.setConfig({ emoticons_enabled: true, people_enabled: true, nature_enabled: true, objects_enabled: true, places_enabled: true, symbols_enabled: true });
+        for(var i= 0;i<document.getElementsByClassName('chat-body').length; i++){
+            emojify.run(document.getElementsByClassName('chat-body')[i]);
+        }
     }
 
     function invoted_users(){
@@ -224,4 +226,5 @@ $(document).ready(function(){
     }
 
     invoted_users();
+
 });

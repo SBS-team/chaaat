@@ -3,7 +3,7 @@
 %br
 .dropdown
   %button.btn.dropdown-toggle#userStatus{:type=>"button", :data=>{:toggle=>"dropdown"}}>
-    ="#{current_user.user_stat.status_name}"
+    -#="#{current_user.user_stat.status_name}"
     %span.caret
   %ul.dropdown-menu{:role=>"menu", :aria=>{:labelledby=>"dropdownMenu1"}}
     %li{:role=>"presentation"}
