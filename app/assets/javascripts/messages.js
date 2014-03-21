@@ -3,6 +3,18 @@ $(document).ready(function(){
  $(document).on('click', '.bla', function(e) {
     $("#message").val($("#message").val() + $(e.target).attr("title"));
     });
+    $(document).on('click', '.bla', function(e) {
+        $("#message").val($("#message").val() + $(e.target).attr("title"));
+    });
+    if (document.getElementsByClassName('panel-body')[0]!=undefined){
+        document.getElementsByClassName('panel-body')[0].style.height=$(window).height()-250+"px";
+
+        $( window ).resize(function() {
+            document.getElementsByClassName('panel-body')[0].style.height=$(window).height()-250+"px";
+        });
+    }
+
+    var message_textarea=$("#message");
 
     $("#send_message").click(function(){
         send_message();
@@ -79,3 +91,8 @@ function HtmlEncode(val) {
     return $("<div/>").text(val).html();
 }
 
+    emojify.setConfig({ emoticons_enabled: true, people_enabled: true, nature_enabled: true, objects_enabled: true, places_enabled: true, symbols_enabled: true });
+    for(var i= 0;i<document.getElementsByClassName('chat-body.clearfix').length; i++){
+        emojify.run(document.getElementsByClassName('chat-body clearfix')[i]);
+    }
+});

@@ -522,3 +522,32 @@ input {
 .lt-ie9 .search input {
     line-height: 26px;
 }
+
+@media (min-width:768px) {
+
+    /* Wrappers */
+
+    #wrapper {
+        padding-left: 205px;
+        padding-right: 205px;
+    }
+
+}
+@media (min-width:992px) {
+
+    .navbar-header {
+        padding-top: 0px;
+    }
+}
+@media (min-width:456px) {
+
+    .side-nav-rigth {
+        margin-top: 0px;
+    }
+    .col-md-8{
+        top: -1px;
+    }
+    .side-nav{
+        margin-top: 0px;
+    }
+}

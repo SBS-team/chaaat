@@ -72,7 +72,7 @@
             var defaultConfig = {
                 emojify_tag_type: 'div',
                 only_crawl_id: null,
-                img_dir: 'assets/',
+                img_dir: '/assets',
                 ignored_tags: {
                     'SCRIPT': 1,
                     'TEXTAREA': 1,

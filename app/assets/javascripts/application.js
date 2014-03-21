@@ -15,6 +15,7 @@
 //= require turbolinks
 //= require emojify
 //= require bootstrap
+//=require emojify
 //= require_tree
 
 
