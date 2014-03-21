@@ -18,7 +18,9 @@ Chat::Application.routes.draw do
   resources :rooms_users, :only => [:create, :destroy]
 
   devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }
+
   post 'pusher/auth'
+
 
   devise_scope :user do
     root to: "devise/registrations#new"

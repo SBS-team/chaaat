@@ -13,6 +13,7 @@ gem 'pg'
 gem 'therubyracer', :platform=>:ruby
 gem 'unicorn'
 gem 'unicorn-rails'
+gem 'omniauth'
 gem 'omniauth-facebook'
 gem 'omniauth-github'
 gem 'pusher'

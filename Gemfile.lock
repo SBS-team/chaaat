@@ -264,6 +264,7 @@ DEPENDENCIES
   html2haml
   jbuilder (~> 1.2)
   jquery-rails
+  omniauth
   omniauth-facebook
   omniauth-github
   pg
