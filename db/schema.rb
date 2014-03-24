@@ -75,6 +75,7 @@ ActiveRecord::Schema.define(version: 20140321081454) do
     t.string   "uid"
     t.datetime "sign_out_at"
     t.string   "login"
+    t.string   "profile_avatar"
     t.string   "avatar"
     t.string   "invitation_token"
     t.datetime "invitation_created_at"
