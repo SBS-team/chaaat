@@ -224,6 +224,8 @@ GEM
       sprockets (~> 2.8, <= 2.11.0)
       sprockets-rails (~> 2.0.0)
     sexp_processor (4.4.2)
+    shoulda-matchers (2.5.0)
+      activesupport (>= 3.0.0)
     signature (0.1.7)
     sprockets (2.11.0)
       hike (~> 1.2)
@@ -251,8 +253,6 @@ GEM
     treetop (1.4.15)
       polyglot
       polyglot (>= 0.3.1)
-    turbolinks (2.2.1)
-      coffee-rails
     tzinfo (0.3.39)
     uglifier (2.5.0)
       execjs (>= 0.3.0)
@@ -295,6 +295,7 @@ DEPENDENCIES
   html2haml
   jbuilder
   jquery-rails
+  omniauth
   omniauth-facebook
   omniauth-github
   pg
@@ -306,6 +307,7 @@ DEPENDENCIES
   rspec-rails
   sanitize
   sass-rails
+  shoulda-matchers
   therubyracer
   uglifier
   unicorn

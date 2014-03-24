@@ -54,9 +54,6 @@ class User < ActiveRecord::Base
   has_many :friends, :through => :friendships
   belongs_to :user_stat
 
-
-
-
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :invitable, :database_authenticatable, :registerable,
@@ -78,7 +75,6 @@ class User < ActiveRecord::Base
         user = User.create(login:auth.info.name,
                            provider:auth.provider,
                            uid:auth.uid,
-                           avatar:auth.info.image,
                            email:auth.info.email,
                            password:Devise.friendly_token[0,20],
         )
@@ -100,6 +96,7 @@ class User < ActiveRecord::Base
                            provider:auth.provider,
                            uid:auth.uid,
                            avatar:auth.info.image+"?width=50&height=50",
+                           profile_avatar:auth.info.image+"?width=125&height=125",
                            email:auth.info.email,
                            login:auth.extra.raw_info.username,
                            password:Devise.friendly_token[0,20],

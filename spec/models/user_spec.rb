@@ -44,35 +44,30 @@
 #  index_users_on_user_stat_id          (user_stat_id)
 #
 
-#  sign_out_at            :datetime
-
-#  invitation_token       :string(255)
-#  invitation_created_at  :datetime
-#  invitation_sent_at     :datetime
-#  invitation_accepted_at :datetime
-#  invitation_limit       :integer
-#  invited_by_id          :integer
-#  invited_by_type        :string(255)
-#  invitations_count      :integer          default(0)
-#  user_stat_id           :integer
-
-#
-# Indexes
-#
-#  index_users_on_email                 (email) UNIQUE
-
-#
-
-#
-# Indexes
-#
-#  index_users_on_email                 (email) UNIQUE
-#  index_users_on_login                 (login) UNIQUE
-#  index_users_on_reset_password_token  (reset_password_token) UNIQUE
-#
 
 require 'spec_helper'
 
 describe User do
-  pending "add some examples to (or delete) #{__FILE__}"
-end
+  context 'User db columns' do
+    it { should have_db_column(:email).of_type(:string)}
+    it { should have_db_column(:encrypted_password).of_type(:string)}
+    it { should have_db_column(:reset_password_token).of_type(:string)}
+    it { should have_db_column(:reset_password_sent_at).of_type(:datetime)}
+    it { should have_db_column(:remember_created_at).of_type(:datetime)}
+    it { should have_db_column(:sign_in_count).of_type(:integer)}
+    it { should have_db_column(:current_sign_in_at).of_type(:datetime)}
+    it { should have_db_column(:last_sign_in_at).of_type(:datetime) }
+    it { should have_db_column(:current_sign_in_ip).of_type(:string)}
+    it { should have_db_column(:last_sign_in_ip).of_type(:string)}
+    it { should have_db_column(:created_at).of_type(:datetime) }
+    it { should have_db_column(:updated_at).of_type(:datetime)}
+    it { should have_db_column(:firstname).of_type(:string)}
+    it { should have_db_column(:lastname).of_type(:string)}
+    it { should have_db_column(:provider).of_type(:string)}
+    it { should have_db_column(:uid).of_type(:string)}
+  end
+  context 'User relationship' do
+    it { should have_many(:message) }
+    it { should have_many(:rooms_users) }
+  end
+ end

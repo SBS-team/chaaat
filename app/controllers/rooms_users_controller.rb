@@ -12,6 +12,7 @@ class RoomsUsersController < ApplicationController
       else
         flash[:error] = "User already in room"
       end
+
       render json: {:joined_user => joined_user, :room_id => @room.id}
   end
   end
@@ -30,3 +31,4 @@ class RoomsUsersController < ApplicationController
   end
 
 end
+

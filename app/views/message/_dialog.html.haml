@@ -1,4 +1,5 @@
 .col-md-8
+  %input.form-control#search{:placeholder=>"Search..."}
   .panel.panel-primary
     .panel-body
       %ul.chat
@@ -8,10 +9,11 @@
               -if message.user_id==current_user.id
                 %li.from.clearfix
                   %span.chat-img.pull-left
-                    =image_tag avatar_url(message.user),:class => "avatar",:alt=>""
+                    =image_tag avatar_url(message.user,50),:class => "avatar",:alt=>""
                   .chat-body.clearfix
                     .header
-                      %strong.primary-font=message.user.login
+                      %strong.primary-font
+                        =link_to message.user.login, user_path(message.user.id)
                       %small.pull-right.text-muted
                         %span.glyphicon.glyphicon-time
                         =message.created_at.strftime("%a %T")
@@ -19,10 +21,11 @@
               -else
                 %li.to.clearfix
                   %span.chat-img.pull-left
-                    =image_tag avatar_url(message.user),:class => "avatar",:alt=>""
+                    =image_tag avatar_url(message.user,50),:class => "avatar",:alt=>""
                   .chat-body.clearfix
                     .header
-                      %strong.primary-font=message.user.login
+                      %strong.primary-font
+                        =link_to message.user.login, user_path(message.user.id)
                       %small.pull-right.text-muted
                         %span.glyphicon.glyphicon-time
                         =message.created_at.strftime("%a %T")
