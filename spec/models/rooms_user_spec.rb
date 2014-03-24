@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-=======
 # == Schema Information
 #
 # Table name: rooms_users
@@ -11,9 +9,18 @@
 #  updated_at :datetime
 #
 
->>>>>>> 9dde62727069a06226059d77ebb237c88094d748
 require 'spec_helper'
 
 describe RoomsUser do
-  pending "add some examples to (or delete) #{__FILE__}"
+  context 'RoomsUser db columns' do
+    it { should have_db_column(:user_id).of_type(:integer)}
+    it { should have_db_column(:room_id).of_type(:integer) }
+    it { should have_db_column(:created_at).of_type(:datetime)}
+    it { should have_db_column(:updated_at).of_type(:datetime) }
+  end
+
+  context 'RoomsUser relationship' do
+    it { should belong_to(:user) }
+    it { should belong_to(:room) }
+  end
 end

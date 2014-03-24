@@ -1,0 +1,42 @@
+.col-md-2
+  = render 'layouts/friend_list'
+.col-md-8
+  .panel.panel-primary
+    .panel-body
+      %ul.chat
+        #messages-wrapper
+          -@messages.each do |message|
+            -if message.user_id==current_user.id
+              %li.from.clearfix
+                %span.chat-img.pull-left
+                  =image_tag avatar_url(message.user, 50),:class => "avatar",:alt=>""
+                .chat-body.clearfix
+                  .header
+                    %strong.primary-font
+                      =link_to message.user.login, user_path(message.user.id)
+                    %small.pull-right.text-muted
+                      %span.glyphicon.glyphicon-time
+                      =message.created_at.strftime("%a %T")
+                  %p=with_link message.body
+            -else
+              %li.to.clearfix
+                %span.chat-img.pull-left
+                  =image_tag avatar_url(message.user, 50),:class => "avatar",:alt=>""
+                .chat-body.clearfix
+                  .header
+                    %strong.primary-font
+                      =link_to message.user.login, user_path(message.user.id)
+                    %small.pull-right.text-muted
+                      %span.glyphicon.glyphicon-time
+                      =message.created_at.strftime("%a %T")
+                  %p=with_link message.body
+    .panel-footer
+      %textarea.form-control#message
+      %button.btn.btn-success#send_message
+        Send message
+%audio#new-message
+  %source{:src=>"../sounds/button_tiny.ogg", :type=>"audio/ogg"}
+  %source{:src=>"../sounds/button_tiny.mp3", :type=>"audio/mp3"}
+.col-md-2
+  = render 'layouts/friends_in_rooms'
+

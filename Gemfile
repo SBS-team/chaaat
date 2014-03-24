@@ -14,6 +14,7 @@ gem 'pg'
 gem 'therubyracer', :platform=>:ruby
 gem 'unicorn'
 gem 'unicorn-rails'
+gem 'omniauth'
 gem 'omniauth-facebook'
 gem 'omniauth-github'
 gem 'pusher'
@@ -38,6 +39,7 @@ end
 group :development, :test do
   gem 'factory_girl_rails'
   gem 'rspec-rails'
+  gem 'shoulda-matchers'
 end
 group :test do
   gem 'capybara'
