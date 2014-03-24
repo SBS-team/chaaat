@@ -1,6 +1,6 @@
 class MessageController < ApplicationController
 	before_filter :authenticate_user!
-
+  include MessageHelper
   include ApplicationHelper
 
 	def index
