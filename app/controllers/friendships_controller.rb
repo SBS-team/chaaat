@@ -8,10 +8,11 @@ class FriendshipsController < ApplicationController
 
     if friendship.save && inverse_friendship.save
       flash[:notice] = 'User confirmed that you are friends'
-      redirect_to user_path(current_user.id)
+      #redirect_to user_path(current_user.id)
     else
       flash[:error] = 'User rejected your friendship'
     end
+    redirect_to user_path(current_user.id)
   end
 
   def destroy

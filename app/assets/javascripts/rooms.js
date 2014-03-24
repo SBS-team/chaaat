@@ -1,4 +1,5 @@
 jQuery(function($){
+
     $(".user_friend").click(function(event){
         $.ajax({
             url: '/rooms_users',

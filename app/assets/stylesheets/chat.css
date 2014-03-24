@@ -13,8 +13,10 @@
 }
 
 .avatar{
-    border-radius: 15px;
+    border-radius: 50%;
+    border-radius: 50px;
 }
+
 .bootstrap-growl.alert.alert-success{
     background-color: rgba(10,10,10,0.7);
     color:white;

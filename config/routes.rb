@@ -18,7 +18,9 @@ Chat::Application.routes.draw do
   post "users/invite_user", :to=>"users#invite_user", :as=>"invite_user"
 
   devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }
+
   post 'pusher/auth'
+
 
   devise_scope :user do
     root to: "devise/registrations#new"
