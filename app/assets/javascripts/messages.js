@@ -5,10 +5,10 @@ $(document).ready(function(){
 
     if (document.getElementsByClassName('panel-body')[0]!=undefined){
 
-        document.getElementsByClassName('panel-body')[0].style.height=$(window).height()-252+"px";
+        document.getElementsByClassName('panel-body')[0].style.height=$(window).height()-1130+"px";
 
         $( window ).resize(function() {
-            document.getElementsByClassName('panel-body')[0].style.height=$(window).height()-252+"px";
+            document.getElementsByClassName('panel-body')[0].style.height=$(window).height()-1130+"px";
         });
     }
 
