@@ -32,12 +32,12 @@
                         %span.glyphicon.glyphicon-time
                         =message.created_at.strftime("%a %T")
                     %p=message.body
+    .btn-group.dropup
+      %button.btn.btn-default.dropdown-toggle{"data-toggle" => "dropdown", type: "button"}
+        %span.caret
+      %ul#dropdown-list.dropdown-menu{role: "menu"}
+        = render 'layouts/index'
     .panel-footer
-      .btn-group.dropup
-        %button.btn.btn-default.dropdown-toggle{"data-toggle" => "dropdown", type: "button"}
-          %span.caret
-        %ul#dropdown-list.dropdown-menu{role: "menu"}
-          = render 'layouts/index'
       #request-user
       %textarea.form-control#message
       %button.btn.btn-success#send_message
