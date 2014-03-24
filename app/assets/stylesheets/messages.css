@@ -18,6 +18,7 @@ body {
     padding-right:3px;
 }
 
+
 .side-nav-rigth{
     margin-right: 0px;
     right: 0px;
@@ -273,4 +274,12 @@ pre {
     .side-nav{
         margin-top: 0px;
     }
+}
+#dropdown-list{
+    max-height: 200px;
+    overflow: auto;
+    top: 33px;
+    position: static;
+    left: 50px;
+    box-shadow: none;
 }
