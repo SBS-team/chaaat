@@ -138,7 +138,6 @@ $(document).ready(function(){
 
     function render_message(user_id,login,body,avatar,time){
         if(gon.user_id==user_id){
-
             $('#messages-wrapper').append("<li class=\"from clearfix\">"+
                 "<span class=\"chat-img pull-left\">"+
                 "<img class=\"avatar\" src="+avatar+">"+
@@ -184,8 +183,9 @@ function invoted_users(){
 }
 
 function changetags(text){
-    if((text.match(/\@(\S+.)/)) && (!text.match(/<span>\@(\S+.)/))){
-        return text.replace(/\@(\S+.)/,"<span class=\"to-user\">"+ $.trim(text.match(/\@(\S+.)/)[0]) +"</span> ");
+    if((text.match(/\@\S*/)) && (!text.match(/<span>\@\S*/) && (text.match(/\@\S*/)[0]=="@"+gon.user_login))){
+        alert(gon.user_login);
+        return text.replace(/\@\S*/,"<span class=\"to-user\">"+ $.trim(text.match(/\@\S*/)[0]) +"</span> ");
     }
     if(text.match(/http.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?].\S\S*)/)){
         return text.replace(/http.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?].\S\S*)/,"<br><iframe width=\"560\" height=\"315\" src=\"//www.youtube.com/embed/"+youtube_parser(text)+"\" frameborder=\"0\" allowfullscreen></iframe><br>");

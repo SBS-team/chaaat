@@ -28,6 +28,7 @@
                         =message.created_at.strftime("%a %T")
                     %p=message.body
     .panel-footer
+      #request-user
       %textarea.form-control#message
       %button.btn.btn-success#send_message
         Send message
