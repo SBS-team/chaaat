@@ -4,8 +4,6 @@
     .panel-body
       %ul.chat
         #messages-wrapper
-          :javascript
-            emojify.run()
           - if @messages
             -@messages.each do |message|
               -if message.user_id==current_user.id

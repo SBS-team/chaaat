@@ -75,8 +75,10 @@ ActiveRecord::Schema.define(version: 20140321081454) do
     t.string   "uid"
     t.datetime "sign_out_at"
     t.string   "login"
+
+    t.datetime "sign_out_at"
+
     t.string   "avatar"
-    t.string   "profile_avatar"
     t.string   "invitation_token"
     t.datetime "invitation_created_at"
     t.datetime "invitation_sent_at"
@@ -86,6 +88,7 @@ ActiveRecord::Schema.define(version: 20140321081454) do
     t.string   "invited_by_type"
     t.integer  "invitations_count",      default: 0
     t.integer  "user_stat_id"
+    t.string   "profile_avatar"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
