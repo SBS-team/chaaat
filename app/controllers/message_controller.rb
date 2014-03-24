@@ -1,12 +1,12 @@
 class MessageController < ApplicationController
-	before_filter :authenticate_user!
+  before_filter :authenticate_user!
   include MessageHelper
   include ApplicationHelper
 
-	def index
+  def index
     #gon.user_id = current_user.id
-		#@messages=Message.all.preload(:user)
-	end
+    #@messages=Message.all.preload(:user)
+  end
 
 
   def new
@@ -16,10 +16,10 @@ class MessageController < ApplicationController
     end
   end
 
-	def show
+  def show
     gon.user_id=current_user.id
     @messages=Message.all.preload(:user).order(created_at: :asc)
-	end
+  end
 
   def search
     messages=Message.where("body like ? ", "%#{params[:query]}%").where("room_id = ? ",params[:room_id]).preload(:user)

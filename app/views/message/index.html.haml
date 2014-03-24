@@ -22,6 +22,11 @@
               =message.created_at.strftime("%a %T")
     %br
     .navbar-fixed-bottom.row-fluid
+      .btn-group.dropup
+        %button.btn.btn-default.dropdown-toggle{"data-toggle" => "dropdown", type: "button"}
+          %span.caret
+        %ul#dropdown-list.dropdown-menu{role: "menu"}
+          = render 'layouts/index'
       %textarea.form-control#message
       %button.btn.btn-success#send_message
         Send message

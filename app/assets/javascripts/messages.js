@@ -1,11 +1,18 @@
 $(document).ready(function(){
+    $(document).on('click', '.bla', function(e) {
+        $("#message").val($("#message").val() + $(e.target).attr("title"));
+    });
+    if (document.getElementsByClassName('panel-body')[0]!=undefined){
 
-        if (document.getElementsByClassName('panel-body')[0]!=undefined){
+        document.getElementsByClassName('panel-body')[0].style.height=$(window).height()-1185+"px";
 
-        document.getElementsByClassName('panel-body')[0].style.height=$(window).height()-185+"px";
-
+<<<<<<< HEAD
         $(window).resize(function() {
             document.getElementsByClassName('panel-body')[0].style.height=$(window).height()-185+"px";
+=======
+        $( window ).resize(function() {
+            document.getElementsByClassName('panel-body')[0].style.height=$(window).height()-1185+"px";
+>>>>>>> aabf5628c3e7036569829a3006587bd0b1a2d00a
         });
     }
 
@@ -80,7 +87,7 @@ $(document).ready(function(){
             data: { status: $(this).attr("data-id") }
         })
             .done(function(msg) {
-               $("#userStatus")[0].innerHTML=msg+" <span class=\"caret\"></span>";
+                $("#userStatus")[0].innerHTML=msg+" <span class=\"caret\"></span>";
             });
     });
 
@@ -172,15 +179,20 @@ $(document).ready(function(){
         }
         var objDiv = document.getElementsByClassName('panel-body')[0];
         objDiv.scrollTop = objDiv.scrollHeight+2000;
+        emojify.setConfig({ emoticons_enabled: true, people_enabled: true, nature_enabled: true, objects_enabled: true, places_enabled: true, symbols_enabled: true });
+        for(var i= 0;i<document.getElementsByClassName('chat-body').length; i++){
+            emojify.run(document.getElementsByClassName('chat-body')[i]);
+        }
     }
 
-function invoted_users(){
-    messages=$("li .chat-body p")
-    for(var i=0; i<messages.length; i++){
-        messages[i].innerHTML=changetags(messages[i].innerHTML);
+    function invoted_users(){
+        messages=$("li .chat-body p")
+        for(var i=0; i<messages.length; i++){
+            messages[i].innerHTML=changetags(messages[i].innerHTML);
 
+        }
     }
-}
+
 
 function changetags(text){
     if((text.match(/\@\S*/)) && (!text.match(/<span>\@\S*/) && (text.match(/\@\S*/)[0]=="@"+gon.user_login))){
@@ -194,32 +206,32 @@ function changetags(text){
         return text.replace(/http.*(jpg|gif|jpeg)/,"<img src="+src[0]+" height=\"500px\" width=\"300px\"/>");
     }
     else{
-        return text;
+            return text;
+        }
     }
-}
 
-function youtube_parser(url){
-    var regExp = /http.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?].\S\S*)/;
-    var match = url.match(regExp);
-    if (match&&match[7].length==11){
-        return match[7];
+    function youtube_parser(url){
+        var regExp = /http.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?].\S\S*)/;
+        var match = url.match(regExp);
+        if (match&&match[7].length==11){
+            return match[7];
+        }
     }
-}
 
-var tagsToReplace = {
-    '&': '&amp;',
-    '<': '&lt;',
-    '>': '&gt;'
-};
+    var tagsToReplace = {
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;'
+    };
 
-function replaceTag(tag) {
-    return tagsToReplace[tag] || tag;
-}
+    function replaceTag(tag) {
+        return tagsToReplace[tag] || tag;
+    }
 
-function safe_tags_replace(str) {
-    return str.replace(/[&<>]/g, replaceTag);
-}
+    function safe_tags_replace(str) {
+        return str.replace(/[&<>]/g, replaceTag);
+    }
 
-invoted_users();
+    invoted_users();
 });
 

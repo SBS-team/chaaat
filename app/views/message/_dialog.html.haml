@@ -4,6 +4,8 @@
     .panel-body
       %ul.chat
         #messages-wrapper
+          :javascript
+            emojify.run()
           - if @messages
             -@messages.each do |message|
               -if message.user_id==current_user.id
@@ -17,7 +19,7 @@
                       %small.pull-right.text-muted
                         %span.glyphicon.glyphicon-time
                         =message.created_at.strftime("%a %T")
-                    %p=message.body
+                    %p= message.body
               -else
                 %li.to.clearfix
                   %span.chat-img.pull-left
@@ -31,6 +33,11 @@
                         =message.created_at.strftime("%a %T")
                     %p=message.body
     .panel-footer
+      .btn-group.dropup
+        %button.btn.btn-default.dropdown-toggle{"data-toggle" => "dropdown", type: "button"}
+          %span.caret
+        %ul#dropdown-list.dropdown-menu{role: "menu"}
+          = render 'layouts/index'
       #request-user
       %textarea.form-control#message
       %button.btn.btn-success#send_message

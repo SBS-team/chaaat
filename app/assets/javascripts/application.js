@@ -12,6 +12,16 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require emojify
 //= require bootstrap
-
+//=require emojify
 //= require_tree
+
+
+
+
+
+
+
+
+

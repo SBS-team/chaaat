@@ -10,9 +10,9 @@ class RoomsController < ApplicationController
   end
 
   def create
-   @room = Room.create(room_params)
-   RoomsUser.create(:user_id => current_user.id, :room_id => @room.id)
-   redirect_to room_path(@room)
+    @room = Room.create(room_params)
+    RoomsUser.create(:user_id => current_user.id, :room_id => @room.id)
+    redirect_to room_path(@room)
   end
 
   def show
@@ -33,7 +33,7 @@ class RoomsController < ApplicationController
   end
 
   private
-    def room_params
-      params.require(:room).permit( :name, :topic)
-    end
+  def room_params
+    params.require(:room).permit( :name, :topic)
+  end
 end
