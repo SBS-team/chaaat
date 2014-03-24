@@ -11,7 +11,7 @@ Chat::Application.configure do
   config.eager_load = true
 
   # Full error reports are disabled and caching is turned on.
-  config.consider_all_requests_local       = true
+  config.consider_all_requests_local       = false
   config.action_controller.perform_caching = true
 
   # Enable Rack::Cache to put a simple HTTP cache in front of your application
@@ -20,14 +20,14 @@ Chat::Application.configure do
   # config.action_dispatch.rack_cache = true
 
   # Disable Rails's static asset server (Apache or nginx will already do this).
-  config.serve_static_assets =true
+  config.serve_static_assets = false
 
   # Compress JavaScripts and CSS.
   config.assets.js_compressor = :uglifier
   # config.assets.css_compressor = :sass
 
   # Do not fallback to assets pipeline if a precompiled asset is missed.
-  config.assets.compile = true
+  config.assets.compile = false
 
   # Generate digests for assets URLs.
   config.assets.digest = true
@@ -72,31 +72,21 @@ Chat::Application.configure do
   # Send deprecation notices to registered listeners.
   config.active_support.deprecation = :notify
 
-  config.action_mailer.delivery_method = :smtp
-config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
-      :address              => "smtp.gmail.com",
-      :port                 => 587,
-      :domain               => "mail.google.com",
-
-      :user_name            => "chaaat.chaaat@gmail.com",
-      :user_name            => "chaaat.chaaat",
-      :password             => "Natali1994",
-      :authentication       => "plain",
-      :enable_starttls_auto => true
+    address: "smtp.gmail.com",
+    port: 587,
+    domain: ENV["DOMAIN_NAME"],
+    authentication: "plain",
+    enable_starttls_auto: true,
+    user_name: ENV["GMAIL_USERNAME"],
+    password: ENV["GMAIL_PASSWORD"]
   }
-
-  config.action_mailer.default_url_options = {:host => "localhost:3000"}
-
-  config.action_mailer.perform_deliveries = true
   # ActionMailer Config
-  #config.action_mailer.default_url_options = { :host => 'example.com' }
-  #config.action_mailer.delivery_method = :smtp
-  #config.action_mailer.perform_deliveries = true
-  #config.action_mailer.raise_delivery_errors = false
-
-  config.action_mailer.default_url_options = {:host => "localhost:3000"}
+  config.action_mailer.default_url_options = { :host => 'example.com' }
+  config.action_mailer.delivery_method = :smtp
   config.action_mailer.perform_deliveries = true
+  config.action_mailer.raise_delivery_errors = false
+
 
   # Disable automatic flushing of the log to improve performance.
   # config.autoflush_log = false
