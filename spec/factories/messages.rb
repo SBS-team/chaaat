@@ -17,7 +17,6 @@
 #  index_messages_on_user_id  (user_id)
 #
 
-# Read about factories at https://github.com/thoughtbot/factory_girl
 
 FactoryGirl.define do
   factory :message do

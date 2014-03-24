@@ -88,6 +88,8 @@ GEM
     email_spec (1.5.0)
       launchy (~> 2.1)
       mail (~> 2.2)
+    emoji (1.0.1)
+      json
     erubis (2.7.0)
     execjs (2.0.2)
     factory_girl (4.4.0)
@@ -288,6 +290,7 @@ DEPENDENCIES
   devise
   devise_invitable
   email_spec
+  emoji
   factory_girl_rails
   foreman
   gon
