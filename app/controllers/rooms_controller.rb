@@ -30,7 +30,6 @@ class RoomsController < ApplicationController
     @user_friends = current_user.friends
     room_user_ids = RoomsUser.where(:room_id => @room.id).map{|item| item.user_id}
     @room_users = User.where("id IN (?)", room_user_ids)
-
   end
 
   private
