@@ -1,3 +1,5 @@
+<<<<<<< HEAD
+=======
 # == Schema Information
 #
 # Table name: messages
@@ -17,6 +19,7 @@
 #  index_messages_on_user_id  (user_id)
 #
 
+>>>>>>> 9dde62727069a06226059d77ebb237c88094d748
 require 'spec_helper'
 
 describe Message do

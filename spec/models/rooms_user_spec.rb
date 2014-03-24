@@ -1,3 +1,5 @@
+<<<<<<< HEAD
+=======
 # == Schema Information
 #
 # Table name: rooms_users
@@ -9,6 +11,7 @@
 #  updated_at :datetime
 #
 
+>>>>>>> 9dde62727069a06226059d77ebb237c88094d748
 require 'spec_helper'
 
 describe RoomsUser do

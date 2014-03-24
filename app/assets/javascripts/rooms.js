@@ -1,8 +1,4 @@
-/**
- * Created by moroka on 18.03.14.
- */
 jQuery(function($){
-
     $(".user_friend").click(function(event){
         $.ajax({
             url: '/rooms_users',
@@ -10,22 +6,9 @@ jQuery(function($){
             data: {
                 room_id: $(this).attr('data_room_id'),
                 user_id: $(this).attr('data_user_id')
-           },
-            success: function(response){
-                if(response.joined_user != null && response.room_id != null)
-                   var joined_users_list =  $("ul.nav.navbar-nav.side-nav-right");
-//                   joined_users_list.append("<li class=\"joined_friend\"><a href=\"/rooms_users/" + response.joined_user.id + "/"+response.room_id
-//                                                                          + " \"data-method=\"delete\">"
-//                                                                          + response.joined_user.firstname + " "
-//                                                                          + response.joined_user.lastname +" "
-//                                                                          + "<span class = \"glyphicon glyphicon-minus pull-right\">"
-//                                                                          +"</span></a></li>");
-                joined_users_list.append("<li class=\"joined_friend\" data_room_id=\""
-                                                              + response.room_id+"\""
-                                                              + "data_user_id=\""+ response.joined_user.id +"\">" + " "
-                                                              + response.joined_user.firstname + " "
-                                                              + response.joined_user.lastname + " " +"<span class=\"glyphicon glyphicon-minus pull-right\"></span></li>");
+
             }
+
         });
     });
 
@@ -41,32 +24,23 @@ jQuery(function($){
                 user_id: list_item.attr('data_user_id')
             },
             success: function(response){
+
                 if(response.drop_user_id == response.cur_user_id){
                     list_item.remove();
                 }else{
-                    alert("You can`t remove user from room");
+                    $.bootstrapGrowl("You can`t remove that user from room", {
+                        type: 'success', // (null, 'info', 'error', 'success')
+                        offset: {from: 'top', amount: 50}, // 'top', or 'bottom'
+                        align: 'center', // ('left', 'right', or 'center')
+                        width: 250, // (integer, or 'auto')
+                        delay: 700,
+                        allow_dismiss: true,
+                        stackup_spacing: 10 // spacing between consecutively stacked growls.
+                    });
                 }
             }
         });
+
     });
-
-//    $("#new_room").submit(function(e){
-//        e.preventDefault();
-//
-//        var $form  = $(this),
-//            url = $form.attr('action');
-//
-//        var posting = $.post(url, {
-//            room: {
-//                name:  $('input[type="text"]#room_name').val(),
-//                topic: $('input[type="text"]#room_topic').val()
-//            }
-//        });
-//        posting.done(function(response){
-//           alert("ROOM WAS CREATED");
-//           //Code to kill modal window for creating form here
-//           //and redirect to room#show page
-//        });
-//    });
-
 });
+
