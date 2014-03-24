@@ -16,6 +16,7 @@ class RoomsController < ApplicationController
   end
 
   def show
+    gon.user_login=current_user.login
     gon.user_id=current_user.id
     if Room.where("id in (?)",RoomsUser.where(:user_id=>current_user.id).pluck(:room_id)).pluck(:id).include?(params[:id].to_i)
       gon.room_id=params[:id]
