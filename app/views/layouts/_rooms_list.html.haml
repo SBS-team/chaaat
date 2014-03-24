@@ -1,0 +1,11 @@
+%nav.navbar-inverse
+  %ul.nav.navbar-nav.side-nav
+    %li
+      = link_to new_room_path do
+        %span.glyphicon.glyphicon-plus
+          Create room
+    - if !@room.nil?
+      - @room.each do |room|
+        %li
+          =link_to "#{room.name}",room_path(:id=>room.id)
+

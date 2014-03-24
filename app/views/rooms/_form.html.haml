@@ -1,0 +1,10 @@
+.authform
+  = form_for (@new_room)  do |f|
+    .form-group
+      = "Name:"
+      =f.text_field :name, class: 'form-control'
+    .form-group
+      = "Topic: "
+      =f.text_field :topic, class: 'form-control'
+    .action
+      = button_tag 'create', :class => 'button right'

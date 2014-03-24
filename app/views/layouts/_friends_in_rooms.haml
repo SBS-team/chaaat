@@ -1,0 +1,8 @@
+%nav.navbar-inverse
+  %ul.nav.side-nav-rigth
+    - if !@room_users.nil?
+      - @room_users.each do |user|
+        %li.joined_friend{:data_user_id => user.id, :data_room_id => @room.id}
+          %a{:href=>"#"}
+            = "#{user.firstname} #{user.lastname}"
+            .glyphicon.glyphicon-minus.pull-right
