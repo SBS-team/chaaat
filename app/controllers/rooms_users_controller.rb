@@ -4,16 +4,14 @@ class RoomsUsersController < ApplicationController
     if RoomsUser.where(:user_id => current_user.id).last
       @room = Room.find(params[:room_id])
       if RoomsUser.create(:room_id=>params[:room_id], :user_id => params[:user_id]).valid?
-        joined_user = User.where(:id => params[:user_id]).first
+        joined_user = User.find(params[:user_id])
         room_user_ids = RoomsUser.where(:room_id => @room.id).pluck(:user_id)
         @room_users = User.where("id IN (?)", room_user_ids)
-        Pusher['private-'+"#{params[:user_id]}"].trigger('user_add_to_room', {:rooms_id=>@room.id,:rooms_name=>@room.name})
+        Pusher["private-#{params[:room_id]}"].trigger('add_user_to_room', {:user_id=>joined_user.id,:user_login=>joined_user.login,:rooms_name=>@room.name, :room_id=>@room.id})
+        Pusher["private-#{params[:user_id]}"].trigger('user_add_to_room', {:rooms_id=>@room.id,:rooms_name=>@room.name})
       else
         flash[:error] = "User already in room"
       end
-
-     Pusher['private-'+"#{params[:room_id]}"].trigger('add_user_to_room', {:user_id=>params[:user_id],:user_login=>User.find(params[:user_id]).login,:rooms_name=>@room.name})
-
 
       render json: {:joined_user => joined_user, :room_id => @room.id}
   end
@@ -27,17 +25,10 @@ class RoomsUsersController < ApplicationController
       if (room_users_count -= 1).zero?
         room = Room.find(params[:room_id])
         room.destroy
-        #change redirect to main page
-        #redirect_to root_path
-
       end
-
     end
     render json: {:drop_user_id => params[:user_id], :cur_user_id => current_user.id}
-    #redirect_to room_path(params[:room_id])
-
   end
 
 end
-
 

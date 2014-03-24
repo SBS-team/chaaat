@@ -14,6 +14,7 @@ gem 'pg'
 gem 'therubyracer', :platform=>:ruby
 gem 'unicorn'
 gem 'unicorn-rails'
+gem 'omniauth'
 gem 'omniauth-facebook'
 gem 'omniauth-github'
 gem 'pusher'
@@ -30,11 +31,16 @@ group :development do
   gem 'html2haml'
   gem 'quiet_assets'
   gem 'rails_layout'
+  gem 'capistrano'
+  gem 'capistrano-bundler'
+  gem 'capistrano-rvm'
+  gem 'capistrano-rails'
 
 end
 group :development, :test do
   gem 'factory_girl_rails'
   gem 'rspec-rails'
+  gem 'shoulda-matchers'
 end
 group :test do
   gem 'capybara'

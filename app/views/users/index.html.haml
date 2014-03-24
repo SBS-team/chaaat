@@ -15,19 +15,24 @@
     %li.divider{:role=>"presentation"}
     %li{:role=>"presentation"}
       = link_to 'Logout', destroy_user_session_path, {:method=>'delete', :role=>"menuitem", :tabindex=>"-1"}
-%br
-= form_tag users_path, :method => 'get' do
-  = text_field_tag 'search', params[:search], :id => 'search-box'
-  = submit_tag 'Search', :class=>"btn btn-success"
-%br
-%h3 Invite user
-= form_tag invite_user_path, :method => 'post' do
-  = text_field_tag 'email', nil, :placeholder=>"E-mail", :type => 'email'
-  = submit_tag 'Send invite', :class=>"btn btn-success"
-%h3
-  User List
-- @possible_friends.each do |user|
-  %p
-    = link_to "#{user.firstname} #{user.lastname}", user_path(user.id)
-    = link_to 'Add Friend', friendships_path(:friend_id => user), :method => :post
+  %br
+  = form_tag users_path, :method => 'get' do
+    = text_field_tag 'search', params[:search], :id => 'search-box'
+    = submit_tag 'Search', :class=>"btn btn-success"
+  %h3
+    User List
+  %ul.friends_list
+    - @possible_friends.each  do |user|
+      %div.some{:style => "position: relative; margin-top:40px;"}
+        =image_tag avatar_url(user,50),:class => "avatar", :style =>"float: left"
+        %div.some{:style => "position: relative; top:12px;"}
+          = link_to user.firstname + ' ' + user.lastname, user_path(user.id)
+          = link_to 'Add Friend', friendships_path(:friend_id => user), :method => :post
+
+  %br
+  %h3 Invite user
+  = form_tag invite_user_path, :method => 'post' do
+    = text_field_tag 'email', nil, :placeholder=>"E-mail", :type => 'email'
+    = submit_tag 'Send invite', :class=>"btn btn-success"
+
 
