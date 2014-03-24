@@ -2,10 +2,10 @@ $(document).ready(function(){
 
         if (document.getElementsByClassName('panel-body')[0]!=undefined){
 
-        document.getElementsByClassName('panel-body')[0].style.height=$(window).height()-152+"px";
+        document.getElementsByClassName('panel-body')[0].style.height=$(window).height()-185+"px";
 
         $( window ).resize(function() {
-            document.getElementsByClassName('panel-body')[0].style.height=$(window).height()-152+"px";
+            document.getElementsByClassName('panel-body')[0].style.height=$(window).height()-185+"px";
         });
     }
 
@@ -54,12 +54,13 @@ $(document).ready(function(){
         $.ajax({
             type: "POST",
             url: "../message/search/",
-            data: { query: $("#search").val() }
+            data: { query: $("#search").val(),room_id: gon.room_id }
+
         })
             .done(function(msg) {
                 $('#messages-wrapper').html('');
                 for (var i = 0; i <= msg.length - 1; i++) {
-                    render_message(msg[i].user_id,msg[i].login,msg[i].body,msg[i].created_at);
+                    render_message(msg[i].user_id,msg[i].login,msg[i].body,msg[i].room_id,msg[i].created_at);
                 };
             });
     });
@@ -107,7 +108,7 @@ $(document).ready(function(){
             allow_dismiss: true,
             stackup_spacing: 10 // spacing between consecutively stacked growls.
         });
-        $("ul.nav.side-nav").append("<li><a href=/rooms/"+data.rooms_id+">"+data.rooms_name+"<div class=\"glyphicon glyphicon-minus pull-right\"></div></a></li>");
+        $("ul.nav.side-nav").append("<li><a href=/rooms/"+data.rooms_id+">"+data.rooms_name+"</a></li>");
     });
 
     channel.bind('add_user_to_room', function(data) {
@@ -120,7 +121,7 @@ $(document).ready(function(){
             allow_dismiss: true,
             stackup_spacing: 10 // spacing between consecutively stacked growls.
         });
-        $("ul.nav.side-nav-rigth").append("<li class=\"joined_friend\" data_user_id = \""+data.user_id+"\" data_room_id =\""+data.room_id+"\"><a href=#>"+data.user_login+"<div class=\"glyphicon glyphicon-minus pull-right\"></div></a></li>");
+        $("ul.nav.side-nav-rigth").append("<li><a href=#>"+data.user_login+"</a></li>");
     });
 
     function send_message(){
@@ -195,6 +196,7 @@ function changetags(text){
         return text.replace(/http.*(jpg|gif|jpeg)/,"<img src="+src[0]+" height=\"500px\" width=\"300px\"/>");
     }
     else{
+
         return text;
     }
 }

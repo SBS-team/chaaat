@@ -22,5 +22,14 @@ class MessageController < ApplicationController
     @messages=Message.all.preload(:user).order(created_at: :asc)
 	end
 
+  def search
+    messages=Message.where("body like ? ", "%#{params[:query]}%").where("room_id = ? ",params[:room_id]).preload(:user)
+    result = Array.new()
+    messages.each do |res|
+      message={:user_id=>res.user_id, :login=>res.user.login, :body=>res.body,:room_id=>res.room_id, :created_at=>res.created_at.strftime("%a %T")}
+      result.push(message)
+    end
+    render :json=>result, :root=>false
+  end
 
 end
