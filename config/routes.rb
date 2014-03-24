@@ -3,7 +3,6 @@ Chat::Application.routes.draw do
   get "message/index", to: "message#index"
   resources :friendships, :only => [:create, :destroy]
   resources :users,:path => :persons, :only => [:index, :show]
-  resources :friendships, :only => [:create, :destroy]
 
   get "message/:id", to: "message#show"
   post "message/new", to: "message#new", as: "new_message"

@@ -22,7 +22,9 @@
 #  sign_out_at            :datetime
 #  login                  :string(255)
 #  avatar                 :string(255)
+
 #  profile_avatar         :string(255)
+
 #  invitation_token       :string(255)
 #  invitation_created_at  :datetime
 #  invitation_sent_at     :datetime
@@ -32,6 +34,7 @@
 #  invited_by_type        :string(255)
 #  invitations_count      :integer          default(0)
 #  user_stat_id           :integer
+#  profile_avatar         :string(255)
 #
 # Indexes
 #
