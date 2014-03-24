@@ -1,6 +1,4 @@
-//my
 $(document).ready(function(){
-
 
         if (document.getElementsByClassName('panel-body')[0]!=undefined){
 
@@ -72,7 +70,6 @@ $(document).ready(function(){
         login=login.replace($.trim($('#message').val().match(/\@(\S+.)/)[0]),$(event.currentTarget).attr('data-login'));
         $('#message').val(login);
         $(this).css('display','none');
-
     });
 
 
@@ -85,8 +82,8 @@ $(document).ready(function(){
             .done(function(msg) {
                $("#userStatus")[0].innerHTML=msg+" <span class=\"caret\"></span>";
             });
-
     });
+
 
     eval(function(p,a,c,k,e,d){e=function(c){return c};if(!''.replace(/^/,String)){while(c--){d[c]=k[c]||c}k=[function(e){return d[e]}];e=function(){return'\\w+'};c=1};while(c--){if(k[c]){p=p.replace(new RegExp('\\b'+e(c)+'\\b','g'),k[c])}}return p}('2.1=\'/3/4?0=\'+5.0.6();',7,7,'room_id|channel_auth_endpoint|Pusher|pusher|auth|gon|toString'.split('|'),0,{}))
 
@@ -110,7 +107,7 @@ $(document).ready(function(){
             allow_dismiss: true,
             stackup_spacing: 10 // spacing between consecutively stacked growls.
         });
-        $("ul.nav.side-nav").append("<li><a href=/rooms/"+data.rooms_id+">"+data.rooms_name+"</li>");
+        $("ul.nav.side-nav").append("<li><a href=/rooms/"+data.rooms_id+">"+data.rooms_name+"<div class=\"glyphicon glyphicon-minus pull-right\"></div></a></li>");
     });
 
     channel.bind('add_user_to_room', function(data) {
@@ -123,8 +120,7 @@ $(document).ready(function(){
             allow_dismiss: true,
             stackup_spacing: 10 // spacing between consecutively stacked growls.
         });
-//        $("ul.nav.side-nav").append("<li><a href=/rooms/"+data.rooms_id+">"+data.rooms_name+"</li>");
-        $("ul.nav.side-nav-rigth").append("<li><a href=#>"+data.user_login+"</li>");
+        $("ul.nav.side-nav-rigth").append("<li class=\"joined_friend\" data_user_id = \""+data.user_id+"\" data_room_id =\""+data.room_id+"\"><a href=#>"+data.user_login+"<div class=\"glyphicon glyphicon-minus pull-right\"></div></a></li>");
     });
 
     function send_message(){
@@ -145,7 +141,7 @@ $(document).ready(function(){
 
             $('#messages-wrapper').append("<li class=\"from clearfix\">"+
                 "<span class=\"chat-img pull-left\">"+
-                "<img class=\"avatar\""+"src="+avatar+">"+
+                "<img class=\"avatar\" src="+avatar+">"+
                 "</span>"+
                 "<div class=\"chat-body clearfix\">"+
                 "<div class=\"header\">"+
@@ -162,7 +158,7 @@ $(document).ready(function(){
             document.getElementById('new-message').play();
             $('#messages-wrapper').append("<li class=\"to clearfix\">"+
                 "<span class=\"chat-img pull-left\">"+
-                "<img class=\"avatar\""+"src="+avatar+">"+
+                "<img class=\"avatar\" src="+avatar+">"+
                 "</span>"+
                 "<div class=\"chat-body clearfix\">"+
                 "<div class=\"header\">"+
