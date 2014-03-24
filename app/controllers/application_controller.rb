@@ -9,13 +9,19 @@ class ApplicationController < ActionController::Base
   end
 
   def after_sign_in_path_for(resource)
+    User.update(current_user.id, :user_stat_id=>1)
     if resource.is_a? User
-      if RoomsUser.where(:user_id=>current_user.id).first==nil
         rooms_path
-      else
-        room_path(:id=>RoomsUser.where(:user_id=>current_user.id).pluck(:room_id).first)
-      end
+    else
+      super
+    end
+  end
 
+  def after_sign_out_path_for(resource)
+    User.update(current_user.id, :user_stat_id=>4)
+    User.update(current_user.id, :sign_out_at => Time.now)
+    if resource.is_a? User
+      root_path
     else
       super
     end

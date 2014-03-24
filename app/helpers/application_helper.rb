@@ -40,4 +40,5 @@ module ApplicationHelper
       res= mas_str.join(" ")
     end
   end
+
 end
