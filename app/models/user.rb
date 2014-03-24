@@ -19,9 +19,10 @@
 #  lastname               :string(255)
 #  provider               :string(255)
 #  uid                    :string(255)
+#  sign_out_at            :datetime
 #  login                  :string(255)
 #  avatar                 :string(255)
-#  sign_out_at            :datetime
+#  profile_avatar         :string(255)
 #  invitation_token       :string(255)
 #  invitation_created_at  :datetime
 #  invitation_sent_at     :datetime
@@ -44,6 +45,9 @@
 #
 
 
+
+
+
 class User < ActiveRecord::Base
   has_many :message
   has_many :room
@@ -53,9 +57,6 @@ class User < ActiveRecord::Base
   has_many :rooms_users
   has_many :friends, :through => :friendships
   belongs_to :user_stat
-
-
-
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
@@ -78,7 +79,6 @@ class User < ActiveRecord::Base
         user = User.create(login:auth.info.name,
                            provider:auth.provider,
                            uid:auth.uid,
-                           avatar:auth.info.image,
                            email:auth.info.email,
                            password:Devise.friendly_token[0,20],
         )
@@ -100,6 +100,7 @@ class User < ActiveRecord::Base
                            provider:auth.provider,
                            uid:auth.uid,
                            avatar:auth.info.image+"?width=50&height=50",
+                           profile_avatar:auth.info.image+"?width=125&height=125",
                            email:auth.info.email,
                            login:auth.extra.raw_info.username,
                            password:Devise.friendly_token[0,20],

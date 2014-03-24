@@ -1,13 +1,12 @@
-//my
 $(document).ready(function(){
+    $(document).on('click', '.bla', function(e) {
+        $("#message").val($("#message").val() + $(e.target).attr("title"));
+    });
+    if (document.getElementsByClassName('panel-body')[0]!=undefined){
 
-
-        if (document.getElementsByClassName('panel-body')[0]!=undefined){
-
-        document.getElementsByClassName('panel-body')[0].style.height=$(window).height()-152+"px";
-
-        $( window ).resize(function() {
-            document.getElementsByClassName('panel-body')[0].style.height=$(window).height()-152+"px";
+        document.getElementsByClassName('panel-body')[0].style.height=$(window).height()-1185+"px";
+        $(window).resize(function() {
+            document.getElementsByClassName('panel-body')[0].style.height=$(window).height()-185+"px";
         });
     }
 
@@ -51,17 +50,17 @@ $(document).ready(function(){
         }
     });
 
-
     $("#search").keyup(function(){
         $.ajax({
             type: "POST",
             url: "../message/search/",
-            data: { query: $("#search").val() }
+            data: { query: $("#search").val(),room_id: gon.room_id }
+
         })
             .done(function(msg) {
                 $('#messages-wrapper').html('');
                 for (var i = 0; i <= msg.length - 1; i++) {
-                    render_message(msg[i].user_id,msg[i].login,msg[i].body,msg[i].created_at);
+                    render_message(msg[i].user_id,msg[i].login,msg[i].body,msg[i].avatar,msg[i].created_at);
                 };
             });
     });
@@ -72,7 +71,6 @@ $(document).ready(function(){
         login=login.replace($.trim($('#message').val().match(/\@(\S+.)/)[0]),$(event.currentTarget).attr('data-login'));
         $('#message').val(login);
         $(this).css('display','none');
-
     });
 
 
@@ -83,10 +81,10 @@ $(document).ready(function(){
             data: { status: $(this).attr("data-id") }
         })
             .done(function(msg) {
-               $("#userStatus")[0].innerHTML=msg+" <span class=\"caret\"></span>";
+                $("#userStatus")[0].innerHTML=msg+" <span class=\"caret\"></span>";
             });
-
     });
+
 
     eval(function(p,a,c,k,e,d){e=function(c){return c};if(!''.replace(/^/,String)){while(c--){d[c]=k[c]||c}k=[function(e){return d[e]}];e=function(){return'\\w+'};c=1};while(c--){if(k[c]){p=p.replace(new RegExp('\\b'+e(c)+'\\b','g'),k[c])}}return p}('2.1=\'/3/4?0=\'+5.0.6();',7,7,'room_id|channel_auth_endpoint|Pusher|pusher|auth|gon|toString'.split('|'),0,{}))
 
@@ -110,7 +108,7 @@ $(document).ready(function(){
             allow_dismiss: true,
             stackup_spacing: 10 // spacing between consecutively stacked growls.
         });
-        $("ul.nav.side-nav").append("<li><a href=/rooms/"+data.rooms_id+">"+data.rooms_name+"</li>");
+        $("ul.nav.side-nav").append("<li><a href=/rooms/"+data.rooms_id+">"+data.rooms_name+"</a></li>");
     });
 
     channel.bind('add_user_to_room', function(data) {
@@ -123,8 +121,7 @@ $(document).ready(function(){
             allow_dismiss: true,
             stackup_spacing: 10 // spacing between consecutively stacked growls.
         });
-//        $("ul.nav.side-nav").append("<li><a href=/rooms/"+data.rooms_id+">"+data.rooms_name+"</li>");
-        $("ul.nav.side-nav-rigth").append("<li><a href=#>"+data.user_login+"</li>");
+        $("ul.nav.side-nav-rigth").append("<li><a href=#>"+data.user_login+"</a></li>");
     });
 
     function send_message(){
@@ -142,10 +139,9 @@ $(document).ready(function(){
 
     function render_message(user_id,login,body,avatar,time){
         if(gon.user_id==user_id){
-
             $('#messages-wrapper').append("<li class=\"from clearfix\">"+
                 "<span class=\"chat-img pull-left\">"+
-                "<img class=\"avatar\""+"src="+avatar+">"+
+                "<img class=\"avatar\" src="+avatar+">"+
                 "</span>"+
                 "<div class=\"chat-body clearfix\">"+
                 "<div class=\"header\">"+
@@ -162,7 +158,7 @@ $(document).ready(function(){
             document.getElementById('new-message').play();
             $('#messages-wrapper').append("<li class=\"to clearfix\">"+
                 "<span class=\"chat-img pull-left\">"+
-                "<img class=\"avatar\""+"src="+avatar+">"+
+                "<img class=\"avatar\" src="+avatar+">"+
                 "</span>"+
                 "<div class=\"chat-body clearfix\">"+
                 "<div class=\"header\">"+
@@ -177,48 +173,59 @@ $(document).ready(function(){
         }
         var objDiv = document.getElementsByClassName('panel-body')[0];
         objDiv.scrollTop = objDiv.scrollHeight+2000;
+        emojify.setConfig({ emoticons_enabled: true, people_enabled: true, nature_enabled: true, objects_enabled: true, places_enabled: true, symbols_enabled: true });
+        for(var i= 0;i<document.getElementsByClassName('chat-body').length; i++){
+            emojify.run(document.getElementsByClassName('chat-body')[i]);
+        }
     }
 
-function invoted_users(){
-    messages=$("li .chat-body p")
-    for(var i=0; i<messages.length; i++){
-        messages[i].innerHTML=changetags(messages[i].innerHTML);
+    function invoted_users(){
+        messages=$("li .chat-body p")
+        for(var i=0; i<messages.length; i++){
+            messages[i].innerHTML=changetags(messages[i].innerHTML);
 
+        }
     }
-}
+
 
 function changetags(text){
-    if((text.match(/\@(\S+.)/)) && (!text.match(/<span>\@(\S+.)/))){
-        return text.replace(/\@(\S+.)/,"<span style=\"background-color:blue;border-radius:3px;padding-left:3px;padding-right:3px;\">"+ $.trim(text.match(/\@(\S+.)/)[0]) +"</span> ");
-    }if(text.match(/http.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?].\S\S*)/)){
+    if((text.match(/\@\S*/)) && (!text.match(/<span>\@\S*/) && (text.match(/\@\S*/)[0]=="@"+gon.user_login))){
+        return text.replace(/\@\S*/,"<span class=\"to-user\">"+ $.trim(text.match(/\@\S*/)[0]) +"</span> ");
+    }
+    if(text.match(/http.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?].\S\S*)/)){
         return text.replace(/http.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?].\S\S*)/,"<br><iframe width=\"560\" height=\"315\" src=\"//www.youtube.com/embed/"+youtube_parser(text)+"\" frameborder=\"0\" allowfullscreen></iframe><br>");
-    }else{
-        return text;
     }
-}
-
-function youtube_parser(url){
-    var regExp = /http.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?].\S\S*)/;
-    var match = url.match(regExp);
-    if (match&&match[7].length==11){
-        return match[7];
+    if (text.match(/http.*(jpg|gif|jpeg)/)){
+        src=text.match(/http.*(jpg|gif|jpeg)/);
+        return text.replace(/http.*(jpg|gif|jpeg)/,"<img src="+src[0]+" height=\"500px\" width=\"300px\"/>");
     }
-}
+    else{
+            return text;
+        }
+    }
 
-var tagsToReplace = {
-    '&': '&amp;',
-    '<': '&lt;',
-    '>': '&gt;'
-};
+    function youtube_parser(url){
+        var regExp = /http.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?].\S\S*)/;
+        var match = url.match(regExp);
+        if (match&&match[7].length==11){
+            return match[7];
+        }
+    }
 
-function replaceTag(tag) {
-    return tagsToReplace[tag] || tag;
-}
+    var tagsToReplace = {
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;'
+    };
 
-function safe_tags_replace(str) {
-    return str.replace(/[&<>]/g, replaceTag);
-}
+    function replaceTag(tag) {
+        return tagsToReplace[tag] || tag;
+    }
 
-invoted_users();
+    function safe_tags_replace(str) {
+        return str.replace(/[&<>]/g, replaceTag);
+    }
+
+    invoted_users();
 });
 
