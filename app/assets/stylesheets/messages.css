@@ -278,8 +278,7 @@ pre {
 #dropdown-list{
     max-height: 200px;
     overflow: auto;
-    top: 33px;
-    position: static;
-    left: 50px;
+    position: absolute;
+    width: 100%;
     box-shadow: none;
 }
