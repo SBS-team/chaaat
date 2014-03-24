@@ -5,14 +5,8 @@ $(document).ready(function(){
     if (document.getElementsByClassName('panel-body')[0]!=undefined){
 
         document.getElementsByClassName('panel-body')[0].style.height=$(window).height()-1185+"px";
-
-<<<<<<< HEAD
         $(window).resize(function() {
             document.getElementsByClassName('panel-body')[0].style.height=$(window).height()-185+"px";
-=======
-        $( window ).resize(function() {
-            document.getElementsByClassName('panel-body')[0].style.height=$(window).height()-1185+"px";
->>>>>>> aabf5628c3e7036569829a3006587bd0b1a2d00a
         });
     }
 
