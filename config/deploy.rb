@@ -4,7 +4,7 @@ SSHKit.config.command_map[:rake]  = "bundle exec rake" #8
 
 lock '3.1.0'
 
-set :application, 'chat'
+set :application, 'ruby-chat'
 
 # Система управления версиями
 set :scm, :git
@@ -15,12 +15,12 @@ set :rvm_ruby_version, 'ruby-2.1.0-p0@chat'      # Defaults to: 'default'
 
 # Имя пользователя на сервере и папка с проектом
 set :user, 'deployer'
-set :deploy_to, "/home/deployer/staging/#{fetch(:application)}/#{fetch(:stage)}"
+set :deploy_to, "/home/deployer/#{fetch(:stage)}/ruby-chat"
 
 # Тип запуска Rails, метод доставки обновлений и локальные релизные версии
 set :deploy_via, :remote_cache
 
-set :linked_files, %w{config/database.yml .env}
+set :linked_files, %w{config/database.yml .env config/unicorn.rb}
 set :linked_dirs, %w{bin log tmp/pids tmp/cache tmp/sockets vendor/bundle public/system}
 
 set :unicorn_conf, "#{fetch(:deploy_to)}/current/config/unicorn.rb"
