@@ -1,7 +1,7 @@
 class RoomsUsersController < ApplicationController
 
   def create
-    if RoomsUser.where(:user_id => current_user.id).last
+    if RoomsUser.where(:user_id => current_user.id, :room_id=>params[:room_id]).first
       @room = Room.find(params[:room_id])
       if RoomsUser.create(:room_id=>params[:room_id], :user_id => params[:user_id]).valid?
         joined_user = User.find(params[:user_id])
@@ -12,7 +12,6 @@ class RoomsUsersController < ApplicationController
       else
         flash[:error] = "User already in room"
       end
-
       render json: {:joined_user => joined_user, :room_id => @room.id}
   end
   end
