@@ -1,6 +1,17 @@
 $(document).ready(function(){
-    $(document).on('click', '.bla', function(e) {
+    $(document).on('click', '.emoji', function(e) {
         $("#message").val($("#message").val() + $(e.target).attr("title"));
+    });
+    $(document).on('click', '.show_smile', function(){
+        $('iframe').each(function(){
+            var url = $(this).attr("src");
+            var char = "?";
+            if(url.indexOf("?") != -1){
+                var char = "&";
+            }
+
+            $(this).attr("src",url+char+"wmode=transparent");
+        });
     });
     if (document.getElementsByClassName('panel-body')[0]!=undefined){
 

@@ -31,12 +31,14 @@ set :default_env, { path: "/opt/ruby/bin:$PATH" }
 set :keep_releases, 3
 # RVM установлена не системно
 
+
 namespace :deploy do
   task :restart do
     on "deployer@192.168.137.75" do
       execute "if [ -f #{fetch(:unicorn_pid)} ] && [ -e /proc/$(cat #{fetch(:unicorn_pid)}) ]; then kill -USR2 `cat #{fetch(:unicorn_pid)}`; else cd #{fetch(:deploy_to)}/current && bundle exec unicorn -c #{fetch(:unicorn_conf)} -E #{fetch(:rails_env)} -D; fi"
     end
   end
+
   task :start do
     on roles [:web, :app] do
       within "#{fetch(:deploy_to)}/current" do
@@ -44,6 +46,7 @@ namespace :deploy do
       end
     end
   end
+
   task :stop do
     on "deployer@192.168.137.75" do
       execute "if [ -f #{fetch(:unicorn_pid)} ] && [ -e /proc/$(cat #{fetch(:unicorn_pid)}) ]; then kill -QUIT `cat #{fetch(:unicorn_pid)}`; fi"
@@ -51,3 +54,4 @@ namespace :deploy do
   end
 end
 after "deploy:restart", "deploy:cleanup"
+after "deploy:update_code", "db:insert_statuses"
