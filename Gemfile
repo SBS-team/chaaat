@@ -23,6 +23,8 @@ gem 'gon'
 gem "annotate"
 gem 'sanitize'
 gem "active_model_serializers"
+gem 'emoji'
+gem 'activerecord-reset-pk-sequence'
 group :development do
   gem 'better_errors'
   gem 'binding_of_caller', :platforms=>[:mri_19, :mri_20, :rbx]
@@ -30,17 +32,19 @@ group :development do
   gem 'html2haml'
   gem 'quiet_assets'
   gem 'rails_layout'
+
   gem 'capistrano'
   gem 'capistrano-bundler'
   gem 'capistrano-rvm'
   gem 'capistrano-rails'
-
 end
+
 group :development, :test do
   gem 'factory_girl_rails'
   gem 'rspec-rails'
   gem 'shoulda-matchers'
 end
+
 group :test do
   gem 'capybara'
   gem 'database_cleaner', '1.0.1'

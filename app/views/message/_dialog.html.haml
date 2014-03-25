@@ -9,7 +9,7 @@
               -if message.user_id==current_user.id
                 %li.from.clearfix
                   %span.chat-img.pull-left
-                    =image_tag avatar_url(message.user,50),:class => "avatar",:alt=>""
+                    =image_tag avatar_url(message.user,50),:class => "avatar"
                   .chat-body.clearfix
                     .header
                       %strong.primary-font
@@ -17,11 +17,11 @@
                       %small.pull-right.text-muted
                         %span.glyphicon.glyphicon-time
                         =message.created_at.strftime("%a %T")
-                    %p=message.body
+                    %p= message.body
               -else
                 %li.to.clearfix
                   %span.chat-img.pull-left
-                    =image_tag avatar_url(message.user,50),:class => "avatar",:alt=>""
+                    =image_tag avatar_url(message.user,50),:class => "avatar"
                   .chat-body.clearfix
                     .header
                       %strong.primary-font
@@ -30,7 +30,13 @@
                         %span.glyphicon.glyphicon-time
                         =message.created_at.strftime("%a %T")
                     %p=message.body
+    .btn-group.dropup
+      %button.btn.btn-default.dropdown-toggle{"data-toggle" => "dropdown", type: "button"}
+        %span.caret
+      %ul#dropdown-list.dropdown-menu{role: "menu"}
+        = render 'layouts/index'
     .panel-footer
+      #request-user
       %textarea.form-control#message
       %button.btn.btn-success#send_message
         Send message

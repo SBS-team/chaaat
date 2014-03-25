@@ -1,29 +1,35 @@
 # config valid only for Capistrano 3.1
-SSHKit.config.command_map[:rake] = "bundle exec rake"
+
+SSHKit.config.command_map[:rake]  = "bundle exec rake" #8
 
 lock '3.1.0'
-set :application, 'chat'
-set :use_sudo, false
 
+set :application, 'ruby-chat'
+
+# Система управления версиями
+set :scm, :git
 set :repo_url, 'git@github.com:SBS-team/chaaat.git'
+
+set :rvm_type, :user
+set :rvm_ruby_version, 'ruby-2.1.0-p0@chat'      # Defaults to: 'default'
+
+# Имя пользователя на сервере и папка с проектом
+set :user, 'deployer'
+set :deploy_to, "/home/deployer/#{fetch(:stage)}/ruby-chat"
+
+# Тип запуска Rails, метод доставки обновлений и локальные релизные версии
 set :deploy_via, :remote_cache
 
-set :stages,          %w(staging production)
-set :default_stage,    'production'
-
-set :rvm_type, :system
-set :rvm_ruby_version, "ruby-2.1.0@chat"
-
-set :deploy_to, "/home/deployer/staging/#{fetch(:application)}/#{fetch(:stage)}"
-set :scm, :git
-
-set :linked_files, %w{config/database.yml .env}
-set :linked_dirs, %w{log tmp/pids tmp/cache tmp/sockets vendor/bundle public/system}
+set :linked_files, %w{config/database.yml .env config/unicorn.rb}
+set :linked_dirs, %w{bin log tmp/pids tmp/cache tmp/sockets vendor/bundle public/system}
 
 set :unicorn_conf, "#{fetch(:deploy_to)}/current/config/unicorn.rb"
 set :unicorn_pid, "#{fetch(:deploy_to)}/shared/tmp/pids/unicorn.pid"
 
+set :default_env, { path: "/opt/ruby/bin:$PATH" }
+
 set :keep_releases, 3
+# RVM установлена не системно
 
 namespace :deploy do
   task :restart do

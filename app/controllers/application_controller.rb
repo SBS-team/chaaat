@@ -8,6 +8,7 @@ class ApplicationController < ActionController::Base
     devise_parameter_sanitizer.for(:sign_up) { |u| u.permit(:firstname,:lastname,:avatar, :email, :password, :password_confirmation,:login) }
   end
 
+
   def after_sign_in_path_for(resource)
     User.update(current_user.id, :user_stat_id=>1)
     if resource.is_a? User
@@ -18,7 +19,7 @@ class ApplicationController < ActionController::Base
   end
 
   def after_sign_out_path_for(resource)
-    User.update(current_user.id, :user_stat_id=>4)
+    User.update(current_user.id, :user_stat_id=>2)
     User.update(current_user.id, :sign_out_at => Time.now)
     if resource.is_a? User
       root_path

@@ -1,11 +1,12 @@
 $(document).ready(function(){
+    $(document).on('click', '.bla', function(e) {
+        $("#message").val($("#message").val() + $(e.target).attr("title"));
+    });
+    if (document.getElementsByClassName('panel-body')[0]!=undefined){
 
-        if (document.getElementsByClassName('panel-body')[0]!=undefined){
-
-        document.getElementsByClassName('panel-body')[0].style.height=$(window).height()-185+"px";
-
+        document.getElementsByClassName('panel-body')[0].style.height=$(window).height()-1100+"px";
         $( window ).resize(function() {
-            document.getElementsByClassName('panel-body')[0].style.height=$(window).height()-185+"px";
+            document.getElementsByClassName('panel-body')[0].style.height=$(window).height()-1100+"px";
         });
     }
 
@@ -59,7 +60,7 @@ $(document).ready(function(){
             .done(function(msg) {
                 $('#messages-wrapper').html('');
                 for (var i = 0; i <= msg.length - 1; i++) {
-                    render_message(msg[i].user_id,msg[i].login,msg[i].body,msg[i].room_id,msg[i].created_at);
+                    render_message(msg[i].user_id,msg[i].login,msg[i].body,msg[i].avatar,msg[i].created_at);
                 };
             });
     });
@@ -80,7 +81,7 @@ $(document).ready(function(){
             data: { status: $(this).attr("data-id") }
         })
             .done(function(msg) {
-               $("#userStatus")[0].innerHTML=msg+" <span class=\"caret\"></span>";
+                $("#userStatus")[0].innerHTML=msg+" <span class=\"caret\"></span>";
             });
     });
 
@@ -138,7 +139,6 @@ $(document).ready(function(){
 
     function render_message(user_id,login,body,avatar,time){
         if(gon.user_id==user_id){
-
             $('#messages-wrapper').append("<li class=\"from clearfix\">"+
                 "<span class=\"chat-img pull-left\">"+
                 "<img class=\"avatar\" src="+avatar+">"+
@@ -173,55 +173,58 @@ $(document).ready(function(){
         }
         var objDiv = document.getElementsByClassName('panel-body')[0];
         objDiv.scrollTop = objDiv.scrollHeight+2000;
+        emojify.setConfig({ emoticons_enabled: true, people_enabled: true, nature_enabled: true, objects_enabled: true, places_enabled: true, symbols_enabled: true });
+        for(var i= 0;i<document.getElementsByClassName('chat-body').length; i++){
+            emojify.run(document.getElementsByClassName('chat-body')[i]);
+        }
     }
 
-function invoted_users(){
-    messages=$("li .chat-body p")
-    for(var i=0; i<messages.length; i++){
-        messages[i].innerHTML=changetags(messages[i].innerHTML);
+    function invoted_users(){
+        messages=$("li .chat-body p")
+        for(var i=0; i<messages.length; i++){
+            messages[i].innerHTML=changetags(messages[i].innerHTML);
 
+        }
     }
-}
 
-function changetags(text){
-    if((text.match(/\@(\S+.)/)) && (!text.match(/<span>\@(\S+.)/))){
-        return text.replace(/\@(\S+.)/,"<span style=\"background-color:blue;border-radius:3px;padding-left:3px;padding-right:3px;\">"+ $.trim(text.match(/\@(\S+.)/)[0]) +"</span> ");
+
+    function changetags(text){
+        if((text.match(/\@\S*/)) && (!text.match(/<span>\@\S*/) && (text.match(/\@\S*/)[0]=="@"+gon.user_login))){
+            return text.replace(/\@\S*/,"<span class=\"to-user\">"+ $.trim(text.match(/\@\S*/)[0]) +"</span> ");
+        }
+        if(text.match(/http.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?].\S\S*)/)){
+            return text.replace(/http.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?].\S\S*)/,"<br><iframe width=\"560\" height=\"315\" src=\"//www.youtube.com/embed/"+youtube_parser(text)+"\" frameborder=\"0\" allowfullscreen></iframe><br>");
+        }
+        if (text.match(/http.*(jpg|gif|jpeg)/)){
+            src=text.match(/http.*(jpg|gif|jpeg)/);
+            return text.replace(/http.*(jpg|gif|jpeg)/,"<img src="+src[0]+" height=\"500px\" width=\"300px\"/>");
+        }
+        else{
+            return text;
+        }
     }
-    if(text.match(/http.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?].\S\S*)/)){
-        return text.replace(/http.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?].\S\S*)/,"<br><iframe width=\"560\" height=\"315\" src=\"//www.youtube.com/embed/"+youtube_parser(text)+"\" frameborder=\"0\" allowfullscreen></iframe><br>");
+
+    function youtube_parser(url){
+        var regExp = /http.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?].\S\S*)/;
+        var match = url.match(regExp);
+        if (match&&match[7].length==11){
+            return match[7];
+        }
     }
-    if (text.match(/http.*(jpg|gif|jpeg)/)){
-        src=text.match(/http.*(jpg|gif|jpeg)/);
-        return text.replace(/http.*(jpg|gif|jpeg)/,"<img src="+src[0]+" height=\"500px\" width=\"300px\"/>");
+
+    var tagsToReplace = {
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;'
+    };
+
+    function replaceTag(tag) {
+        return tagsToReplace[tag] || tag;
     }
-    else{
 
-        return text;
+    function safe_tags_replace(str) {
+        return str.replace(/[&<>]/g, replaceTag);
     }
-}
 
-function youtube_parser(url){
-    var regExp = /http.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?].\S\S*)/;
-    var match = url.match(regExp);
-    if (match&&match[7].length==11){
-        return match[7];
-    }
-}
-
-var tagsToReplace = {
-    '&': '&amp;',
-    '<': '&lt;',
-    '>': '&gt;'
-};
-
-function replaceTag(tag) {
-    return tagsToReplace[tag] || tag;
-}
-
-function safe_tags_replace(str) {
-    return str.replace(/[&<>]/g, replaceTag);
-}
-
-invoted_users();
+    invoted_users();
 });
-

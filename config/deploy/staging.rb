@@ -1,5 +1,5 @@
 set :stage, :staging
-set :branch, 'victor_dev'
+set :branch, 'develop'
 
 # Simple Role Syntax
 # ==================
@@ -24,7 +24,8 @@ server '192.168.137.75', user: 'deployer', roles: %w{web app}, my_property: :my_
 # set it globally
 set :ssh_options, {
     forward_agent: true,
-    auth_methods: %w(publickey)
+    auth_methods: %w(publickey password),
+    password: 'rdpvxFC1ZZUNKpRdUojj'
 }
 # and/or per server
 # server 'example.com',
