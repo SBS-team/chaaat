@@ -54,4 +54,4 @@ namespace :deploy do
   end
 end
 after "deploy:restart", "deploy:cleanup"
-after "deploy:update_code", "db:insert_statuses"
+after "deploy:update", "db:insert_statuses"
