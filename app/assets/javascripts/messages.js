@@ -150,6 +150,7 @@ $(document).ready(function(){
             allow_dismiss: true,
             stackup_spacing: 10 // spacing between consecutively stacked growls.
         });
+
         document.getElementById(data.drop_user_id.toString()).remove();
     });
 
