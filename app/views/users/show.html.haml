@@ -1,22 +1,32 @@
-- if user_signed_in?
-  %h2
-    My profile
-  %p
-    User name:
-    = "#{@user.firstname} #{@user.lastname}"
-  %h3
-    Friends
-  %ul
-    - for friendship in @user.friendships
-      %li
-        = "#{friendship.friend.firstname} #{friendship.friend.lastname}"
-        = link_to 'Remove', friendship, :method => :delete
-  -#- if @user.inverse_friends.count > 0
-  -#  %h3
-  -#    Friended by Users
-  -#  %ul
-  -#    - for user in @user.inverse_friends
-  -#      %li
-  -#        = user.firstname + ' ' + user.lastname
-  %p
-    = link_to 'Find new friends', users_path
+Profile
+%div
+  = image_tag avatar_url(@user,125), :class => "img-profle"
+  %div.some{:style => "position: relative; top:30px;"}
+    %strong
+      = "First name: "
+    = "#{@user.firstname}"
+  %div.some{:style => "position: relative; top:30px;"}
+    %strong
+      = "Last name: "
+    = "#{@user.lastname}"
+  %div.some{:style => "position: relative; top:30px;"}
+    %strong
+      = "Email: "
+    = "#{@user.email}"
+
+  %div.some{:style =>"position: relative; margin-top:85px;"}
+    %h3
+      Friends
+    %ul.friends_list
+      - for friendship in @user.friendships
+        %div.some{:style => "position: relative; margin-top:40px;"}
+          = image_tag avatar_url(friendship.friend,50),:class => "avatar", :style =>"float: left"
+          %div.some{:style => "position: relative; top:12px;"}
+            = link_to "#{friendship.friend.firstname} #{friendship.friend.lastname}",user_path(friendship.friend)
+            - if (@user.id == current_user.id)
+              = link_to 'Remove', friendship, :method => :delete
+            - elsif friendship.friend.id != current_user.id
+              - if !is_friend? friendship.friend.id
+                = link_to 'Add Friend', friendships_path(:friend_id => friendship.friend.id), :method => :post
+    %div.some{:style => "position: relative; margin-top:40px;"}
+      = link_to 'Find new friends', users_path

@@ -3,7 +3,6 @@ Chat::Application.routes.draw do
   get "message/index", to: "message#index"
   resources :friendships, :only => [:create, :destroy]
   resources :users,:path => :persons, :only => [:index, :show]
-  resources :friendships, :only => [:create, :destroy]
 
   get "message/:id", to: "message#show"
   post "message/new", to: "message#new", as: "new_message"
@@ -18,10 +17,14 @@ Chat::Application.routes.draw do
   get "users/status/", :to=>"users#change_status"
   post "users/invite_user", :to=>"users#invite_user", :as=>"invite_user"
 
+  post "rooms/previous_messages", :to=>"rooms#load_previous_10_msg", :as=>"previous_messages"
+
   devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }
+
   post 'pusher/auth'
   post 'pusher/typing_status'
   post 'pusher/pagination'
+
 
   devise_scope :user do
     root to: "devise/registrations#new"

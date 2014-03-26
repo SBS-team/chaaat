@@ -1,11 +1,27 @@
 $(document).ready(function(){
+    $(document).on('click', '.emoji', function(e) {
+        $("#message").val($("#message").val() + $(e.target).attr("title"));
+    });
+    $(document).on('click', '.show_smile', function(){
+        $('iframe').each(function(){
+            var url = $(this).attr("src");
+            var char = "?";
+            if(url.indexOf("?") != -1){
+                var char = "&";
+            }
+
+            $(this).attr("src",url+char+"wmode=transparent");
+        });
+    });
 
     if (document.getElementsByClassName('panel-body')[0]!=undefined){
 
-        document.getElementsByClassName('panel-body')[0].style.height=$(window).height()-200+"px";
+        document.getElementsByClassName('panel-body')[0].style.height=$(window).height()-1110+"px";
+
 
         $( window ).resize(function() {
-            document.getElementsByClassName('panel-body')[0].style.height=$(window).height()-200+"px";
+            document.getElementsByClassName('panel-body')[0].style.height=$(window).height()-1110+"px";
+
         });
     }
 
@@ -49,7 +65,6 @@ $(document).ready(function(){
         }
     });
 
-
     $("#search").keyup(function(){
         $.ajax({
             type: "POST",
@@ -61,26 +76,10 @@ $(document).ready(function(){
                 $('#messages-wrapper').html('');
                 for (var i = 0; i <= msg.length - 1; i++) {
                     render_message(msg[i].user_id,msg[i].login,msg[i].body,msg[i].avatar,msg[i].created_at,false);
+
                 };
+
             });
-    });
-
-    var pag_count_click=5;
-    $(".pag").click(function(){
-        pag_count_click=pag_count_click+5;
-        $.ajax({
-            type: "POST",
-            url: "../pusher/pagination/",
-            data: { pag_count:pag_count_click,room_id: gon.room_id }
-
-        })
-            .done(function(msg) {
-                $('#messages-wrapper').html('');
-                for (var i = 0; i <= msg.length - 1; i++) {
-                    render_message(msg[i].user_id,msg[i].login,msg[i].body,msg[i].avatar,msg[i].created_at,false);
-                };
-            });
-
     });
 
     $('#request-user').on('click', '.replace', function(event){
@@ -98,7 +97,7 @@ $(document).ready(function(){
             data: { status: $(this).attr("data-id") }
         })
             .done(function(msg) {
-               $("#userStatus")[0].innerHTML=msg+" <span class=\"caret\"></span>";
+                $("#userStatus")[0].innerHTML=msg+" <span class=\"caret\"></span>";
             });
     });
 
@@ -188,95 +187,130 @@ $(document).ready(function(){
         }
     }
 
-    function render_message(user_id,login,body,avatar,time,scroll_true){
+    function create_message(user_id, login, body, avatar, time,msg_class){
+        return "<li class=\""+ msg_class +" clearfix\">"
+            + "<span class=\"chat-img pull-left\">"
+            + "<img class=\"avatar\" src="+avatar+">"
+            + "</span>"
+            + "<div class=\"chat-body clearfix\">"
+            + " <div class=\"header\">"
+            + " <strong class=\"primary-font\"><a href=\"/persons/"+ user_id +"\">"
+            + login
+            + "</a></strong>"
+            + "<small class=\"pull-right text-muted\">"
+            + "<span class=\"glyphicon glyphicon-time\"></span>"+time
+            + "</small>"
+            + "</div>"
+            + "<p>"+ $.trim(changetags(safe_tags_replace(body))) +"</p>"
+            + "</div>"
+        + "</li>"
+    }
+
+
+    function render_message(user_id, login, body, avatar, time,scroll_true){
         if(gon.user_id==user_id){
-
-            $('#messages-wrapper').append("<li class=\"from clearfix\">"+
-                "<span class=\"chat-img pull-left\">"+
-                "<img class=\"avatar\" src="+avatar+">"+
-                "</span>"+
-                "<div class=\"chat-body clearfix\">"+
-                "<div class=\"header\">"+
-                "<strong class=\"primary-font\">"+login+"</strong>"+
-                "<small class=\"pull-right text-muted\">"+
-                "<span class=\"glyphicon glyphicon-time\"></span>"+time+
-                "</small>"+
-                "</div>"+
-                "<p>"+ $.trim(changetags(safe_tags_replace(body))) +"</p>"+
-                "</div>"+
-                "</li>");
-
+            $('#messages-wrapper').append(create_message(user_id, login, body, avatar, time,"from"));
         }else{
             document.getElementById('new-message').play();
-            $('#messages-wrapper').append("<li class=\"to clearfix\">"+
-                "<span class=\"chat-img pull-left\">"+
-                "<img class=\"avatar\" src="+avatar+">"+
-                "</span>"+
-                "<div class=\"chat-body clearfix\">"+
-                "<div class=\"header\">"+
-                "<strong class=\"primary-font\">"+login+"</strong>"+
-                "<small class=\"pull-right text-muted\">"+
-                "<span class=\"glyphicon glyphicon-time\"></span>"+time+
-                "</small>"+
-                "</div>"+
-                "<p>"+ $.trim(changetags(safe_tags_replace(body))) +"</p>"+
-                "</div>"+
-                "</li>");
+            $('#messages-wrapper').append(create_message(user_id, login, body, avatar, time,"to"));
         }
         if (scroll_true==true)
         {
         var objDiv = document.getElementsByClassName('panel-body')[0];
         objDiv.scrollTop = objDiv.scrollHeight+2000;
         }
+        emojify.setConfig({ emoticons_enabled: true, people_enabled: true, nature_enabled: true, objects_enabled: true, places_enabled: true, symbols_enabled: true });
+        for(var i= 0;i<document.getElementsByClassName('chat-body').length; i++){
+            emojify.run(document.getElementsByClassName('chat-body')[i]);
+        }
     }
 
-function invoted_users(){
-    messages=$("li .chat-body p")
-    for(var i=0; i<messages.length; i++){
-        messages[i].innerHTML=changetags(messages[i].innerHTML);
 
+
+    function prepend_message(user_id,login,body,avatar,time){
+        if(gon.user_id == user_id){
+            $('#messages-wrapper:first-child').prepend(create_message(user_id, login, body, avatar, time,"from"));
+        }
+        else{
+            $('#messages-wrapper:first-child').prepend(create_message(user_id, login, body, avatar, time,"to"));
+        }
     }
-}
 
-function changetags(text){
-    if((text.match(/\@(\S+.)/)) && (!text.match(/<span>\@(\S+.)/))){
-        return text.replace(/\@(\S+.)/,"<span style=\"background-color:blue;border-radius:3px;padding-left:3px;padding-right:3px;\">"+ $.trim(text.match(/\@(\S+.)/)[0]) +"</span> ");
+    function invoted_users(){
+        messages=$("li .chat-body p")
+        for(var i=0; i<messages.length; i++){
+            messages[i].innerHTML=changetags(messages[i].innerHTML);
+
+        }
     }
-    if(text.match(/http.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?].\S\S*)/)){
-        return text.replace(/http.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?].\S\S*)/,"<br><iframe width=\"560\" height=\"315\" src=\"//www.youtube.com/embed/"+youtube_parser(text)+"\" frameborder=\"0\" allowfullscreen></iframe><br>");
+
+
+    function changetags(text){
+        if((text.match(/\@\S*/)) && (!text.match(/<span>\@\S*/) && (text.match(/\@\S*/)[0]=="@"+gon.user_login))){
+            return text.replace(/\@\S*/,"<span class=\"to-user\">"+ $.trim(text.match(/\@\S*/)[0]) +"</span> ");
+        }
+        if(text.match(/http.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?].\S\S*)/)){
+            return text.replace(/http.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?].\S\S*)/,"<br><iframe width=\"560\" height=\"315\" src=\"//www.youtube.com/embed/"+youtube_parser(text)+"\" frameborder=\"0\" allowfullscreen></iframe><br>");
+        }
+        if (text.match(/http.*(jpg|gif|jpeg)/)){
+            src=text.match(/http.*(jpg|gif|jpeg)/);
+            return text.replace(/http.*(jpg|gif|jpeg)/,"<img src="+src[0]+" height=\"500px\" width=\"300px\"/>");
+        }
+        else{
+            return text;
+        }
     }
-    if (text.match(/http.*(jpg|gif|jpeg)/)){
-        src=text.match(/http.*(jpg|gif|jpeg)/);
-        return text.replace(/http.*(jpg|gif|jpeg)/,"<img src="+src[0]+" height=\"500px\" width=\"300px\"/>");
+
+    function youtube_parser(url){
+        var regExp = /http.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?].\S\S*)/;
+        var match = url.match(regExp);
+        if (match&&match[7].length==11){
+            return match[7];
+        }
     }
-    else{
 
-        return text;
+    var tagsToReplace = {
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;'
+    };
+
+    function replaceTag(tag) {
+        return tagsToReplace[tag] || tag;
     }
-}
 
-function youtube_parser(url){
-    var regExp = /http.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?].\S\S*)/;
-    var match = url.match(regExp);
-    if (match&&match[7].length==11){
-        return match[7];
+    function safe_tags_replace(str) {
+        return str.replace(/[&<>]/g, replaceTag);
     }
-}
 
-var tagsToReplace = {
-    '&': '&amp;',
-    '<': '&lt;',
-    '>': '&gt;'
-};
+    invoted_users();
 
-function replaceTag(tag) {
-    return tagsToReplace[tag] || tag;
-}
+    var message_offset = 10;
 
-function safe_tags_replace(str) {
-    return str.replace(/[&<>]/g, replaceTag);
-}
+    $(".pag").click(function(){
+        $.ajax({
+            url: '/rooms/previous_messages',
+            type: 'POST',
+            data:{
+                room_id: $("li.active > a").attr('room_id'),
+                offset_records: message_offset
+            },
+            success: function(response){
+                if(response.rooms.length > 0){
 
-invoted_users();
+                    $('#messages-wrapper').prepend("<div class=\"glyphicon glyphicon-resize-vertical\" style=\"margin:0 50% 0 50%;opacity:0.5;font-size:20px\"\"></div>");
+                    for (var i = 0; i <= response.rooms.length - 1; i++) {
+                        prepend_message(response.rooms[i].user_id,response.rooms[i].login,response.rooms[i].body,response.rooms[i].avatar,response.rooms[i].created_at);
+                    }
+                    emojify.setConfig({ emoticons_enabled: true, people_enabled: true, nature_enabled: true, objects_enabled: true, places_enabled: true, symbols_enabled: true });
+                    for(var i= 0;i<document.getElementsByClassName('chat-body').length; i++){
+                        emojify.run(document.getElementsByClassName('chat-body')[i]);
+                    }
+                    message_offset += 10;
+                }
+
+            }
+        });
+    });
 });
 

@@ -6,6 +6,9 @@
           Create room
     - if !@room_list.nil?
       - @room_list.each do |room|
-        %li
-          =link_to "#{room.name}",room_path(:id=>room.id)
-
+        - if room.id==@room_id.to_i
+          %li.active
+            =link_to "#{room.name}",room_path(:id=>room.id),:room_id => room.id
+        -else
+          %li
+            =link_to "#{room.name}",room_path(:id=>room.id), :room_id => room.id
