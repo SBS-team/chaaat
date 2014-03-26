@@ -1,12 +1,23 @@
 $(document).ready(function(){
-    $(document).on('click', '.bla', function(e) {
+    $(document).on('click', '.emoji', function(e) {
         $("#message").val($("#message").val() + $(e.target).attr("title"));
+    });
+    $(document).on('click', '.show_smile', function(){
+        $('iframe').each(function(){
+            var url = $(this).attr("src");
+            var char = "?";
+            if(url.indexOf("?") != -1){
+                var char = "&";
+            }
+
+            $(this).attr("src",url+char+"wmode=transparent");
+        });
     });
     if (document.getElementsByClassName('panel-body')[0]!=undefined){
 
-        document.getElementsByClassName('panel-body')[0].style.height=$(window).height()-1185+"px";
-        $(window).resize(function() {
-            document.getElementsByClassName('panel-body')[0].style.height=$(window).height()-185+"px";
+        document.getElementsByClassName('panel-body')[0].style.height=$(window).height()-1100+"px";
+        $( window ).resize(function() {
+            document.getElementsByClassName('panel-body')[0].style.height=$(window).height()-1100+"px";
         });
     }
 
@@ -232,6 +243,7 @@ $(document).ready(function(){
     invoted_users();
 
     var message_offset = 10;
+
     $("#load_messages").click(function(){
         $.ajax({
             url: '/rooms/previous_messages',
