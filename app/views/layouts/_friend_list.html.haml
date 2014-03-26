@@ -2,7 +2,7 @@
   %ul.nav.navbar-nav.side-nav
     - if !@room.nil?
       %li.active
-        = link_to "Room: #{@room.name}", root_path
+        = link_to "Room: #{@room.name}", root_path, :room_id => @room.id
       - current_user.friends.each do |friend|
         %li.user_friend{:data_user_id => friend.id, :data_room_id => @room.id}
           %a.glyphicon.glyphicon-plus.pull-right{:href=>"#"}

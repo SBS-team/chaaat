@@ -24,12 +24,17 @@ class RoomsController < ApplicationController
       gon.room_id=0
     end
     if RoomsUser.where(:user_id => current_user.id,:room_id => params[:id]).first
-      @messages=Message.where(:room_id=>params[:id]).preload(:user)
+      @messages = Message.where(:room_id=>params[:id]).preload(:user).order(created_at: :desc).limit(10).reverse()
     end
     @room = Room.find(params[:id])
     @user_friends = current_user.friends
     room_user_ids = RoomsUser.where(:room_id => @room.id).map{|item| item.user_id}
     @room_users = User.where("id IN (?)", room_user_ids)
+  end
+
+  def load_previous_10_msg
+    previous_messages = Message.limit(10).offset(params[:offset_records].to_i).where("room_id = ?", params[:room_id]).order(created_at: :desc).preload(:user);
+    render :json => previous_messages
   end
 
   private

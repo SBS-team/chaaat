@@ -62,6 +62,7 @@ $(document).ready(function(){
                 for (var i = 0; i <= msg.length - 1; i++) {
                     render_message(msg[i].user_id,msg[i].login,msg[i].body,msg[i].avatar,msg[i].created_at);
                 };
+
             });
     });
 
@@ -137,45 +138,47 @@ $(document).ready(function(){
         }
     }
 
-    function render_message(user_id,login,body,avatar,time){
-        if(gon.user_id==user_id){
-            $('#messages-wrapper').append("<li class=\"from clearfix\">"+
-                "<span class=\"chat-img pull-left\">"+
-                "<img class=\"avatar\" src="+avatar+">"+
-                "</span>"+
-                "<div class=\"chat-body clearfix\">"+
-                "<div class=\"header\">"+
-                "<strong class=\"primary-font\">"+login+"</strong>"+
-                "<small class=\"pull-right text-muted\">"+
-                "<span class=\"glyphicon glyphicon-time\"></span>"+time+
-                "</small>"+
-                "</div>"+
-                "<p>"+ $.trim(changetags(safe_tags_replace(body))) +"</p>"+
-                "</div>"+
-                "</li>");
+    function create_message(user_id, login, body, avatar, time,msg_class){
+        return "<li class=\""+ msg_class +" clearfix\">"
+            + "<span class=\"chat-img pull-left\">"
+            + "<img class=\"avatar\" src="+avatar+">"
+            + "</span>"
+            + "<div class=\"chat-body clearfix\">"
+            + " <div class=\"header\">"
+            + " <strong class=\"primary-font\"><a href=\"/persons/"+ user_id +"\">"
+            + login
+            + "</a></strong>"
+            + "<small class=\"pull-right text-muted\">"
+            + "<span class=\"glyphicon glyphicon-time\"></span>"+time
+            + "</small>"
+            + "</div>"
+            + "<p>"+ $.trim(changetags(safe_tags_replace(body))) +"</p>"
+            + "</div>"
+        + "</li>"
+    }
 
+    function render_message(user_id, login, body, avatar, time){
+        if(gon.user_id==user_id){
+            $('#messages-wrapper').append(create_message(user_id, login, body, avatar, time,"from"));
         }else{
             document.getElementById('new-message').play();
-            $('#messages-wrapper').append("<li class=\"to clearfix\">"+
-                "<span class=\"chat-img pull-left\">"+
-                "<img class=\"avatar\" src="+avatar+">"+
-                "</span>"+
-                "<div class=\"chat-body clearfix\">"+
-                "<div class=\"header\">"+
-                "<strong class=\"primary-font\">"+login+"</strong>"+
-                "<small class=\"pull-right text-muted\">"+
-                "<span class=\"glyphicon glyphicon-time\"></span>"+time+
-                "</small>"+
-                "</div>"+
-                "<p>"+ $.trim(changetags(safe_tags_replace(body))) +"</p>"+
-                "</div>"+
-                "</li>");
+            $('#messages-wrapper').append(create_message(user_id, login, body, avatar, time,"to"));
         }
         var objDiv = document.getElementsByClassName('panel-body')[0];
         objDiv.scrollTop = objDiv.scrollHeight+2000;
         emojify.setConfig({ emoticons_enabled: true, people_enabled: true, nature_enabled: true, objects_enabled: true, places_enabled: true, symbols_enabled: true });
         for(var i= 0;i<document.getElementsByClassName('chat-body').length; i++){
             emojify.run(document.getElementsByClassName('chat-body')[i]);
+        }
+    }
+
+
+    function prepend_message(user_id,login,body,avatar,time){
+        if(gon.user_id == user_id){
+            $('#messages-wrapper:first-child').prepend(create_message(user_id, login, body, avatar, time,"from"));
+        }
+        else{
+            $('#messages-wrapper:first-child').prepend(create_message(user_id, login, body, avatar, time,"to"));
         }
     }
 
@@ -227,4 +230,28 @@ $(document).ready(function(){
     }
 
     invoted_users();
+
+    var message_offset = 10;
+    $("#load_messages").click(function(){
+        $.ajax({
+            url: '/rooms/previous_messages',
+            type: 'POST',
+            data:{
+                room_id: $("li.active > a").attr('room_id'),
+                offset_records: message_offset
+            },
+            success: function(response){
+                if(response.rooms.length > 0){
+                    for (var i = 0; i <= response.rooms.length - 1; i++) {
+                        prepend_message(response.rooms[i].user_id,response.rooms[i].login,
+                            response.rooms[i].body,response.rooms[i].avatar,response.rooms[i].created_at);
+                    };
+                    message_offset += 10;
+                }
+
+            }
+        });
+    });
+
+
 });

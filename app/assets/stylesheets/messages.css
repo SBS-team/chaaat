@@ -283,3 +283,20 @@ pre {
     left: 50px;
     box-shadow: none;
 }
+
+
+#load_messages {
+    height: 15px;
+    text-align: center;
+    border-radius: 5px;
+    -o-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    background: rgba(69, 69, 69, 0.15);
+}
+
+#load_messages:hover {
+    border: 1px solid #00BFFF;
+    background: rgba(69, 69, 69, 0.3);
+    cursor: pointer;
+}

@@ -16,14 +16,14 @@ class MessageController < ApplicationController
     end
   end
 
-  def show
-    gon.user_id=current_user.id
-    @messages=Message.all.preload(:user).order(created_at: :asc)
-  end
+  #def show
+  #  gon.user_id = current_user.id
+  #  @messages = Message.last(10).preload(:user).order(created_at: :asc)
+  #end
 
   def search
-    messages=Message.where("body like ? ", "%#{params[:query]}%").where("room_id = ? ",params[:room_id]).preload(:user)
-    render :json=>messages, :root=>false
+    messages = Message.where("body like ? ", "%#{params[:query]}%").where("room_id = ? ",params[:room_id]).preload(:user)
+    render :json => messages, :root => false
   end
 
 end

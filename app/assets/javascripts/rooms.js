@@ -7,7 +7,6 @@ jQuery(function($){
             data: {
                 room_id: $(this).attr('data_room_id'),
                 user_id: $(this).attr('data_user_id')
-
             }
 
         });
