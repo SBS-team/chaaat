@@ -1,5 +1,9 @@
+%nav.navbar-inverse.navbar-fixed-top{:role=>"navigation"}
+  .collapse.navbar-collapse.navbar-ex1-collapse
+    %input.form-control#search{:placeholder=>"Search..."}
 .col-md-8
-  %input.form-control#search{:placeholder=>"Search..."}
+  .pag
+    .glyphicon.glyphicon-chevron-up
   .panel.panel-primary
     .panel-body
       %ul.chat
@@ -29,6 +33,8 @@
                         =message.created_at.strftime("%a %T")
                     %p=message.body
     .panel-footer
+      .typing
+        %br
       %textarea.form-control#message
       %button.btn.btn-success#send_message
         Send message

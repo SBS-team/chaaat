@@ -1,7 +1,7 @@
 class RoomsUsersController < ApplicationController
 
   def create
-    if RoomsUser.where(:user_id => current_user.id).last
+    if RoomsUser.where(:user_id => current_user.id, :room_id=>params[:room_id]).first
       @room = Room.find(params[:room_id])
       if RoomsUser.create(:room_id=>params[:room_id], :user_id => params[:user_id]).valid?
         joined_user = User.find(params[:user_id])
@@ -14,7 +14,7 @@ class RoomsUsersController < ApplicationController
       end
 
       render json: {:joined_user => joined_user, :room_id => @room.id}
-  end
+    end
   end
 
   def destroy
@@ -22,6 +22,7 @@ class RoomsUsersController < ApplicationController
     room_users_count = RoomsUser.where("room_id = ?", params[:room_id]).count
     if(current_user.id == params[:user_id].to_i)
       room_user.destroy
+      Pusher["private-#{params[:room_id]}"].trigger('del_user_from_room', {:user_login=>current_user.login,:drop_user_id => params[:user_id], :cur_user_id => current_user.id})
       if (room_users_count -= 1).zero?
         room = Room.find(params[:room_id])
         room.destroy

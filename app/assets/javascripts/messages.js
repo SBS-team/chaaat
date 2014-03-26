@@ -1,11 +1,11 @@
 $(document).ready(function(){
 
-        if (document.getElementsByClassName('panel-body')[0]!=undefined){
+    if (document.getElementsByClassName('panel-body')[0]!=undefined){
 
-        document.getElementsByClassName('panel-body')[0].style.height=$(window).height()-185+"px";
+        document.getElementsByClassName('panel-body')[0].style.height=$(window).height()-200+"px";
 
         $( window ).resize(function() {
-            document.getElementsByClassName('panel-body')[0].style.height=$(window).height()-185+"px";
+            document.getElementsByClassName('panel-body')[0].style.height=$(window).height()-200+"px";
         });
     }
 
@@ -60,11 +60,28 @@ $(document).ready(function(){
             .done(function(msg) {
                 $('#messages-wrapper').html('');
                 for (var i = 0; i <= msg.length - 1; i++) {
-                    render_message(msg[i].user_id,msg[i].login,msg[i].body,msg[i].room_id,msg[i].created_at);
+                    render_message(msg[i].user_id,msg[i].login,msg[i].body,msg[i].avatar,msg[i].created_at,false);
                 };
             });
     });
 
+    var pag_count_click=5;
+    $(".pag").click(function(){
+        pag_count_click=pag_count_click+5;
+        $.ajax({
+            type: "POST",
+            url: "../pusher/pagination/",
+            data: { pag_count:pag_count_click,room_id: gon.room_id }
+
+        })
+            .done(function(msg) {
+                $('#messages-wrapper').html('');
+                for (var i = 0; i <= msg.length - 1; i++) {
+                    render_message(msg[i].user_id,msg[i].login,msg[i].body,msg[i].avatar,msg[i].created_at,false);
+                };
+            });
+
+    });
 
     $('#request-user').on('click', '.replace', function(event){
         login=$('#message').val();
@@ -93,7 +110,7 @@ $(document).ready(function(){
 
     channel.bind('new_message', function(data) {
 
-        render_message(data.user_id,data.login,data.message,data.avatar,data.create_at);
+        render_message(data.user_id,data.login,data.message,data.avatar,data.create_at,true);
     });
 
     var channel2 = pusher.subscribe('private-'+gon.user_id.toString());
@@ -112,7 +129,7 @@ $(document).ready(function(){
     });
 
     channel.bind('add_user_to_room', function(data) {
-        $.bootstrapGrowl("User "+data.user_login+" have been added to room: "+data.rooms_name, {
+        $.bootstrapGrowl("User "+data.user_login+" has been added to room: "+data.rooms_name, {
             type: 'success', // (null, 'info', 'error', 'success')
             offset: {from: 'top', amount: 50}, // 'top', or 'bottom'
             align: 'center', // ('left', 'right', or 'center')
@@ -121,7 +138,41 @@ $(document).ready(function(){
             allow_dismiss: true,
             stackup_spacing: 10 // spacing between consecutively stacked growls.
         });
-        $("ul.nav.side-nav-rigth").append("<li><a href=#>"+data.user_login+"</a></li>");
+        $("ul.nav.side-nav-rigth").append("<li class=\"joined_friend\" id="+data.user_id+" data_user_id="+data.user_id+" data_room_id="+data.room_id+"><a href=#>"+data.user_login+"</a></li>");
+    });
+
+    channel.bind('del_user_from_room', function(data) {
+        $.bootstrapGrowl("User "+data.user_login+" has been deleted ", {
+            type: 'success', // (null, 'info', 'error', 'success')
+            offset: {from: 'top', amount: 50}, // 'top', or 'bottom'
+            align: 'center', // ('left', 'right', or 'center')
+            width: 250, // (integer, or 'auto')
+            delay: 1700,
+            allow_dismiss: true,
+            stackup_spacing: 10 // spacing between consecutively stacked growls.
+        });
+        document.getElementById(data.drop_user_id.toString()).remove();
+    });
+
+    function typing_status()
+    {
+      $.post('/pusher/typing_status', {room_id:gon.room_id,login:gon.user_login});
+    }
+
+    var timeout;
+    channel.bind('typing_status', function(data) {
+
+            $('.typing').html(data.login+' typing...');
+        timeout = setTimeout(function () {
+            $('.typing').html('<br>');
+        }, 1300);
+
+     });
+
+    $('#message').bind('textchange', function () {
+
+        clearTimeout(timeout);
+        typing_status("typing");
     });
 
     function send_message(){
@@ -137,7 +188,7 @@ $(document).ready(function(){
         }
     }
 
-    function render_message(user_id,login,body,avatar,time){
+    function render_message(user_id,login,body,avatar,time,scroll_true){
         if(gon.user_id==user_id){
 
             $('#messages-wrapper').append("<li class=\"from clearfix\">"+
@@ -172,8 +223,11 @@ $(document).ready(function(){
                 "</div>"+
                 "</li>");
         }
+        if (scroll_true==true)
+        {
         var objDiv = document.getElementsByClassName('panel-body')[0];
         objDiv.scrollTop = objDiv.scrollHeight+2000;
+        }
     }
 
 function invoted_users(){
