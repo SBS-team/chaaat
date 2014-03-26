@@ -16,6 +16,7 @@ class RoomsController < ApplicationController
   end
 
   def show
+    @message=Message.new
     @room_id=params[:id]
     gon.user_login=current_user.login
     gon.user_id=current_user.id

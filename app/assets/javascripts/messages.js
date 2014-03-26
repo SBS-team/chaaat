@@ -27,8 +27,9 @@ $(document).ready(function(){
 
     var message_textarea=$("#message");
 
-    $("#send_message").click(function(){
+    $(".panel-footer").on('submit',function(){
         send_message();
+        return false;
     });
 
     message_textarea.keydown(function(e)
@@ -169,21 +170,30 @@ $(document).ready(function(){
      });
 
     $('#message').bind('textchange', function () {
-
         clearTimeout(timeout);
         typing_status("typing");
     });
 
     function send_message(){
         if ($.trim(message_textarea.val()).length>0){
-            $.ajax({
-                type: "POST",
-                url: "../message/new",
-                data: { message: $.trim(message_textarea.val()),room_id: gon.room_id }
+            var fd = new FormData();
+            fd.append('message[body]', $.trim(message_textarea.val()));
+            fd.append('message[room_id]', gon.room_id);
+            fd.append('message[attach_path]', $('input[type="file"]')[0].files[0]);
 
-            }).done(function(msg) {
-                    message_textarea.val('');
-                });
+            $.ajax({
+              type: 'POST',
+              url: '../message/new',
+              data: fd,
+              processData: false,
+              contentType: false,
+              success: function(data){
+                $("#new_message")[0].reset();
+              },
+              error: function(data) {
+                console.log(data);
+              }
+            });
         }
     }
 

@@ -4,9 +4,9 @@ class MessageController < ApplicationController
   include ApplicationHelper
 
   def new
-    if Room.where("id in (?)",RoomsUser.where(:user_id=>current_user.id).pluck(:room_id)).pluck(:id).include?(params[:room_id].to_i)
-      message=Message.create(:user_id=>current_user.id,:body=>params[:message].gsub(/[\n]/,"\r"),:room_id=>params[:room_id])
-      Pusher['private-'+"#{params[:room_id]}"].trigger('new_message', {:room_id=>params[:room_id],:user_id=>current_user.id,:login=>current_user.login,:avatar=>avatar_url(current_user,50),:message=>message.body,:create_at=>message.created_at.strftime("%a %T")})
+    if Room.where("id in (?)",RoomsUser.where(:user_id=>current_user.id).pluck(:room_id)).pluck(:id).include?(params[:message][:room_id].to_i)
+      message=Message.create(message_params.merge(:user_id=>current_user.id,:body=>params[:message][:body].gsub(/[\n]/,"\r")))
+      Pusher["private-#{params[:room_id]}"].trigger('new_message', {:room_id=>message.room_id,:user_id=>current_user.id,:login=>current_user.login,:avatar=>avatar_url(current_user,50),:message=>message.body,:create_at=>message.created_at.strftime("%a %T")})
     end
   end
 
@@ -19,5 +19,10 @@ class MessageController < ApplicationController
     end
     render :json=>result, :root=>false
   end
+
+private
+def message_params
+  params.require(:message).permit(:body, :attach_path, :room_id)
+end
 
 end
