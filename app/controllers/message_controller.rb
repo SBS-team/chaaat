@@ -6,7 +6,7 @@ class MessageController < ApplicationController
   def new
     if Room.where("id in (?)",RoomsUser.where(:user_id=>current_user.id).pluck(:room_id)).pluck(:id).include?(params[:message][:room_id].to_i)
       message=Message.create(message_params.merge(:user_id=>current_user.id,:body=>params[:message][:body].gsub(/[\n]/,"\r")))
-      Pusher["private-#{params[:room_id]}"].trigger('new_message', {:room_id=>message.room_id,:user_id=>current_user.id,:login=>current_user.login,:avatar=>avatar_url(current_user,50),:message=>message.body,:create_at=>message.created_at.strftime("%a %T")})
+      Pusher["private-#{message.room_id}"].trigger('new_message', {:room_id=>message.room_id,:user_id=>current_user.id,:login=>current_user.login,:avatar=>avatar_url(current_user,50),:message=>message.body,:create_at=>message.created_at.strftime("%a %T")})
     end
   end
 
