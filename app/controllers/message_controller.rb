@@ -22,7 +22,11 @@ class MessageController < ApplicationController
   #end
 
   def search
-    messages = Message.where("body like ? ", "%#{params[:query]}%").where("room_id = ? ",params[:room_id]).preload(:user)
+    if(!params[:query].blank?)
+      messages = Message.where("body like ? ", "%#{params[:query]}%").where("room_id = ? ",params[:room_id]).preload(:user)
+    else
+      messages = Message.preload(:user).last(10)
+    end
     render :json => messages, :root => false
   end
 

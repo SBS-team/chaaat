@@ -29,7 +29,7 @@ $(document).ready(function(){
 
     message_textarea.keydown(function(e)
     {
-        if (e.keyCode == 13 && e.ctrlKey==false) {
+        if (e.keyCode == 13 && e.ctrlKey == false) {
             send_message();
             $('html, body').animate({scrollTop: $("body").height()}, 800);
         }
@@ -69,6 +69,7 @@ $(document).ready(function(){
 
         })
             .done(function(msg) {
+                console.log("THIS IS THE RESPONSE: " + msg);
                 $('#messages-wrapper').html('');
                 for (var i = 0; i <= msg.length - 1; i++) {
                     render_message(msg[i].user_id,msg[i].login,msg[i].body,msg[i].avatar,msg[i].created_at);
@@ -257,7 +258,7 @@ $(document).ready(function(){
                     for (var i = 0; i <= response.rooms.length - 1; i++) {
                         prepend_message(response.rooms[i].user_id,response.rooms[i].login,
                             response.rooms[i].body,response.rooms[i].avatar,response.rooms[i].created_at);
-                    };
+                    }
                     message_offset += 10;
                 }
 
