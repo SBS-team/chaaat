@@ -41,11 +41,37 @@ jQuery(function($){
                 post: false
             });
         }
-            $('ul').on('click', '.joined_friend', function(e) {
+            $('ul').on('dblclick', '.joined_friend', function(e) {
             if ($(this).attr('data_user_id')!=gon.user_id.toString()){
-                self.location="/persons/"+$(this).attr('data_user_id');
+
+                    e.preventDefault();
+
+                    var strInputCode = $(this).html();
+                    strInputCode = strInputCode.replace(/&(lt|gt);/g, function (strMatch, p1){
+                        return (p1 == "lt")? "<" : ">";
+                    });
+                    var strTagStrippedText = strInputCode.replace(/<\/?[^>]+(>|$)/g, "");
+
+                    var posting = $.post('/rooms/', {
+                        express:true,
+                        room: {
+                            name:  gon.user_login+" vs. "+strTagStrippedText,
+                            topic: 'express chat'
+                        },
+                        user_id:$(this).attr('data_user_id')
+                    });
+                    posting.done(function(response){
+                        $.post('rooms_users/pusher_send_to_user')
+                        self.location=response;
+                    });
             }
-        });
+            });
+            $('ul').on('click', '.joined_friend', function(e) {
+                if ($(this).attr('data_user_id')!=gon.user_id.toString()){
+                    self.location="/persons/"+$(this).attr('data_user_id');
+                }
+            });
+
 });
 
 

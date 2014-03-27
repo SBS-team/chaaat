@@ -10,7 +10,6 @@ body {
   /*margin-bottom: 10%;*/
   background-attachment: fixed;
 }
-
 .to-user {
   background-color: #00BFFF;
   border-radius: 3px;
@@ -295,19 +294,19 @@ pre {
 }
 
 .offline {
-  color: red;
+  color: grey;
   font-size: 12px;
   margin-right: 5px;
 }
 
 .do_not_disturb {
-  color: orange;
+  color: red;
   font-size: 12px;
   margin-right: 5px;
 }
 
 .away {
-  color: violet;
+  color: orange;
   font-size: 12px;
   margin-right: 5px;
 }

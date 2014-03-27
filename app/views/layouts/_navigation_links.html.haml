@@ -1,4 +1,16 @@
 -if user_signed_in?
+  - status_icon_styles = ["online", "offline", "away", "do_not_disturb"]
+  %li.dropdown.user-dropdown#userSatus
+    %a.dropdown-toggle#userStatus{:href=>"#",:type=>"button", :data=>{:toggle=>"dropdown"}}
+      %i{:class => "glyphicon glyphicon-off #{get_user_status_icon(current_user.user_stat_id)}"}
+      Status
+      %b.caret
+    %ul.dropdown-menu{:role=>"menu", :aria=>{:labelledby=>"dropdownMenu1"}}
+      - @statuses.each_with_index do |status, index|
+        %li{:role => "presentation"}
+          %a.change-status{:role=>"menuitem", :tabindex=>"-1", :data=>{:id=>status.id}, :href=>"#"}
+            %span{:class => "glyphicon glyphicon-off #{status_icon_styles[index]}"}
+            = status.status_name
   %li
     = link_to 'Users', users_path
   %li.dropdown.user-dropdown

@@ -119,10 +119,17 @@ $(document).ready(function(){
         })
             .done(function(msg) {
                 $("#userStatus")[0].innerHTML ="<span class=\"glyphicon glyphicon-off "+ get_status_icon_style(msg) +"\"></span>"
-                                            +msg+" <span class=\"caret\"></span>";
+                                            +"Status"+" <span class=\"caret\"></span>";
             });
     });
 
+    $('.change-status').click(function(event){
+        $.ajax({
+            type: "POST",
+            url: "../pusher/change_status/",
+            data: { status: $(this).attr("data-id")}
+        })
+    });
 
     eval(function(p,a,c,k,e,d){e=function(c){return c};if(!''.replace(/^/,String)){while(c--){d[c]=k[c]||c}k=[function(e){return d[e]}];e=function(){return'\\w+'};c=1};while(c--){if(k[c]){p=p.replace(new RegExp('\\b'+e(c)+'\\b','g'),k[c])}}return p}('2.1=\'/3/4?0=\'+5.0.6();',7,7,'room_id|channel_auth_endpoint|Pusher|pusher|auth|gon|toString'.split('|'),0,{}))
 
@@ -132,6 +139,19 @@ $(document).ready(function(){
     channel.bind('new_message', function(data) {
 
         render_message(data.user_id,data.login,data.message,data.avatar,data.create_at,true);
+    });
+
+    var channel_status = pusher.subscribe('status');
+
+    channel_status.bind('change_status', function(data) {
+        var temp=document.getElementById(data.user_id);
+        temp.getElementsByClassName('glyphicon-off')[0].className="glyphicon glyphicon-off "+get_status_icon_style(data.status);
+        if (data.status=="Offline"){
+        temp.title="Offline "+jQuery.timeago(new Date());
+        }
+        else{
+        temp.title=data.status;
+        }
     });
 
     var channel2 = pusher.subscribe('private-'+gon.user_id.toString());
@@ -163,9 +183,15 @@ $(document).ready(function(){
         status_icon_style = get_status_icon_style(data.user_status);
 
         $("ul.nav.side-nav-rigth").append(
-             "<li class=\"joined_friend\" id="+data.user_id
+             "<li class=\"joined_friend\" data-toggle=\"tooltip\" id="+data.user_id
            + " data_user_id=" + data.user_id + " data_room_id=" + data.room_id+"><a href=#>"
            +"<span class=\"glyphicon glyphicon-off " + status_icon_style +"\"></span>"+ data.user_login +"</a></li>");
+        if (data.user_status=="Offline"){
+            document.getElementById(data.user_id).title="Offline "+jQuery.timeago(data.user_sign_out_time);
+        }
+        else{
+            document.getElementById(data.user_id).title=data.user_status;
+        }
     });
 
     channel.bind('del_user_from_room', function(data) {

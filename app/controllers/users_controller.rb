@@ -2,6 +2,7 @@ class UsersController < ApplicationController
   before_filter :authenticate_user!
 
 	def search
+    @statuses = UserStat.all
 		users=User.where("login like ?", "#{params[:login]}%")
 		render :json=>users,:root=>false
 	end
@@ -19,10 +20,12 @@ class UsersController < ApplicationController
   end
 
   def show
+    @statuses = UserStat.all
     @user = User.find(params[:id])
   end
 
   def invite_user
+    @statuses = UserStat.all
     @user = User.invite!(:email => params[:email])
   end
 
@@ -33,5 +36,7 @@ class UsersController < ApplicationController
       render text: "#{user.user_stat.status_name}"
     end
   end
+
+
 
 end
