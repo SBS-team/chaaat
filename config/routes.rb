@@ -22,8 +22,7 @@ Chat::Application.routes.draw do
 
   post 'pusher/auth'
   post 'pusher/typing_status'
-  post 'pusher/pagination'
-
+  post 'pusher/change_status'
 
   devise_scope :user do
     root to: "devise/registrations#new"

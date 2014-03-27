@@ -41,4 +41,18 @@ module ApplicationHelper
     end
   end
 
+  def get_user_status_icon(user_status_id)
+    case user_status_id
+      when 1
+        "online"
+      when 2
+        "offline"
+      when 3
+        "away"
+      when 4
+        "do_not_disturb"
+    end
+  end
+
+
 end

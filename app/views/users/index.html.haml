@@ -1,14 +1,18 @@
+- status_icon_styles = ["online", "offline", "away", "do_not_disturb"]
 #current_user
   %span.user_name
     = link_to "#{current_user.firstname} #{current_user.lastname}", current_user
   .dropdown
-    %button.btn.dropdown-toggle#userStatus{:type=>"button", :data=>{:toggle=>"dropdown"}}>
+    %button.btn.dropdown-toggle#userStatus{:type=>"button", :data=>{:toggle=>"dropdown"}}
+      %span{:class => "glyphicon glyphicon-off #{get_user_status_icon(current_user.user_stat_id)}"}
       ="#{current_user.user_stat.status_name}"
       %span.caret
     %ul.dropdown-menu{:role=>"menu", :aria=>{:labelledby=>"dropdownMenu1"}}
-      - @statuses.each do |status|
+      - @statuses.each_with_index do |status, index|
         %li{:role => "presentation"}
           %a.change-status{:role=>"menuitem", :tabindex=>"-1", :data=>{:id=>status.id}, :href=>"#"}
+            %span{:class => "glyphicon glyphicon-off #{status_icon_styles[index]}"}
+
             = status.status_name
       %li.divider{:role=>"presentation"}
       %li{:role=>"presentation"}

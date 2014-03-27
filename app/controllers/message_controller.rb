@@ -16,9 +16,9 @@ class MessageController < ApplicationController
     render :json=>messages, :root=>false
   end
 
-private
-def message_params
-  params.require(:message).permit(:body, :attach_path, :room_id)
-end
+  private
+  def message_params
+    params.require(:message).permit(:body, :attach_path, :room_id)
+  end
 
 end
