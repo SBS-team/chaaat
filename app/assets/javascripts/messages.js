@@ -33,7 +33,7 @@ $(document).ready(function(){
 
     message_textarea.keydown(function(e)
     {
-        if (e.keyCode == 13 && e.ctrlKey==false) {
+        if (e.keyCode == 13 && e.ctrlKey == false) {
             send_message();
             $('html, body').animate({scrollTop: $("body").height()}, 800);
         }
@@ -73,6 +73,7 @@ $(document).ready(function(){
 
         })
             .done(function(msg) {
+                console.log("THIS IS THE RESPONSE: " + msg);
                 $('#messages-wrapper').html('');
                 for (var i = 0; i <= msg.length - 1; i++) {
                     render_message(msg[i].user_id,msg[i].login,msg[i].body,msg[i].avatar,msg[i].created_at,false);
@@ -90,6 +91,26 @@ $(document).ready(function(){
     });
 
 
+    function get_status_icon_style(user_status){
+        icon_style = "";
+        switch(user_status){
+            case "Offline":
+                icon_style = "offline";
+                break;
+            case "Away":
+                icon_style = "away";
+                break;
+            case "Do not disturb":
+                icon_style = "do_not_disturb";
+                break;
+            default:
+                icon_style = "online";
+                break;
+        }
+
+        return icon_style;
+    }
+
     $('.change-status').click(function(event){
         $.ajax({
             type: "GET",
@@ -97,7 +118,8 @@ $(document).ready(function(){
             data: { status: $(this).attr("data-id") }
         })
             .done(function(msg) {
-                $("#userStatus")[0].innerHTML=msg+" <span class=\"caret\"></span>";
+                $("#userStatus")[0].innerHTML ="<span class=\"glyphicon glyphicon-off "+ get_status_icon_style(msg) +"\"></span>"
+                                            +msg+" <span class=\"caret\"></span>";
             });
     });
 
@@ -137,7 +159,13 @@ $(document).ready(function(){
             allow_dismiss: true,
             stackup_spacing: 10 // spacing between consecutively stacked growls.
         });
-        $("ul.nav.side-nav-rigth").append("<li class=\"joined_friend\" id="+data.user_id+" data_user_id="+data.user_id+" data_room_id="+data.room_id+"><a href=#>"+data.user_login+"</a></li>");
+
+        status_icon_style = get_status_icon_style(data.user_status);
+
+        $("ul.nav.side-nav-rigth").append(
+             "<li class=\"joined_friend\" id="+data.user_id
+           + " data_user_id=" + data.user_id + " data_room_id=" + data.room_id+"><a href=#>"
+           +"<span class=\"glyphicon glyphicon-off " + status_icon_style +"\"></span>"+ data.user_login +"</a></li>");
     });
 
     channel.bind('del_user_from_room', function(data) {
@@ -314,4 +342,3 @@ $(document).ready(function(){
         });
     });
 });
-
