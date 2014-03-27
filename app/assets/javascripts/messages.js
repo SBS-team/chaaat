@@ -13,11 +13,15 @@ $(document).ready(function(){
             $(this).attr("src",url+char+"wmode=transparent");
         });
     });
+
     if (document.getElementsByClassName('panel-body')[0]!=undefined){
 
-        document.getElementsByClassName('panel-body')[0].style.height=$(window).height()-1100+"px";
+        document.getElementsByClassName('panel-body')[0].style.height=$(window).height()-1110+"px";
+
+
         $( window ).resize(function() {
-            document.getElementsByClassName('panel-body')[0].style.height=$(window).height()-1100+"px";
+            document.getElementsByClassName('panel-body')[0].style.height=$(window).height()-1110+"px";
+
         });
     }
 
@@ -72,12 +76,12 @@ $(document).ready(function(){
                 console.log("THIS IS THE RESPONSE: " + msg);
                 $('#messages-wrapper').html('');
                 for (var i = 0; i <= msg.length - 1; i++) {
-                    render_message(msg[i].user_id,msg[i].login,msg[i].body,msg[i].avatar,msg[i].created_at);
+                    render_message(msg[i].user_id,msg[i].login,msg[i].body,msg[i].avatar,msg[i].created_at,false);
+
                 };
 
             });
     });
-
 
     $('#request-user').on('click', '.replace', function(event){
         login=$('#message').val();
@@ -87,6 +91,26 @@ $(document).ready(function(){
     });
 
 
+    function get_status_icon_style(user_status){
+        icon_style = "";
+        switch(user_status){
+            case "Offline":
+                icon_style = "offline";
+                break;
+            case "Away":
+                icon_style = "away";
+                break;
+            case "Do not disturb":
+                icon_style = "do_not_disturb";
+                break;
+            default:
+                icon_style = "online";
+                break;
+        }
+
+        return icon_style;
+    }
+
     $('.change-status').click(function(event){
         $.ajax({
             type: "GET",
@@ -94,7 +118,8 @@ $(document).ready(function(){
             data: { status: $(this).attr("data-id") }
         })
             .done(function(msg) {
-                $("#userStatus")[0].innerHTML=msg+" <span class=\"caret\"></span>";
+                $("#userStatus")[0].innerHTML ="<span class=\"glyphicon glyphicon-off "+ get_status_icon_style(msg) +"\"></span>"
+                                            +msg+" <span class=\"caret\"></span>";
             });
     });
 
@@ -106,7 +131,7 @@ $(document).ready(function(){
 
     channel.bind('new_message', function(data) {
 
-        render_message(data.user_id,data.login,data.message,data.avatar,data.create_at);
+        render_message(data.user_id,data.login,data.message,data.avatar,data.create_at,true);
     });
 
     var channel2 = pusher.subscribe('private-'+gon.user_id.toString());
@@ -125,7 +150,7 @@ $(document).ready(function(){
     });
 
     channel.bind('add_user_to_room', function(data) {
-        $.bootstrapGrowl("User "+data.user_login+" have been added to room: "+data.rooms_name, {
+        $.bootstrapGrowl("User "+data.user_login+" has been added to room: "+data.rooms_name, {
             type: 'success', // (null, 'info', 'error', 'success')
             offset: {from: 'top', amount: 50}, // 'top', or 'bottom'
             align: 'center', // ('left', 'right', or 'center')
@@ -134,7 +159,48 @@ $(document).ready(function(){
             allow_dismiss: true,
             stackup_spacing: 10 // spacing between consecutively stacked growls.
         });
-        $("ul.nav.side-nav-rigth").append("<li><a href=#>"+data.user_login+"</a></li>");
+
+        status_icon_style = get_status_icon_style(data.user_status);
+
+        $("ul.nav.side-nav-rigth").append(
+             "<li class=\"joined_friend\" id="+data.user_id
+           + " data_user_id=" + data.user_id + " data_room_id=" + data.room_id+"><a href=#>"
+           +"<span class=\"glyphicon glyphicon-off " + status_icon_style +"\"></span>"+ data.user_login +"</a></li>");
+    });
+
+    channel.bind('del_user_from_room', function(data) {
+        $.bootstrapGrowl("User "+data.user_login+" has been deleted ", {
+            type: 'success', // (null, 'info', 'error', 'success')
+            offset: {from: 'top', amount: 50}, // 'top', or 'bottom'
+            align: 'center', // ('left', 'right', or 'center')
+            width: 250, // (integer, or 'auto')
+            delay: 1700,
+            allow_dismiss: true,
+            stackup_spacing: 10 // spacing between consecutively stacked growls.
+        });
+
+        document.getElementById(data.drop_user_id.toString()).remove();
+    });
+
+    function typing_status()
+    {
+      $.post('/pusher/typing_status', {room_id:gon.room_id,login:gon.user_login});
+    }
+
+    var timeout;
+    channel.bind('typing_status', function(data) {
+
+            $('.typing').html(data.login+' typing...');
+        timeout = setTimeout(function () {
+            $('.typing').html('<br>');
+        }, 1300);
+
+     });
+
+    $('#message').bind('textchange', function () {
+
+        clearTimeout(timeout);
+        typing_status("typing");
     });
 
     function send_message(){
@@ -169,20 +235,25 @@ $(document).ready(function(){
         + "</li>"
     }
 
-    function render_message(user_id, login, body, avatar, time){
+
+    function render_message(user_id, login, body, avatar, time,scroll_true){
         if(gon.user_id==user_id){
             $('#messages-wrapper').append(create_message(user_id, login, body, avatar, time,"from"));
         }else{
             document.getElementById('new-message').play();
             $('#messages-wrapper').append(create_message(user_id, login, body, avatar, time,"to"));
         }
+        if (scroll_true==true)
+        {
         var objDiv = document.getElementsByClassName('panel-body')[0];
         objDiv.scrollTop = objDiv.scrollHeight+2000;
+        }
         emojify.setConfig({ emoticons_enabled: true, people_enabled: true, nature_enabled: true, objects_enabled: true, places_enabled: true, symbols_enabled: true });
         for(var i= 0;i<document.getElementsByClassName('chat-body').length; i++){
             emojify.run(document.getElementsByClassName('chat-body')[i]);
         }
     }
+
 
 
     function prepend_message(user_id,login,body,avatar,time){
@@ -245,7 +316,7 @@ $(document).ready(function(){
 
     var message_offset = 10;
 
-    $("#load_messages").click(function(){
+    $(".pag").click(function(){
         $.ajax({
             url: '/rooms/previous_messages',
             type: 'POST',
@@ -255,9 +326,14 @@ $(document).ready(function(){
             },
             success: function(response){
                 if(response.rooms.length > 0){
+
+                    $('#messages-wrapper').prepend("<div class=\"glyphicon glyphicon-resize-vertical\" style=\"margin:0 50% 0 50%;opacity:0.5;font-size:20px\"\"></div>");
                     for (var i = 0; i <= response.rooms.length - 1; i++) {
-                        prepend_message(response.rooms[i].user_id,response.rooms[i].login,
-                            response.rooms[i].body,response.rooms[i].avatar,response.rooms[i].created_at);
+                        prepend_message(response.rooms[i].user_id,response.rooms[i].login,response.rooms[i].body,response.rooms[i].avatar,response.rooms[i].created_at);
+                    }
+                    emojify.setConfig({ emoticons_enabled: true, people_enabled: true, nature_enabled: true, objects_enabled: true, places_enabled: true, symbols_enabled: true });
+                    for(var i= 0;i<document.getElementsByClassName('chat-body').length; i++){
+                        emojify.run(document.getElementsByClassName('chat-body')[i]);
                     }
                     message_offset += 10;
                 }
@@ -265,6 +341,4 @@ $(document).ready(function(){
             }
         });
     });
-
-
 });

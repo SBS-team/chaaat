@@ -6,7 +6,7 @@ class RoomsController < ApplicationController
   end
 
   def index
-    @room=Room.where("id in (?)",RoomsUser.where(:user_id=>current_user.id).pluck(:room_id)).order(id: :asc)
+    @room_list=Room.where("id in (?)",RoomsUser.where(:user_id=>current_user.id).pluck(:room_id)).order(id: :asc)
   end
 
   def create
@@ -16,6 +16,7 @@ class RoomsController < ApplicationController
   end
 
   def show
+    @room_id=params[:id]
     gon.user_login=current_user.login
     gon.user_id=current_user.id
     if Room.where("id in (?)",RoomsUser.where(:user_id=>current_user.id).pluck(:room_id)).pluck(:id).include?(params[:id].to_i)
@@ -27,6 +28,7 @@ class RoomsController < ApplicationController
       @messages = Message.where(:room_id=>params[:id]).preload(:user).order(created_at: :desc).limit(10).reverse()
     end
     @room = Room.find(params[:id])
+    @room_list=Room.where("id in (?)",RoomsUser.where(:user_id=>current_user.id).pluck(:room_id)).order(id: :asc)
     @user_friends = current_user.friends
     room_user_ids = RoomsUser.where(:room_id => @room.id).map{|item| item.user_id}
     @room_users = User.where("id IN (?)", room_user_ids)

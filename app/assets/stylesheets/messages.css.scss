@@ -287,3 +287,27 @@ pre {
   background: rgba(69, 69, 69, 0.3);
   cursor: pointer;
 }
+
+.online {
+  color: green;
+  font-size: 12px;
+  margin-right: 5px;
+}
+
+.offline {
+  color: red;
+  font-size: 12px;
+  margin-right: 5px;
+}
+
+.do_not_disturb {
+  color: orange;
+  font-size: 12px;
+  margin-right: 5px;
+}
+
+.away {
+  color: violet;
+  font-size: 12px;
+  margin-right: 5px;
+}

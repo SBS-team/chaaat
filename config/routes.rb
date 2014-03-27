@@ -22,6 +22,8 @@ Chat::Application.routes.draw do
   devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }
 
   post 'pusher/auth'
+  post 'pusher/typing_status'
+  post 'pusher/pagination'
 
 
   devise_scope :user do

@@ -13,6 +13,11 @@ Profile
     %strong
       = "Email: "
     = "#{@user.email}"
+  - if (@user.sign_out_at)
+    %div.some{:style => "position: relative; top:30px;"}
+      %strong
+        = "Last sign out at: "
+      = "#{time_ago_in_words(@user.sign_out_at)}"
 
   %div.some{:style =>"position: relative; margin-top:85px;"}
     %h3

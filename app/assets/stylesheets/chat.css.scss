@@ -14,7 +14,33 @@
 .col-md-2 {
   z-index: 0;
 }
+.form-control#search{
+  position: fixed;
+  width: 65%;
+  margin:8px 0px 0px 17%;
+  background-color:#313131;
+  border-color:#606060;
+  color:#878787;
+}
+.typing{
+  padding-left:100px;
+  color: #777777;
+}
+.pag{
+  height: 20px;
+  width: 98.9%;
+  position:absolute;
+  background-color: rgba(10,10,10,0.07);
+  border-radius: 0px 0px 30px 30px ;
+}
+.pag:hover {
+  background-color: rgba(10,10,10,0.25);
 
+}
+.pag .glyphicon{
+  margin:0 50% 0 50%;
+  opacity: 0.4;
+}
 .avatar {
   border-radius: 50%;
   border-radius: 50px;

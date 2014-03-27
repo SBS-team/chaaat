@@ -19,7 +19,7 @@ class ApplicationController < ActionController::Base
   end
 
   def after_sign_out_path_for(resource)
-    User.update(current_user.id, :user_stat_id=>2)
+    User.update(current_user.id, :user_stat_id => 2)
     User.update(current_user.id, :sign_out_at => Time.now)
     if resource.is_a? User
       root_path

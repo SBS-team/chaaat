@@ -1,8 +1,21 @@
 %nav.navbar-inverse
   %ul.nav.side-nav-rigth
+    %li.dropdown.user-dropdown
+      %a.dropdown-toggle{:href=>"#",:data=>{:toggle=>"dropdown"}}
+        %i.fa.fa-user
+        My friends
+        %b.caret
+      %ul.dropdown-menu
+        - if !@room.nil?
+          - current_user.friends.each do |friend|
+            %li.user_friend{:data_user_id => friend.id, :data_room_id => @room.id}
+              %a{:href=>"#"}
+                %span{:class => "glyphicon glyphicon-off #{get_user_status_icon(friend.user_stat_id)}"}
+                = "#{friend.firstname} #{friend.lastname}"
     - if !@room_users.nil?
       - @room_users.each do |user|
-        %li.joined_friend{:data_user_id => user.id, :data_room_id => @room.id}
+        %li.joined_friend{:id=>user.id,:data_user_id => user.id, :data_room_id => @room.id}
           %a{:href=>"#"}
+            %span{:class => "glyphicon glyphicon-off #{get_user_status_icon(user.user_stat_id)}"}
             = "#{user.login}"
             .glyphicon.glyphicon-minus.pull-right

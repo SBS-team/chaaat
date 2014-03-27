@@ -3,12 +3,6 @@ class MessageController < ApplicationController
   include MessageHelper
   include ApplicationHelper
 
-  def index
-    #gon.user_id = current_user.id
-    #@messages=Message.all.preload(:user)
-  end
-
-
   def new
     if Room.where("id in (?)",RoomsUser.where(:user_id=>current_user.id).pluck(:room_id)).pluck(:id).include?(params[:room_id].to_i)
       message=Message.create(:user_id=>current_user.id,:body=>params[:message].gsub(/[\n]/,"\r"),:room_id=>params[:room_id])
@@ -16,18 +10,14 @@ class MessageController < ApplicationController
     end
   end
 
-  #def show
-  #  gon.user_id = current_user.id
-  #  @messages = Message.last(10).preload(:user).order(created_at: :asc)
-  #end
-
   def search
-    if(!params[:query].blank?)
-      messages = Message.where("body like ? ", "%#{params[:query]}%").where("room_id = ? ",params[:room_id]).preload(:user)
-    else
-      messages = Message.preload(:user).last(10)
+    messages=Message.where("body like ? ", "%#{params[:query]}%").where("room_id = ? ",params[:room_id]).preload(:user)
+    result = Array.new()
+    messages.each do |res|
+      message={:user_id=>res.user_id, :avatar=>avatar_url(res.user,50), :login=>res.user.login, :body=>res.body,:room_id=>res.room_id, :created_at=>res.created_at.strftime("%a %T")}
+      result.push(message)
     end
-    render :json => messages, :root => false
+    render :json=>result, :root=>false
   end
 
 end
