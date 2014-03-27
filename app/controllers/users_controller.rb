@@ -1,11 +1,13 @@
 class UsersController < ApplicationController
   before_filter :authenticate_user!
 
+
 	def search
     @statuses = UserStat.all
 		users=User.where("login like ?", "#{params[:login]}%")
 		render :json=>users,:root=>false
 	end
+
 
   def index
     @statuses = UserStat.all
@@ -36,7 +38,5 @@ class UsersController < ApplicationController
       render text: "#{user.user_stat.status_name}"
     end
   end
-
-
 
 end

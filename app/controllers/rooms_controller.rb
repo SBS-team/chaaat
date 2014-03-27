@@ -24,6 +24,7 @@ class RoomsController < ApplicationController
   end
 
   def show
+    @message=Message.new
     @statuses = UserStat.all
     @room_id=params[:id]
     gon.user_login=current_user.login
@@ -41,6 +42,7 @@ class RoomsController < ApplicationController
     @user_friends = current_user.friends
     room_user_ids = RoomsUser.where(:room_id => @room.id).map{|item| item.user_id}
     @room_users = User.where("id IN (?)", room_user_ids)
+    gon.rooms_users=@room_users.pluck(:login)
   end
 
   def load_previous_10_msg

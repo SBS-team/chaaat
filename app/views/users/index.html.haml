@@ -32,5 +32,5 @@
     %li
       = image_tag avatar_url(user,50),:class => "avatar"
       #user_info
-        = link_to user.firstname + ' ' + user.lastname, user_path(user.id), :class => 'user_name'
+        = link_to "#{user.firstname}  #{user.lastname}", user_path(user.id), :class => 'user_name'
         = link_to 'Add Friend', friendships_path(:friend_id => user), :method => :post

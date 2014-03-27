@@ -23,6 +23,8 @@
                         %span.glyphicon.glyphicon-time
                         =message.created_at.strftime("%a %T")
                     %p= message.body
+                    -if message.attach_path?
+                      %p.attach_file= message.attach_path
               -else
                 %li.to.clearfix
                   %span.chat-img.pull-left
@@ -34,21 +36,24 @@
                       %small.pull-right.text-muted
                         %span.glyphicon.glyphicon-time
                         =message.created_at.strftime("%a %T")
-                    %p=message.body
+                    %p= message.body  
+                    -if message.attach_path?
+                      %p.attach_file= message.attach_path
     .btn-group.dropup
       %button.show_smile.btn.btn-default.dropdown-toggle{"data-toggle" => "dropdown", type: "button"}
         %span.caret
       %ul#dropdown-list.dropdown-menu{role: "menu"}
         = render 'layouts/index'
     .panel-footer
-
       .typing
         %br
-
-
-      %textarea.form-control#message
-      %button.btn.btn-success#send_message
-        Send message
+      = form_for @message, :authenticity_token => true, :url => new_message_path,:id=>"form-message", :html => {:multipart => true}, :method=>"post" do |f|
+        = f.text_area :body , :class => "form-control", :id=>"message"
+        %br
+        = f.hidden_field :room_id, :value=>@room_id
+        = f.file_field :attach_path ,:id=>"attach_path"
+        %br
+        = f.submit :class => "btn btn-success", :id=>"send_message"
 %audio#new-message
   %source{:src=>"../sounds/button_tiny.ogg", :type=>"audio/ogg"}
   %source{:src=>"../sounds/button_tiny.mp3", :type=>"audio/mp3"}

@@ -16,21 +16,22 @@ $(document).ready(function(){
 
     if (document.getElementsByClassName('panel-body')[0]!=undefined){
 
-        document.getElementsByClassName('panel-body')[0].style.minHeight=$('body').height()-190+"px";
+        document.getElementsByClassName('panel-body')[0].style.height=$('body').height()-250+"px";
 
 
-        $( window ).resize(function() {
-            document.getElementsByClassName('panel-body')[0].style.minHeight=$('body').height()-190+"px";
-
-        });
+//        $( window ).resize(function() {
+//            document.getElementsByClassName('panel-body')[0].style.minHeight=$('body').height()-190+"px";
+//
+//        });
     }
 
     var message_textarea=$("#message");
+    var users= gon.rooms_users;
 
-    $("#send_message").click(function(){
+    $(".panel-footer").on('submit',function(){
         send_message();
+        return false;
     });
-
     message_textarea.keydown(function(e)
     {
         if (e.keyCode == 13 && e.ctrlKey == false) {
@@ -42,32 +43,10 @@ $(document).ready(function(){
         }
     });
 
-
-    message_textarea.keyup(function(){
-        message_textarea_value=message_textarea.val();
-        if ((message_textarea_value.indexOf(' @')>-1) || (message_textarea_value.indexOf('@')>-1 && message_textarea_value.indexOf('@')<1)){
-            $('#request-user').html('');
-            $.ajax({
-                type: "POST",
-                url: "../users/search/",
-                data: { login: $.trim(message_textarea_value.match(/\@(\S+.)/)[1]) }
-            }).done(function(msg) {
-                    if ((msg.length==0) || (msg[0].login==$.trim(message_textarea_value.match(/\@(\S+.)/)[1]))) {
-                        $("#request-user").css("display","none");
-                    }else{
-                        for (var i = msg.length - 1; i >= 0; i--) {
-                            $('#request-user').append('<div data-login="@'+msg[i].login+'" class="replace">@'+msg[i].login+'</div>');
-                        };
-                        $("#request-user").css("display","block");
-                    }
-                });
-
-        }
-    });
-
     $("#search").keyup(function(){
         $.ajax({
             type: "POST",
+            beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
             url: "../message/search/",
             data: { query: $("#search").val(),room_id: gon.room_id }
 
@@ -76,44 +55,17 @@ $(document).ready(function(){
                 console.log("THIS IS THE RESPONSE: " + msg);
                 $('#messages-wrapper').html('');
                 for (var i = 0; i <= msg.length - 1; i++) {
-                    render_message(msg[i].user_id,msg[i].login,msg[i].body,msg[i].avatar,msg[i].created_at,false);
+                    render_message(msg[i].user_id,msg[i].login,msg[i].body,msg[i].avatar,msg[i].created_at,false,msg[i].attach_file_path);
 
                 };
 
             });
     });
 
-    $('#request-user').on('click', '.replace', function(event){
-        login=$('#message').val();
-        login=login.replace($.trim($('#message').val().match(/\@(\S+.)/)[0]),$(event.currentTarget).attr('data-login'));
-        $('#message').val(login);
-        $(this).css('display','none');
-    });
-
-
-    function get_status_icon_style(user_status){
-        icon_style = "";
-        switch(user_status){
-            case "Offline":
-                icon_style = "offline";
-                break;
-            case "Away":
-                icon_style = "away";
-                break;
-            case "Do not disturb":
-                icon_style = "do_not_disturb";
-                break;
-            default:
-                icon_style = "online";
-                break;
-        }
-
-        return icon_style;
-    }
-
     $('.change-status').click(function(event){
         $.ajax({
             type: "GET",
+            beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
             url: "../users/status/",
             data: { status: $(this).attr("data-id") }
         })
@@ -137,8 +89,7 @@ $(document).ready(function(){
     var channel = pusher.subscribe('private-'+gon.room_id.toString());
 
     channel.bind('new_message', function(data) {
-
-        render_message(data.user_id,data.login,data.message,data.avatar,data.create_at,true);
+        render_message(data.user_id,data.login,data.message,data.avatar,data.create_at,true,data.attach_file_path);
     });
 
     var channel_status = pusher.subscribe('status');
@@ -224,26 +175,35 @@ $(document).ready(function(){
      });
 
     $('#message').bind('textchange', function () {
-
         clearTimeout(timeout);
         typing_status("typing");
     });
 
     function send_message(){
-        if ($.trim(message_textarea.val()).length>0){
+        if ($.trim(message_textarea.val()).length>0 || ($('input[type="file"]')[0].files[0])){
+            var fd = new FormData();
+            fd.append('message[body]', $.trim(message_textarea.val()));
+            fd.append('message[room_id]', gon.room_id);
+            fd.append('message[attach_path]', $('input[type="file"]')[0].files[0]);
             $.ajax({
-                type: "POST",
-                url: "../message/new",
-                data: { message: $.trim(message_textarea.val()),room_id: gon.room_id }
-
-            }).done(function(msg) {
-                    message_textarea.val('');
-                });
+              type: 'POST',
+              beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
+              url: '../message/new',
+              data: fd,
+              processData: false,
+              contentType: false,
+              success: function(data){
+                $("#new_message")[0].reset();
+              },
+              error: function(data) {
+                console.log(data);
+              }
+            });
         }
     }
 
-    function create_message(user_id, login, body, avatar, time,msg_class){
-        return "<li class=\""+ msg_class +" clearfix\">"
+    function create_message(user_id, login, body, avatar, time,msg_class,attach_file_path){
+        message= "<li class=\""+ msg_class +" clearfix\">"
             + "<span class=\"chat-img pull-left\">"
             + "<img class=\"avatar\" src="+avatar+">"
             + "</span>"
@@ -256,18 +216,31 @@ $(document).ready(function(){
             + "<span class=\"glyphicon glyphicon-time\"></span>"+time
             + "</small>"
             + "</div>"
-            + "<p>"+ $.trim(changetags(safe_tags_replace(body))) +"</p>"
-            + "</div>"
-        + "</li>"
+            + "<p>"+ $.trim(changetags(safe_tags_replace(body))) +"</p>";
+            if(attach_file_path){
+             message=message + "<p class=\"attach-file\">"+check_file(attach_file_path)+"</p>";
+            }
+            message=message + "</div>"
+        + "</li>";
+        return message;
+    }
+
+    function check_file(url){
+        url_to_file=location.origin+url;
+        if (url_to_file.match(/http.*(jpg|gif|jpeg|png)/)){
+            return '<img src="'+url_to_file+'" height="200px" width="200px"/>';
+        }else{
+            return '<a href="'+url_to_file+'" download><span class="glyphicon glyphicon-download-alt"></span>'+url.match(/(\w|[-.])+$/)[0]+'</a>';
+        }
     }
 
 
-    function render_message(user_id, login, body, avatar, time,scroll_true){
+    function render_message(user_id, login, body, avatar, time,scroll_true,attach_file_path){
         if(gon.user_id==user_id){
-            $('#messages-wrapper').append(create_message(user_id, login, body, avatar, time,"from"));
+            $('#messages-wrapper').append(create_message(user_id, login, body, avatar, time,"from",attach_file_path));
         }else{
             document.getElementById('new-message').play();
-            $('#messages-wrapper').append(create_message(user_id, login, body, avatar, time,"to"));
+            $('#messages-wrapper').append(create_message(user_id, login, body, avatar, time,"to",attach_file_path));
         }
         if (scroll_true==true)
         {
@@ -282,20 +255,23 @@ $(document).ready(function(){
 
 
 
-    function prepend_message(user_id,login,body,avatar,time){
+    function prepend_message(user_id,login,body,avatar,time,message,attach_file_path){
         if(gon.user_id == user_id){
-            $('#messages-wrapper:first-child').prepend(create_message(user_id, login, body, avatar, time,"from"));
+            $('#messages-wrapper:first-child').prepend(create_message(user_id, login, body, avatar, time,"from",attach_file_path));
         }
         else{
-            $('#messages-wrapper:first-child').prepend(create_message(user_id, login, body, avatar, time,"to"));
+            $('#messages-wrapper:first-child').prepend(create_message(user_id, login, body, avatar, time,"to",attach_file_path));
         }
     }
 
     function invoted_users(){
-        messages=$("li .chat-body p")
+        messages=$("li .chat-body p");
         for(var i=0; i<messages.length; i++){
             messages[i].innerHTML=changetags(messages[i].innerHTML);
-
+        }
+        attached_file=$(".attach_file");
+        for(var i=0; i<attached_file.length; i++){
+            attached_file[i].innerHTML=check_file(attached_file[i].innerHTML);
         }
     }
 
@@ -330,6 +306,25 @@ $(document).ready(function(){
         '>': '&gt;'
     };
 
+$('#message').textcomplete([
+    {
+        match: /\B@([\-+\w]*)$/,
+        search: function (term, callback) {
+            callback($.map(users, function (user) {
+                return user.indexOf(term) === 0 ? user : null;
+            }));
+        },
+        template: function (value) {
+            return '@' + value;
+        },
+        replace: function (value) {
+            return '@' + value+' ';
+        },
+        index: 1,
+        maxCount: 5
+    }
+]);
+
     function replaceTag(tag) {
         return tagsToReplace[tag] || tag;
     }
@@ -346,6 +341,7 @@ $(document).ready(function(){
         $.ajax({
             url: '/rooms/previous_messages',
             type: 'POST',
+            beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
             data:{
                 room_id: $("li.active > a").attr('room_id'),
                 offset_records: message_offset
@@ -355,7 +351,7 @@ $(document).ready(function(){
 
                     $('#messages-wrapper').prepend("<div class=\"glyphicon glyphicon-resize-vertical\" style=\"margin:0 50% 0 50%;opacity:0.5;font-size:20px\"\"></div>");
                     for (var i = 0; i <= response.rooms.length - 1; i++) {
-                        prepend_message(response.rooms[i].user_id,response.rooms[i].login,response.rooms[i].body,response.rooms[i].avatar,response.rooms[i].created_at);
+                        prepend_message(response.rooms[i].user_id,response.rooms[i].login,response.rooms[i].body,response.rooms[i].avatar,response.rooms[i].created_at,response.rooms[i].attach_file_path);
                     }
                     emojify.setConfig({ emoticons_enabled: true, people_enabled: true, nature_enabled: true, objects_enabled: true, places_enabled: true, symbols_enabled: true });
                     for(var i= 0;i<document.getElementsByClassName('chat-body').length; i++){
