@@ -26,6 +26,7 @@ $(document).ready(function(){
     }
 
     var message_textarea=$("#message");
+    var users= gon.rooms_users;
 
     $(".panel-footer").on('submit',function(){
         send_message();
@@ -229,7 +230,7 @@ $(document).ready(function(){
         if (url_to_file.match(/http.*(jpg|gif|jpeg|png)/)){
             return '<img src="'+url_to_file+'" height="200px" width="200px"/>';
         }else{
-            return '<span class="glyphicon glyphicon-download-alt"></span><a href="'+url_to_file+'" download>'+url.match(/(\w|[-.])+$/)[0]+'</a>';
+            return '<a href="'+url_to_file+'" download><span class="glyphicon glyphicon-download-alt"></span>'+url.match(/(\w|[-.])+$/)[0]+'</a>';
         }
     }
 
@@ -305,7 +306,6 @@ $(document).ready(function(){
         '>': '&gt;'
     };
 
- var users= gon.rooms_users
 $('#message').textcomplete([
     {
         match: /\B@([\-+\w]*)$/,
