@@ -31,7 +31,6 @@ $(document).ready(function(){
         send_message();
         return false;
     });
-
     message_textarea.keydown(function(e)
     {
         if (e.keyCode == 13 && e.ctrlKey==false) {
@@ -43,32 +42,10 @@ $(document).ready(function(){
         }
     });
 
-
-    message_textarea.keyup(function(){
-        message_textarea_value=message_textarea.val();
-        if ((message_textarea_value.indexOf(' @')>-1) || (message_textarea_value.indexOf('@')>-1 && message_textarea_value.indexOf('@')<1)){
-            $('#request-user').html('');
-            $.ajax({
-                type: "POST",
-                url: "../users/search/",
-                data: { login: $.trim(message_textarea_value.match(/\@(\S+.)/)[1]) }
-            }).done(function(msg) {
-                    if ((msg.length==0) || (msg[0].login==$.trim(message_textarea_value.match(/\@(\S+.)/)[1]))) {
-                        $("#request-user").css("display","none");
-                    }else{
-                        for (var i = msg.length - 1; i >= 0; i--) {
-                            $('#request-user').append('<div data-login="@'+msg[i].login+'" class="replace">@'+msg[i].login+'</div>');
-                        };
-                        $("#request-user").css("display","block");
-                    }
-                });
-
-        }
-    });
-
     $("#search").keyup(function(){
         $.ajax({
             type: "POST",
+            beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
             url: "../message/search/",
             data: { query: $("#search").val(),room_id: gon.room_id }
 
@@ -83,17 +60,10 @@ $(document).ready(function(){
             });
     });
 
-    $('#request-user').on('click', '.replace', function(event){
-        login=$('#message').val();
-        login=login.replace($.trim($('#message').val().match(/\@(\S+.)/)[0]),$(event.currentTarget).attr('data-login'));
-        $('#message').val(login);
-        $(this).css('display','none');
-    });
-
-
     $('.change-status').click(function(event){
         $.ajax({
             type: "GET",
+            beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
             url: "../users/status/",
             data: { status: $(this).attr("data-id") }
         })
@@ -181,6 +151,7 @@ $(document).ready(function(){
             fd.append('message[attach_path]', $('input[type="file"]')[0].files[0]);
             $.ajax({
               type: 'POST',
+              beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
               url: '../message/new',
               data: fd,
               processData: false,
@@ -299,6 +270,26 @@ $(document).ready(function(){
         '>': '&gt;'
     };
 
+ var users= gon.rooms_users
+$('#message').textcomplete([
+    {
+        match: /\B@([\-+\w]*)$/,
+        search: function (term, callback) {
+            callback($.map(users, function (user) {
+                return user.indexOf(term) === 0 ? user : null;
+            }));
+        },
+        template: function (value) {
+            return '@' + value;
+        },
+        replace: function (value) {
+            return '@' + value+' ';
+        },
+        index: 1,
+        maxCount: 5
+    }
+]);
+
     function replaceTag(tag) {
         return tagsToReplace[tag] || tag;
     }
@@ -315,6 +306,7 @@ $(document).ready(function(){
         $.ajax({
             url: '/rooms/previous_messages',
             type: 'POST',
+            beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
             data:{
                 room_id: $("li.active > a").attr('room_id'),
                 offset_records: message_offset

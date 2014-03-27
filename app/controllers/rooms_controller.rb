@@ -33,6 +33,7 @@ class RoomsController < ApplicationController
     @user_friends = current_user.friends
     room_user_ids = RoomsUser.where(:room_id => @room.id).map{|item| item.user_id}
     @room_users = User.where("id IN (?)", room_user_ids)
+    gon.rooms_users=@room_users.pluck(:login)
   end
 
   def load_previous_10_msg

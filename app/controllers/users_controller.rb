@@ -1,11 +1,6 @@
 class UsersController < ApplicationController
   before_filter :authenticate_user!
 
-	def search
-		users=User.where("login like ?", "#{params[:login]}%")
-		render :json=>users,:root=>false
-	end
-
   def index
 
     @statuses = UserStat.all
