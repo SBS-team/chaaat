@@ -21,8 +21,9 @@
                       %small.pull-right.text-muted
                         %span.glyphicon.glyphicon-time
                         =message.created_at.strftime("%a %T")
-                    %p= message.body  
-                    %p= image_tag message.attach_path
+                    %p= message.body
+                    -if message.attach_path?
+                      %p.attach_file= message.attach_path
               -else
                 %li.to.clearfix
                   %span.chat-img.pull-left
@@ -35,7 +36,8 @@
                         %span.glyphicon.glyphicon-time
                         =message.created_at.strftime("%a %T")
                     %p= message.body  
-                    %p= image_tag message.attach_path
+                    -if message.attach_path?
+                      %p.attach_file= message.attach_path
     .btn-group.dropup
       %button.show_smile.btn.btn-default.dropdown-toggle{"data-toggle" => "dropdown", type: "button"}
         %span.caret

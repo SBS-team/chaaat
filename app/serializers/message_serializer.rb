@@ -1,8 +1,12 @@
 class MessageSerializer < ActiveModel::Serializer
-  attributes :body, :user_id, :login, :avatar, :created_at
+  attributes :body, :user_id, :login, :avatar, :created_at, :attach_file_path
 
   def login
   	object.user.login
+  end
+
+  def attach_file_path
+    object.attach_path.url
   end
 
   def created_at
