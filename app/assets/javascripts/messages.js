@@ -16,11 +16,11 @@ $(document).ready(function(){
 
     if (document.getElementsByClassName('panel-body')[0]!=undefined){
 
-        document.getElementsByClassName('panel-body')[0].style.height=$(window).height()-1110+"px";
+        document.getElementsByClassName('panel-body')[0].style.minHeight=$('body').height()-190+"px";
 
 
         $( window ).resize(function() {
-            document.getElementsByClassName('panel-body')[0].style.height=$(window).height()-1110+"px";
+            document.getElementsByClassName('panel-body')[0].style.minHeight=$('body').height()-190+"px";
 
         });
     }

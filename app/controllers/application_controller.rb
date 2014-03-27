@@ -10,7 +10,6 @@ class ApplicationController < ActionController::Base
 
 
   def after_sign_in_path_for(resource)
-    User.update(current_user.id, :user_stat_id=>1)
     if resource.is_a? User
         rooms_path
     else

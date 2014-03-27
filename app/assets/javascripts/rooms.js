@@ -31,6 +31,7 @@ jQuery(function($){
                         },
                         success: function(response){
                             list_item.remove();
+                            self.location="/rooms";
                         }
                     });
                 },
@@ -42,15 +43,7 @@ jQuery(function($){
         }
             $('ul').on('click', '.joined_friend', function(e) {
             if ($(this).attr('data_user_id')!=gon.user_id.toString()){
-                $.bootstrapGrowl("You can`t remove that user from room", {
-                    type: 'success', // (null, 'info', 'error', 'success')
-                    offset: {from: 'top', amount: 50}, // 'top', or 'bottom'
-                    align: 'center', // ('left', 'right', or 'center')
-                    width: 250, // (integer, or 'auto')
-                    delay: 700,
-                    allow_dismiss: true,
-                    stackup_spacing: 10 // spacing between consecutively stacked growls.
-                });
+                self.location="/persons/"+$(this).attr('data_user_id');
             }
         });
 });

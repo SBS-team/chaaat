@@ -14,6 +14,7 @@
 .col-md-2 {
   z-index: 0;
 }
+
 .form-control#search{
   position: fixed;
   width: 65%;
@@ -58,7 +59,7 @@
 .panel.panel-primary {
   border: none;
   .panel-footer {
-    padding: 0px;
+    padding:0px;
     button {
       width: 100%;
     }
@@ -115,7 +116,9 @@
 
 .panel-body {
   overflow-y: scroll;
-  height: 250px;
+//  height: 100%
+padding: 0px;
+  margin: 0px;
   background-color: #eee;
 }
 
