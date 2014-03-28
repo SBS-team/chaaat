@@ -7,8 +7,8 @@ gem 'coffee-rails'
 gem 'jquery-rails'
 gem 'jbuilder'
 gem 'bootstrap-sass'
-gem 'devise'
-gem 'devise_invitable'
+gem 'devise', '~> 3.2.4'
+gem 'devise_invitable', '~> 1.3.4'
 gem 'haml-rails'
 gem 'pg'
 gem 'therubyracer', :platform=>:ruby
@@ -25,6 +25,7 @@ gem 'sanitize'
 gem "active_model_serializers"
 gem 'emoji'
 gem 'activerecord-reset-pk-sequence'
+gem 'carrierwave'
 group :development do
   gem 'better_errors'
   gem 'binding_of_caller', :platforms=>[:mri_19, :mri_20, :rbx]

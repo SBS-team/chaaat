@@ -118,6 +118,12 @@ body {background-color: #f0f0f0;line-height: normal;}
 	font-size: 35px;
 	color: #999;
 }
+
+.friend_list {
+    height: 100px;
+    overflow-y: auto;
+}
+
 .list{
 	height: 100%;
 	position: relative;
@@ -128,6 +134,7 @@ body {background-color: #f0f0f0;line-height: normal;}
 	padding: 5px 5px 5px 18px;
 	white-space: nowrap;
 }
+
 .member span {
 	margin-right: 5px;
 }

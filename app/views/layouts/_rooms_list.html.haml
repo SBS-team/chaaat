@@ -73,20 +73,18 @@
               %span.glyphicon.glyphicon-record
       .dropdown
         %button#drop2.btn.btn-default.dropdown-toggle.tf-but{"data-toggle" => "dropdown", :role => "button"}
-          Room actions
+          Friends
           %span.caret
-        %ul.dropdown-menu.room-action{"aria-labelledby" => "drop2", :role => "menu"}
-          %li
-            %a{:href => "#", :tabindex => "-1"} Action
-          %li
-            %a{:href => "#", :tabindex => "-1"} Another action
-          %li
-            %a{:href => "#", :tabindex => "-1"} Else remark
-    .list
-      - if !@room_users.nil?
+        %ul.dropdown-menu.room-action.friend_list{"aria-labelledby" => "drop2", :role => "menu"}
+          - current_user.friends.each do |friend|
+            %li.user_friend{:user_id => friend.id, :room_id => @room.id }
+              = link_to rooms_users_path, :method => :post do
+                %span{:class => get_user_status_style(friend.user_stat_id)}
+                = "#{friend.login}"
+    - if @room_users != nil
+      .list
         - @room_users.each do |user|
           .member
-            %span.glyphicon.glyphicon-eye-open.drop-av
-            %a{:href => "#"}#{user.login}
-
+            %span{:class => get_user_status_style(user.user_stat_id)}
+            = link_to "#{user.login}", user_path(user.id), :user_id => user.id, :room_id => @room.id
     .footer

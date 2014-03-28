@@ -37,20 +37,24 @@
                 -if message.attach_path?
                   %p.attach_file= message.attach_path
   .input
-    %form{:action => "", :method => "get", :name => "messageForm"}
+    = form_for @message, :authenticity_token => true, :url => new_message_path,:id=>"form-message", :name => "messageForm", :html => {:multipart => true}, :method=>"post" do |f|
       %table{:cellspacing => "0", :width => "100%"}
         %tbody
           %tr
             %td
               .textwrapper
-                %textarea#message_input{:autocomplete => "off"}
+                = f.text_area :body , :class => "form-control", :id=>"message_input", :autocomplete => "off"
             %td.up-pl-wrap{:width => "10%"}
               %span.glyphicon.glyphicon-ok.ok
               %label.upload-place
-                %input#upload-file{:type => "file"}
+                = f.file_field :attach_path ,:id=>"attach_path"
             %td{:width => "1%"}
-              %label.upload-but{:for => "upload-file"}
+              = f.hidden_field :room_id, :value=>@room_id
+              %label.upload-but{:for => "attach_path"}
                 %span.glyphicon.glyphicon-paperclip
             %td{:width => "1%"}
               %button.form-but#send_message{:type => "button"}
-                %span.glyphicon.glyphicon-envelope
+                %span.glyphicon.glyphicon-thumbs-up
+    %audio#new-message
+      %source{:src=>"../sounds/button_tiny.ogg", :type=>"audio/ogg"}
+      %source{:src=>"../sounds/button_tiny.mp3", :type=>"audio/mp3"}

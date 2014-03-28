@@ -8,7 +8,6 @@ Chat::Application.routes.draw do
   post "message/new", to: "message#new", as: "new_message"
   post "message/search", to: "message#search"
   get "message/search/:search", to: "message#search"
-  post "users/search", to: "users#search"
   get "users/search/:id", to: "users#search"
 
   get "message/search/:search", to: "message#search"

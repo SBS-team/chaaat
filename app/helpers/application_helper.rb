@@ -37,20 +37,20 @@ module ApplicationHelper
       CGI::escapeHTML(res)
       res.html_safe
     else
-      res= mas_str.join(" ")
+      res = mas_str.join(" ")
     end
   end
 
-  def get_user_status_icon(user_status_id)
+  def get_user_status_style(user_status_id)
     case user_status_id
       when 1
-        "online"
+        "glyphicon glyphicon-eye-open drop-av drop-col-mar"
       when 2
-        "offline"
+        "glyphicon glyphicon-eye-open drop-col-mar"
       when 3
-        "away"
+        "glyphicon glyphicon-eye-open drop-away drop-col-mar"
       when 4
-        "do_not_disturb"
+        "glyphicon glyphicon-eye-close drop-dnd drop-col-mar"
     end
   end
 
