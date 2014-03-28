@@ -3,8 +3,8 @@
   %span.user_name
     = link_to "#{current_user.firstname} #{current_user.lastname}", current_user
   .dropdown
-    %button.btn.dropdown-toggle#userStatus{:type=>"button", :data=>{:toggle=>"dropdown"}}
-      %span{:class => "glyphicon glyphicon-off #{get_user_status_icon(current_user.user_stat_id)}"}
+    %button.btn.dropdown-toggle#userStatus{:type=>"button", :data=>{:toggle=>"dropdown"}}>
+      %span{:class => "#{get_user_status_style(current_user.user_stat_id)}"}
       ="#{current_user.user_stat.status_name}"
       %span.caret
     %ul.dropdown-menu{:role=>"menu", :aria=>{:labelledby=>"dropdownMenu1"}}
@@ -27,10 +27,13 @@
 
 %h3
   Possible friends
-%ul.friends_list
+%ul#friends_list
   - @possible_friends.each  do |user|
-    %li
-      = image_tag avatar_url(user,50),:class => "avatar"
-      #user_info
-        = link_to "#{user.firstname}  #{user.lastname}", user_path(user.id), :class => 'user_name'
-        = link_to 'Add Friend', friendships_path(:friend_id => user), :method => :post
+    %li.friend{:user_id => user.id}
+      .friend_photo
+        = image_tag avatar_url(user,50),:class => "avatar"
+      .friend_name
+        = "#{user.firstname} #{user.lastname}"
+    .friend_action.add_friend{:friend_id => user.id}
+      -#= link_to friendships_path(:friend_id => user), :method => :post do
+      %span{:class => "glyphicon glyphicon-plus add_new_friend"}

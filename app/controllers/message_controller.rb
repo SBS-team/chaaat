@@ -1,6 +1,5 @@
 class MessageController < ApplicationController
   before_filter :authenticate_user!
-  include MessageHelper
   include ApplicationHelper
 
   def new
@@ -17,6 +16,7 @@ class MessageController < ApplicationController
   end
 
   private
+  
   def message_params
     params.require(:message).permit(:body, :attach_path, :room_id)
   end

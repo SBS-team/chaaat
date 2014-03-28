@@ -13,46 +13,16 @@ module ApplicationHelper
     end
   end
 
-  def with_link(message_str)
-    flag=false
-    split_message=message_str.split(" ")
-    mas_str =[]
-    split_message.each do |str|
-      if str.scan("http://")+str.scan(".jpg")==["http://", ".jpg"]
-        str=str.gsub(str, "<img src=\""+str+"\" >")
-        flag=true
-      end
-      if str.scan(/youtube(.*)v/)!=[]
-        split_str=str.split("=")
-        if str.scan(/youtube(.*)v/)==[[".com/watch?"]]
-          str= "<br><iframe width=\"560\" height=\"315\" src=\"//www.youtube.com/embed/"+split_str[1].to_s+"\" frameborder=\"0\" allowfullscreen></iframe><br>"
-          flag=true
-        end
-      end
-      mas_str+=[str]
-    end
-
-    if flag==true
-      res= mas_str.join("\r")
-      CGI::escapeHTML(res)
-      res.html_safe
-    else
-      res= mas_str.join(" ")
-    end
-  end
-
-  def get_user_status_icon(user_status_id)
+  def get_user_status_style(user_status_id)
     case user_status_id
+      when 0
+        "glyphicon glyphicon-eye-open drop-av drop-col-mar"
       when 1
-        "online"
+        "glyphicon glyphicon-eye-open drop-away drop-col-mar"
       when 2
-        "offline"
+        "glyphicon glyphicon-eye-close drop-dnd drop-col-mar"
       when 3
-        "away"
-      when 4
-        "do_not_disturb"
+        "glyphicon glyphicon-eye-close drop-dnd drop-col-mar"
     end
   end
-
-
 end
