@@ -3,7 +3,8 @@ jQuery(function($){
     $(".user_friend").click(function(event){
         $.ajax({
             url: '/rooms_users',
-            type: 'POST',
+            type: 'POST',                    
+            beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
             data: {
                 room_id: $(this).attr('data_room_id'),
                 user_id: $(this).attr('data_user_id')
@@ -23,7 +24,8 @@ jQuery(function($){
             confirm: function(button) {
                 $.ajax({
                     url: '/rooms_users/' + list_item.attr('data_user_id')+'/' + list_item.attr('data_room_id'),
-                    type: 'POST',
+                    type: 'POST',                    
+                    beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
                     data: {
                         _method: 'DELETE',
                         room_id: list_item.attr('data_room_id'),

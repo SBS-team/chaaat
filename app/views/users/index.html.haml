@@ -4,7 +4,7 @@
     = link_to "#{current_user.firstname} #{current_user.lastname}", current_user
   .dropdown
     %button.btn.dropdown-toggle#userStatus{:type=>"button", :data=>{:toggle=>"dropdown"}}
-      %span{:class => "glyphicon glyphicon-off #{get_user_status_icon(current_user.user_stat_id)}"}
+      %span{:class => "glyphicon glyphicon-off #{get_user_status_style(current_user.user_stat_id)}"}
       ="#{current_user.user_stat.status_name}"
       %span.caret
     %ul.dropdown-menu{:role=>"menu", :aria=>{:labelledby=>"dropdownMenu1"}}

@@ -12,110 +12,102 @@
 -#        -else
 -#          %li
 -#            =link_to "#{room.name}",room_path(:id=>room.id), :room_id => room.id
-%body
-  %aside.left
-    %h1.logo
-      %a{:href => "/"}
-        %img{:alt => "SBS", :src => "../img/logo.png"}
-    %nav.lobby-panel
-      %ul#tabs.tabs.ui-sortable
-        %li#tab_lobby.selected
-          %a.open{:href => "#"}
-            %span.glyphicon.glyphicon-th-list>
-            Lobby
-        %li
-          %a.open{:href => "#"}
-            %span.glyphicon.glyphicon-user>
-            User1
-          %a.close.glyphicon.glyphicon-remove-circle{:href => "#"}
-        %li
-          %a.open{:href => "#"}
-            %span.glyphicon.glyphicon-user>
-            User2
-          %a.close.glyphicon.glyphicon-remove-circle{:href => "#"}
-        %li
-          %a.open{:href => "#"}
-            %span.glyphicon.glyphicon-lock>
-            User3
-          %a.close.glyphicon.glyphicon-remove-circle{:href => "#"}
-        %li
-          %a.open{:href => "#"}
-            %span.glyphicon.glyphicon-phone>
-            User4
-          %a.close.glyphicon.glyphicon-remove-circle{:href => "#"}
-        %li
-          %a.open{:href => "#"}
-            %span.glyphicon.glyphicon-eye-open.drop-av>
-            User5
-          %a.close.glyphicon.glyphicon-remove-circle{:href => "#"}
-        %li
-          %a.open{:href => "#"}
-            %span.glyphicon.glyphicon-eye-open>
-            User6
-          %a.close.glyphicon.glyphicon-remove-circle{:href => "#"}
-    #status_ui
-      %span.glyphicon.glyphicon-user
-      .dropdown
-        %a#drop1.dropdown-toggle.avail{"data-toggle" => "dropdown", :href => "#", :role => "button", :type => "button"}
+%aside.left
+  %h1.logo
+    %a{:href => "/"}
+      %img{:alt => "SBS", :src => "../img/logo.png"}
+  %nav.lobby-panel
+    %ul#tabs.tabs.ui-sortable
+      %li#tab_lobby.selected
+        %a.open{:href => "#"}
+          %span.glyphicon.glyphicon-th-list>
+          Lobby
+      %li
+        %a.open{:href => "#"}
+          %span.glyphicon.glyphicon-user>
+          User1
+        %a.close.glyphicon.glyphicon-remove-circle{:href => "#"}
+      %li
+        %a.open{:href => "#"}
+          %span.glyphicon.glyphicon-user>
+          User2
+        %a.close.glyphicon.glyphicon-remove-circle{:href => "#"}
+      %li
+        %a.open{:href => "#"}
+          %span.glyphicon.glyphicon-lock>
+          User3
+        %a.close.glyphicon.glyphicon-remove-circle{:href => "#"}
+      %li
+        %a.open{:href => "#"}
+          %span.glyphicon.glyphicon-phone>
+          User4
+        %a.close.glyphicon.glyphicon-remove-circle{:href => "#"}
+      %li
+        %a.open{:href => "#"}
+          %span.glyphicon.glyphicon-eye-open.drop-av>
+          User5
+        %a.close.glyphicon.glyphicon-remove-circle{:href => "#"}
+      %li
+        %a.open{:href => "#"}
           %span.glyphicon.glyphicon-eye-open>
-          Available
-          %span.glyphicon.glyphicon-hand-down
-        %ul.dropdown-menu.avail-drop{"aria-labelledby" => "drop1", :role => "menu"}
-          %li
-            %a{:href => "#", :tabindex => "-1"}
-              %span.glyphicon.glyphicon-eye-open.drop-av.drop-col-mar>
-              Available
-          %li
-            %a{:href => "#", :tabindex => "-1"}
-              %span.glyphicon.glyphicon-eye-open.drop-away.drop-col-mar>
-              Away
-          %li
-            %a{:href => "#", :tabindex => "-1"}
-              %span.glyphicon.glyphicon-eye-close.drop-dnd.drop-col-mar>
-              Do not disturb
-          %li
-            %a{:href => "#", :tabindex => "-1"}
-              %span.glyphicon.glyphicon-question-sign.drop-hlp.drop-col-mar>
-              Help
-          %li
-            %a{:href => "#", :tabindex => "-1"}
-              %span.glyphicon.glyphicon-share-alt.drop-col-mar>
-              Sign out
-      %a.glyphicon.glyphicon-cog{:href => "#"}
-  %aside.right
-    .top-form
-      .dropdown
-        %button#drop3.btn.btn-default.dropdown-toggle.tf-but{"data-toggle" => "dropdown", :type => ""}
-          %span.glyphicon.glyphicon-search
-        %form.dropdown-menu.search-form{:action => "/", "aria-labelledby" => "drop3", :method => "get", :role => "menu"}
-          %input{:name => "search", :placeholder => "Search", :type => "search"}
-            %button{:type => "submit"}
-              %span.glyphicon.glyphicon-record
-      .dropdown
-        %button#drop2.btn.btn-default.dropdown-toggle.tf-but{"data-toggle" => "dropdown", :role => "button"}
-          Room actions
-          %span.caret
-        %ul.dropdown-menu.room-action{"aria-labelledby" => "drop2", :role => "menu"}
-          %li
-            %a{:href => "#", :tabindex => "-1"} Action
-          %li
-            %a{:href => "#", :tabindex => "-1"} Another action
-          %li
-            %a{:href => "#", :tabindex => "-1"} Else remark
-    .list
-      .member
-        %span.glyphicon.glyphicon-eye-open.drop-av
-        %a{:href => "#"} Name
-      .member
-        %span.glyphicon.glyphicon-eye-open.drop-away
-        %a{:href => "#"} Name
-      .member
-        %span.glyphicon.glyphicon-eye-open{:style => "color:#999;"}
-        %a{:href => "#"} Name
-      .member
-        %span.glyphicon.glyphicon-lock{:style => "color:#666;"}
-        %a{:href => "#"} Name
-      .member
-        %span.glyphicon.glyphicon-phone{:style => "color:#666;"}
-        %a{:href => "#"} Name
-    .footer
+          User6
+        %a.close.glyphicon.glyphicon-remove-circle{:href => "#"}
+  #status_ui
+    =image_tag avatar_url(current_user,50),:class => "avatar_mini"
+    .dropdown
+      %a#drop1.dropdown-toggle.avail{"data-toggle" => "dropdown", :href => "#", :role => "button", :type => "button"}
+        %span.glyphicon.glyphicon-eye-open>
+        =current_user.user_stat.status_name
+        %span.glyphicon.glyphicon-hand-down
+      %ul.dropdown-menu.avail-drop{"aria-labelledby" => "drop1", :role => "menu"}
+        - @statuses.each_with_index do |status, index|
+          %li{:role => "presentation"}
+            %a.change-status{:role=>"menuitem", :tabindex=>"-1", :data=>{:id=>status.id}, :href=>"#"}
+              %span{:class => "#{get_user_status_style(index)}"}
+              = status.status_name
+        %li
+          %a.change-status{:href => "#", :tabindex => "-1"}
+            %span.glyphicon.glyphicon-question-sign.drop-hlp.drop-col-mar>
+            Help
+        %li
+          = link_to destroy_user_session_path, :method=>'delete', :tabindex => "-1" do
+            %span.glyphicon.glyphicon-share-alt.drop-col-mar>
+            Sign out
+    %a.glyphicon.glyphicon-cog{:href => "#"}
+%aside.right
+  .top-form
+    .dropdown
+      %button#drop3.btn.btn-default.dropdown-toggle.tf-but{"data-toggle" => "dropdown", :type => ""}
+        %span.glyphicon.glyphicon-search
+      %form.dropdown-menu.search-form{:action => "/", "aria-labelledby" => "drop3", :method => "get", :role => "menu"}
+        %input{:name => "search", :placeholder => "Search", :type => "search"}
+          %button{:type => "submit"}
+            %span.glyphicon.glyphicon-record
+    .dropdown
+      %button#drop2.btn.btn-default.dropdown-toggle.tf-but{"data-toggle" => "dropdown", :role => "button"}
+        Room actions
+        %span.caret
+      %ul.dropdown-menu.room-action{"aria-labelledby" => "drop2", :role => "menu"}
+        %li
+          %a{:href => "#", :tabindex => "-1"} Action
+        %li
+          %a{:href => "#", :tabindex => "-1"} Another action
+        %li
+          %a{:href => "#", :tabindex => "-1"} Else remark
+  .list
+    .member
+      %span.glyphicon.glyphicon-eye-open.drop-av
+      %a{:href => "#"} Name
+    .member
+      %span.glyphicon.glyphicon-eye-open.drop-away
+      %a{:href => "#"} Name
+    .member
+      %span.glyphicon.glyphicon-eye-open{:style => "color:#999;"}
+      %a{:href => "#"} Name
+    .member
+      %span.glyphicon.glyphicon-lock{:style => "color:#666;"}
+      %a{:href => "#"} Name
+    .member
+      %span.glyphicon.glyphicon-phone{:style => "color:#666;"}
+      %a{:href => "#"} Name
+  .footer

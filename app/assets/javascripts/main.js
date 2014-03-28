@@ -17,15 +17,16 @@ $(function () {
     range.select();
   }
 
-  var $textarea = $('#message');
-  var textarea = $textarea.get(0);
-  $textarea.focus();
-  if (typeof textarea.selectionStart === 'number') {
-    textarea.selectionStart = textarea.selectionEnd = $textarea.val().length;
-  } else {
-    var range = textarea.createTextRange();
-    range.select();
-  }
-  $textarea.keyup();
-
+    var $textarea = $('#message');
+    var textarea = $textarea.get(0);
+    if (textarea!==undefined) {
+    $textarea.focus();
+    if (typeof textarea.selectionStart === 'number') {
+      textarea.selectionStart = textarea.selectionEnd = $textarea.val().length;
+    } else {
+      var range = textarea.createTextRange();
+      range.select();
+    }
+    $textarea.keyup();
+  };
 });
