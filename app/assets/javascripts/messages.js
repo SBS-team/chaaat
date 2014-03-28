@@ -14,19 +14,31 @@ $(document).ready(function(){
         });
     });
 
+
     if (document.getElementsByClassName('panel-body')[0]!=undefined){
 
         document.getElementsByClassName('panel-body')[0].style.height=$('body').height()-250+"px";
 
-
-//        $( window ).resize(function() {
-//            document.getElementsByClassName('panel-body')[0].style.minHeight=$('body').height()-190+"px";
-//
-//        });
     }
 
     var message_textarea=$("#message");
     var users= gon.rooms_users;
+
+    $(document).ready(function() {
+        $("iframe").each(function(){
+            var ifr_source = $(this).attr('src');
+            var wmode = "wmode=transparent";
+            if(ifr_source.indexOf('?') != -1) {
+                var getQString = ifr_source.split('?');
+                var oldString = getQString[1];
+                var newString = getQString[0];
+                $(this).attr('src',newString+'?'+wmode+'&'+oldString);
+            }
+            else $(this).attr('src',ifr_source+'?'+wmode);
+        });
+    });
+
+    var message_textarea=$("#message_input");
 
     $(".panel-footer").on('submit',function(){
         send_message();
@@ -244,7 +256,7 @@ $(document).ready(function(){
         }
         if (scroll_true==true)
         {
-        var objDiv = document.getElementsByClassName('panel-body')[0];
+        var objDiv = document.getElementsByClassName('content')[0];
         objDiv.scrollTop = objDiv.scrollHeight+2000;
         }
         emojify.setConfig({ emoticons_enabled: true, people_enabled: true, nature_enabled: true, objects_enabled: true, places_enabled: true, symbols_enabled: true });

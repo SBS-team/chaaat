@@ -10,8 +10,4 @@
     = csrf_meta_tags
     = javascript_include_tag "application", "data-turbolinks-track" => true
   %body{:style=>("background-image:url('../background/#{background_image()}');" unless user_signed_in?)}
-    .container-fluid.navbar-fixed-top
-      %header
-        = render 'layouts/navigation'
-      .row-fluid
-        = yield
+    = yield
