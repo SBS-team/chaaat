@@ -1,6 +1,5 @@
 class ApplicationController < ActionController::Base
   before_filter :configure_permitted_parameters, if: :devise_controller?
-
   helper_method :background_image
 
   def configure_permitted_parameters
@@ -8,9 +7,7 @@ class ApplicationController < ActionController::Base
     devise_parameter_sanitizer.for(:sign_up) { |u| u.permit(:firstname,:lastname,:avatar, :email, :password, :password_confirmation,:login) }
   end
 
-
   def after_sign_in_path_for(resource)
-    User.update(current_user.id, :user_stat_id=>1)
     if resource.is_a? User
         rooms_path
     else
@@ -19,6 +16,7 @@ class ApplicationController < ActionController::Base
   end
 
   def after_sign_out_path_for(resource)
+    Pusher['status'].trigger('change_status', :status=>"Offline",:user_id=>current_user.id)
     User.update(current_user.id, :user_stat_id => 2)
     User.update(current_user.id, :sign_out_at => Time.now)
     if resource.is_a? User

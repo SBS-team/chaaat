@@ -14,45 +14,62 @@ jQuery(function($){
 
 
 
-        var list_item = $(document.getElementById(gon.user_id.toString()));
-        if (document.getElementById(gon.user_id.toString())){
+    var list_item = $(document.getElementById(gon.user_id.toString()));
+    if (document.getElementById(gon.user_id.toString())){
 
-            $(document.getElementById(gon.user_id.toString())).confirm({
-                text: "Are you sure you want to delete yourself?",
-                title: "Confirmation required",
-                confirm: function(button) {
-                    $.ajax({
-                        url: '/rooms_users/' + list_item.attr('data_user_id')+'/' + list_item.attr('data_room_id'),
-                        type: 'POST',
-                        data: {
-                            _method: 'DELETE',
-                            room_id: list_item.attr('data_room_id'),
-                            user_id: list_item.attr('data_user_id')
-                        },
-                        success: function(response){
-                            list_item.remove();
-                        }
-                    });
+        $(document.getElementById(gon.user_id.toString())).confirm({
+            text: "Are you sure you want to delete yourself?",
+            title: "Confirmation required",
+            confirm: function(button) {
+                $.ajax({
+                    url: '/rooms_users/' + list_item.attr('data_user_id')+'/' + list_item.attr('data_room_id'),
+                    type: 'POST',
+                    data: {
+                        _method: 'DELETE',
+                        room_id: list_item.attr('data_room_id'),
+                        user_id: list_item.attr('data_user_id')
+                    },
+                    success: function(response){
+                        list_item.remove();
+                        self.location="/rooms";
+                    }
+                });
+            },
+
+            confirmButton: "Yes I am",
+            cancelButton: "No",
+            post: false
+        });
+    }
+    $('ul').on('dblclick', '.joined_friend', function(e) {
+        if ($(this).attr('data_user_id')!=gon.user_id.toString()){
+
+            e.preventDefault();
+
+            var strInputCode = $(this).html();
+            strInputCode = strInputCode.replace(/&(lt|gt);/g, function (strMatch, p1){
+                return (p1 == "lt")? "<" : ">";
+            });
+            var strTagStrippedText = strInputCode.replace(/<\/?[^>]+(>|$)/g, "");
+
+            var posting = $.post('/rooms/', {
+                express:true,
+                room: {
+                    name:  gon.user_login+" vs. "+strTagStrippedText,
+                    topic: 'express chat'
                 },
-
-                confirmButton: "Yes I am",
-                cancelButton: "No",
-                post: false
+                user_id:$(this).attr('data_user_id')
+            });
+            posting.done(function(response){
+                $.post('rooms_users/pusher_send_to_user')
+                self.location=response;
             });
         }
-            $('ul').on('click', '.joined_friend', function(e) {
-            if ($(this).attr('data_user_id')!=gon.user_id.toString()){
-                $.bootstrapGrowl("You can`t remove that user from room", {
-                    type: 'success', // (null, 'info', 'error', 'success')
-                    offset: {from: 'top', amount: 50}, // 'top', or 'bottom'
-                    align: 'center', // ('left', 'right', or 'center')
-                    width: 250, // (integer, or 'auto')
-                    delay: 700,
-                    allow_dismiss: true,
-                    stackup_spacing: 10 // spacing between consecutively stacked growls.
-                });
-            }
-        });
+    });
+    $('ul').on('click', '.joined_friend', function(e) {
+        if ($(this).attr('data_user_id')!=gon.user_id.toString()){
+            self.location="/persons/"+$(this).attr('data_user_id');
+        }
+    });
+
 });
-
-

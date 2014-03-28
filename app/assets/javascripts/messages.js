@@ -15,23 +15,36 @@ $(document).ready(function(){
         });
     });
 
+
     if (document.getElementsByClassName('panel-body')[0]!=undefined){
 
-        document.getElementsByClassName('panel-body')[0].style.height=$(window).height()-1110+"px";
+        document.getElementsByClassName('panel-body')[0].style.height=$('body').height()-250+"px";
 
-
-        $( window ).resize(function() {
-            document.getElementsByClassName('panel-body')[0].style.height=$(window).height()-1110+"px";
-
-        });
     }
 
     var message_textarea=$("#message");
+    var users= gon.rooms_users;
 
-    $("#send_message").click(function(){
-        send_message();
+    $(document).ready(function() {
+        $("iframe").each(function(){
+            var ifr_source = $(this).attr('src');
+            var wmode = "wmode=transparent";
+            if(ifr_source.indexOf('?') != -1) {
+                var getQString = ifr_source.split('?');
+                var oldString = getQString[1];
+                var newString = getQString[0];
+                $(this).attr('src',newString+'?'+wmode+'&'+oldString);
+            }
+            else $(this).attr('src',ifr_source+'?'+wmode);
+        });
     });
 
+    var message_textarea=$("#message_input");
+
+    $(".panel-footer").on('submit',function(){
+        send_message();
+        return false;
+    });
     message_textarea.keydown(function(e)
     {
         if (e.keyCode == 13 && e.ctrlKey == false) {
@@ -43,32 +56,10 @@ $(document).ready(function(){
         }
     });
 
-
-    message_textarea.keyup(function(){
-        message_textarea_value=message_textarea.val();
-        if ((message_textarea_value.indexOf(' @')>-1) || (message_textarea_value.indexOf('@')>-1 && message_textarea_value.indexOf('@')<1)){
-            $('#request-user').html('');
-            $.ajax({
-                type: "POST",
-                url: "../users/search/",
-                data: { login: $.trim(message_textarea_value.match(/\@(\S+.)/)[1]) }
-            }).done(function(msg) {
-                    if ((msg.length==0) || (msg[0].login==$.trim(message_textarea_value.match(/\@(\S+.)/)[1]))) {
-                        $("#request-user").css("display","none");
-                    }else{
-                        for (var i = msg.length - 1; i >= 0; i--) {
-                            $('#request-user').append('<div data-login="@'+msg[i].login+'" class="replace">@'+msg[i].login+'</div>');
-                        };
-                        $("#request-user").css("display","block");
-                    }
-                });
-
-        }
-    });
-
     $("#search").keyup(function(){
         $.ajax({
             type: "POST",
+            beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
             url: "../message/search/",
             data: { query: $("#search").val(),room_id: gon.room_id }
 
@@ -77,53 +68,33 @@ $(document).ready(function(){
                 console.log("THIS IS THE RESPONSE: " + msg);
                 $('#messages-wrapper').html('');
                 for (var i = 0; i <= msg.length - 1; i++) {
-                    render_message(msg[i].user_id,msg[i].login,msg[i].body,msg[i].avatar,msg[i].created_at,false);
+                    render_message(msg[i].user_id,msg[i].login,msg[i].body,msg[i].avatar,msg[i].created_at,false,msg[i].attach_file_path);
 
                 };
 
             });
     });
 
-    $('#request-user').on('click', '.replace', function(event){
-        login=$('#message').val();
-        login=login.replace($.trim($('#message').val().match(/\@(\S+.)/)[0]),$(event.currentTarget).attr('data-login'));
-        $('#message').val(login);
-        $(this).css('display','none');
-    });
-
-
-    function get_status_icon_style(user_status){
-        icon_style = "";
-        switch(user_status){
-            case "Offline":
-                icon_style = "offline";
-                break;
-            case "Away":
-                icon_style = "away";
-                break;
-            case "Do not disturb":
-                icon_style = "do_not_disturb";
-                break;
-            default:
-                icon_style = "online";
-                break;
-        }
-
-        return icon_style;
-    }
-
     $('.change-status').click(function(event){
         $.ajax({
             type: "GET",
+            beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
             url: "../users/status/",
             data: { status: $(this).attr("data-id") }
         })
             .done(function(msg) {
                 $("#userStatus")[0].innerHTML ="<span class=\"glyphicon glyphicon-off "+ get_status_icon_style(msg) +"\"></span>"
-                                            +msg+" <span class=\"caret\"></span>";
+                                            +"Status"+" <span class=\"caret\"></span>";
             });
     });
 
+    $('.change-status').click(function(event){
+        $.ajax({
+            type: "POST",
+            url: "../pusher/change_status/",
+            data: { status: $(this).attr("data-id")}
+        })
+    });
 
     eval(function(p,a,c,k,e,d){e=function(c){return c};if(!''.replace(/^/,String)){while(c--){d[c]=k[c]||c}k=[function(e){return d[e]}];e=function(){return'\\w+'};c=1};while(c--){if(k[c]){p=p.replace(new RegExp('\\b'+e(c)+'\\b','g'),k[c])}}return p}('2.1=\'/3/4?0=\'+5.0.6();',7,7,'room_id|channel_auth_endpoint|Pusher|pusher|auth|gon|toString'.split('|'),0,{}))
 
@@ -131,8 +102,20 @@ $(document).ready(function(){
     var channel = pusher.subscribe('private-'+gon.room_id.toString());
 
     channel.bind('new_message', function(data) {
+        render_message(data.user_id,data.login,data.message,data.avatar,data.create_at,true,data.attach_file_path);
+    });
 
-        render_message(data.user_id,data.login,data.message,data.avatar,data.create_at,true);
+    var channel_status = pusher.subscribe('status');
+
+    channel_status.bind('change_status', function(data) {
+        var temp=document.getElementById(data.user_id);
+        temp.getElementsByClassName('glyphicon-off')[0].className="glyphicon glyphicon-off "+get_status_icon_style(data.status);
+        if (data.status=="Offline"){
+        temp.title="Offline "+jQuery.timeago(new Date());
+        }
+        else{
+        temp.title=data.status;
+        }
     });
 
     var channel2 = pusher.subscribe('private-'+gon.user_id.toString());
@@ -164,9 +147,15 @@ $(document).ready(function(){
         status_icon_style = get_status_icon_style(data.user_status);
 
         $("ul.nav.side-nav-rigth").append(
-             "<li class=\"joined_friend\" id="+data.user_id
+             "<li class=\"joined_friend\" data-toggle=\"tooltip\" id="+data.user_id
            + " data_user_id=" + data.user_id + " data_room_id=" + data.room_id+"><a href=#>"
            +"<span class=\"glyphicon glyphicon-off " + status_icon_style +"\"></span>"+ data.user_login +"</a></li>");
+        if (data.user_status=="Offline"){
+            document.getElementById(data.user_id).title="Offline "+jQuery.timeago(data.user_sign_out_time);
+        }
+        else{
+            document.getElementById(data.user_id).title=data.user_status;
+        }
     });
 
     channel.bind('del_user_from_room', function(data) {
@@ -199,26 +188,35 @@ $(document).ready(function(){
      });
 
     $('#message').bind('textchange', function () {
-
         clearTimeout(timeout);
         typing_status("typing");
     });
 
     function send_message(){
-        if ($.trim(message_textarea.val()).length>0){
+        if ($.trim(message_textarea.val()).length>0 || ($('input[type="file"]')[0].files[0])){
+            var fd = new FormData();
+            fd.append('message[body]', $.trim(message_textarea.val()));
+            fd.append('message[room_id]', gon.room_id);
+            fd.append('message[attach_path]', $('input[type="file"]')[0].files[0]);
             $.ajax({
-                type: "POST",
-                url: "../message/new",
-                data: { message: $.trim(message_textarea.val()),room_id: gon.room_id }
-
-            }).done(function(msg) {
-                    message_textarea.val('');
-                });
+              type: 'POST',
+              beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
+              url: '../message/new',
+              data: fd,
+              processData: false,
+              contentType: false,
+              success: function(data){
+                $("#new_message")[0].reset();
+              },
+              error: function(data) {
+                console.log(data);
+              }
+            });
         }
     }
 
-    function create_message(user_id, login, body, avatar, time,msg_class){
-        return "<li class=\""+ msg_class +" clearfix\">"
+    function create_message(user_id, login, body, avatar, time,msg_class,attach_file_path){
+        message= "<li class=\""+ msg_class +" clearfix\">"
             + "<span class=\"chat-img pull-left\">"
             + "<img class=\"avatar\" src="+avatar+">"
             + "</span>"
@@ -231,22 +229,35 @@ $(document).ready(function(){
             + "<span class=\"glyphicon glyphicon-time\"></span>"+time
             + "</small>"
             + "</div>"
-            + "<p>"+ $.trim(changetags(safe_tags_replace(body))) +"</p>"
-            + "</div>"
-        + "</li>"
+            + "<p>"+ $.trim(changetags(safe_tags_replace(body))) +"</p>";
+            if(attach_file_path){
+             message=message + "<p class=\"attach-file\">"+check_file(attach_file_path)+"</p>";
+            }
+            message=message + "</div>"
+        + "</li>";
+        return message;
+    }
+
+    function check_file(url){
+        url_to_file=location.origin+url;
+        if (url_to_file.match(/http.*(jpg|gif|jpeg|png)/)){
+            return '<img src="'+url_to_file+'" height="200px" width="200px"/>';
+        }else{
+            return '<a href="'+url_to_file+'" download><span class="glyphicon glyphicon-download-alt"></span>'+url.match(/(\w|[-.])+$/)[0]+'</a>';
+        }
     }
 
 
-    function render_message(user_id, login, body, avatar, time,scroll_true){
+    function render_message(user_id, login, body, avatar, time,scroll_true,attach_file_path){
         if(gon.user_id==user_id){
-            $('#messages-wrapper').append(create_message(user_id, login, body, avatar, time,"from"));
+            $('#messages-wrapper').append(create_message(user_id, login, body, avatar, time,"from",attach_file_path));
         }else{
             document.getElementById('new-message').play();
-            $('#messages-wrapper').append(create_message(user_id, login, body, avatar, time,"to"));
+            $('#messages-wrapper').append(create_message(user_id, login, body, avatar, time,"to",attach_file_path));
         }
         if (scroll_true==true)
         {
-        var objDiv = document.getElementsByClassName('panel-body')[0];
+        var objDiv = document.getElementsByClassName('content')[0];
         objDiv.scrollTop = objDiv.scrollHeight+2000;
         }
         emojify.setConfig({ emoticons_enabled: true, people_enabled: true, nature_enabled: true, objects_enabled: true, places_enabled: true, symbols_enabled: true });
@@ -257,20 +268,23 @@ $(document).ready(function(){
 
 
 
-    function prepend_message(user_id,login,body,avatar,time){
+    function prepend_message(user_id,login,body,avatar,time,message,attach_file_path){
         if(gon.user_id == user_id){
-            $('#messages-wrapper:first-child').prepend(create_message(user_id, login, body, avatar, time,"from"));
+            $('#messages-wrapper:first-child').prepend(create_message(user_id, login, body, avatar, time,"from",attach_file_path));
         }
         else{
-            $('#messages-wrapper:first-child').prepend(create_message(user_id, login, body, avatar, time,"to"));
+            $('#messages-wrapper:first-child').prepend(create_message(user_id, login, body, avatar, time,"to",attach_file_path));
         }
     }
 
     function invoted_users(){
-        messages=$("li .chat-body p")
+        messages=$("li .chat-body p");
         for(var i=0; i<messages.length; i++){
             messages[i].innerHTML=changetags(messages[i].innerHTML);
-
+        }
+        attached_file=$(".attach_file");
+        for(var i=0; i<attached_file.length; i++){
+            attached_file[i].innerHTML=check_file(attached_file[i].innerHTML);
         }
     }
 
@@ -304,6 +318,25 @@ $(document).ready(function(){
         '<': '&lt;',
         '>': '&gt;'
     };
+
+$('#message').textcomplete([
+    {
+        match: /\B@([\-+\w]*)$/,
+        search: function (term, callback) {
+            callback($.map(users, function (user) {
+                return user.indexOf(term) === 0 ? user : null;
+            }));
+        },
+        template: function (value) {
+            return '@' + value;
+        },
+        replace: function (value) {
+            return '@' + value+' ';
+        },
+        index: 1,
+        maxCount: 5
+    }
+]);
 
     function replaceTag(tag) {
         return tagsToReplace[tag] || tag;
@@ -363,6 +396,7 @@ $(document).ready(function(){
         $.ajax({
             url: '/rooms/previous_messages',
             type: 'POST',
+            beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
             data:{
                 room_id: $("li.active > a").attr('room_id'),
                 offset_records: message_offset
@@ -372,7 +406,7 @@ $(document).ready(function(){
 
                     $('#messages-wrapper').prepend("<div class=\"glyphicon glyphicon-resize-vertical\" style=\"margin:0 50% 0 50%;opacity:0.5;font-size:20px\"\"></div>");
                     for (var i = 0; i <= response.rooms.length - 1; i++) {
-                        prepend_message(response.rooms[i].user_id,response.rooms[i].login,response.rooms[i].body,response.rooms[i].avatar,response.rooms[i].created_at);
+                        prepend_message(response.rooms[i].user_id,response.rooms[i].login,response.rooms[i].body,response.rooms[i].avatar,response.rooms[i].created_at,response.rooms[i].attach_file_path);
                     }
                     emojify.setConfig({ emoticons_enabled: true, people_enabled: true, nature_enabled: true, objects_enabled: true, places_enabled: true, symbols_enabled: true });
                     for(var i= 0;i<document.getElementsByClassName('chat-body').length; i++){

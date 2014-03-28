@@ -16,14 +16,12 @@ class PusherController < ApplicationController
     render :text => ""
   end
 
-  def pagination
-    messages=Message.where(:room_id=>params[:room_id]).preload(:user).last(params[:pag_count].to_i)
-    result = Array.new()
-    messages.each do |res|
-      message={:user_id=>res.user_id, :avatar=>avatar_url(res.user),:login=>res.user.login, :body=>res.body,:room_id=>res.room_id, :created_at=>res.created_at.strftime("%a %T")}
-      result.push(message)
+  def change_status
+    if(params[:status].to_i>0 && params[:status].to_i<=4)
+      User.update(current_user.id,:user_stat_id=>params[:status].to_i)
+      Pusher['status'].trigger('change_status', :status=>current_user.user_stat.status_name,:user_id=>current_user.id,:user_sign_out_time=>current_user.sign_out_at)
+      render text: "#{current_user.user_stat.status_name}"
     end
-    render :json=>result, :root=>false
   end
 
 end

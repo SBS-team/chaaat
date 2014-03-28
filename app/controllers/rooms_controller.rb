@@ -3,19 +3,29 @@ class RoomsController < ApplicationController
 
   def new
     @new_room = Room.new
+    @statuses = UserStat.all
   end
 
   def index
+    @statuses = UserStat.all
     @room_list=Room.where("id in (?)",RoomsUser.where(:user_id=>current_user.id).pluck(:room_id)).order(id: :asc)
   end
 
   def create
     @room = Room.create(room_params)
     RoomsUser.create(:user_id => current_user.id, :room_id => @room.id)
+    if params[:express]
+      Pusher["private-#{params[:user_id]}"].trigger('user_add_to_room', {:rooms_id=>@room.id,:rooms_name=>@room.name})
+      RoomsUser.create(:user_id => params[:user_id], :room_id => @room.id)
+      render :json=>@room.id,:root=>false
+    else
     redirect_to room_path(@room)
+    end
   end
 
   def show
+    @message=Message.new
+    @statuses = UserStat.all
     @room_id=params[:id]
     gon.user_login=current_user.login
     gon.user_id=current_user.id
@@ -32,6 +42,7 @@ class RoomsController < ApplicationController
     @user_friends = current_user.friends
     room_user_ids = RoomsUser.where(:room_id => @room.id).map{|item| item.user_id}
     @room_users = User.where("id IN (?)", room_user_ids)
+    gon.rooms_users=@room_users.pluck(:login)
   end
 
   def load_previous_10_msg
