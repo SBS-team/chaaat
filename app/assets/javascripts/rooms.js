@@ -4,15 +4,14 @@ jQuery(function($){
         $.ajax({
             url: '/rooms_users',
             type: 'POST',
+            beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
             data: {
-                room_id: $(this).attr('data_room_id'),
-                user_id: $(this).attr('data_user_id')
+                room_id: $(this).attr('room_id'),
+                user_id: $(this).attr('user_id')
             }
-
         });
+        return false;
     });
-
-
 
     var list_item = $(document.getElementById(gon.user_id.toString()));
     if (document.getElementById(gon.user_id.toString())){
@@ -22,12 +21,12 @@ jQuery(function($){
             title: "Confirmation required",
             confirm: function(button) {
                 $.ajax({
-                    url: '/rooms_users/' + list_item.attr('data_user_id')+'/' + list_item.attr('data_room_id'),
+                    url: '/rooms_users/' + list_item.attr('user_id')+'/' + list_item.attr('room_id'),
                     type: 'POST',
                     data: {
                         _method: 'DELETE',
-                        room_id: list_item.attr('data_room_id'),
-                        user_id: list_item.attr('data_user_id')
+                        room_id: list_item.attr('room_id'),
+                        user_id: list_item.attr('user_id')
                     },
                     success: function(response){
                         list_item.remove();
@@ -42,7 +41,7 @@ jQuery(function($){
         });
     }
     $('ul').on('dblclick', '.joined_friend', function(e) {
-        if ($(this).attr('data_user_id')!=gon.user_id.toString()){
+        if ($(this).attr('user_id')!=gon.user_id.toString()){
 
             e.preventDefault();
 
@@ -58,7 +57,7 @@ jQuery(function($){
                     name:  gon.user_login+" vs. "+strTagStrippedText,
                     topic: 'express chat'
                 },
-                user_id:$(this).attr('data_user_id')
+                user_id:$(this).attr('user_id')
             });
             posting.done(function(response){
                 $.post('rooms_users/pusher_send_to_user')
@@ -67,8 +66,8 @@ jQuery(function($){
         }
     });
     $('ul').on('click', '.joined_friend', function(e) {
-        if ($(this).attr('data_user_id')!=gon.user_id.toString()){
-            self.location="/persons/"+$(this).attr('data_user_id');
+        if ($(this).attr('user_id')!=gon.user_id.toString()){
+            self.location="/persons/"+$(this).attr('user_id');
         }
     });
 

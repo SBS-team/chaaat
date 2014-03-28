@@ -20,7 +20,6 @@ class FriendshipsController < ApplicationController
     inverse_friendship = Friendship.find_by(:user_id => friendship.friend.id, :friend_id => current_user.id)
     friendship.destroy
     inverse_friendship.destroy
-    flash[:notice] = 'Friendship is over'
     render :json => params[:friend_id]
   end
 

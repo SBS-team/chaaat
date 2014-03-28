@@ -133,6 +133,20 @@ $(document).ready(function(){
         $("ul.nav.side-nav").append("<li><a href=/rooms/"+data.rooms_id+">"+data.rooms_name+"</a></li>");
     });
 
+
+    function get_user_status_style(user_status_id){
+        switch(user_status_id){
+            case 1:
+                return "glyphicon glyphicon-eye-open drop-av drop-col-mar";
+            case 2:
+                return "glyphicon glyphicon-eye-open drop-col-mar";
+            case 3:
+                return "glyphicon glyphicon-eye-open drop-away drop-col-mar"
+            case 4:
+                return  "glyphicon glyphicon-eye-close drop-dnd drop-col-mar";
+        }
+    }
+
     channel.bind('add_user_to_room', function(data) {
         $.bootstrapGrowl("User "+data.user_login+" has been added to room: "+data.rooms_name, {
             type: 'success', // (null, 'info', 'error', 'success')
@@ -144,18 +158,23 @@ $(document).ready(function(){
             stackup_spacing: 10 // spacing between consecutively stacked growls.
         });
 
-        status_icon_style = get_status_icon_style(data.user_status);
+        var user_status_icon_style = get_user_status_style(data.user_status_id);
+        $(".list").append(
+            "<div class = \"member\">" +
+            "<span class = \""+ user_status_icon_style +"\"></span>" +
+            "<a href=\"/persons/" + data.user_id +"\">"+ data.user_login +"</a></div>"
+        );
 
-        $("ul.nav.side-nav-rigth").append(
-             "<li class=\"joined_friend\" data-toggle=\"tooltip\" id="+data.user_id
-           + " data_user_id=" + data.user_id + " data_room_id=" + data.room_id+"><a href=#>"
-           +"<span class=\"glyphicon glyphicon-off " + status_icon_style +"\"></span>"+ data.user_login +"</a></li>");
-        if (data.user_status=="Offline"){
-            document.getElementById(data.user_id).title="Offline "+jQuery.timeago(data.user_sign_out_time);
-        }
-        else{
-            document.getElementById(data.user_id).title=data.user_status;
-        }
+//        $("ul.nav.side-nav-rigth").append(
+//             "<li class=\"joined_friend\" data-toggle=\"tooltip\" id="+data.user_id
+//           + " data_user_id=" + data.user_id + " data_room_id=" + data.room_id+"><a href=#>"
+//           +"<span class=\"glyphicon glyphicon-off " + status_icon_style +"\"></span>"+ data.user_login +"</a></li>");
+//        if (data.user_status=="Offline"){
+//            document.getElementById(data.user_id).title="Offline "+jQuery.timeago(data.user_sign_out_time);
+//        }
+//        else{
+//            document.getElementById(data.user_id).title=data.user_status;
+//        }
     });
 
     channel.bind('del_user_from_room', function(data) {
@@ -360,14 +379,15 @@ $('#message').textcomplete([
 
 
     $(".friend_action.add_friend").click(function(){
+        alert("Add friend clicked!");
         $.ajax({
            type: "POST",
+           beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
            url: "/friendships",
            data:{
                 friend_id: $(this).attr('friend_id')
            },
             success: function(response){
-                console.log("RESPONSE = "+response);
                 $('[user_id = \"' + response + '\"]').remove();
                 $('[friend_id = \"' + response + '\"]').remove();
             }
@@ -375,15 +395,16 @@ $('#message').textcomplete([
     });
 
     $('.friend_action.remove_friend').click(function(){
+        alert("Remove friend clicked!");
         $.ajax({
             url: "/friendships/" + $(this).attr("friend_id"),
             type: "POST",
+            beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
             data:{
                 _method: 'DELETE',
                 friend_id: $(this).attr('friend_id')
             },
             success: function(response){
-                console.log("RESPONSE = "+response);
                 $('[user_id = \"' + response + '\"]').remove();
                 $('[friend_id = \"' + response + '\"]').remove();
             }
