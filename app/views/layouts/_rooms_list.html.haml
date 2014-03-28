@@ -20,68 +20,20 @@
     %nav.lobby-panel
       %ul#tabs.tabs.ui-sortable
         %li#tab_lobby.selected
-          %a.open{:href => "#"}
+          %a.open{:href => rooms_path}
             %span.glyphicon.glyphicon-th-list>
             Lobby
-        %li
-          %a.open{:href => "#"}
-            %span.glyphicon.glyphicon-user>
-            User1
-          %a.close.glyphicon.glyphicon-remove-circle{:href => "#"}
-        %li
-          %a.open{:href => "#"}
-            %span.glyphicon.glyphicon-user>
-            User2
-          %a.close.glyphicon.glyphicon-remove-circle{:href => "#"}
-        %li
-          %a.open{:href => "#"}
-            %span.glyphicon.glyphicon-lock>
-            User3
-          %a.close.glyphicon.glyphicon-remove-circle{:href => "#"}
-        %li
-          %a.open{:href => "#"}
-            %span.glyphicon.glyphicon-phone>
-            User4
-          %a.close.glyphicon.glyphicon-remove-circle{:href => "#"}
-        %li
-          %a.open{:href => "#"}
-            %span.glyphicon.glyphicon-eye-open.drop-av>
-            User5
-          %a.close.glyphicon.glyphicon-remove-circle{:href => "#"}
-        %li
-          %a.open{:href => "#"}
-            %span.glyphicon.glyphicon-eye-open>
-            User6
-          %a.close.glyphicon.glyphicon-remove-circle{:href => "#"}
-    #status_ui
-      %span.glyphicon.glyphicon-user
-      .dropdown
-        %a#drop1.dropdown-toggle.avail{"data-toggle" => "dropdown", :href => "#", :role => "button", :type => "button"}
-          %span.glyphicon.glyphicon-eye-open>
-          Available
-          %span.glyphicon.glyphicon-hand-down
-        %ul.dropdown-menu.avail-drop{"aria-labelledby" => "drop1", :role => "menu"}
-          %li
-            %a{:href => "#", :tabindex => "-1"}
-              %span.glyphicon.glyphicon-eye-open.drop-av.drop-col-mar>
-              Available
-          %li
-            %a{:href => "#", :tabindex => "-1"}
-              %span.glyphicon.glyphicon-eye-open.drop-away.drop-col-mar>
-              Away
-          %li
-            %a{:href => "#", :tabindex => "-1"}
-              %span.glyphicon.glyphicon-eye-close.drop-dnd.drop-col-mar>
-              Do not disturb
-          %li
-            %a{:href => "#", :tabindex => "-1"}
-              %span.glyphicon.glyphicon-question-sign.drop-hlp.drop-col-mar>
-              Help
-          %li
-            %a{:href => "#", :tabindex => "-1"}
-              %span.glyphicon.glyphicon-share-alt.drop-col-mar>
-              Sign out
-      %a.glyphicon.glyphicon-cog{:href => "#"}
+          - if !@room_list.nil?
+            - @room_list.each do |room|
+              - if room.id==@room_id.to_i
+                %li.active
+                  =link_to "#{room.name}",room_path(:id=>room.id),:room_id => room.id
+                  -#%a.close.glyphicon.glyphicon-remove-circle{:href => "#"}
+              -else
+                %li
+                  =link_to "#{room.name}",room_path(:id=>room.id), :room_id => room.id
+                  -#%a.close.glyphicon.glyphicon-remove-circle{:href => "#"}
+
   %aside.right
     .top-form
       .dropdown

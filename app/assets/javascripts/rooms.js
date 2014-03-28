@@ -1,4 +1,15 @@
+$( document ).ready(function() {
+// Handler for .ready() called.
+    console.log('asd');
+    $('#modal-submit').click(function(){console.log('asd');})
+    $('#new_room').on('click', '#modal-submit',  function(){
+        console.log('qwe');
+        $('#myModal').modal('hide')
+
+    });
+});
 jQuery(function($){
+
 
     $(".user_friend").click(function(event){
         $.ajax({
@@ -71,5 +82,4 @@ jQuery(function($){
             self.location="/persons/"+$(this).attr('data_user_id');
         }
     });
-
 });

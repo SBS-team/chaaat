@@ -13,13 +13,20 @@ class RoomsController < ApplicationController
 
   def create
     @room = Room.create(room_params)
+    @room_list = Room.all
     RoomsUser.create(:user_id => current_user.id, :room_id => @room.id)
     if params[:express]
       Pusher["private-#{params[:user_id]}"].trigger('user_add_to_room', {:rooms_id=>@room.id,:rooms_name=>@room.name})
       RoomsUser.create(:user_id => params[:user_id], :room_id => @room.id)
       render :json=>@room.id,:root=>false
     else
-    redirect_to room_path(@room)
+      respond_to do |format|
+        format.html { redirect_to rooms_path}
+        format.js   {}
+        format.json { render json: @room_list, status: :created}
+      end
+
+      #redirect_to room_path(@room)
     end
   end
 
