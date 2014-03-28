@@ -24,7 +24,4 @@ class Message < ActiveRecord::Base
   belongs_to :room
   mount_uploader :attach_path, ImageUploader
 
-
-
-
 end

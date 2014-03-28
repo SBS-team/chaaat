@@ -50,7 +50,7 @@ $(document).ready(function(){
             $('html, body').animate({scrollTop: $("body").height()}, 800);
         }
         if (e.keyCode ==13 && e.ctrlKey) {
-            document.getElementById('message').value += "\r\n";
+            document.getElementById('message_input').value += "\r\n";
         }
     });
 
@@ -72,6 +72,28 @@ $(document).ready(function(){
 
             });
     });
+
+    function get_user_status_style(user_status_id){
+        switch(user_status_id){
+            case 1:
+                return "glyphicon glyphicon-eye-open drop-av drop-col-mar";
+            case 2:
+                return "glyphicon glyphicon-eye-open drop-col-mar";
+            case 3:
+                return "glyphicon glyphicon-eye-open drop-away drop-col-mar"
+            case 4:
+                return  "glyphicon glyphicon-eye-close drop-dnd drop-col-mar";
+        }
+    }
+
+       // var user_status_icon_style = get_user_status_style(data.id);
+        // $(".list").append(
+        //     "<div class = \"member\">" +
+        //     "<span class = \""+ user_status_icon_style +"\"></span>" +
+        //     "<a href=\"/persons/" + data.user_id +"\">"+ data.user_login +"</a></div>"
+        // );
+
+        // document.getElementById(data.drop_user_id.toString()).remove();
 
     function send_message(){
         if ($.trim(message_textarea.val()).length>0 || ($('input[type="file"]')[0].files[0])){
@@ -138,7 +160,7 @@ $(document).ready(function(){
         }
         if (scroll_true==true)
         {
-        var objDiv = document.getElementsByClassName('content')[0];
+        var objDiv = document.getElementsByClassName('chat')[0];
         objDiv.scrollTop = objDiv.scrollHeight+2000;
         }
         emojify.setConfig({ emoticons_enabled: true, people_enabled: true, nature_enabled: true, objects_enabled: true, places_enabled: true, symbols_enabled: true });
@@ -151,10 +173,11 @@ $(document).ready(function(){
 
     function prepend_message(user_id,login,body,avatar,time,message,attach_file_path){
         if(gon.user_id == user_id){
-            $('#messages-wrapper:first-child').prepend(create_message(user_id, login, body, avatar, time,"from",attach_file_path));
+
+            $('#messages-wrapper').prepend(create_message(user_id, login, body, avatar, time,"from"));
         }
         else{
-            $('#messages-wrapper:first-child').prepend(create_message(user_id, login, body, avatar, time,"to",attach_file_path));
+            $('#messages-wrapper').prepend(create_message(user_id, login, body, avatar, time,"to"));
         }
     }
 
@@ -200,7 +223,7 @@ $(document).ready(function(){
         '>': '&gt;'
     };
 
-$('#message').textcomplete([
+    $('#message').textcomplete([
     {
         match: /\B@([\-+\w]*)$/,
         search: function (term, callback) {
@@ -234,13 +257,57 @@ $('#message').textcomplete([
         return str.replace(/[&<>]/g, replaceTag);
     }
 
+    $(".friend").click(function(){
+        sender = $(this);
+        if(self.location.toString().indexOf('persons/')!= -1){
+            self.location = sender.attr('user_id');
+        }
+        else{
+            self.location = 'persons/' + sender.attr('user_id');
+        }
+    });
+
+
+    $(".friend_action.add_friend").click(function(){
+        alert("Add friend clicked!");
+        $.ajax({
+           type: "POST",
+           beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
+           url: "/friendships",
+           data:{
+                friend_id: $(this).attr('friend_id')
+           },
+            success: function(response){
+                $('[user_id = \"' + response + '\"]').remove();
+                $('[friend_id = \"' + response + '\"]').remove();
+            }
+        });
+    });
+
+    $('.friend_action.remove_friend').click(function(){
+        alert("Remove friend clicked!");
+        $.ajax({
+            url: "/friendships/" + $(this).attr("friend_id"),
+            type: "POST",
+            beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
+            data:{
+                _method: 'DELETE',
+                friend_id: $(this).attr('friend_id')
+            },
+            success: function(response){
+                $('[user_id = \"' + response + '\"]').remove();
+                $('[friend_id = \"' + response + '\"]').remove();
+            }
+        });
+    });
+
     $(".pag").click(function(){
         $.ajax({
             url: '/rooms/previous_messages',
             type: 'POST',
             beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
             data:{
-                room_id: $("li.active > a").attr('room_id'),
+                room_id: gon.room_id,
                 offset_records: message_offset
             },
             success: function(response){

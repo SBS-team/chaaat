@@ -14,6 +14,7 @@
 //= require jquery_ujs
 //= require emojify
 //= require bootstrap
+//= require_tree
 //= require jquery-1.10.2.js
 //= require jquery.overlay.js
 //= require jquery.textcomplete.min.js

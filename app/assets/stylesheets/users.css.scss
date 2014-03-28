@@ -2,17 +2,16 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
+.avatar {
+  width: 50px;
+  height: 50px;
+  float: left;
+}
 
 .img-profle {
   float: left;
   border-radius: 50%;
   padding: 5px 25px;
-}
-
-ul.friends_list {
-  height: 250px;
-  overflow-y: auto;
-  list-style: none;
 }
 
 #current_user > .dropdown {
@@ -26,15 +25,37 @@ ul.friends_list {
 #user_search {
   float: right;
 }
- .avatar_mini {
+.avatar_mini {
   float: left;
   height: 30px;
   margin: 3px;
   width: 30px;
   border-radius: 20%;
 }
-
+.avatar{
+  border-radius: 20%;
+}
 #user_info {
   height: 50px;
-  padding: 15px 0px;
+  margin-right: 10px;
+  float: left;
+  border-radius: 50%;
+}
+
+.friend_name {
+  float: left;
+  height: 50px;
+  padding-top: 15px;
+}
+
+.friend_name a {
+  text-decoration: none;
+}
+
+#find_more_friends{
+  font-size: 20px;
+}
+
+span.title {
+  font-size: 20px;
 }

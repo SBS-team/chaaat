@@ -1,17 +1,3 @@
--#%nav.navbar-inverse
--#  %ul.nav.navbar-nav.side-nav
--#    %li
--#      = link_to new_room_path do
--#        %span.glyphicon.glyphicon-plus
--#          Create room
--#    - if !@room_list.nil?
--#      - @room_list.each do |room|
--#        - if room.id==@room_id.to_i
--#          %li.active
--#            =link_to "#{room.name}",room_path(:id=>room.id),:room_id => room.id
--#        -else
--#          %li
--#            =link_to "#{room.name}",room_path(:id=>room.id), :room_id => room.id
 %aside.left
   %h1.logo
     %a{:href => "/"}
@@ -22,36 +8,14 @@
         %a.open{:href => "#"}
           %span.glyphicon.glyphicon-th-list>
           Lobby
-      %li
-        %a.open{:href => "#"}
-          %span.glyphicon.glyphicon-user>
-          User1
-        %a.close.glyphicon.glyphicon-remove-circle{:href => "#"}
-      %li
-        %a.open{:href => "#"}
-          %span.glyphicon.glyphicon-user>
-          User2
-        %a.close.glyphicon.glyphicon-remove-circle{:href => "#"}
-      %li
-        %a.open{:href => "#"}
-          %span.glyphicon.glyphicon-lock>
-          User3
-        %a.close.glyphicon.glyphicon-remove-circle{:href => "#"}
-      %li
-        %a.open{:href => "#"}
-          %span.glyphicon.glyphicon-phone>
-          User4
-        %a.close.glyphicon.glyphicon-remove-circle{:href => "#"}
-      %li
-        %a.open{:href => "#"}
-          %span.glyphicon.glyphicon-eye-open.drop-av>
-          User5
-        %a.close.glyphicon.glyphicon-remove-circle{:href => "#"}
-      %li
-        %a.open{:href => "#"}
-          %span.glyphicon.glyphicon-eye-open>
-          User6
-        %a.close.glyphicon.glyphicon-remove-circle{:href => "#"}
+      - if !@room_list.nil?
+        - @room_list.each do |room|
+          - if room.id==@room_id.to_i
+            %li.active
+              =link_to "#{room.name}",room_path(:id=>room.id),:room_id => room.id
+          -else
+            %li
+              =link_to "#{room.name}",room_path(:id=>room.id), :room_id => room.id
   #status_ui
     =image_tag avatar_url(current_user,50),:class => "avatar_mini"
     .dropdown
@@ -74,7 +38,7 @@
             %span.glyphicon.glyphicon-share-alt.drop-col-mar>
             Sign out
     %a.glyphicon.glyphicon-cog{:href => "#"}
-%aside.right
+%aside.right_panel
   .top-form
     .dropdown
       %button#drop3.btn.btn-default.dropdown-toggle.tf-but{"data-toggle" => "dropdown", :type => ""}
@@ -85,29 +49,19 @@
             %span.glyphicon.glyphicon-record
     .dropdown
       %button#drop2.btn.btn-default.dropdown-toggle.tf-but{"data-toggle" => "dropdown", :role => "button"}
-        Room actions
+        Friends
         %span.caret
-      %ul.dropdown-menu.room-action{"aria-labelledby" => "drop2", :role => "menu"}
-        %li
-          %a{:href => "#", :tabindex => "-1"} Action
-        %li
-          %a{:href => "#", :tabindex => "-1"} Another action
-        %li
-          %a{:href => "#", :tabindex => "-1"} Else remark
-  .list
-    .member
-      %span.glyphicon.glyphicon-eye-open.drop-av
-      %a{:href => "#"} Name
-    .member
-      %span.glyphicon.glyphicon-eye-open.drop-away
-      %a{:href => "#"} Name
-    .member
-      %span.glyphicon.glyphicon-eye-open{:style => "color:#999;"}
-      %a{:href => "#"} Name
-    .member
-      %span.glyphicon.glyphicon-lock{:style => "color:#666;"}
-      %a{:href => "#"} Name
-    .member
-      %span.glyphicon.glyphicon-phone{:style => "color:#666;"}
-      %a{:href => "#"} Name
+      %ul.dropdown-menu.room-action.friend_list{"aria-labelledby" => "drop2", :role => "menu"}
+        - current_user.friends.each do |friend|
+          %li.user_friend{:user_id => friend.id}
+            = link_to rooms_users_path, :method => :post do
+              %span{:class => get_user_status_style(friend.user_stat_id)}
+              = "#{friend.login}"
+  - if @room_users != nil
+    .list
+      - @room_users.each do |user|
+        .member
+          %span{:class => get_user_status_style(user.user_stat_id)}
+          = link_to "#{user.login}", user_path(user.id), :user_id => user.id, :room_id => @room.id
   .footer
+
