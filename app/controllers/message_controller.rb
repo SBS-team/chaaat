@@ -23,3 +23,4 @@ class MessageController < ApplicationController
   end
 
 end
+

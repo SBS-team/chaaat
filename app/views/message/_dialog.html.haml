@@ -1,39 +1,41 @@
--#-#%nav.navbar-inverse.navbar-fixed-top{:role=>"navigation"}
--#-#  .collapse.navbar-collapse.navbar-ex1-collapse
--#-#    %input.form-control#search{:placeholder=>"Search..."}
 .content
   .alert.alert-success.top-alert
-    Welcome! Send this link to coworkers who need accounts:
-  .pag
-    .glyphicon.glyphicon-chevron-up
-  .chat#messages-wrapper
-    -##messages-wrapper
-    - if @messages
-      -@messages.each do |message|
-        -if message.user_id==current_user.id
-          %li.from.clearfix
-            %span.chat-img.pull-left
-              =image_tag avatar_url(message.user,50),:class => "avatar"
-            .chat-body.clearfix
-              .header
-                %strong.primary-font
-                  =link_to message.user.login, user_path(message.user.id)
-                %small.pull-right.text-muted
-                  %span.glyphicon.glyphicon-time
-                  =message.created_at.strftime("%a %T")
-              %p= message.body
-        -else
-          %li.to.clearfix
-            %span.chat-img.pull-left
-              =image_tag avatar_url(message.user,50),:class => "avatar"
-            .chat-body.clearfix
-              .header
-                %strong.primary-font
-                  =link_to message.user.login, user_path(message.user.id)
-                %small.pull-right.text-muted
-                  %span.glyphicon.glyphicon-time
-                  =message.created_at.strftime("%a %T")
-              %p=message.body
+    -#Welcome! Send this link to coworkers who need accounts:
+    %input.form-control#search{:placeholder=>"Search..."}
+  .chat
+    .pag
+      .glyphicon.glyphicon-chevron-up
+    #messages-wrapper
+      - if @messages
+        -@messages.each do |message|
+          -if message.user_id==current_user.id
+            %li.from.clearfix
+              %span.chat-img.pull-left
+                =image_tag avatar_url(message.user,50),:class => "avatar"
+              .chat-body.clearfix
+                .header
+                  %strong.primary-font
+                    =link_to message.user.login, user_path(message.user.id)
+                  %small.pull-right.text-muted
+                    %span.glyphicon.glyphicon-time
+                    =message.created_at.strftime("%a %T")
+                %p= message.body
+                -if message.attach_path?
+                  %p.attach_file= message.attach_path
+          -else
+            %li.to.clearfix
+              %span.chat-img.pull-left
+                =image_tag avatar_url(message.user,50),:class => "avatar"
+              .chat-body.clearfix
+                .header
+                  %strong.primary-font
+                    =link_to message.user.login, user_path(message.user.id)
+                  %small.pull-right.text-muted
+                    %span.glyphicon.glyphicon-time
+                    =message.created_at.strftime("%a %T")
+                %p=message.body
+                -if message.attach_path?
+                  %p.attach_file= message.attach_path
   .input
     %form{:action => "", :method => "get", :name => "messageForm"}
       %table{:cellspacing => "0", :width => "100%"}
@@ -51,4 +53,4 @@
                 %span.glyphicon.glyphicon-paperclip
             %td{:width => "1%"}
               %button.form-but#send_message{:type => "button"}
-                %span.glyphicon.glyphicon-thumbs-up
+                %span.glyphicon.glyphicon-envelope

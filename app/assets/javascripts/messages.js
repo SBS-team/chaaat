@@ -14,16 +14,6 @@ $(document).ready(function(){
         });
     });
 
-//    if (document.getElementsByClassName('panel-body')[0]!=undefined){
-//
-//        document.getElementsByClassName('panel-body')[0].style.minHeight=$('body').height()-190+"px";
-//
-//
-//        $( window ).resize(function() {
-//            document.getElementsByClassName('panel-body')[0].style.minHeight=$('body').height()-190+"px";
-//
-//        });
-//    }
     $(document).ready(function() {
         $("iframe").each(function(){
             var ifr_source = $(this).attr('src');
@@ -51,7 +41,7 @@ $(document).ready(function(){
             $('html, body').animate({scrollTop: $("body").height()}, 800);
         }
         if (e.keyCode ==13 && e.ctrlKey) {
-            document.getElementById('message').value += "\r\n";
+            document.getElementById('message_input').value += "\r\n";
         }
     });
 
@@ -284,7 +274,7 @@ $(document).ready(function(){
         }
         if (scroll_true==true)
         {
-        var objDiv = document.getElementsByClassName('content')[0];
+        var objDiv = document.getElementsByClassName('chat')[0];
         objDiv.scrollTop = objDiv.scrollHeight+2000;
         }
         emojify.setConfig({ emoticons_enabled: true, people_enabled: true, nature_enabled: true, objects_enabled: true, places_enabled: true, symbols_enabled: true });
@@ -297,10 +287,10 @@ $(document).ready(function(){
 
     function prepend_message(user_id,login,body,avatar,time){
         if(gon.user_id == user_id){
-            $('#messages-wrapper:first-child').prepend(create_message(user_id, login, body, avatar, time,"from"));
+            $('#messages-wrapper').prepend(create_message(user_id, login, body, avatar, time,"from"));
         }
         else{
-            $('#messages-wrapper:first-child').prepend(create_message(user_id, login, body, avatar, time,"to"));
+            $('#messages-wrapper').prepend(create_message(user_id, login, body, avatar, time,"to"));
         }
     }
 
@@ -360,7 +350,7 @@ $(document).ready(function(){
             url: '/rooms/previous_messages',
             type: 'POST',
             data:{
-                room_id: $("li.active > a").attr('room_id'),
+                room_id: gon.room_id,
                 offset_records: message_offset
             },
             success: function(response){

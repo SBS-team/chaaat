@@ -24,7 +24,7 @@ table {
 	border-collapse: collapse;
 	border-spacing: 0;
 }
-body, p, div, textarea {
+body, p, textarea {
 	color: #393939;
 	font-size: 14px;
 }
@@ -42,7 +42,13 @@ html, body{
 	height: 100%;
 }
 body {
-	background: none repeat scroll 0 0 #EFEFF0;
+	/*background: none repeat scroll 0 0 #EFEFF0;*/
+
+  background-size: cover;
+  background-position: 50% 50%;
+  background-color: #eee;
+  margin-bottom: 10%;
+  background-attachment: fixed;
 }
 
 section#page {
@@ -52,7 +58,7 @@ section#page {
 }
 header {
 	background: #252525 url("../img/header_bg.png") repeat-x scroll 0 0;
-	height: 58px;
+	height: 40px;
 }
 header .logo {
 	height: 38px;
