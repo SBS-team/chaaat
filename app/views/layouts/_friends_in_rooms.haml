@@ -18,4 +18,5 @@
           %a{:href=>"#"}
             %span{:class => "glyphicon glyphicon-off #{get_user_status_icon(user.user_stat_id)}"}
             = "#{user.login}"
-            .glyphicon.glyphicon-minus.pull-right
+            - if user.id == current_user.id
+              .glyphicon.glyphicon-minus.pull-right

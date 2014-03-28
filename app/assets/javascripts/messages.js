@@ -1,4 +1,5 @@
 $(document).ready(function(){
+
     $(document).on('click', '.emoji', function(e) {
         $("#message").val($("#message").val() + $(e.target).attr("title"));
     });
@@ -313,6 +314,48 @@ $(document).ready(function(){
     }
 
     invoted_users();
+
+    $(".friend").click(function(){
+        sender = $(this);
+        if(self.location.toString().indexOf('persons/')!= -1){
+            self.location = sender.attr('user_id');
+        }
+        else{
+            self.location = 'persons/' + sender.attr('user_id');
+        }
+    });
+
+
+    $(".friend_action.add_friend").click(function(){
+        $.ajax({
+           type: "POST",
+           url: "/friendships",
+           data:{
+                friend_id: $(this).attr('friend_id')
+           },
+            success: function(response){
+                console.log("RESPONSE = "+response);
+                $('[user_id = \"' + response + '\"]').remove();
+                $('[friend_id = \"' + response + '\"]').remove();
+            }
+        });
+    });
+
+    $('.friend_action.remove_friend').click(function(){
+        $.ajax({
+            url: "/friendships/" + $(this).attr("friend_id"),
+            type: "POST",
+            data:{
+                _method: 'DELETE',
+                friend_id: $(this).attr('friend_id')
+            },
+            success: function(response){
+                console.log("RESPONSE = "+response);
+                $('[user_id = \"' + response + '\"]').remove();
+                $('[friend_id = \"' + response + '\"]').remove();
+            }
+        });
+    });
 
     var message_offset = 10;
 
