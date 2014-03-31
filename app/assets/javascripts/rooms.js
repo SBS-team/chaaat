@@ -1,15 +1,9 @@
 $( document ).ready(function() {
-// Handler for .ready() called.
-    console.log('asd');
-    $('#modal-submit').click(function(){console.log('asd');})
-    $('#new_room').on('click', '#modal-submit',  function(){
-        console.log('qwe');
-        $('#myModal').modal('hide')
-
+    $('#myModal').on('click','#modal-submit', function(){
+        $('#myModal').modal('hide');
     });
 });
 jQuery(function($){
-
 
     $(".user_friend").click(function(event){
         $.ajax({
@@ -33,7 +27,7 @@ jQuery(function($){
             confirm: function(button) {
                 $.ajax({
                     url: '/rooms_users/' + list_item.attr('user_id')+'/' + list_item.attr('room_id'),
-                    type: 'POST',                    
+                    type: 'POST',
                     beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
                     data: {
                         _method: 'DELETE',
@@ -52,11 +46,9 @@ jQuery(function($){
             post: false
         });
     }
-    $('ul').on('dblclick', '.joined_friend', function(e) {
-        if ($(this).attr('user_id')!=gon.user_id.toString()){
+    $('.member').on('dblclick','a', function(e) {
 
-            e.preventDefault();
-
+        if ($(this).parent().attr('user_id')!=gon.user_id.toString()){
             var strInputCode = $(this).html();
             strInputCode = strInputCode.replace(/&(lt|gt);/g, function (strMatch, p1){
                 return (p1 == "lt")? "<" : ">";
@@ -69,17 +61,18 @@ jQuery(function($){
                     name:  gon.user_login+" vs. "+strTagStrippedText,
                     topic: 'express chat'
                 },
-                user_id:$(this).attr('user_id')
+                user_id:$(this).parent().attr('user_id')
             });
+
             posting.done(function(response){
                 $.post('rooms_users/pusher_send_to_user')
                 self.location=response;
             });
         }
     });
-    $('ul').on('click', '.joined_friend', function(e) {
-        if ($(this).attr('user_id')!=gon.user_id.toString()){
-            self.location="/persons/"+$(this).attr('user_id');
+    $('.member').on('click','a', function(e) {
+        if ($(this).parent().attr('user_id')!=gon.user_id.toString()){
+            self.location="/persons/"+$(this).parent().attr('user_id');
         }
     });
 });

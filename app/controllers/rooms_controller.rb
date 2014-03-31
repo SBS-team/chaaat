@@ -7,11 +7,12 @@ class RoomsController < ApplicationController
   end
 
   def index
-    @statuses = UserStat.all
     @room_list=Room.where("id in (?)",RoomsUser.where(:user_id=>current_user.id).pluck(:room_id)).order(id: :asc)
+    @rooms_preload=RoomsUser.preload(:user)
   end
 
   def create
+    @rooms_preload=RoomsUser.preload(:user)
     @room = Room.create(room_params)
     @room_list = Room.all
     RoomsUser.create(:user_id => current_user.id, :room_id => @room.id)

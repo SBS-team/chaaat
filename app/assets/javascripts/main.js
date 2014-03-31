@@ -1,10 +1,12 @@
 $(function () {
 //    console.log('asd');
-    $('#modal-submit').click(function(){console.log($("#myModal").hide());console.log($(".modal-backdrop").hide())})
-//    $('#new_room').on('click', '#modal-submit',  function(){
-//        console.log('qwe');
-//
-//    });
+    $('#myModal').on('click','#modal-submit', function(){
+        $('#myModal').modal('hide');
+    });
+    $('#new_room').on('click', '#modal-submit',  function(){
+        console.log('qwe');
+
+    });
   $('.script').each(function () {
     eval($(this).text());
   });
@@ -35,4 +37,5 @@ $(function () {
     }
     $textarea.keyup();
   };
+
 });
