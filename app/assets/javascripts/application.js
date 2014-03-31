@@ -19,4 +19,6 @@
 //= require jquery.overlay.js
 //= require jquery.textcomplete.min.js
 //= require main.js
-//= require_tree
+//= require user.js
+//= require messages.js
+//= require pusher.js

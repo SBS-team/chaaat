@@ -13,13 +13,20 @@ class RoomsController < ApplicationController
 
   def create
     @room = Room.create(room_params)
+    @room_list = Room.all
     RoomsUser.create(:user_id => current_user.id, :room_id => @room.id)
     if params[:express]
       Pusher["private-#{params[:user_id]}"].trigger('user_add_to_room', {:rooms_id=>@room.id,:rooms_name=>@room.name})
       RoomsUser.create(:user_id => params[:user_id], :room_id => @room.id)
       render :json=>@room.id,:root=>false
     else
-    redirect_to room_path(@room)
+      respond_to do |format|
+        format.html { redirect_to rooms_path}
+        format.js   {}
+        format.json { render json: @room_list, status: :created}
+      end
+
+      #redirect_to room_path(@room)
     end
   end
 
@@ -38,7 +45,7 @@ class RoomsController < ApplicationController
       @messages = Message.where(:room_id=>params[:id]).preload(:user).order(created_at: :desc).limit(10).reverse()
     end
     @room = Room.find(params[:id])
-    @room_list = Room.where("id in (?)",RoomsUser.where(:user_id=>current_user.id).pluck(:room_id)).order(id: :asc)
+    @room_list=Room.where("id in (?)",RoomsUser.where(:user_id=>current_user.id).pluck(:room_id)).order(id: :asc)
     room_user_ids = RoomsUser.where(:room_id => @room.id).map{|item| item.user_id}
     @room_users = User.where("id IN (?)", room_user_ids)
     gon.rooms_users = @room_users.pluck(:login)

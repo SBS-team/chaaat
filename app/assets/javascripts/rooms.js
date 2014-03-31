@@ -1,4 +1,15 @@
+$( document ).ready(function() {
+// Handler for .ready() called.
+    console.log('asd');
+    $('#modal-submit').click(function(){console.log('asd');})
+    $('#new_room').on('click', '#modal-submit',  function(){
+        console.log('qwe');
+        $('#myModal').modal('hide')
+
+    });
+});
 jQuery(function($){
+
 
     $(".user_friend").click(function(event){
         $.ajax({
@@ -23,7 +34,8 @@ jQuery(function($){
             confirm: function(button) {
                 $.ajax({
                     url: '/rooms_users/' + list_item.attr('user_id')+'/' + list_item.attr('room_id'),
-                    type: 'POST',
+                    type: 'POST',                    
+                    beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
                     data: {
                         _method: 'DELETE',
                         room_id: list_item.attr('room_id'),
@@ -71,5 +83,4 @@ jQuery(function($){
             self.location="/persons/"+$(this).attr('user_id');
         }
     });
-
 });

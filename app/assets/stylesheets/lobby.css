@@ -1,11 +1,4 @@
 
-/*@font-face {*/
-	/*font-family: 'Glyphicons Halflings';*/
-	/*src: url('../fonts/glyphicons-halflings-regular.eot');*/
-	/*src: url('../fonts/glyphicons-halflings-regular.eot?#iefix') format('embedded-opentype'), url('../fonts/glyphicons-halflings-regular.woff') format('woff'), url('../fonts/glyphicons-halflings-regular.ttf') format('truetype'), url('../fonts/glyphicons-halflings-regular.svg#glyphicons-halflingsregular') format('svg');*/
-/*}*/
-/*@import url("//netdna.bootstrapcdn.com/bootstrap/3.0.0-rc2/css/bootstrap-glyphicons.css");*/
-
 * {-moz-box-sizing: border-box;margin: 0;padding: 0;}
 html, body {height: 100%;width: 100%;}
 a{text-decoration: none;}
@@ -22,7 +15,7 @@ body {background-color: #f0f0f0;line-height: normal;}
     border:5px solid green;
 
 }
-.left, .right{
+.left, .right_panel{
 	width: 200px;
 	height: 100%;
 	background: #313949;
@@ -34,7 +27,7 @@ body {background-color: #f0f0f0;line-height: normal;}
 	left: 0;
 	z-index: 15;
 }
-.right{
+.right_panel{
 	background: #fff;
 	border-left: 1px solid #c1c1c1;
 	position: fixed;
@@ -54,12 +47,11 @@ body {background-color: #f0f0f0;line-height: normal;}
 	overflow: hidden;
 }
 .content{
-	height: 100%;
-	background: #f0f0f0;
-	margin: 0 200px 0px 204px;
-    padding: 45px 35px 50px;
-    overflow-y: scroll;
-    overflow-x: hidden;
+    height: 100%;
+    background: #f0f0f0;
+    margin: 0 220px;
+    padding-top: 25px;
+    padding-bottom: 74px;
 }
 .content p{
 	text-shadow:0 0 3px rgba(150,150,150,.5);
@@ -237,15 +229,16 @@ body {background-color: #f0f0f0;line-height: normal;}
 	font-size: 17px;
 	padding-left: 6px;
 }
-.lobby-panel .tabs li.selected {
-	background: url("../img/vtab_selected_bg.png") repeat-x scroll 0 0 rgba(0, 0, 0, 0);
-}
+/*.lobby-panel .tabs li.selected {*/
+	/*background: url("../img/vtab_selected_bg.png") repeat-x scroll 0 0 rgba(0, 0, 0, 0);*/
+/*}*/
 .lobby-panel .tabs li {
-	background: url("../img/vtab_bg.png") repeat-x scroll 0 0 rgba(0, 0, 0, 0);
+	/*background: url("../img/vtab_bg.png") repeat-x scroll 0 0 rgba(0, 0, 0, 0);*/
 	display: block;
 	margin: 0 0 -7px;
 	padding: 0;
 	position: relative;
+    height:35px;
 }
 .lobby-panel .tabs li.selected a {
 	color: #FFFFFF;
@@ -431,33 +424,27 @@ h2.public{
 
 /********/
 .top-alert{
-	height: 32px;
-	margin-top: 0;
-	top: 0;
-	left: 200px;
-	right: 200px;
-	position: fixed;
-	border-radius: 0;
-	margin-bottom: 0;
-	padding: 5px;
-	background-color: #fff;
-	border-bottom: 2px solid #697686;
-	font: 14px Verdana;
-	color: #000;
-	z-index: 100;
-	white-space: nowrap;
-	overflow: hidden;
-	text-overflow: ellipsis !important;
+    height: 32px;
+    margin-top: 0;
+    top: 0;
+    left: 200px;
+    right: 200px;
+    position: fixed;
+    border-radius: 0;
+    margin-bottom: 0;
+    padding: 0px;
+    font: 14px Verdana;
+    color: #000;
+    z-index: 100;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis !important;
 }
 .input {
-	margin-bottom: 0px;
 	background: #697686;
 	border: 1px solid #EFEFEF;
 	bottom: 0;
-	left: 220px;
-	padding: 0 0 0 50px;
-	position: fixed;
-	right: 220px;
+    padding: 0 0 0 5px;
 }
 .input table{
 	border: none;
@@ -523,10 +510,11 @@ h2.public{
 .upload-place input{
 	margin-left: -62px;
 }
-#upload-file:focus{
+#attach_path:focus{
 	outline: none;
 }
-#message_input {
+#message {
+	display: block;
 	border: medium none;
 	font-size: 12px;
 	max-height: 100%;

@@ -1,8 +1,14 @@
 $(function () {
+//    console.log('asd');
+    $('#modal-submit').click(function(){console.log($("#myModal").hide());console.log($(".modal-backdrop").hide())})
+//    $('#new_room').on('click', '#modal-submit',  function(){
+//        console.log('qwe');
+//
+//    });
+  $('.script').each(function () {
+    eval($(this).text());
+  });
 
-    $('.script').each(function () {
-        eval($(this).text());
-    });
 
     var setText = function ($textarea, text) {
         var range, textarea = $textarea.get(0);
@@ -20,13 +26,13 @@ $(function () {
     var $textarea = $('#message');
     var textarea = $textarea.get(0);
     if (textarea!==undefined) {
-        $textarea.focus();
-        if (typeof textarea.selectionStart === 'number') {
-            textarea.selectionStart = textarea.selectionEnd = $textarea.val().length;
-        } else {
-            var range = textarea.createTextRange();
-            range.select();
-        }
-        $textarea.keyup();
-    };
+    $textarea.focus();
+    if (typeof textarea.selectionStart === 'number') {
+      textarea.selectionStart = textarea.selectionEnd = $textarea.val().length;
+    } else {
+      var range = textarea.createTextRange();
+      range.select();
+    }
+    $textarea.keyup();
+  };
 });
