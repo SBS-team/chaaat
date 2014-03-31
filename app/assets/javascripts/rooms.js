@@ -7,6 +7,7 @@ jQuery(function($){
             beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
             data: {
                 room_id: $(this).attr('room_id'),
+                //добавить на созданную комнату данные с room_id
                 user_id: $(this).attr('user_id')
             }
         });
