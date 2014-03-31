@@ -15,17 +15,18 @@
       Friends
     %ul#friends_list
       - for friendship in @user.friendships
-        %li.friend{:user_id => friendship.friend.id}
-          .friend_photo
-            = image_tag avatar_url(friendship.friend,50),:class => "friend_photo"
-          .friend_name
-            = "#{friendship.friend.firstname} #{friendship.friend.lastname}"
-        - if (@user.id == current_user.id)
-          .friend_action.remove_friend{:friend_id => friendship.friend.id}
-            %span{:class => "glyphicon glyphicon-minus remove_friend"}
-        - elsif friendship.friend.id != current_user.id
-          - if !is_friend? friendship.friend.id
-            .friend_action.add_friend{:friend_id => friendship.friend.id}
-              %span{:class => "glyphicon glyphicon-plus add_new_friend"}
+        - if friendship.friend
+          %li.friend{:user_id => friendship.friend.id}
+            .friend_photo
+              = image_tag avatar_url(friendship.friend,50),:class => "friend_photo"
+            .friend_name
+              = "#{friendship.friend.firstname} #{friendship.friend.lastname}"
+          - if (@user.id == current_user.id)
+            .friend_action.remove_friend{:friend_id => friendship.friend.id}
+              %span{:class => "glyphicon glyphicon-minus remove_friend"}
+          - elsif friendship.friend.id != current_user.id
+            - if !is_friend? friendship.friend.id
+              .friend_action.add_friend{:friend_id => friendship.friend.id}
+                %span{:class => "glyphicon glyphicon-plus add_new_friend"}
     %span#find_more_friends
       = link_to 'Find new friends', users_path
