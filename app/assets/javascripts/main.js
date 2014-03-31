@@ -1,10 +1,13 @@
+
 $(function () {
 //    console.log('asd');
-    $('#modal-submit').click(function(){console.log($("#myModal").hide());console.log($(".modal-backdrop").hide())})
+   // $('#modal-submit').click(function(){console.log($("#myModal").hide());console.log($(".modal-backdrop").hide())})
 //    $('#new_room').on('click', '#modal-submit',  function(){
 //        console.log('qwe');
 //
 //    });
+
+
   $('.script').each(function () {
     eval($(this).text());
   });

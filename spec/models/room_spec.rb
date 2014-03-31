@@ -7,8 +7,8 @@
 #  topic      :string(255)
 #  created_at :datetime
 #  updated_at :datetime
+#  user_id    :integer
 #
-
 
 require 'spec_helper'
 
