@@ -44,10 +44,6 @@
 #  index_users_on_user_stat_id          (user_stat_id)
 #
 
-
-
-
-
 class User < ActiveRecord::Base
   has_many :message
   has_many :room
@@ -57,15 +53,10 @@ class User < ActiveRecord::Base
   has_many :rooms_users
   has_many :friends, :through => :friendships
   belongs_to :user_stat
+  validates_uniqueness_of :login, :message => "has already been taken"
 
-  # Include default devise modules. Others available are:
-  # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :invitable, :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable,:omniauthable, :omniauth_providers => [:github,:facebook]
-
-  # Include default devise modules. Others available are:
-  # :confirmable, :lockable, :timeoutable and :omniauthable
-
 
   def self.create_with_omniauth(auth, signed_in_resource=nil)
     user = User.where(:provider => auth.provider, :uid => auth.uid).first
