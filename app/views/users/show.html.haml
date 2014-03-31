@@ -1,32 +1,48 @@
-.profile_wrapper
-  .profile
-    #photo
-      = image_tag avatar_url(@user,125), :class => "img-profle"
-    %span#user_name
-      = "#{@user.firstname} #{@user.lastname}"
-    %br
-      Write me on:
-      = "#{@user.email}"
-    - if (@user.sign_out_at)
-      = "Last seen at: "
-      = "#{time_ago_in_words(@user.sign_out_at)}"
+= render 'layouts/rooms_list'
+.content
+  #photo
+    = image_tag avatar_url(@user,125), :class => "img-profle"
+  %span#user_name
+    = "#{@user.firstname} #{@user.lastname}"
+  %br
+    Write me on:
+    = "#{@user.email}"
+  - if (@user.sign_out_at)
+    = "Last seen at: "
+    = "#{time_ago_in_words(@user.sign_out_at)}"
   #friendship
-    %span.title
+    .title
       Friends
-    %ul#friends_list
-      - for friendship in @user.friendships
+      - @user.friendships.each do |friendship|
         - if friendship.friend
-          %li.friend{:user_id => friendship.friend.id}
-            .friend_photo
-              = image_tag avatar_url(friendship.friend,50),:class => "friend_photo"
-            .friend_name
-              = "#{friendship.friend.firstname} #{friendship.friend.lastname}"
-          - if (@user.id == current_user.id)
-            .friend_action.remove_friend{:friend_id => friendship.friend.id}
-              %span{:class => "glyphicon glyphicon-minus remove_friend"}
-          - elsif friendship.friend.id != current_user.id
-            - if !is_friend? friendship.friend.id
-              .friend_action.add_friend{:friend_id => friendship.friend.id}
-                %span{:class => "glyphicon glyphicon-plus add_new_friend"}
+          %table.rooms_group
+            %tr
+              %td
+                .friend_photo
+                  = image_tag avatar_url(friendship.friend,50),:class => "friend_photo"
+              %td.friend_name
+                =link_to "#{friendship.friend.firstname} #{friendship.friend.lastname}",user_path(friendship.friend.id)
+              - if (@user.id == current_user.id)
+                %td.friend_action.remove_friend{:friend_id => friendship.friend.id}
+                  %span{:class => "glyphicon glyphicon-minus remove_friend"}
+              -elsif friendship.friend.id != current_user.id
+                - if !is_friend? friendship.friend.id
+                  %td.friend_action.add_friend{:friend_id => friendship.friend.id}
+                    %span{:class => "glyphicon glyphicon-plus add_new_friend"}
+    -#%ul#friends_list
+    -#  - for friendship in @user.friendships
+    -#    - if friendship.friend
+    -#      %li.friend{:user_id => friendship.friend.id}
+    -#        .friend_photo
+    -#          = image_tag avatar_url(friendship.friend,50),:class => "friend_photo"
+    -#        .friend_name
+    -#          = "#{friendship.friend.firstname} #{friendship.friend.lastname}"
+    -#      - if (@user.id == current_user.id)
+    -#        .friend_action.remove_friend{:friend_id => friendship.friend.id}
+    -#          %span{:class => "glyphicon glyphicon-minus remove_friend"}
+    -#      - elsif friendship.friend.id != current_user.id
+    -#        - if !is_friend? friendship.friend.id
+    -#          .friend_action.add_friend{:friend_id => friendship.friend.id}
+    -#            %span{:class => "glyphicon glyphicon-plus add_new_friend"}
     %span#find_more_friends
       = link_to 'Find new friends', users_path

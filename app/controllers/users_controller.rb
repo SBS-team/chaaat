@@ -2,6 +2,7 @@ class UsersController < ApplicationController
   before_filter :authenticate_user!
 
 
+
 	def search
     @statuses = UserStat.all
 		users=User.where("login like ?", "#{params[:login]}%")

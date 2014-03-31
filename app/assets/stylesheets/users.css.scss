@@ -46,20 +46,16 @@ span#user_name {
 
 .profile {
   height: 150px;
-  width: 450px;
+  width: 500px;
   margin: 0px auto;
-  margin-top: 50px;
 }
 
 #friendship {
-  width: 505px;
-  margin: 0px auto;
   text-align: center;
   margin-top: 20px;
 }
 
 ul#friends_list {
-  height: 300px;
   width: 500px;
   padding: 0px;
   list-style: none;
@@ -112,6 +108,7 @@ ul#friends_list {
   font-size: 20px;
 }
 
-span.title {
+.title {
   font-size: 20px;
+  margin-top: 50px;
 }
