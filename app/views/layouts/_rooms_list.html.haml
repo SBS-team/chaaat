@@ -5,8 +5,8 @@
   %nav.lobby-panel
     %ul#tabs.tabs.ui-sortable
       %li#tab_lobby.selected
-        %a.open{:href => "#"}
-          %span.glyphicon.glyphicon-th-list>
+        %a.open{:href => "/rooms"}
+          %span.glyphicon.glyphicon-th-list
           Lobby
       - if !@room_list.nil?
         - @room_list.each do |room|
