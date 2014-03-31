@@ -75,14 +75,14 @@ $(document).ready(function(){
 
     function get_user_status_style(user_status_id){
         switch(user_status_id){
-            case 1:
+            case 'Available':
                 return "glyphicon glyphicon-eye-open drop-av drop-col-mar";
-            case 2:
-                return "glyphicon glyphicon-eye-open drop-col-mar";
-            case 3:
-                return "glyphicon glyphicon-eye-open drop-away drop-col-mar"
-            case 4:
-                return  "glyphicon glyphicon-eye-close drop-dnd drop-col-mar";
+            case 'Away':
+                return "glyphicon glyphicon-eye-open drop-away drop-col-mar";
+            case 'Do not disturb':
+                return "glyphicon glyphicon-eye-close drop-dnd drop-col-mar"
+            case "Offline":
+                return  "glyphicon glyphicon-share-alt drop-col-mar";
         }
     }
 
@@ -185,6 +185,7 @@ $(document).ready(function(){
         messages=$("li .chat-body p");
         for(var i=0; i<messages.length; i++){
             messages[i].innerHTML=changetags(messages[i].innerHTML);
+            emojify.run(messages[i]);
         }
         attached_file=$(".attach_file");
         for(var i=0; i<attached_file.length; i++){

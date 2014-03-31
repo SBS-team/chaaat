@@ -1,3 +1,4 @@
+
 $( document ).ready(function() {
     $('#myModal').on('click','#modal-submit', function(){
         $('#myModal').modal('hide');
@@ -11,7 +12,9 @@ $(function () {
 })
 
 jQuery(function($){
-
+ $('#myModal').on('click','#modal-submit', function(){
+        $('#myModal').modal('hide');
+    });
 
     $(".user_friend").click(function(event){
         $.ajax({

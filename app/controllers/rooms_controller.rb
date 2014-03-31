@@ -1,8 +1,11 @@
 class RoomsController < ApplicationController
   before_filter :authenticate_user!
 
+  def new
+    @new_room = Room.new
+  end
+
   def index
-    @statuses = UserStat.all
     @room_list=Room.where("id in (?)",RoomsUser.where(:user_id=>current_user.id).pluck(:room_id)).order(id: :asc)
   end
 
@@ -24,7 +27,6 @@ class RoomsController < ApplicationController
 
   def show
     @message = Message.new
-    @statuses = UserStat.all
     @room_id = params[:id]
     gon.user_login = current_user.login
     gon.user_id = current_user.id
