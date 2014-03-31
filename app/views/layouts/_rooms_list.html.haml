@@ -20,15 +20,22 @@
     =image_tag avatar_url(current_user,50),:class => "avatar_mini"
     .dropdown
       %a#drop1.dropdown-toggle.avail{"data-toggle" => "dropdown", :href => "#", :role => "button", :type => "button"}
-        %span.glyphicon.glyphicon-eye-open>
-        =current_user.user_stat.status_name
+        %span{:class=>get_user_status_style(current_user.user_status)}
+        =current_user.user_status
         %span.glyphicon.glyphicon-hand-down
       %ul.dropdown-menu.avail-drop{"aria-labelledby" => "drop1", :role => "menu"}
-        - @statuses.each_with_index do |status, index|
-          %li{:role => "presentation"}
-            %a.change-status{:role=>"menuitem", :tabindex=>"-1", :data=>{:id=>status.id}, :href=>"#"}
-              %span{:class => "#{get_user_status_style(index)}"}
-              = status.status_name
+        %li
+          %a.change-status{:href => "#", :tabindex => "-1"}
+            %span.glyphicon.glyphicon-eye-open.drop-av.drop-col-mar>
+            Available
+        %li
+          %a.change-status{:href => "#", :tabindex => "-1"}
+            %span.glyphicon.glyphicon-eye-close.drop-away.drop-col-mar>
+            Away
+        %li
+          %a.change-status{:href => "#", :tabindex => "-1"}
+            %span.glyphicon.glyphicon-eye-close.drop-dnd.drop-col-mar>
+            Do not disturb
         %li
           %a.change-status{:href => "#", :tabindex => "-1"}
             %span.glyphicon.glyphicon-question-sign.drop-hlp.drop-col-mar>
@@ -62,7 +69,6 @@
     .list
       - @room_users.each do |user|
         .member
-          %span{:class => get_user_status_style(user.user_stat_id)}
+          %span{:class => get_user_status_style(user.user_status)}
           = link_to "#{user.login}", user_path(user.id), :user_id => user.id, :room_id => @room.id
   .footer
-

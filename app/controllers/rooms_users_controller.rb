@@ -11,8 +11,7 @@ class RoomsUsersController < ApplicationController
                                                                            :user_login => joined_user.login,
                                                                            :rooms_name => @room.name,
                                                                            :room_id => @room.id,
-                                                                           :user_status_id => joined_user.user_stat_id,
-                                                                           #:user_status => joined_user.user_stat.status_name,
+                                                                           :user_status_id => joined_user.user_status,
                                                                            :user_sign_out_time=>joined_user.updated_at})
         Pusher["private-#{params[:user_id]}"].trigger('user_add_to_room', {:rooms_id=>@room.id,:rooms_name=>@room.name})
       else

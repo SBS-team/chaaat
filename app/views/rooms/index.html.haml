@@ -5,7 +5,6 @@
       ="#{current_user.login} Rooms"
     %button.btn.btn-primary.lobby-btn{"data-target" => "#myModal", "data-toggle" => "modal"}
       Create Room
-    / Modal
     #myModal.modal.fade{"aria-hidden" => "true", "aria-labelledby" => "myModalLabel", role: "dialog", tabindex: "-1"}
       .modal-dialog
         .modal-content
@@ -22,7 +21,7 @@
                 =f.text_field :topic
               .modal-footer
                 .action
-                  %button#modal-submit.btn.btn-primary.lobby-btn{type: "submit"} create
+                  %button#modal-submit.btn.btn-primary.lobby-btn{type: "submit"} Create
                   %button.btn.btn-primary.lobby-btn{"data-dismiss" => "modal", type: "button"} Close
   #room_list
     =render 'rooms/show_rooms_list'
