@@ -63,7 +63,6 @@ $(document).ready(function(){
 
         })
             .done(function(msg) {
-                console.log("THIS IS THE RESPONSE: " + msg);
                 $('#messages-wrapper').html('');
                 for (var i = 0; i <= msg.length - 1; i++) {
                     render_message(msg[i].user_id,msg[i].login,msg[i].body,msg[i].avatar,msg[i].created_at,false,msg[i].attach_file_path);
@@ -72,19 +71,6 @@ $(document).ready(function(){
 
             });
     });
-
-    function get_user_status_style(user_status_id){
-        switch(user_status_id){
-            case 1:
-                return "glyphicon glyphicon-eye-open drop-av drop-col-mar";
-            case 2:
-                return "glyphicon glyphicon-eye-open drop-col-mar";
-            case 3:
-                return "glyphicon glyphicon-eye-open drop-away drop-col-mar"
-            case 4:
-                return  "glyphicon glyphicon-eye-close drop-dnd drop-col-mar";
-        }
-    }
 
        // var user_status_icon_style = get_user_status_style(data.id);
         // $(".list").append(

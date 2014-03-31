@@ -1,24 +1,21 @@
-$( document ).ready(function() {
-// Handler for .ready() called.
-    console.log('asd');
-    $('#modal-submit').click(function(){console.log('asd');})
-    $('#new_room').on('click', '#modal-submit',  function(){
-        console.log('qwe');
-        $('#myModal').modal('hide')
-
-    });
-});
+//$( document ).ready(function() {
+//// Handler for .ready() called.
+//
+////    $('#modal-submit').click(function(){alert("OK");})
+//    $('#new_room').on('click', '#modal-submit',  function(){
+//        alert("REJECT");
+//        $('#myModal').modal('hide')
+//
+//    });
+//});
 jQuery(function($){
-
-
     $(".user_friend").click(function(event){
         $.ajax({
             url: '/rooms_users',
             type: 'POST',
             beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
             data: {
-                room_id: $(this).attr('room_id'),
-                //добавить на созданную комнату данные с room_id
+                room_id: $('li.active > a').attr('room_id'),
                 user_id: $(this).attr('user_id')
             }
         });
@@ -34,8 +31,7 @@ jQuery(function($){
             confirm: function(button) {
                 $.ajax({
                     url: '/rooms_users/' + list_item.attr('user_id')+'/' + list_item.attr('room_id'),
-                    type: 'POST',                    
-                    beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
+                    type: 'POST',
                     data: {
                         _method: 'DELETE',
                         room_id: list_item.attr('room_id'),
@@ -53,6 +49,8 @@ jQuery(function($){
             post: false
         });
     }
+
+
     $('ul').on('dblclick', '.joined_friend', function(e) {
         if ($(this).attr('user_id')!=gon.user_id.toString()){
 

@@ -23,7 +23,7 @@ class RoomsController < ApplicationController
       respond_to do |format|
         format.html { redirect_to rooms_path}
         format.js   {}
-        format.json { render json: @room_list, status: :created}
+        format.json { render json: @room_list, status: :created, :room_id => @room.id}
       end
 
       #redirect_to room_path(@room)
