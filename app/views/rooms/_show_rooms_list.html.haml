@@ -6,17 +6,12 @@
         %td.name
           %a.clean
             =link_to "#{room.name}",room_path(:id=>room.id),:room_id => room.id
-        -member_count=0
-        -time=""
-        -@rooms_preload.each do |t|
-          -if t.room_id == room.id
-            -member_count=member_count+1
-            -time=t.updated_at
-        -if time!=""
-          %td.memb-count #{member_count} members - Active #{time_ago_in_words(time)} ago
-        -else
-          %td.memb-count 1 members - Active #{time_ago_in_words(Time.now)} ago
-        %td.owner Owned by: owner
+        %td.memb-count
+          = count_members(room.id)
+          ="members"
+        %td.owner
+          ="Owned by: "
+          =link_to "#{room.user.login}", user_path(room.user.id)
         %td.set-arr
           %a{href: "#"}
             %span.glyphicon.glyphicon-cog

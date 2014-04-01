@@ -54,6 +54,8 @@
             %td{:width => "1%"}
               %button.form-but#send_message{:type => "button"}
                 %span.glyphicon.glyphicon-thumbs-up
+    %ul
+      =render "layouts/index"
 %audio#new-message
   %source{:src=>"../sounds/button_tiny.ogg", :type=>"audio/ogg"}
   %source{:src=>"../sounds/button_tiny.mp3", :type=>"audio/mp3"}
