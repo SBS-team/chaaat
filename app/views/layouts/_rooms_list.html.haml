@@ -1,11 +1,11 @@
 %aside.left
   %h1.logo
-    %a{:href => "/"}
+    %a
       %img{:alt => "SBS", :src => "../img/logo.png"}
   %nav.lobby-panel
     %ul#tabs.tabs.ui-sortable
       %li#tab_lobby.selected
-        %a.open{:href => "#"}
+        %a.open{:href => rooms_path}
           %span.glyphicon.glyphicon-th-list>
           Lobby
       - if !@room_list.nil?
