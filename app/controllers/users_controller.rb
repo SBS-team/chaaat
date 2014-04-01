@@ -2,6 +2,7 @@ class UsersController < ApplicationController
   before_filter :authenticate_user!
 
 
+
 	def search
 		users=User.where("login like ?", "#{params[:login]}%")
 		render :json=>users,:root=>false
@@ -30,7 +31,7 @@ class UsersController < ApplicationController
   def change_status
       User.update(current_user.id,:user_status=>params[:status])
       user = User.find(current_user)
-      Pusher['status'].trigger('change_status', :status=>user.user_status,:user_id=>user.id,:user_sign_out_time=>user.sign_out_at)    
+      Pusher['status'].trigger('change_status', :status=>user.user_status,:user_id=>user.id,:user_sign_out_time=>user.sign_out_at)
       render text: "#{user.user_status}"
   end
 

@@ -6,9 +6,15 @@
         %td.name
           %a.clean
             =link_to "#{room.name}",room_path(:id=>room.id),:room_id => room.id
-        %td.memb-count 0 members - Active 15 minutes ago
-        %td.owner Owned by: User2
+        %td.memb-count
+          = count_members(room.id)
+          ="members"
+        %td.owner
+          ="Owned by: "
+          =link_to "#{room.user.login}", user_path(room.user.id)
         %td.set-arr
           %a{href: "#"}
             %span.glyphicon.glyphicon-cog
             %span.glyphicon.glyphicon-chevron-down
+
+

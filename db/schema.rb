@@ -41,6 +41,7 @@ ActiveRecord::Schema.define(version: 20140331114518) do
     t.string   "topic"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "user_id"
   end
 
   create_table "rooms_users", force: true do |t|
@@ -67,9 +68,9 @@ ActiveRecord::Schema.define(version: 20140331114518) do
     t.string   "lastname"
     t.string   "provider"
     t.string   "uid"
-    t.datetime "sign_out_at"
     t.string   "login"
     t.string   "avatar"
+    t.datetime "sign_out_at"
     t.string   "invitation_token"
     t.datetime "invitation_created_at"
     t.datetime "invitation_sent_at"

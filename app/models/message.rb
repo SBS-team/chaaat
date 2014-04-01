@@ -20,6 +20,7 @@
 
 
 class Message < ActiveRecord::Base
+  require 'carrierwave'
   belongs_to :user
   belongs_to :room
   mount_uploader :attach_path, ImageUploader
