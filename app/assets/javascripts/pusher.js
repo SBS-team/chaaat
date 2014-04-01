@@ -18,17 +18,10 @@ function get_user_status_style(user_status){
 
     var channel_status = pusher.subscribe('status');
 
-//    channel_status.bind('change_status', function(data) {
-//        var temp=document.getElementById(data.user_id);
-//        temp.getElementsByClassName('glyphicon-off')[0].className="glyphicon glyphicon-off "+get_status_icon_style(data.status);
-//        if (data.status=="Offline"){
-//        temp.title="Offline "+jQuery.timeago(new Date());
-//        }
-//        else{
-//        temp.title=data.status;
-//        }
-//    });
-
+    channel_status.bind('change_status', function(data) {
+        var temp=document.getElementById(data.user_id);
+          temp.getElementsByTagName('span')[0].className=get_user_status_style(data.status);
+    });
 
     var channel2 = pusher.subscribe('private-'+gon.user_id.toString());
     channel2.bind('user_add_to_room', function(data) {
@@ -62,6 +55,21 @@ function get_user_status_style(user_status){
                 "<a href=\"/persons/" + data.user_id +"\" user_id=\""+ data.user_id +"\" room_id=\""+ data.room_id +"\">"+ data.user_login +"</a></div>"
         );
     });
+
+    function get_user_status_style(user_status_id){
+        switch(user_status_id){
+            case 'Available':
+                return "glyphicon glyphicon-eye-open drop-av drop-col-mar";
+            case 'Away':
+                return "glyphicon glyphicon-eye-close drop-away drop-col-mar";
+            case 'Do not disturb':
+                return "glyphicon glyphicon-eye-close drop-dnd drop-col-mar";
+            case 'Help':
+                return "glyphicon glyphicon-question-sign drop-hlp drop-col-mar";
+            case 'Offline':
+                return "glyphicon glyphicon-eye-close drop-col-mar";
+        }
+    }
 
     channel.bind('del_user_from_room', function(data) {
         $.bootstrapGrowl("User "+data.user_login+" has been deleted ", {

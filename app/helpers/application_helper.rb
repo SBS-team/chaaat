@@ -20,9 +20,11 @@ module ApplicationHelper
      when 'Away'
         'glyphicon glyphicon-eye-close drop-away drop-col-mar'
      when 'Do not disturb'
-        'glyphicon glyphicon-eye-close drop-dnd drop-col-mar'
-      when 'Offline'
-        'glyphicon glyphicon-eye-open drop-col-mar'
+        "glyphicon glyphicon-eye-close drop-dnd drop-col-mar"
+     when "Offline"
+        "glyphicon glyphicon-eye-close drop-col-mar"
+     when 'Help'
+        "glyphicon glyphicon-question-sign drop-hlp drop-col-mar"
     end
   end
 end

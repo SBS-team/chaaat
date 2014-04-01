@@ -1,24 +1,15 @@
 $(document).ready(function(){
 
-    function get_user_status_style(user_status){
-        switch(user_status){
-            case "Available":
-                return "glyphicon glyphicon-eye-open drop-av drop-col-mar";
-            case "Away":
-                return "glyphicon glyphicon-eye-close drop-away drop-col-mar";
-            case "Do not disturb":
-                return "glyphicon glyphicon-eye-close drop-dnd drop-col-mar"
-            case "Offline":
-                return  "glyphicon glyphicon-share-alt drop-col-mar";
-        }
-    }
-
     $('.change-status').on('click',function(event){
+        var strInputCode = $(this)[0].text;
+        var strTagStrippedText = strInputCode.replace(/[\n]( *) /, "");
     $.ajax({
       type: "GET",
       beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
       url: "../users/status/",
-      data: { status: $.trim($(this)[0].text) }
+      dataType: "html",
+      contentType: "text/html; charset=utf-8",
+      data: { status: strTagStrippedText}
       })
       .done(function(msg) {
           $("#drop1.dropdown-toggle.avail")[0].innerHTML ="<span class=\""+get_user_status_style(msg)+"\"></span>"+msg+"<span class=\"glyphicon glyphicon-hand-down\"></span>";
