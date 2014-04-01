@@ -11,17 +11,17 @@
       - if !@room_list.nil?
         - @room_list.each do |room|
           - if room.id==@room_id.to_i
-            %li.active
+            %li.active#room
               =link_to "#{room.name}",room_path(:id=>room.id),:room_id => room.id
           -else
-            %li
+            %li#room
               =link_to "#{room.name}",room_path(:id=>room.id), :room_id => room.id
   #status_ui
     =image_tag avatar_url(current_user,50),:class => "avatar_mini"
     .dropdown
       %a#drop1.dropdown-toggle.avail{"data-toggle" => "dropdown", :href => "#", :role => "button", :type => "button"}
-        %span{:class=>get_user_status_style(current_user.user_status)}
-        =current_user.user_status
+        %span{:class=>get_user_status_style(current_user.user_status)}>
+        = current_user.user_status
         %span.glyphicon.glyphicon-hand-down
       %ul.dropdown-menu.avail-drop{"aria-labelledby" => "drop1", :role => "menu"}
         %li
@@ -55,20 +55,19 @@
           %button{:type => "submit"}
             %span.glyphicon.glyphicon-record
     .dropdown
-      -if @room
-        %button#drop2.btn.btn-default.dropdown-toggle.tf-but{"data-toggle" => "dropdown", :role => "button"}
-          Friends
-          %span.caret
-        %ul.dropdown-menu.room-action.friend_list{"aria-labelledby" => "drop2", :role => "menu"}
-          - current_user.friends.each do |friend|
-            %li.user_friend{:user_id => friend.id, :room_id => @room.id }
-              = link_to rooms_users_path, :method => :post do
-                %span{:class => get_user_status_style(friend.user_stat_id)}
-                = "#{friend.login}"
+      %button#drop2.btn.btn-default.dropdown-toggle.tf-but{"data-toggle" => "dropdown", :role => "button"}
+        Friends
+        %span.caret
+      %ul.dropdown-menu.room-action.friend_list{"aria-labelledby" => "drop2", :role => "menu"}
+        - current_user.friends.each do |friend|
+          %li.user_friend{:user_id => friend.id}
+            = link_to rooms_users_path, :method => :post do
+              %span{:class => get_user_status_style(friend.user_status)}
+              = "#{friend.login}"
   - if @room_users != nil
     .list
       - @room_users.each do |user|
-        .member{:id=>user.id, :user_id => user.id, :room_id => @room.id}
-          %span.glyphicon.glyphicon-eye-open.drop-av.drop-col-mar>
-          = link_to "#{user.login}","#"
+        .member
+          %span{:class => get_user_status_style(user.user_status)}
+          = link_to "#{user.login}", user_path(user.id), :user_id => user.id, :room_id => @room.id
   .footer

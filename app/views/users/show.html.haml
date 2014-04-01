@@ -16,7 +16,7 @@
       - @user.friendships.each do |friendship|
         - if friendship.friend
           %table.rooms_group
-            %tr
+            %tr{:friend_id => friendship.friend.id}
               %td
                 .friend_photo
                   = image_tag avatar_url(friendship.friend,50),:class => "friend_photo"
@@ -27,7 +27,7 @@
                   %span{:class => "glyphicon glyphicon-minus remove_friend"}
               -elsif friendship.friend.id != current_user.id
                 - if !is_friend? friendship.friend.id
-                  %td.friend_action.add_friend{:friend_id => friendship.friend.id}
+                  %td.friend_action.add_friend
                     %span{:class => "glyphicon glyphicon-plus add_new_friend"}
     %span#find_more_friends
       = link_to 'Find new friends', users_path

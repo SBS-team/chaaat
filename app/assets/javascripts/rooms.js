@@ -1,10 +1,9 @@
 $(function () {
-////    console.log('asd');
-  $('#modal-submit').click(function(){console.log($("#myModal").hide());console.log($(".modal-backdrop").hide())})
+    $('#modal-submit').click(function(){console.log($("#myModal").hide());console.log($(".modal-backdrop").hide())})
 })
 
 jQuery(function($){
- $('#myModal').on('click','#modal-submit', function(){
+    $('#myModal').on('click','#modal-submit', function(){
         $('#myModal').modal('hide');
     });
 
@@ -14,7 +13,7 @@ jQuery(function($){
             type: 'POST',
             beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
             data: {
-                room_id: $(this).attr('room_id'),
+                room_id: $('li.active > a').attr('room_id'),
                 user_id: $(this).attr('user_id')
             }
         });

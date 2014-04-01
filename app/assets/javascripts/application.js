@@ -14,13 +14,12 @@
 //= require jquery_ujs
 //= require emojify
 //= require jquery-1.10.2.js
-//= require bootstrap
 //= require_tree
 //= require jquery.overlay.js
 //= require jquery.textcomplete.min.js
 //= require main.js
+//= require user.js
 //= require messages.js
 //= require pusher.js
+//= require bootstrap
 //= require rooms.js
-//= require user.js
-

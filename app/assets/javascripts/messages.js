@@ -65,7 +65,6 @@ $(document).ready(function(){
 
         })
             .done(function(msg) {
-                console.log("THIS IS THE RESPONSE: " + msg);
                 $('#messages-wrapper').html('');
                 for (var i = 0; i <= msg.length - 1; i++) {
                     render_message(msg[i].user_id,msg[i].login,msg[i].body,msg[i].avatar,msg[i].created_at,false,msg[i].attach_file_path);
@@ -87,15 +86,6 @@ $(document).ready(function(){
                 return  "glyphicon glyphicon-share-alt drop-col-mar";
         }
     }
-
-       // var user_status_icon_style = get_user_status_style(data.id);
-        // $(".list").append(
-        //     "<div class = \"member\">" +
-        //     "<span class = \""+ user_status_icon_style +"\"></span>" +
-        //     "<a href=\"/persons/" + data.user_id +"\">"+ data.user_login +"</a></div>"
-        // );
-
-        // document.getElementById(data.drop_user_id.toString()).remove();
 
     function send_message(){
         if ($.trim(message_textarea.val()).length>0 || ($('input[type="file"]')[0].files[0])){
@@ -283,23 +273,21 @@ $(document).ready(function(){
 
 
     $(".friend_action.add_friend").click(function(){
-        alert("Add friend clicked!");
         $.ajax({
            type: "POST",
            beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
            url: "/friendships",
            data:{
-                friend_id: $(this).attr('friend_id')
+                friend_id: $(this).parent().attr('friend_id')
            },
             success: function(response){
-                $('[user_id = \"' + response + '\"]').remove();
-                $('[friend_id = \"' + response + '\"]').remove();
+                $('tr[friend_id = \"' + response + '\"]').remove();
             }
         });
+
     });
 
     $('.friend_action.remove_friend').click(function(){
-        alert("Remove friend clicked!");
         $.ajax({
             url: "/friendships/" + $(this).attr("friend_id"),
             type: "POST",
@@ -309,8 +297,7 @@ $(document).ready(function(){
                 friend_id: $(this).attr('friend_id')
             },
             success: function(response){
-                $('[user_id = \"' + response + '\"]').remove();
-                $('[friend_id = \"' + response + '\"]').remove();
+                $('tr[friend_id = \"' + response + '\"]').remove();
             }
         });
     });
