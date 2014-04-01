@@ -21,6 +21,11 @@ img {
   padding-right: 0px;
   position: relative;
 }
+.popover-content
+{
+  height: 150px;
+  overflow-y: scroll;
+}
 
 .form-control
 {
