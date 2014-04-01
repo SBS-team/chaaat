@@ -1,5 +1,5 @@
 $(document).ready(function(){
-
+    $('#pop').popover({html:true});
     var message_textarea=$("#message");
     var users= gon.rooms_users;
     var message_offset = 10;
@@ -7,7 +7,7 @@ $(document).ready(function(){
 
     var pusher = new Pusher('255267aae6802ec7914f');
     var channel = pusher.subscribe('private-'+gon.room_id.toString());
-    $('#pop').popover({html:true});
+
     channel.bind('new_message', function(data) {
         render_message(data.user_id,data.login,data.message,data.avatar,data.create_at,true,data.attach_file_path);
     });
@@ -27,18 +27,16 @@ $(document).ready(function(){
         });
     });
 
-    $(document).ready(function() {
-        $("iframe").each(function(){
-            var ifr_source = $(this).attr('src');
-            var wmode = "wmode=transparent";
-            if(ifr_source.indexOf('?') != -1) {
-                var getQString = ifr_source.split('?');
-                var oldString = getQString[1];
-                var newString = getQString[0];
-                $(this).attr('src',newString+'?'+wmode+'&'+oldString);
-            }
-            else $(this).attr('src',ifr_source+'?'+wmode);
-        });
+    $("iframe").each(function(){
+        var ifr_source = $(this).attr('src');
+        var wmode = "wmode=transparent";
+        if(ifr_source.indexOf('?') != -1) {
+            var getQString = ifr_source.split('?');
+            var oldString = getQString[1];
+            var newString = getQString[0];
+            $(this).attr('src',newString+'?'+wmode+'&'+oldString);
+        }
+        else $(this).attr('src',ifr_source+'?'+wmode);
     });
 
     $(".panel-footer").on('submit',function(){
