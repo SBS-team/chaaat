@@ -1,19 +1,24 @@
-- status_icon_styles = ["online", "offline", "away", "do_not_disturb"]
 #current_user
   %span.user_name
     = link_to "#{current_user.firstname} #{current_user.lastname}", current_user
   .dropdown
     %button.btn.dropdown-toggle#userStatus{:type=>"button", :data=>{:toggle=>"dropdown"}}>
-      %span{:class => "#{get_user_status_style(current_user.user_stat_id)}"}
-      ="#{current_user.user_stat.status_name}"
+      %span{:class => "#{get_user_status_style(current_user.user_status)}"}
+      ="#{current_user.user_status}"
       %span.caret
     %ul.dropdown-menu{:role=>"menu", :aria=>{:labelledby=>"dropdownMenu1"}}
-      - @statuses.each_with_index do |status, index|
-        %li{:role => "presentation"}
-          %a.change-status{:role=>"menuitem", :tabindex=>"-1", :data=>{:id=>status.id}, :href=>"#"}
-            %span{:class => "glyphicon glyphicon-off #{status_icon_styles[index]}"}
-
-            = status.status_name
+      %li{:role => "presentation"}
+        %a.change-status{:role=>"menuitem", :tabindex=>"-1", :data=>{:status=>"Available"}, :href=>"#"}
+          %span.glyphicon.glyphicon-eye-open.drop-av.drop-col-mar>
+          Available
+      %li{:role => "presentation"}
+        %a.change-status{:role=>"menuitem", :tabindex=>"-1", :data=>{:status=>"Away"}, :href=>"#"}
+          %span.glyphicon.glyphicon-eye-open.drop-away.drop-col-mar>
+          Away
+      %li{:role => "presentation"}
+        %a.change-status{:role=>"menuitem", :tabindex=>"-1", :data=>{:status=>"Do not disturb"}, :href=>"#"}
+          %span.glyphicon.glyphicon-eye-close.drop-dnd.drop-col-mar>
+          Do not disturb
       %li.divider{:role=>"presentation"}
       %li{:role=>"presentation"}
         = link_to 'Logout', destroy_user_session_path, {:method=>'delete', :role=>"menuitem", :tabindex=>"-1"}

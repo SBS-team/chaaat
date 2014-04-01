@@ -3,11 +3,9 @@ class RoomsController < ApplicationController
 
   def new
     @new_room = Room.new
-    @statuses = UserStat.all
   end
 
   def index
-    @statuses = UserStat.all
     @room_list=Room.where("id in (?)",RoomsUser.where(:user_id=>current_user.id).pluck(:room_id)).order(id: :asc)
   end
 
@@ -32,7 +30,6 @@ class RoomsController < ApplicationController
 
   def show
     @message = Message.new
-    @statuses = UserStat.all
     @room_id = params[:id]
     gon.user_login = current_user.login
     gon.user_id = current_user.id

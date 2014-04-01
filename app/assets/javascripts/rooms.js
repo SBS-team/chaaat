@@ -1,14 +1,8 @@
-//$( document ).ready(function() {
-//// Handler for .ready() called.
-//
-////    $('#modal-submit').click(function(){alert("OK");})
-//    $('#new_room').on('click', '#modal-submit',  function(){
-//        alert("REJECT");
-//        $('#myModal').modal('hide')
-//
-//    });
-//});
 jQuery(function($){
+    $('#myModal').on('click','#modal-submit', function(){
+        $('#myModal').modal('hide');
+    });
+
     $(".user_friend").click(function(event){
         $.ajax({
             url: '/rooms_users',

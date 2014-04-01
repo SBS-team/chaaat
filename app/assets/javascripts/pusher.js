@@ -1,13 +1,13 @@
-function get_user_status_style(user_status_id){
-    switch(user_status_id){
-        case 1:
+function get_user_status_style(user_status){
+    switch(user_status){
+        case "Available":
             return "glyphicon glyphicon-eye-open drop-av drop-col-mar";
-        case 2:
+        case "Away":
+            return "glyphicon glyphicon-eye-close drop-away drop-col-mar";
+        case "Do not disturb":
             return "glyphicon glyphicon-eye-close drop-dnd drop-col-mar";
-        case 3:
-            return "glyphicon glyphicon-eye-open drop-away drop-col-mar"
-        case 4:
-            return  "glyphicon glyphicon-eye-close drop-dnd drop-col-mar";
+        case "Offline":
+            return "glyphicon glyphicon-eye-open drop-col-mar";
     }
 }
 
@@ -25,7 +25,7 @@ function get_user_status_style(user_status_id){
         temp.title="Offline "+jQuery.timeago(new Date());
         }
         else{
-        temp.title =data.status;
+        temp.title = data.status;
         }
     });
 
@@ -54,11 +54,11 @@ function get_user_status_style(user_status_id){
             allow_dismiss: true,
             stackup_spacing: 10 // spacing between consecutively stacked growls.
         });
-        var user_status_icon_style = get_user_status_style(data.user_status_id);
+        var user_status_icon_style = get_user_status_style(data.user_status);
         $(".list").append(
             "<div class = \"member\">" +
                 "<span class = \""+ user_status_icon_style +"\"></span>" +
-                "<a href=\"/persons/" + data.user_id +"\">"+ data.user_login +"</a></div>"
+                "<a href=\"/persons/" + data.user_id +"\" user_id=\""+ data.user_id +"\" room_id=\""+ data.room_id +"\">"+ data.user_login +"</a></div>"
         );
 
     });
