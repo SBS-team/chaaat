@@ -1,15 +1,20 @@
-$( document ).ready(function() {
-// Handler for .ready() called.
-    console.log('asd');
-    $('#modal-submit').click(function(){console.log('asd');})
-    $('#new_room').on('click', '#modal-submit',  function(){
-        console.log('qwe');
-        $('#myModal').modal('hide')
 
+$( document ).ready(function() {
+    $('#myModal').on('click','#modal-submit', function(){
+        $('#myModal').modal('hide');
     });
 });
-jQuery(function($){
 
+
+$(function () {
+////    console.log('asd');
+  $('#modal-submit').click(function(){console.log($("#myModal").hide());console.log($(".modal-backdrop").hide())})
+})
+
+jQuery(function($){
+ $('#myModal').on('click','#modal-submit', function(){
+        $('#myModal').modal('hide');
+    });
 
     $(".user_friend").click(function(event){
         $.ajax({

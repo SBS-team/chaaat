@@ -3,17 +3,14 @@ class RoomsController < ApplicationController
 
   def new
     @new_room = Room.new
-    @statuses = UserStat.all
   end
 
   def index
-    @statuses = UserStat.all
     @room_list=Room.where("id in (?)",RoomsUser.where(:user_id=>current_user.id).pluck(:room_id)).order(id: :asc)
   end
 
   def create
-    @room = Room.create(room_params)
-    @room_list = Room.all
+    @room = Room.create(room_params.merge(:user_id=>current_user.id))
     RoomsUser.create(:user_id => current_user.id, :room_id => @room.id)
     if params[:express]
       Pusher["private-#{params[:user_id]}"].trigger('user_add_to_room', {:rooms_id=>@room.id,:rooms_name=>@room.name})
@@ -25,14 +22,11 @@ class RoomsController < ApplicationController
         format.js   {}
         format.json { render json: @room_list, status: :created}
       end
-
-      #redirect_to room_path(@room)
     end
   end
 
   def show
     @message = Message.new
-    @statuses = UserStat.all
     @room_id = params[:id]
     gon.user_login = current_user.login
     gon.user_id = current_user.id

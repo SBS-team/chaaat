@@ -22,7 +22,6 @@
 #  sign_out_at            :datetime
 #  login                  :string(255)
 #  avatar                 :string(255)
-#  profile_avatar         :string(255)
 #  invitation_token       :string(255)
 #  invitation_created_at  :datetime
 #  invitation_sent_at     :datetime
@@ -31,7 +30,8 @@
 #  invited_by_id          :integer
 #  invited_by_type        :string(255)
 #  invitations_count      :integer          default(0)
-#  user_stat_id           :integer
+#  profile_avatar         :string(255)
+#  user_status            :string(255)
 #
 # Indexes
 #
@@ -41,12 +41,7 @@
 #  index_users_on_invited_by_id         (invited_by_id)
 #  index_users_on_login                 (login) UNIQUE
 #  index_users_on_reset_password_token  (reset_password_token) UNIQUE
-#  index_users_on_user_stat_id          (user_stat_id)
 #
-
-
-
-
 
 class User < ActiveRecord::Base
   has_many :message
@@ -57,15 +52,10 @@ class User < ActiveRecord::Base
   has_many :rooms_users
   has_many :friends, :through => :friendships
   belongs_to :user_stat
+  validates_uniqueness_of :login, :message => "has already been taken"
 
-  # Include default devise modules. Others available are:
-  # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :invitable, :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable,:omniauthable, :omniauth_providers => [:github,:facebook]
-
-  # Include default devise modules. Others available are:
-  # :confirmable, :lockable, :timeoutable and :omniauthable
-
 
   def self.create_with_omniauth(auth, signed_in_resource=nil)
     user = User.where(:provider => auth.provider, :uid => auth.uid).first
@@ -80,7 +70,7 @@ class User < ActiveRecord::Base
                            provider:auth.provider,
                            uid:auth.uid,
                            email:auth.info.email,
-                           password:Devise.friendly_token[0,20],
+                           password:Devise.friendly_token[0,20]
         )
       end
     end
