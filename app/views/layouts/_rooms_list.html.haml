@@ -5,7 +5,7 @@
   %nav.lobby-panel
     %ul#tabs.tabs.ui-sortable
       %li#tab_lobby.selected
-        %a.open{:href => "#"}
+        %a.open{:href => "#{rooms_path}"}
           %span.glyphicon.glyphicon-th-list>
           Lobby
       - if !@room_list.nil?
@@ -20,7 +20,7 @@
     =image_tag avatar_url(current_user,50),:class => "avatar_mini"
     .dropdown
       %a#drop1.dropdown-toggle.avail{"data-toggle" => "dropdown", :href => "#", :role => "button", :type => "button"}
-        %span{:class=>get_user_status_style(current_user.user_status)}
+        %span{:class=>get_user_status_style(current_user.user_status)}>
         =current_user.user_status
         %span.glyphicon.glyphicon-hand-down
       %ul.dropdown-menu.avail-drop{"aria-labelledby" => "drop1", :role => "menu"}
@@ -41,6 +41,10 @@
             %span.glyphicon.glyphicon-question-sign.drop-hlp.drop-col-mar>
             Help
         %li
+          %a.change-status{:href => "#", :tabindex => "-1"}
+            %span.glyphicon.glyphicon-eye-close.drop-col-mar>
+            Offline
+        %li
           = link_to destroy_user_session_path, :method=>'delete', :tabindex => "-1" do
             %span.glyphicon.glyphicon-share-alt.drop-col-mar>
             Sign out
@@ -55,7 +59,7 @@
           %button{:type => "submit"}
             %span.glyphicon.glyphicon-record
     .dropdown
-      -if @room
+      -if request.path!="/rooms" and @room
         %button#drop2.btn.btn-default.dropdown-toggle.tf-but{"data-toggle" => "dropdown", :role => "button"}
           Friends
           %span.caret
@@ -63,12 +67,12 @@
           - current_user.friends.each do |friend|
             %li.user_friend{:user_id => friend.id, :room_id => @room.id }
               = link_to rooms_users_path, :method => :post do
-                %span{:class => get_user_status_style(friend.user_stat_id)}
+                %span{:class=>get_user_status_style(friend.user_status)}
                 = "#{friend.login}"
   - if @room_users != nil
     .list
       - @room_users.each do |user|
         .member{:id=>user.id, :user_id => user.id, :room_id => @room.id}
-          %span.glyphicon.glyphicon-eye-open.drop-av.drop-col-mar>
+          %span{:class=>get_user_status_style(user.user_status)}
           = link_to "#{user.login}","#"
   .footer

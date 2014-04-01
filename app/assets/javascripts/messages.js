@@ -75,18 +75,18 @@ $(document).ready(function(){
             });
     });
 
-    function get_user_status_style(user_status_id){
-        switch(user_status_id){
-            case 'Available':
-                return "glyphicon glyphicon-eye-open drop-av drop-col-mar";
-            case 'Away':
-                return "glyphicon glyphicon-eye-open drop-away drop-col-mar";
-            case 'Do not disturb':
-                return "glyphicon glyphicon-eye-close drop-dnd drop-col-mar"
-            case "Offline":
-                return  "glyphicon glyphicon-share-alt drop-col-mar";
-        }
-    }
+//    function get_user_status_style(user_status_id){
+//        switch(user_status_id){
+//            case 'Available':
+//                return "glyphicon glyphicon-eye-open drop-av drop-col-mar";
+//            case 'Away':
+//                return "glyphicon glyphicon-eye-open drop-away drop-col-mar";
+//            case 'Do not disturb':
+//                return "glyphicon glyphicon-eye-close drop-dnd drop-col-mar"
+//            case "Offline":
+//                return  "glyphicon glyphicon-share-alt drop-col-mar";
+//        }
+//    }
 
        // var user_status_icon_style = get_user_status_style(data.id);
         // $(".list").append(
@@ -283,7 +283,6 @@ $(document).ready(function(){
 
 
     $(".friend_action.add_friend").click(function(){
-        alert("Add friend clicked!");
         $.ajax({
            type: "POST",
            beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
@@ -299,7 +298,6 @@ $(document).ready(function(){
     });
 
     $('.friend_action.remove_friend').click(function(){
-        alert("Remove friend clicked!");
         $.ajax({
             url: "/friendships/" + $(this).attr("friend_id"),
             type: "POST",

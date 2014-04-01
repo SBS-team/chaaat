@@ -1,6 +1,6 @@
 class ApplicationController < ActionController::Base
   before_filter :configure_permitted_parameters, if: :devise_controller?
-  before_filter :rooms_user
+  before_filter :rooms_user,:except=>[:new,:create,:facebook]
   helper_method :background_image
 
   def after_sign_in_path_for(resource)
