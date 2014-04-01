@@ -1,9 +1,12 @@
-$( document ).ready(function() {
-    $('#myModal').on('click','#modal-submit', function(){
+$(function () {
+////    console.log('asd');
+  $('#modal-submit').click(function(){console.log($("#myModal").hide());console.log($(".modal-backdrop").hide())})
+})
+
+jQuery(function($){
+ $('#myModal').on('click','#modal-submit', function(){
         $('#myModal').modal('hide');
     });
-});
-jQuery(function($){
 
     $(".user_friend").click(function(event){
         $.ajax({
