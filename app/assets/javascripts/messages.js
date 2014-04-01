@@ -7,6 +7,7 @@ $(document).ready(function(){
 
     var pusher = new Pusher('255267aae6802ec7914f');
     var channel = pusher.subscribe('private-'+gon.room_id.toString());
+    $('#pop').popover({html:true});
     channel.bind('new_message', function(data) {
         render_message(data.user_id,data.login,data.message,data.avatar,data.create_at,true,data.attach_file_path);
     });
