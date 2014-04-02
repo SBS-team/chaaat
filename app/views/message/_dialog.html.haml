@@ -20,6 +20,7 @@
                     =message.created_at.strftime("%a %T")
                 %p= message.body
                 -if message.attach_path?
+                  %br
                   %p.attach_file= message.attach_path
           -else
             %li.to.clearfix
