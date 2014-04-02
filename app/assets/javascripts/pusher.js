@@ -18,16 +18,16 @@ function get_user_status_style(user_status){
 
     var channel_status = pusher.subscribe('status');
 
-//    channel_status.bind('change_status', function(data) {
-//        var temp=document.getElementById(data.user_id);
-//        temp.getElementsByClassName('glyphicon-off')[0].className="glyphicon glyphicon-off "+get_status_icon_style(data.status);
-//        if (data.status=="Offline"){
-//        temp.title="Offline "+jQuery.timeago(new Date());
-//        }
-//        else{
-//        temp.title=data.status;
-//        }
-//    });
+    channel_status.bind('change_status', function(data) {
+        var temp=document.getElementById(data.user_id);
+        temp.getElementsByClassName('glyphicon-off')[0].className="glyphicon glyphicon-off "+get_status_icon_style(data.status);
+        if (data.status=="Offline"){
+        temp.title="Offline "+jQuery.timeago(new Date());
+        }
+        else{
+        temp.title=data.status;
+        }
+    });
 
 
     var channel2 = pusher.subscribe('private-'+gon.user_id.toString());

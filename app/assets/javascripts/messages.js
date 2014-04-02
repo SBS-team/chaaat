@@ -14,6 +14,7 @@ $(document).ready(function(){
 
     $(document).on('click', '.emoji', function(e) {
         $("#message").val($("#message").val() + $(e.target).attr("title"));
+        $("#message").focus();
     });
     $(document).on('click', '.show_smile', function(){
         $('iframe').each(function(){
