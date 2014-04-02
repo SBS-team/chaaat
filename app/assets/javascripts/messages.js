@@ -27,8 +27,9 @@ $(document).ready(function(){
         });
     });
 
-    $('.content').on('click','.delete_room',function(event){
-        var element = event.currentTarget;
+    $('.content').on('click','.delete_room',function(event){        
+                var element = event.currentTarget;
+        if(confirm("Действительно удалить комнату?\n")){
         $.ajax({
             type: "POST",
             beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
@@ -36,7 +37,8 @@ $(document).ready(function(){
             data: { id: $(this).data("id") },
             success: function(response){
               $(element).parents('table.rooms_group').hide();
-            }});
+            }});}
+
     });
 
 
