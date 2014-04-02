@@ -1,7 +1,7 @@
 $(document).ready(function(){
     $('#pop').popover({html:true});
     var message_textarea=$("#message");
-    var users= gon.rooms_users;
+    users= gon.rooms_users;
     var message_offset = 10;
     invoted_users();
 
