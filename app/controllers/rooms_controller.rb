@@ -22,8 +22,8 @@ class RoomsController < ApplicationController
       @room_list = Room.where("id in (?)",RoomsUser.where("user_id in (?)",current_user.id).pluck(:room_id))
       respond_to do |format|
         format.html { redirect_to rooms_path}
-        format.js   {}
-        format.json { render json: @room_list, status: :created, :room_id => @room.id}
+        format.js {}
+        format.json { render json: @room_list, status: :created}
       end
     end
   end

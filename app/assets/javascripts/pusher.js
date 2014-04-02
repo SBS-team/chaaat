@@ -21,6 +21,12 @@ function get_user_status_style(user_status){
     channel_status.bind('change_status', function(data) {
         var temp=document.getElementById(data.user_id);
           temp.getElementsByTagName('span')[0].className=get_user_status_style(data.status);
+        if (data.status=="Offline"){
+            temp.title="Offline "+jQuery.timeago(new Date());
+        }
+        else{
+            temp.title=data.status;
+        }
     });
 
     var channel2 = pusher.subscribe('private-'+gon.user_id.toString());
@@ -50,10 +56,16 @@ function get_user_status_style(user_status){
         });
         var user_status_icon_style = get_user_status_style(data.user_status);
         $(".list").append(
-            "<div class = \"member\">" +
+            "<div class = \"member\" id="+data.user_id+" user_id="+ data.user_id +" room_id="+ data.room_id +">"+
                 "<span class = \""+ user_status_icon_style +"\"></span>" +
-                "<a href=\"/persons/" + data.user_id +"\" user_id=\""+ data.user_id +"\" room_id=\""+ data.room_id +"\">"+ data.user_login +"</a></div>"
+                "<a href=\"#\">"+ data.user_login +"</a></div>"
         );
+        if (data.user_status=="Offline"){
+            document.getElementById(data.user_id).title="Offline "+jQuery.timeago(data.user_sign_out_time);
+        }
+        else{
+            document.getElementById(data.user_id).title=data.user_status;
+        }
     });
 
     function get_user_status_style(user_status_id){
