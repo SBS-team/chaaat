@@ -27,7 +27,7 @@ $(document).ready(function(){
         });
     });
 
-    $('.content').on('confirm','.delete_room',function(event){        
+    $('.content').on('click','.delete_room',function(event){        
                 element_delete_room = event.currentTarget;
     });
     $('.delete_room').confirm({
