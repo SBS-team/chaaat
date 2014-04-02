@@ -35,6 +35,7 @@
                     =message.created_at.strftime("%a %T")
                 %p=message.body
                 -if message.attach_path?
+                  %br
                   %p.attach_file= message.attach_path
   .input
     = form_for @message, :authenticity_token => true, :url => new_message_path,:id=>"form-message", :name => "messageForm", :html => {:multipart => true}, :method=>"post" do |f|
