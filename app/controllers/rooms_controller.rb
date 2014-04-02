@@ -48,6 +48,12 @@ class RoomsController < ApplicationController
     gon.rooms_users = @room_users.pluck(:login)
   end
 
+  def delete_room
+    room=Room.where("user_id = ? AND id = ?",current_user.id,params[:id]).first
+    room.destroy
+    render :text=>"done"
+  end
+
   def load_previous_10_msg
     previous_messages = Message.limit(10).offset(params[:offset_records].to_i).where("room_id = ?", params[:room_id]).order(created_at: :desc).preload(:user);
     render :json => previous_messages

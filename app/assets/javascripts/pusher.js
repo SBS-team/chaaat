@@ -45,6 +45,7 @@ function get_user_status_style(user_status){
     });
 
     channel.bind('add_user_to_room', function(data) {
+        users.push(data.user_login)
         $.bootstrapGrowl("User "+data.user_login+" has been added to room: "+data.rooms_name, {
             type: 'success', // (null, 'info', 'error', 'success')
             offset: {from: 'top', amount: 50}, // 'top', or 'bottom'

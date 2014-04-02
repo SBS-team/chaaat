@@ -15,7 +15,7 @@ Chat::Application.routes.draw do
   resources :rooms_users, :only => [:create, :destroy]
   get "users/status/", :to=>"users#change_status"
   post "users/invite_user", :to=>"users#invite_user", :as=>"invite_user"
-
+  post "rooms/del", :to=>"rooms#delete_room"
   post "rooms/previous_messages", :to=>"rooms#load_previous_10_msg", :as=>"previous_messages"
 
   devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }

@@ -1,7 +1,7 @@
 $(document).ready(function(){
     $('#pop').popover({html:true});
     var message_textarea=$("#message");
-    var users= gon.rooms_users;
+    users= gon.rooms_users;
     var message_offset = 10;
     invoted_users();
 
@@ -26,6 +26,19 @@ $(document).ready(function(){
             $(this).attr("src",url+char+"wmode=transparent");
         });
     });
+
+    $('.content').on('click','.delete_room',function(event){
+        var element = event.currentTarget;
+        $.ajax({
+            type: "POST",
+            beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
+            url: "../rooms/del/",
+            data: { id: $(this).data("id") },
+            success: function(response){
+              $(element).parents('table.rooms_group').hide();
+            }});
+    });
+
 
     $("iframe").each(function(){
         var ifr_source = $(this).attr('src');
