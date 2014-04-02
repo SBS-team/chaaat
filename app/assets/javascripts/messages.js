@@ -1,5 +1,5 @@
 $(document).ready(function(){
-
+    $('#pop').popover({html:true});
     var message_textarea=$("#message");
     var users= gon.rooms_users;
     var message_offset = 10;
@@ -7,7 +7,7 @@ $(document).ready(function(){
 
     var pusher = new Pusher('255267aae6802ec7914f');
     var channel = pusher.subscribe('private-'+gon.room_id.toString());
-    $('#pop').popover({html:true});
+
     channel.bind('new_message', function(data) {
         render_message(data.user_id,data.login,data.message,data.avatar,data.create_at,true,data.attach_file_path);
     });
@@ -28,18 +28,16 @@ $(document).ready(function(){
         });
     });
 
-    $(document).ready(function() {
-        $("iframe").each(function(){
-            var ifr_source = $(this).attr('src');
-            var wmode = "wmode=transparent";
-            if(ifr_source.indexOf('?') != -1) {
-                var getQString = ifr_source.split('?');
-                var oldString = getQString[1];
-                var newString = getQString[0];
-                $(this).attr('src',newString+'?'+wmode+'&'+oldString);
-            }
-            else $(this).attr('src',ifr_source+'?'+wmode);
-        });
+    $("iframe").each(function(){
+        var ifr_source = $(this).attr('src');
+        var wmode = "wmode=transparent";
+        if(ifr_source.indexOf('?') != -1) {
+            var getQString = ifr_source.split('?');
+            var oldString = getQString[1];
+            var newString = getQString[0];
+            $(this).attr('src',newString+'?'+wmode+'&'+oldString);
+        }
+        else $(this).attr('src',ifr_source+'?'+wmode);
     });
 
     $(".panel-footer").on('submit',function(){
@@ -51,6 +49,10 @@ $(document).ready(function(){
     {
         if (e.keyCode == 13 && e.ctrlKey == false) {
             send_message();
+            if($("input[type=file]#attach_path")){
+                $("attach_wrapper").remove();
+                $('label.upload-but').popover('hide');
+            }
             $('html, body').animate({scrollTop: $("body").height()}, 800);
         }
         if (e.keyCode ==13 && e.ctrlKey) {
@@ -75,19 +77,6 @@ $(document).ready(function(){
 
             });
     });
-
-    function get_user_status_style(user_status_id){
-        switch(user_status_id){
-            case 'Available':
-                return "glyphicon glyphicon-eye-open drop-av drop-col-mar";
-            case 'Away':
-                return "glyphicon glyphicon-eye-open drop-away drop-col-mar";
-            case 'Do not disturb':
-                return "glyphicon glyphicon-eye-close drop-dnd drop-col-mar"
-            case "Offline":
-                return  "glyphicon glyphicon-share-alt drop-col-mar";
-        }
-    }
 
     function send_message(){
         if ($.trim(message_textarea.val()).length>0 || ($('input[type="file"]')[0].files[0])){
@@ -143,6 +132,39 @@ $(document).ready(function(){
             return '<a href="'+url_to_file+'" download><span class="glyphicon glyphicon-download-alt"></span>'+url.match(/(\w|[-.])+$/)[0]+'</a>';
         }
     }
+
+    (function show_attachment(){
+       $popup_target = $('label.upload-but');
+       $input_file = $("input[type=file]#attach_path");
+
+
+       $input_file.change(function(){
+           $popup_target.attr({
+               "id": "attach_popup",
+               "data-container": "body",
+               "data-content": "<div class='attach_wrapper'>" +
+                                    "<div class='attach_header'>" +
+                                        "<span class='glyphicon glyphicon-remove'></span>" +
+                                    "</div>" +
+                                    "<div class='attach_content'>" +
+                                        "<span>" + $input_file[0].files[0].name + "</span>" +
+                                    "</div>" +
+                                "</div>",
+               "data-placement": "top",
+               "data-toggle": "popover",
+               "type": "button"
+           });
+           $("#message").focus();
+           $popup_target.popover({html:true});
+           $popup_target.popover('show');
+
+           $(".popover-content").find("span.glyphicon.glyphicon-remove").click(function(){
+              $("#attach_path").val("");
+              $("attach_wrapper").remove();
+              $popup_target.popover('hide');
+           });
+       })
+    })();
 
 
     function render_message(user_id, login, body, avatar, time,scroll_true,attach_file_path){

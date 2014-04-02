@@ -1,13 +1,15 @@
 function get_user_status_style(user_status){
     switch(user_status){
-        case "Available":
+        case 'Available':
             return "glyphicon glyphicon-eye-open drop-av drop-col-mar";
-        case "Away":
+        case 'Away':
             return "glyphicon glyphicon-eye-close drop-away drop-col-mar";
-        case "Do not disturb":
+        case 'Do not disturb':
             return "glyphicon glyphicon-eye-close drop-dnd drop-col-mar";
-        case "Offline":
-            return "glyphicon glyphicon-eye-open drop-col-mar";
+        case 'Help':
+            return "glyphicon glyphicon-question-sign drop-hlp drop-col-mar";
+        case 'Offline':
+            return "glyphicon glyphicon-eye-close drop-col-mar";
     }
 }
 
@@ -20,15 +22,8 @@ function get_user_status_style(user_status){
 
     channel_status.bind('change_status', function(data) {
         var temp=document.getElementById(data.user_id);
-        temp.getElementsByClassName('glyphicon-off')[0].className="glyphicon glyphicon-off "+get_status_icon_style(data.status);
-        if (data.status=="Offline"){
-        temp.title="Offline "+jQuery.timeago(new Date());
-        }
-        else{
-        temp.title=data.status;
-        }
+        temp.getElementsByTagName('span')[0].className = get_user_status_style(data.status);
     });
-
 
     var channel2 = pusher.subscribe('private-'+gon.user_id.toString());
     channel2.bind('user_add_to_room', function(data) {

@@ -12,7 +12,7 @@
             %button.close{"aria-hidden" => "true", "data-dismiss" => "modal", type: "button"} ×
             %h4#myModalLabel.modal-title Create new room
           .modal-body
-            = form_for Room.new do |f|
+            = form_for Room.new,remote:true do |f|
               .form-group
                 %label Name:
                 =f.text_field :name
