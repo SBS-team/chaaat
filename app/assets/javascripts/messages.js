@@ -27,17 +27,27 @@ $(document).ready(function(){
         });
     });
 
-    $('.content').on('click','.delete_room',function(event){
-        var element = event.currentTarget;
-        $.ajax({
-            type: "POST",
-            beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
-            url: "../rooms/del/",
-            data: { id: $(this).data("id") },
-            success: function(response){
-              $(element).parents('table.rooms_group').hide();
-            }});
+    $('.content').on('click','.delete_room',function(event){        
+                element_delete_room = event.currentTarget;
     });
+    $('.delete_room').confirm({
+            text: "Are you sure you want to delete this room?",
+            title: "Confirmation required",
+            confirm: function(button) {
+                $.ajax({
+                    url: '../rooms/del/',
+                    type: 'POST',
+                    beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
+                    data: { id: $(element_delete_room).data("id") },
+                    success: function(response){
+                      $(element_delete_room).parents('table.rooms_group').hide();
+                    }
+                });
+            },
+            confirmButton: "Yes I am",
+            cancelButton: "No",
+            post: false
+        });
 
 
     $("iframe").each(function(){
