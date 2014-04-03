@@ -20,7 +20,7 @@
         %td
           .friend_photo
             = image_tag avatar_url(user,50),:class => "avatar"
-        %td.friend_name
+          .friend_name
           = link_to "#{user.firstname} #{user.lastname}", user_path(user.id)
         %td.friend_action.add_friend
           %span{:class => "glyphicon glyphicon-plus add_new_friend"}

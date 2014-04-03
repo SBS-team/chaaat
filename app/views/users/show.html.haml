@@ -10,6 +10,10 @@
   - if (@user.sign_out_at)
     = "Last seen at: "
     = "#{time_ago_in_words(@user.sign_out_at)} ago"
+    %br
+    %br
+    %span#find_more_friends
+      = link_to 'Find new friends', users_path
   #friendship
     .title
       Friends
@@ -20,7 +24,7 @@
               %td
                 .friend_photo
                   = image_tag avatar_url(friendship.friend,50),:class => "friend_photo"
-              %td.friend_name
+                .friend_name
                 =link_to "#{friendship.friend.firstname} #{friendship.friend.lastname}",user_path(friendship.friend.id)
               - if (@user.id == current_user.id)
                 %td.friend_action.remove_friend{:friend_id => friendship.friend.id}
@@ -29,5 +33,3 @@
                 - if !is_friend? friendship.friend.id
                   %td.friend_action.add_friend
                     %span{:class => "glyphicon glyphicon-plus add_new_friend"}
-    %span#find_more_friends
-      = link_to 'Find new friends', users_path
