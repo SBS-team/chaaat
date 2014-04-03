@@ -109,6 +109,10 @@ body {background-color: #f0f0f0;line-height: normal;}
     position: relative;
 
 }
+.popover-content{
+    height: 150px;
+    overflow-y: scroll;
+}
 .chat-form label{
     cursor: pointer;
     font-size: 35px;
