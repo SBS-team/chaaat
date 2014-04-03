@@ -7,14 +7,13 @@
           %a.clean
             =link_to "#{room.name}",room_path(:id=>room.id),:room_id => room.id
         %td.memb-count
-          = count_members(room.id)
+          = count_members(@rooms_preload,room.id)
           ="members"
         %td.owner
           ="Owned by: "
           =link_to "#{room.user.login}", user_path(room.user.id)
         %td.set-arr
-          %a{href: "#"}
-            %span.glyphicon.glyphicon-cog
-            %span.glyphicon.glyphicon-chevron-down
+          -if room.user.login==current_user.login
+            %span.delete_room.glyphicon.glyphicon-remove-circle{:data=>{:id=>room.id}}
 
 

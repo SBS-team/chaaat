@@ -10,7 +10,7 @@
           -if message.user_id==current_user.id
             %li.from.clearfix
               %span.chat-img.pull-left
-                =image_tag avatar_url(message.user,50),:class => "avatar"
+                =image_tag avatar_url(message.user, 50),:class => "avatar"
               .chat-body.clearfix
                 .header
                   %strong.primary-font
@@ -20,11 +20,12 @@
                     =message.created_at.strftime("%a %T")
                 %p= message.body
                 -if message.attach_path?
+                  %br
                   %p.attach_file= message.attach_path
           -else
             %li.to.clearfix
               %span.chat-img.pull-left
-                =image_tag avatar_url(message.user,50),:class => "avatar"
+                =image_tag avatar_url(message.user, 50),:class => "avatar"
               .chat-body.clearfix
                 .header
                   %strong.primary-font
@@ -34,6 +35,7 @@
                     =message.created_at.strftime("%a %T")
                 %p=message.body
                 -if message.attach_path?
+                  %br
                   %p.attach_file= message.attach_path
   .input
     = form_for @message, :authenticity_token => true, :url => new_message_path,:id=>"form-message", :name => "messageForm", :html => {:multipart => true}, :method=>"post" do |f|
@@ -52,10 +54,14 @@
               %label.upload-but{:for => "attach_path"}
                 %span.glyphicon.glyphicon-paperclip
             %td{:width => "1%"}
-              %button.form-but#send_message{:type => "button"}
-                %span.glyphicon.glyphicon-thumbs-up
-    %ul
-      =render "layouts/index"
+              %div.form-but.upload-but
+                -smile=render "layouts/index"
+                %span.glyphicon.glyphicon-thumbs-up#pop{"data-container" => "body",
+                                                        "data-content" => smile,
+                                                        "data-placement" => "top",
+                                                        "data-toggle" => "popover", type: "button"}
+    -#%ul
+    -#  =render "layouts/index"
 %audio#new-message
   %source{:src=>"../sounds/button_tiny.ogg", :type=>"audio/ogg"}
   %source{:src=>"../sounds/button_tiny.mp3", :type=>"audio/mp3"}

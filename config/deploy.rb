@@ -52,6 +52,9 @@ namespace :deploy do
       execute "if [ -f #{fetch(:unicorn_pid)} ] && [ -e /proc/$(cat #{fetch(:unicorn_pid)}) ]; then kill -QUIT `cat #{fetch(:unicorn_pid)}`; fi"
     end
   end
+  task :reset do
+    run "cd #{current_path} && bundle exec rake db:reset RAILS_ENV=#{rails_env}"
+  end
 end
 after "deploy:restart", "deploy:cleanup"
 #after "deploy:update", "db:insert_statuses"

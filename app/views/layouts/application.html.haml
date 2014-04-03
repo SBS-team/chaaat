@@ -1,7 +1,7 @@
 %html
   %head
     = include_gon(:init => true)
-    %script{:src=>"http://js.pusher.com/2.1/pusher.min.js"}
+    -#%script{:src=>"http://js.pusher.com/2.1/pusher.min.js"}
     %meta{:name => "viewport", :content => "width=device-width, initial-scale=1.0"}
     %title= content_for?(:title) ? yield(:title) : 'Chat'
     %meta{:name => "description", :content => "#{content_for?(:description) ? yield(:description) : 'Chat'}"}

@@ -19,7 +19,7 @@
 //= require jquery.textcomplete.min.js
 //= require main.js
 //= require user.js
-//= require messages.js
 //= require pusher.js
+//= require messages.js
 //= require bootstrap
 //= require rooms.js
