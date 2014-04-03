@@ -1,7 +1,7 @@
 $(document).ready(function(){
     $('#pop').popover({html:true});
     var message_textarea=$("#message");
-    var users= gon.rooms_users;
+    users= gon.rooms_users;
     var message_offset = 10;
     invoted_users();
 
@@ -27,6 +27,29 @@ $(document).ready(function(){
             $(this).attr("src",url+char+"wmode=transparent");
         });
     });
+
+    $('.content').on('click','.delete_room',function(event){        
+                element_delete_room = event.currentTarget;
+    });
+    $('.delete_room').confirm({
+            text: "Are you sure you want to delete this room?",
+            title: "Confirmation required",
+            confirm: function(button) {
+                $.ajax({
+                    url: '../rooms/del/',
+                    type: 'POST',
+                    beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
+                    data: { id: $(element_delete_room).data("id") },
+                    success: function(response){
+                      $(element_delete_room).parents('table.rooms_group').hide();
+                    }
+                });
+            },
+            confirmButton: "Yes I am",
+            cancelButton: "No",
+            post: false
+        });
+
 
     $("iframe").each(function(){
         var ifr_source = $(this).attr('src');

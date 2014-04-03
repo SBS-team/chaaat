@@ -22,8 +22,8 @@ class RoomsController < ApplicationController
       @room_list = Room.where("id in (?)",RoomsUser.where("user_id in (?)",current_user.id).pluck(:room_id))
       respond_to do |format|
         format.html { redirect_to rooms_path}
-        format.js   {}
-        format.json { render json: @room_list, status: :created, :room_id => @room.id}
+        format.js {}
+        format.json { render json: @room_list, status: :created}
       end
     end
   end
@@ -46,6 +46,12 @@ class RoomsController < ApplicationController
     room_user_ids = RoomsUser.where(:room_id => @room.id).map{|item| item.user_id}
     @room_users = User.where("id IN (?)", room_user_ids)
     gon.rooms_users = @room_users.pluck(:login)
+  end
+
+  def delete_room
+    room=Room.where("user_id = ? AND id = ?",current_user.id,params[:id]).first
+    room.destroy
+    render :text=>"done"
   end
 
   def load_previous_10_msg
