@@ -52,6 +52,7 @@ class User < ActiveRecord::Base
   has_many :rooms_users
   has_many :friends, :through => :friendships
   belongs_to :user_stat
+  validates :login, :email, :lastname, :firstname, :user_status, :encrypted_password, :presence => true
   validates_uniqueness_of :login, :message => "has already been taken"
 
   devise :invitable, :database_authenticatable, :registerable,
