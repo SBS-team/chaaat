@@ -555,3 +555,18 @@ h2.public{
 .kick_user {
     margin-left: 15px;
 }
+
+.attach_wrapper {
+    width: inherit;
+    border: 1px solid black;
+    background: rgba(10,10,10, 0.07);
+}
+
+.attach_header {
+    text-align: right;
+    border-bottom: 1px solid black;
+}
+
+span.glyphicon.glyphicon-remove:hover{
+    color: red;
+}

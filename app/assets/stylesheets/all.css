@@ -57,7 +57,7 @@ section#page {
 	position: relative;
 }
 header {
-	background: #252525 url("../img/header_bg.png") repeat-x scroll 0 0;
+	/*background: #252525 url("../img/header_bg.png") repeat-x scroll 0 0;*/
 	height: 40px;
 }
 header .logo {
