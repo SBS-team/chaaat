@@ -26,6 +26,11 @@ gem "active_model_serializers"
 gem 'emoji'
 gem 'activerecord-reset-pk-sequence'
 gem 'carrierwave'
+gem 'pry'
+gem 'pry-remote'
+gem 'pry-stack_explorer'
+gem 'pry-debugger'
+
 group :development do
   gem 'better_errors'
   gem 'binding_of_caller', :platforms=>[:mri_19, :mri_20, :rbx]
@@ -42,12 +47,19 @@ end
 
 group :development, :test do
   gem 'factory_girl_rails'
+  gem 'capybara'
+  gem 'launchy'
   gem 'rspec-rails'
   gem 'shoulda-matchers'
-end
-
-group :test do
-  gem 'capybara'
-  gem 'database_cleaner', '1.0.1'
+  gem 'simplecov', :require => false
+  gem 'cucumber'
+  gem 'cucumber-rails', :require => false
+  gem 'database_cleaner'
   gem 'email_spec'
+  gem 'capybara-mechanize'
+  gem 'selenium-webdriver'
+  gem "Selenium"
+  gem "selenium-client"
+  gem 'poltergeist'
+  gem 'rspec'
 end

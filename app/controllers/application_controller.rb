@@ -3,7 +3,10 @@ class ApplicationController < ActionController::Base
   before_filter :rooms_user
   helper_method :background_image
 
+
+
   def after_sign_in_path_for(resource)
+
     if resource.is_a? User
         Pusher['status'].trigger('change_status', :status=>"Available",:user_id=>current_user.id)
         User.update(current_user.id, :user_status =>"Available")
@@ -14,6 +17,7 @@ class ApplicationController < ActionController::Base
   end
 
   def after_sign_out_path_for(resource)
+
     Pusher['status'].trigger('change_status', :status=>"Offline",:user_id=>current_user.id)
     User.update(current_user.id, :user_status =>"Offline")
     User.update(current_user.id, :sign_out_at => Time.now)
@@ -33,7 +37,7 @@ class ApplicationController < ActionController::Base
   private
 
   def rooms_user
-    @room_list=Room.where("id in (?)",RoomsUser.where(:user_id=>current_user.id).pluck(:room_id)).order(id: :asc)
+    #@room_list=Room.where("id in (?)",RoomsUser.where(:user_id=>current_user.id).pluck(:room_id)).order(id: :asc)
   end
 
 

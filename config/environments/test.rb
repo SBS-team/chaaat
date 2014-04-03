@@ -33,4 +33,9 @@ Chat::Application.configure do
 
   # Print deprecation notices to the stderr.
   config.active_support.deprecation = :stderr
+  #config.assets.debug = true
+  #config.assets.compile=true
+  #config.assets.compress=false
+  #config.assets.digest=false
+
 end
