@@ -33,6 +33,7 @@ class UsersController < ApplicationController
       User.update(user.id, :sign_out_at => Time.now)
     end
     Pusher['status'].trigger('change_status', :status=>user.user_status,:user_id=>user.id,:user_sign_out_time=>user.sign_out_at)
+
     render text: "#{user.user_status}"
   end
 
