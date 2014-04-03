@@ -54,7 +54,9 @@ class User < ActiveRecord::Base
   belongs_to :user_stat
   validates :login, :email, :lastname, :firstname, :user_status, :encrypted_password, :presence => true
   validates_uniqueness_of :login, :message => "has already been taken"
-
+  validates :firstname, presence: true
+  validates :lastname, presence: true
+  validates :login, format: { with: /\A[a-zA-Z0-9_-]+\Z/ }
   devise :invitable, :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable,:omniauthable, :omniauth_providers => [:github,:facebook]
 

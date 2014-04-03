@@ -92,7 +92,18 @@ ul#friends_list {
 .friend_action:hover {
   background: orange;
 }
-
+.add_new_friend
+{
+  cursor: pointer;
+}
+.add_friend
+{
+  cursor: pointer;
+}
+.remove_friend
+{
+  cursor: pointer;
+}
 .friend:hover {
   background: rgba(80,80,80, 0.25);
 }

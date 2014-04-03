@@ -5,6 +5,10 @@
   %nav.lobby-panel
     %ul#tabs.tabs.ui-sortable
       %li#tab_lobby.selected
+        %a.open{:href => "#{users_path}"}
+          %span.glyphicon.glyphicon-user>
+          Friends
+      %li#tab_lobby.selected
         %a.open{:href => "#{rooms_path}"}
           %span.glyphicon.glyphicon-th-list>
           Lobby
@@ -25,30 +29,30 @@
         %span.glyphicon.glyphicon-hand-down
       %ul.dropdown-menu.avail-drop{"aria-labelledby" => "drop1", :role => "menu"}
         %li
-          %a.change-status{:href => "#", :tabindex => "-1"}
+          %a.change-status{:tabindex => "-1"}
             %span.glyphicon.glyphicon-eye-open.drop-av.drop-col-mar>
             Available
         %li
-          %a.change-status{:href => "#", :tabindex => "-1"}
+          %a.change-status{:tabindex => "-1"}
             %span.glyphicon.glyphicon-eye-close.drop-away.drop-col-mar>
             Away
         %li
-          %a.change-status{:href => "#", :tabindex => "-1"}
+          %a.change-status{:tabindex => "-1"}
             %span.glyphicon.glyphicon-eye-close.drop-dnd.drop-col-mar>
             Do not disturb
         %li
-          %a.change-status{:href => "#", :tabindex => "-1"}
+          %a.change-status{:tabindex => "-1"}
             %span.glyphicon.glyphicon-question-sign.drop-hlp.drop-col-mar>
             Help
         %li
-          %a.change-status{:href => "#", :tabindex => "-1"}
+          %a.change-status{:tabindex => "-1"}
             %span.glyphicon.glyphicon-eye-close.drop-col-mar>
             Offline
         %li
           = link_to destroy_user_session_path, :method=>'delete', :tabindex => "-1" do
             %span.glyphicon.glyphicon-share-alt.drop-col-mar>
             Sign out
-    %a.glyphicon.glyphicon-cog{:href => "#"}
+    %a.glyphicon.glyphicon-cog{:href=>"/persons"}
 %aside.right_panel
   .top-form
     .dropdown

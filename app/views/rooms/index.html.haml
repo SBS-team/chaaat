@@ -3,13 +3,12 @@
   .lobby-header
     %h1.pull-left
       ="#{current_user.login} Rooms"
-    %button.btn.btn-primary.lobby-btn{"data-target" => "#myModal", "data-toggle" => "modal"}
-      Create Room
+    %button#createRoom.btn.btn-primary.lobby-btn{"data-target" => "#myModal", "data-toggle" => "modal"}Create Room
     #myModal.modal.fade{"aria-hidden" => "true", "aria-labelledby" => "myModalLabel", role: "dialog", tabindex: "-1"}
       .modal-dialog
         .modal-content
           .modal-header
-            %button.close{"aria-hidden" => "true", "data-dismiss" => "modal", type: "button"} ×
+            %button.close{"aria-hidden" => "true", "data-dismiss" => "modal", type: "button"}
             %h4#myModalLabel.modal-title Create new room
           .modal-body
             = form_for Room.new,remote:true do |f|
