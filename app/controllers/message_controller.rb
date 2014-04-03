@@ -10,10 +10,9 @@ class MessageController < ApplicationController
       if !users
       offline_user_emails=User.where("login IN (?) AND user_status='Offline' AND id IN (?)", users, RoomsUser.where("room_id IN (?)",params[:message][:room_id]).pluck(:user_id)).pluck(:email)
         offline_user_emails.each do |email|
-        UserMailer.offline_message(email,message.body).deliver 
+          UserMailer.offline_message(email,message.body).deliver
+        end
       end
-
-    end
     end
     redirect_to room_path(params[:message][:room_id])
   end
