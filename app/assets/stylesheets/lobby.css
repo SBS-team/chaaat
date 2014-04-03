@@ -570,3 +570,7 @@ h2.public{
 span.glyphicon.glyphicon-remove:hover{
     color: red;
 }
+.delete_room
+{
+    cursor: pointer;
+}
