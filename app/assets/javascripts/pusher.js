@@ -21,9 +21,10 @@ var channel_status = pusher.subscribe('status');
 channel_status.bind('change_status', function(data) {
     if(window.location.toString().match(/\/persons\//)){
         if(data.status == "Offline")
-            $("#user_email").append("<span id=\"last_activity\"><br>Last seen at:"+ jQuery.timeago(data.user_sign_out_time) +"</span>");
-        else
-            $("#last_activity").remove();
+            $("#last_activity").text("Last seen at: " + jQuery.timeago(data.user_sign_out_time));
+        else{
+            $("#last_activity").text("");
+        }
     }
     else{
         var temp=document.getElementById(data.user_id);

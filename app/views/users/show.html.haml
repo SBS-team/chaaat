@@ -7,17 +7,14 @@
   %br
     Write me on:
     = "#{@user.email}"
-  - if (@user.sign_out_at)
-    = "Last seen at: "
-    = "#{time_ago_in_words(@user.sign_out_at)} ago"
+  %span#last_activity
+    - if (@user.user_status == "Offline")
+      = "Last seen at: "
+      = "#{time_ago_in_words(@user.sign_out_at)} ago"
   %br
   %br
   %span#find_more_friends
     = link_to 'Find new friends', users_path
-  - if (@user.user_status == "Offline")
-    %span#last_activity
-      = "Last seen at: "
-      = "#{time_ago_in_words(@user.sign_out_at)} ago"
   #friendship
     .title
       Friends

@@ -22,7 +22,8 @@ img {
   position: relative;
 }
 .popover-content{
-  height: 60px;
+  height: 150px;
+  overflow-y: scroll;
 }
 
 .form-control

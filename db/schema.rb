@@ -68,10 +68,9 @@ ActiveRecord::Schema.define(version: 20140331114518) do
     t.string   "lastname"
     t.string   "provider"
     t.string   "uid"
+    t.datetime "sign_out_at"
     t.string   "login"
     t.string   "avatar"
-    t.datetime "sign_out_at"
-    t.string   "profile_avatar"
     t.string   "invitation_token"
     t.datetime "invitation_created_at"
     t.datetime "invitation_sent_at"
@@ -80,6 +79,7 @@ ActiveRecord::Schema.define(version: 20140331114518) do
     t.integer  "invited_by_id"
     t.string   "invited_by_type"
     t.integer  "invitations_count",      default: 0
+    t.string   "profile_avatar"
     t.string   "user_status"
   end
 
