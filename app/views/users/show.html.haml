@@ -9,7 +9,7 @@
     = "#{@user.email}"
   - if (@user.sign_out_at)
     = "Last seen at: "
-    = "#{time_ago_in_words(@user.sign_out_at)}"
+    = "#{time_ago_in_words(@user.sign_out_at)} ago"
   #friendship
     .title
       Friends

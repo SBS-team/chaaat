@@ -29,6 +29,11 @@ channel_status.bind('change_status', function(data) {
     }
 });
 
+channel_status.bind('delete_room', function(data) {
+    $("table[data-room='"+data.room_id+"']").hide();
+    $("a[room_id='"+data.room_id+"']").parents('li#room').hide();
+});
+
 var channel2 = pusher.subscribe('private-'+gon.user_id.toString());
 channel2.bind('user_add_to_room', function(data) {
     $.bootstrapGrowl("You have been added to the room: "+data.rooms_name, {

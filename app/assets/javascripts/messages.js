@@ -14,6 +14,7 @@ $(document).ready(function(){
 
     $(document).on('click', '.emoji', function(e) {
         $("#message").val($("#message").val() + $(e.target).attr("title"));
+        $("#message").focus();
     });
     $(document).on('click', '.show_smile', function(){
         $('iframe').each(function(){
@@ -33,7 +34,7 @@ $(document).ready(function(){
     $('.delete_room').confirm({
             text: "Are you sure you want to delete this room?",
             title: "Confirmation required",
-            confirm: function(button) {
+            confirm: function() {
                 $.ajax({
                     url: '../rooms/del/',
                     type: 'POST',
@@ -41,6 +42,7 @@ $(document).ready(function(){
                     data: { id: $(element_delete_room).data("id") },
                     success: function(response){
                       $(element_delete_room).parents('table.rooms_group').hide();
+                      $("a[room_id='"+$(element_delete_room).data("id")+"']").parents('li#room').hide();
                     }
                 });
             },
@@ -71,6 +73,10 @@ $(document).ready(function(){
     {
         if (e.keyCode == 13 && e.ctrlKey == false) {
             send_message();
+            if($("input[type=file]#attach_path")){
+                $("attach_wrapper").remove();
+                $('label.upload-but').popover('hide');
+            }
             $('html, body').animate({scrollTop: $("body").height()}, 800);
         }
         if (e.keyCode ==13 && e.ctrlKey) {
@@ -150,6 +156,39 @@ $(document).ready(function(){
             return '<a href="'+url_to_file+'" download><span class="glyphicon glyphicon-download-alt"></span>'+url.match(/(\w|[-.])+$/)[0]+'</a>';
         }
     }
+
+    (function show_attachment(){
+       $popup_target = $('label.upload-but');
+       $input_file = $("input[type=file]#attach_path");
+
+
+       $input_file.change(function(){
+           $popup_target.attr({
+               "id": "attach_popup",
+               "data-container": "body",
+               "data-content": "<div class='attach_wrapper'>" +
+                                    "<div class='attach_header'>" +
+                                        "<span class='glyphicon glyphicon-remove'></span>" +
+                                    "</div>" +
+                                    "<div class='attach_content'>" +
+                                        "<span>" + $input_file[0].files[0].name + "</span>" +
+                                    "</div>" +
+                                "</div>",
+               "data-placement": "top",
+               "data-toggle": "popover",
+               "type": "button"
+           });
+           $("#message").focus();
+           $popup_target.popover({html:true});
+           $popup_target.popover('show');
+
+           $(".popover-content").find("span.glyphicon.glyphicon-remove").click(function(){
+              $("#attach_path").val("");
+              $("attach_wrapper").remove();
+              $popup_target.popover('hide');
+           });
+       })
+    })();
 
 
     function render_message(user_id, login, body, avatar, time,scroll_true,attach_file_path){
