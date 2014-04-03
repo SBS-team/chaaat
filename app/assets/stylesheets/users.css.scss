@@ -81,7 +81,7 @@ ul#friends_list {
 .friend_action {
   width: 50px;
   height: 50px;
-  float: left;
+  /*float: left;*/
   text-align: center;
   padding-top: 12px;
 }
@@ -103,13 +103,15 @@ ul#friends_list {
 }
 
 .friend_name {
-  float: left;
+  float: right;
   height: 50px;
   padding-top: 15px;
 }
 
 .friend_name a {
   text-decoration: none;
+  display: block;
+  margin-top: 15px;
 }
 
 #find_more_friends{
