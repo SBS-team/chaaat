@@ -33,7 +33,7 @@ $(document).ready(function(){
     $('.delete_room').confirm({
             text: "Are you sure you want to delete this room?",
             title: "Confirmation required",
-            confirm: function(button) {
+            confirm: function() {
                 $.ajax({
                     url: '../rooms/del/',
                     type: 'POST',
@@ -41,6 +41,7 @@ $(document).ready(function(){
                     data: { id: $(element_delete_room).data("id") },
                     success: function(response){
                       $(element_delete_room).parents('table.rooms_group').hide();
+                      $("a[room_id='"+$(element_delete_room).data("id")+"']").parents('li#room').hide();
                     }
                 });
             },
