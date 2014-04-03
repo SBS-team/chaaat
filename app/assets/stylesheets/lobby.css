@@ -321,7 +321,7 @@ h2.public{
 	text-decoration: none;
 }
 .owner{
-	float:right;
+	float:left;
 	margin-right:10px;
 }
 .name{

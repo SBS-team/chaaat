@@ -5,7 +5,7 @@ class ApplicationController < ActionController::Base
 
   def after_sign_in_path_for(resource)
     if resource.is_a? User
-        Pusher['status'].trigger('change_status', :status=>"Available",:user_id=>current_user.id)
+        Pusher['status'].trigger_async('change_status', :status=>"Available",:user_id=>current_user.id)
         User.update(current_user.id, :user_status =>"Available")
         rooms_path
     else
@@ -14,7 +14,7 @@ class ApplicationController < ActionController::Base
   end
 
   def after_sign_out_path_for(resource)
-    Pusher['status'].trigger('change_status', :status=>"Offline",:user_id=>current_user.id)
+    Pusher['status'].trigger_async('change_status', :status=>"Offline",:user_id=>current_user.id)
     User.update(current_user.id, :user_status =>"Offline")
     User.update(current_user.id, :sign_out_at => Time.now)
     if resource.is_a? User
@@ -29,7 +29,18 @@ class ApplicationController < ActionController::Base
     target = Dir.new("#{Dir.pwd}")
     target.entries.sort![rand(2..target.entries.size-1)]
   end
+  unless Rails.application.config.consider_all_requests_local
+    rescue_from Exception, with: lambda { |exception| render_error 500, exception }
+    rescue_from ActionController::RoutingError, ActionController::UnknownController, ::AbstractController::ActionNotFound, ActiveRecord::RecordNotFound, with: lambda { |exception| render_error 404, exception }
+  end
 
+  private
+  def render_error(status, exception)
+    respond_to do |format|
+      format.html { render template: "errors/error_#{status}", layout: 'layouts/application', status: status }
+      format.all { render nothing: true, status: status }
+    end
+  end
   private
 
   def rooms_user
