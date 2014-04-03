@@ -69,7 +69,7 @@ $(document).ready(function(){
         return false;
     });
 
-    message_textarea.keydown(function(e)
+    message_textarea.keyup(function(e)
     {
         if (e.keyCode == 13 && e.ctrlKey == false) {
             send_message();
