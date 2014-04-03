@@ -32,7 +32,8 @@ class ApplicationController < ActionController::Base
     target = Dir.new("#{Dir.pwd}")
     target.entries.sort![rand(2..target.entries.size-1)]
   end
-  unless Rails.application.config.consider_all_requests_local
+
+  unless
     rescue_from Exception, with: lambda { |exception| render_error 500, exception }
     rescue_from ActionController::RoutingError, ActionController::UnknownController, ::AbstractController::ActionNotFound, ActiveRecord::RecordNotFound, with: lambda { |exception| render_error 404, exception }
   end
