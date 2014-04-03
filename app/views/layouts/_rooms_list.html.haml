@@ -18,7 +18,6 @@
               =link_to "#{room.name}",room_path(:id=>room.id), :room_id => room.id
   #status_ui
     =image_tag avatar_url(current_user,50),:class => "avatar_mini"
-
     .dropdown
       %a#drop1.dropdown-toggle.avail{"data-toggle" => "dropdown", :href => "#", :role => "button", :type => "button"}
         %span{:class=>get_user_status_style(current_user.user_status)}>
@@ -26,30 +25,30 @@
         %span.glyphicon.glyphicon-hand-down
       %ul.dropdown-menu.avail-drop{"aria-labelledby" => "drop1", :role => "menu"}
         %li
-          %a.change-status{:href => "#", :tabindex => "-1"}
+          %a.change-status{:tabindex => "-1"}
             %span.glyphicon.glyphicon-eye-open.drop-av.drop-col-mar>
             Available
         %li
-          %a.change-status{:href => "#", :tabindex => "-1"}
+          %a.change-status{:tabindex => "-1"}
             %span.glyphicon.glyphicon-eye-close.drop-away.drop-col-mar>
             Away
         %li
-          %a.change-status{:href => "#", :tabindex => "-1"}
+          %a.change-status{:tabindex => "-1"}
             %span.glyphicon.glyphicon-eye-close.drop-dnd.drop-col-mar>
             Do not disturb
         %li
-          %a.change-status{:href => "#", :tabindex => "-1"}
+          %a.change-status{:tabindex => "-1"}
             %span.glyphicon.glyphicon-question-sign.drop-hlp.drop-col-mar>
             Help
         %li
-          %a.change-status{:href => "#", :tabindex => "-1"}
+          %a.change-status{:tabindex => "-1"}
             %span.glyphicon.glyphicon-eye-close.drop-col-mar>
             Offline
         %li
           = link_to destroy_user_session_path, :method=>'delete', :tabindex => "-1" do
             %span.glyphicon.glyphicon-share-alt.drop-col-mar>
             Sign out
-    %a.glyphicon.glyphicon-cog{:href => "#"}
+    %a.glyphicon.glyphicon-cog
 %aside.right_panel
   .top-form
     .dropdown

@@ -1,7 +1,7 @@
 %h2.public OPEN ROOMS
 - if !@room_list.nil?
   - @room_list.each do |room|
-    %table.rooms_group
+    %table.rooms_group{:data=>{:room=>room.id}}
       %tr
         %td.name
           %a.clean
