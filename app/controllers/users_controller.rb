@@ -29,6 +29,9 @@ class UsersController < ApplicationController
   def change_status
     User.update(current_user.id,:user_status=>params[:status])
     user = User.find(current_user)
+    if(params[:status] == "Offline")
+      User.update(user.id, :sign_out_at => Time.now)
+    end
     Pusher['status'].trigger('change_status', :status=>user.user_status,:user_id=>user.id,:user_sign_out_time=>user.sign_out_at)
     render text: "#{user.user_status}"
   end

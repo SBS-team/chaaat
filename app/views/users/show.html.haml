@@ -5,11 +5,13 @@
   %span#user_name
     = "#{@user.firstname} #{@user.lastname}"
   %br
-    Write me on:
-    = "#{@user.email}"
-  - if (@user.sign_out_at)
-    = "Last seen at: "
-    = "#{time_ago_in_words(@user.sign_out_at)} ago"
+    %span#user_email
+      Write me on:
+      = "#{@user.email}"
+  - if (@user.user_status == "Offline")
+    %span#last_activity
+      = "Last seen at: "
+      = "#{time_ago_in_words(@user.sign_out_at)} ago"
   #friendship
     .title
       Friends

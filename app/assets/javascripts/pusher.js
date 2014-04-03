@@ -19,14 +19,25 @@ var channel = pusher.subscribe('private-'+gon.room_id.toString());
 var channel_status = pusher.subscribe('status');
 
 channel_status.bind('change_status', function(data) {
-    var temp=document.getElementById(data.user_id);
-    temp.getElementsByTagName('span')[0].className=get_user_status_style(data.status);
-    if (data.status=="Offline"){
-        temp.title="Offline "+jQuery.timeago(new Date());
+    if(window.location.toString().match(/\/persons\//)){
+        if(data.status == "Offline")
+            $("#user_email").append("<span id=\"last_activity\"><br>Last seen at:"+ jQuery.timeago(data.user_sign_out_time) +"</span>");
+        else
+            $("#last_activity").remove();
     }
     else{
-        temp.title=data.status;
+        var temp=document.getElementById(data.user_id);
+        temp.getElementsByTagName('span')[0].className=get_user_status_style(data.status);
+        if (data.status==="Offline"){
+            temp.title="Offline "+jQuery.timeago(new Date());
+        }
+        else{
+            temp.title=data.status;
+        }
     }
+
+
+
 });
 
 channel_status.bind('delete_room', function(data) {

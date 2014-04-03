@@ -4,7 +4,9 @@ Feature: users
   Scenario: room creation
     Given a logged in user
     Given I visit the "/rooms" page
-    And click the 'drop1' button
+    And I wait 2 seconds
+    And click the 'createRoom' button
+    And I wait 4 seconds
     And fill the create room form
     And I wait 2 seconds
     And click the 'Create' button
