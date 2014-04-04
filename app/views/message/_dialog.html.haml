@@ -52,11 +52,11 @@
             %td{:width => "1%"}
               = f.hidden_field :room_id, :value=>@room_id
               %label.upload-but{:for => "attach_path"}
-                %span.glyphicon.glyphicon-paperclip
+                %span.glyphicon.glyphicon-paperclip#lineh
             %td{:width => "1%"}
               %div.form-but.upload-but
                 -smile=render "layouts/index"
-                %span.glyphicon.glyphicon-thumbs-up#pop{"data-container" => "body",
+                %span.glyphicon.glyphicon-thumbs-up#lineh#pop{"data-container" => "body",
                                                         "data-content" => smile,
                                                         "data-placement" => "top",
                                                         "data-toggle" => "popover", type: "button"}

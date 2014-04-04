@@ -14,7 +14,7 @@ module ApplicationHelper
   end
 
   def get_user_status_style(user_status)
-    case user_status
+    case user_status.gsub(/[\n]/,"\r")
      when 'Available'
         'glyphicon glyphicon-eye-open drop-av drop-col-mar'
      when 'Away'
