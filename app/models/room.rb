@@ -14,4 +14,6 @@ class Room < ActiveRecord::Base
   has_many :message, dependent: :destroy
   has_many :rooms_users, dependent: :destroy
   belongs_to :user
+  validates :name, :presence => true
+
 end

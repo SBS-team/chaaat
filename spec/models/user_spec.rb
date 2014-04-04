@@ -46,6 +46,11 @@
 require 'spec_helper'
 
 describe User do
+  before do
+    @user = User.new(login: "petro", encrypted_password: "123456789", firstname: "Example", lastname: "User", email: "user@example.com", user_status: "Available")
+  end
+
+  subject { @user }
   context 'User db columns' do
     it { should have_db_column(:email).of_type(:string)}
     it { should have_db_column(:encrypted_password).of_type(:string)}
@@ -67,5 +72,36 @@ describe User do
   context 'User relationship' do
     it { should have_many(:message) }
     it { should have_many(:rooms_users) }
+  end
+  it { should respond_to(:email) }
+  it { should respond_to(:encrypted_password) }
+  it { should respond_to(:login) }
+  it { should respond_to(:lastname) }
+  it { should respond_to(:firstname) }
+  it { should respond_to(:user_status) }
+
+  describe "when login is not present" do
+    before { @user.login = "" }
+    it { should_not be_valid }
+  end
+  describe "when email is not present" do
+    before { @user.email = "" }
+    it { should_not be_valid }
+  end
+  describe "when lastname is not present" do
+    before { @user.lastname = "" }
+    it { should_not be_valid }
+  end
+  describe "when firstname is not present" do
+    before { @user.firstname = "" }
+    it { should_not be_valid }
+  end
+  describe "when user_status is not present" do
+    before { @user.user_status = "" }
+    it { should_not be_valid }
+  end
+  describe "when password is not present" do
+    before { @user.encrypted_password = "" }
+    it { should_not be_valid }
   end
  end
