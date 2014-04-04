@@ -7,7 +7,10 @@ class ApplicationController < ActionController::Base
 
   def after_sign_in_path_for(resource)
     if resource.is_a? User
-        Pusher['status'].trigger('change_status', :status=>"Available",:user_id=>current_user.id)
+      gon.room_id = 0
+      gon.user_id=current_user.id
+      @room_list=Room.where("id in (?)",RoomsUser.where(:user_id=>current_user.id).pluck(:room_id)).order(id: :asc)
+        Pusher['status'].trigger_async('change_status', :status=>"Available",:user_id=>current_user.id)
         User.update(current_user.id, :user_status =>"Available")
         rooms_path
     else
@@ -19,7 +22,8 @@ class ApplicationController < ActionController::Base
   if current_admin_user.is_a? AdminUser
     super
     else
-    Pusher['status'].trigger('change_status', :status=>"Offline",:user_id=>current_user.id)
+
+    Pusher['status'].trigger_async('change_status', :status=>"Offline",:user_id=>current_user.id)
     User.update(current_user.id, :user_status =>"Offline")
     User.update(current_user.id, :sign_out_at => Time.now)
     if resource.is_a? User
@@ -36,13 +40,24 @@ class ApplicationController < ActionController::Base
     target.entries.sort![rand(2..target.entries.size-1)]
   end
 
+  unless 
+    rescue_from Exception, with: lambda { |exception| render_error 500, exception }
+    rescue_from ActionController::RoutingError, ActionController::UnknownController, ::AbstractController::ActionNotFound, ActiveRecord::RecordNotFound, with: lambda { |exception| render_error 404, exception }
+  end
 
   private
+  def render_error(status, exception)
+    respond_to do |format|
+      format.html { render template: "errors/error_#{status}", layout: 'layouts/application', status: status }
+      format.all { render root_path, status: status }
+    end
+  end
 
   def rooms_user
     if current_user.is_a? User
     @room_list=Room.where("id in (?)",RoomsUser.where(:user_id=>current_user.id).pluck(:room_id)).order(id: :asc)
     end
+    #@room_list=Room.where("id in (?)",RoomsUser.where(:user_id=>current_user.id).pluck(:room_id)).order(id: :asc)
   end
 
 

@@ -339,8 +339,8 @@ h2.public{
     text-decoration: none;
 }
 .owner{
-    float:right;
-    margin-right:10px;
+	float:left;
+	margin-right:10px;
 }
 .name{
     float:left;
@@ -573,4 +573,8 @@ span.glyphicon.glyphicon-remove:hover{
 .delete_room
 {
     cursor: pointer;
+}
+#lineh.glyphicon:before
+{
+    line-height: 56px;
 }

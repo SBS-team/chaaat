@@ -25,4 +25,6 @@ class Message < ActiveRecord::Base
   belongs_to :room
   mount_uploader :attach_path, ImageUploader
 
+  validates :user_id, :room_id, :presence => true
+
 end
