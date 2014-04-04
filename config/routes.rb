@@ -1,5 +1,7 @@
 Chat::Application.routes.draw do
 
+  devise_for :admin_users, ActiveAdmin::Devise.config
+  ActiveAdmin.routes(self)
   get "message/index", to: "message#index"
   resources :friendships, :only => [:create, :destroy]
   resources :users,:path => :persons, :only => [:index, :show]

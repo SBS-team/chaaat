@@ -1,18 +1,11 @@
 require 'spec_helper'
 
 describe MessageController do
+  #before do
+  #  @message = Message.new(user_id: "1", body: "bla bla", room_id: "1")
+  #end
+  #subject { @message }
 
-  #describe "show message" do
-  #  it 'renders show template' do
-  #    body = FactoryGirl.create(:message)
-  #    get :show, {:id=>body.id}
-  #  end
-  #end
-  #
-  #describe "search message" do
-  #  it 'renders search template' do
-  #    get :search, {:query=>"sd"}
-  #  end
-  #end
+
 
 end

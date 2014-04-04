@@ -6,7 +6,6 @@ class ApplicationController < ActionController::Base
 
 
   def after_sign_in_path_for(resource)
-
     if resource.is_a? User
         Pusher['status'].trigger('change_status', :status=>"Available",:user_id=>current_user.id)
         User.update(current_user.id, :user_status =>"Available")
@@ -17,7 +16,9 @@ class ApplicationController < ActionController::Base
   end
 
   def after_sign_out_path_for(resource)
-
+  if current_admin_user.is_a? AdminUser
+    super
+    else
     Pusher['status'].trigger('change_status', :status=>"Offline",:user_id=>current_user.id)
     User.update(current_user.id, :user_status =>"Offline")
     User.update(current_user.id, :sign_out_at => Time.now)
@@ -25,6 +26,7 @@ class ApplicationController < ActionController::Base
       root_path
     else
       super
+    end
     end
   end
 
@@ -34,10 +36,13 @@ class ApplicationController < ActionController::Base
     target.entries.sort![rand(2..target.entries.size-1)]
   end
 
+
   private
 
   def rooms_user
+    if current_user.is_a? User
     @room_list=Room.where("id in (?)",RoomsUser.where(:user_id=>current_user.id).pluck(:room_id)).order(id: :asc)
+    end
   end
 
 
