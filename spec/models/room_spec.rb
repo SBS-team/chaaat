@@ -13,6 +13,10 @@
 require 'spec_helper'
 
 describe Room do
+  before do
+    @room = Room.new(name: "bla bla")
+  end
+  subject { @room }
   context 'Room db columns' do
     it { should have_db_column(:name).of_type(:string)}
     it { should have_db_column(:topic).of_type(:string) }
@@ -23,5 +27,11 @@ describe Room do
   context 'Room relationship' do
     it { should have_many(:message) }
     it { should have_many(:rooms_users) }
+  end
+  it { should respond_to(:name) }
+
+  describe "when name is not present" do
+    before { @room.name = "" }
+    it { should_not be_valid }
   end
 end
