@@ -1,2 +1,2 @@
-module ErrorsHelper
+module ErrorsHelper #FIXME remove
 end

@@ -77,3 +77,4 @@ class GemClass
   #   protected :gems_from_output, :gem_name_from_line
   # end
 end
+#FIXME wat? remove it

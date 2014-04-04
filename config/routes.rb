@@ -1,11 +1,12 @@
 Chat::Application.routes.draw do
 
-  get "errors/error_404"
-  get "errors/error_500"
+  get "errors/error_404"    #FIXME remove
+  get "errors/error_500"    #FIXME remove
   get "message/index", to: "message#index"
   resources :friendships, :only => [:create, :destroy]
   resources :users,:path => :persons, :only => [:index, :show]
 
+  #FIXME resources do ?
   get "message/:id", to: "message#show"
   post "message/new", to: "message#new", as: "new_message"
   post "message/search", to: "message#search"
@@ -23,7 +24,7 @@ Chat::Application.routes.draw do
   devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }
 
   post 'pusher/auth'
-  unless Rails.application.config.consider_all_requests_local
+  unless Rails.application.config.consider_all_requests_local   #FIXME remove
     get '*not_found', to: 'errors#error_404'
   end
 

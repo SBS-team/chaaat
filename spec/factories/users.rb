@@ -73,5 +73,6 @@
 
 FactoryGirl.define do
   factory :user do
+    #FIXME add tests
   end
 end

@@ -18,7 +18,7 @@ class MessageSerializer < ActiveModel::Serializer
      if object.user.avatar==nil
         default_url = "#{root_url}images/guest.png"
       gravatar_id = Digest::MD5::hexdigest(object.user.email).downcase
-      "http://gravatar.com/avatar/#{gravatar_id}.png?s=50&d=#{CGI.escape("mm")}"
+      "http://gravatar.com/avatar/#{gravatar_id}.png?s=50&d=#{CGI.escape("mm")}"  #FIXME gem
     else
        object.user.avatar
     end

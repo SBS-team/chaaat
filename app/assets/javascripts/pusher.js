@@ -1,10 +1,11 @@
+//#FIXME coffescript
 Pusher.host = '192.168.137.75'
 Pusher.ws_port = 8081
 Pusher.wss_port = 8081
 
 Pusher.channel_auth_endpoint='/pusher/auth?room_id='+gon.room_id.toString();
 
-pusher = new Pusher('255267aae6802ec7914f');
+pusher = new Pusher('255267aae6802ec7914f'); //#FIXME move to config
 channel = pusher.subscribe('private-'+gon.room_id.toString());
 
 channel_status = pusher.subscribe('status');
@@ -67,7 +68,7 @@ channel.bind('add_user_to_room', function(data) {
     });
     var user_status_icon_style = get_user_status_style(data.user_status);
     $(".list").append(
-        "<div class = \"member\" id="+data.user_id+" user_id="+ data.user_id +" room_id="+ data.room_id +">"+
+        "<div class = \"member\" id="+data.user_id+" user_id="+ data.user_id +" room_id="+ data.room_id +">"+  //#FIXME jquery template/handlebars
             "<span class = \""+ user_status_icon_style +"\"></span>" +
             "<a href=\"#\">"+ data.user_login +"</a></div>"
     );

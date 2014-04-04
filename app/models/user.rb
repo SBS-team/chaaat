@@ -59,10 +59,10 @@ class User < ActiveRecord::Base
   devise :invitable, :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable,:omniauthable, :omniauth_providers => [:github,:facebook]
 
-  def self.create_with_omniauth(auth, signed_in_resource=nil)
+  def self.create_with_omniauth(auth, signed_in_resource=nil)  #FIXME refactoring
     user = User.where(:provider => auth.provider, :uid => auth.uid).first
     if user
-      return user
+      return user  #FIXME find_or_create_by(:provider => auth.provider, :uid => auth.uid)
     else
       registered_user = User.where(:email => auth.email).first
       if registered_user
@@ -78,7 +78,7 @@ class User < ActiveRecord::Base
     end
   end
 
-  def self.find_for_facebook_oauth(auth, signed_in_resource=nil)
+  def self.find_for_facebook_oauth(auth, signed_in_resource=nil)  #FIXME refactoring
     user = User.where(:provider => auth.provider, :uid => auth.uid).first
     if user
       return user

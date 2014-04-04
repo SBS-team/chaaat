@@ -1,3 +1,4 @@
+//#FIXME coffescript
 $(function () {
     $('#modal-submit').click(function(){console.log($("#myModal").hide());console.log($(".modal-backdrop").hide())})
 })

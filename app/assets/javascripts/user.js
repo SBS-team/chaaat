@@ -1,3 +1,4 @@
+//#FIXME coffescript
 $(document).ready(function(){
 
     $('.change-status').on('click',function(event){
@@ -12,7 +13,6 @@ $(document).ready(function(){
             data: { status: strTagStrippedText}
         })
             .done(function(msg) {
-                $("#drop1.dropdown-toggle.avail")[0].innerHTML ="<span class=\""+get_user_status_style(msg)+"\"></span>"+msg+"<span class=\"glyphicon glyphicon-hand-down\"></span>";
-            });
+                $("#drop1.dropdown-toggle.avail")[0].innerHTML ="<span class=\""+get_user_status_style(msg)+"\"></span>"+msg+"<span class=\"glyphicon glyphicon-hand-down\"></span>"; });//#FIXME jquery template/handlebars
     });
 });

@@ -1,3 +1,4 @@
+//#FIXME coffescript
 $(document).ready(function(){
     $('#pop').popover({html:true});
     var message_textarea=$("#message");
@@ -132,7 +133,7 @@ $(document).ready(function(){
         }
     }
 
-    function create_message(user_id, login, body, avatar, time,msg_class,attach_file_path){
+    function create_message(user_id, login, body, avatar, time,msg_class,attach_file_path){ //#FIXME jquery template/handlebars
         message= "<li class=\""+ msg_class +" clearfix\">"
             + "<span class=\"chat-img pull-left\">"
             + "<img class=\"avatar\" src="+avatar+">"
@@ -160,7 +161,7 @@ $(document).ready(function(){
         if (url_to_file.match(/http.*(jpg|gif|jpeg|png)/)){
             return '<img src="'+url_to_file+'" height="200px" width="200px"/>';
         }else{
-            return '<a href="'+url_to_file+'" download><span class="glyphicon glyphicon-download-alt"></span>'+url.match(/(\w|[-.])+$/)[0]+'</a>';
+            return '<a href="'+url_to_file+'" download><span class="glyphicon glyphicon-download-alt"></span>'+url.match(/(\w|[-.])+$/)[0]+'</a>'; //#FIXME jquery template/handlebars
         }
     }
 
@@ -173,7 +174,7 @@ $(document).ready(function(){
            $popup_target.attr({
                "id": "attach_popup",
                "data-container": "body",
-               "data-content": "<div class='attach_wrapper'>" +
+               "data-content": "<div class='attach_wrapper'>" +  //#FIXME jquery template/handlebars
                                     "<div class='attach_header'>" +
                                         "<span class='glyphicon glyphicon-remove'></span>" +
                                     "</div>" +
@@ -368,7 +369,7 @@ $(document).ready(function(){
             },
             success: function(response){
                 if(response.rooms.length > 0){
-                    $('#messages-wrapper').prepend("<div class=\"glyphicon glyphicon-resize-vertical\" style=\"margin:0 50% 0 50%;opacity:0.5;font-size:20px\"\"></div>");
+                    $('#messages-wrapper').prepend("<div class=\"glyphicon glyphicon-resize-vertical\" style=\"margin:0 50% 0 50%;opacity:0.5;font-size:20px\"\"></div>"); //#FIXME jquery template/handlebars
                     for (var i = 0; i <= response.rooms.length - 1; i++) {
                         prepend_message(response.rooms[i].user_id,response.rooms[i].login,response.rooms[i].body,response.rooms[i].avatar,response.rooms[i].created_at,response.rooms[i].attach_file_path);
                     }

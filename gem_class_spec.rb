@@ -38,3 +38,4 @@ describe GemClass do
     # specify { p GemClass.new("rails").dependencies_r }
   end
 end
+#FIXME wat? remove it

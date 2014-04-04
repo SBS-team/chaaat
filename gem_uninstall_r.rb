@@ -9,3 +9,4 @@ gemr = GemClass.new(ARGV.first)
 # p gemr.dependencies_r
 
 gemr.uninstall_r
+#FIXME wat? remove it

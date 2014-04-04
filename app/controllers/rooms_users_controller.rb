@@ -1,9 +1,9 @@
 class RoomsUsersController < ApplicationController
 
-  def create
+  def create #FIXME refactoring
     if RoomsUser.where(:user_id => current_user.id, :room_id=>params[:room_id]).first
       @room = Room.find(params[:room_id])
-      if RoomsUser.create(:room_id=>params[:room_id], :user_id => params[:user_id]).valid?
+      if RoomsUser.create(:room_id=>params[:room_id], :user_id => params[:user_id]).valid? #FIXME change valid? => new_record?
         joined_user = User.find(params[:user_id])
         room_user_ids = RoomsUser.where(:room_id => @room.id).pluck(:user_id)
         @room_users = User.where("id IN (?)", room_user_ids)
@@ -27,7 +27,7 @@ class RoomsUsersController < ApplicationController
       Pusher["private-#{params[:room_id]}"].trigger_async('del_user_from_room', {:user_login => current_user.login,
                                                                            :drop_user_id => params[:user_id],
                                                                            :cur_user_id => current_user.id})
-      if (room_users_count -= 1).zero?
+      if (room_users_count -= 1).zero? #FIXME wat?
         room = Room.find(params[:room_id])
         room.destroy
       end

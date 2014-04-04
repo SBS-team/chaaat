@@ -24,4 +24,5 @@ class Message < ActiveRecord::Base
   belongs_to :user
   belongs_to :room
   mount_uploader :attach_path, ImageUploader
+  #FIXME validates?
 end

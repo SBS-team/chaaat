@@ -1,4 +1,4 @@
-class ErrorsController < ApplicationController
+class ErrorsController < ApplicationController #FIXME remove
   def error_404
     @not_found_path = params[:not_found]
   end

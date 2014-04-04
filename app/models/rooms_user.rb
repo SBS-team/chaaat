@@ -16,5 +16,6 @@ class RoomsUser < ActiveRecord::Base
   belongs_to :room
 
   validates :user_id, :uniqueness => {:scope => :room_id}
+  #FIXME validates?
 
 end
