@@ -552,7 +552,7 @@ h2.public{
     margin-left: 5px;
     padding: 0 13px;
 }
-#lineh
+#lineh.glyphicon:before
 {
     line-height: 56px;
 }
