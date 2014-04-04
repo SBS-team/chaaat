@@ -7,6 +7,7 @@
     %meta{:name => "description", :content => "#{content_for?(:description) ? yield(:description) : 'Chat'}"}
     %script{:src=>"http://js.pusher.com/2.1/pusher.min.js"}
     = stylesheet_link_tag "application", media: "all"
+    %link{:href=>"lib/FontAwesome/css/font-awesome.min.css", :rel=>"stylesheet"}
     = csrf_meta_tags
     = javascript_include_tag "application"
   %body{:style=>("background-image:url('../background/#{background_image()}');" unless user_signed_in?)}

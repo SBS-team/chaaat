@@ -13,7 +13,8 @@ class Devise::SessionsController < DeviseController
   def create
     self.resource = warden.authenticate!(auth_options)
     set_flash_message(:notice, :signed_in) if is_flashing_format?
-
+    gon.user_login = current_user.login
+    gon.user_id = current_user.id
     sign_in(resource_name, resource)
     User.update(current_user.id, :user_status=>"Available")
     Pusher['status'].trigger_async('change_status', :status=>"Available",:user_id=>current_user.id)

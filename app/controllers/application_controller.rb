@@ -6,7 +6,6 @@ class ApplicationController < ActionController::Base
 
 
   def after_sign_in_path_for(resource)
-
     if resource.is_a? User
         Pusher['status'].trigger_async('change_status', :status=>"Available",:user_id=>current_user.id)
         User.update(current_user.id, :user_status =>"Available")
