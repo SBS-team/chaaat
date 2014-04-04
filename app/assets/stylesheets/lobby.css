@@ -339,8 +339,8 @@ h2.public{
     text-decoration: none;
 }
 .owner{
-    float:right;
-    margin-right:10px;
+	float:left;
+	margin-right:10px;
 }
 .name{
     float:left;
@@ -569,4 +569,8 @@ h2.public{
 
 span.glyphicon.glyphicon-remove:hover{
     color: red;
+}
+.delete_room
+{
+    cursor: pointer;
 }

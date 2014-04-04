@@ -1,6 +1,9 @@
 // Place all the styles related to the users controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+img#er{
+
+}
 
 .avatar {
   width: 50px;
@@ -92,7 +95,18 @@ ul#friends_list {
 .friend_action:hover {
   background: orange;
 }
-
+.add_new_friend
+{
+  cursor: pointer;
+}
+.add_friend
+{
+  cursor: pointer;
+}
+.remove_friend
+{
+  cursor: pointer;
+}
 .friend:hover {
   background: rgba(80,80,80, 0.25);
 }

@@ -48,16 +48,17 @@ jQuery(function($){
             post: false
         });
     }
+
     $('.member').on('dblclick','a', function(e) {
 
         if ($(this).parent().attr('user_id')!=gon.user_id.toString()){
-            var strInputCode = $(this).html();
+            strInputCode = $(this).html();
             strInputCode = strInputCode.replace(/&(lt|gt);/g, function (strMatch, p1){
                 return (p1 == "lt")? "<" : ">";
             });
             var strTagStrippedText = strInputCode.replace(/<\/?[^>]+(>|$)/g, "");
 
-            var posting = $.post('/rooms/', {
+            posting = $.post('/rooms/', {
                 express:true,
                 room: {
                     name:  gon.user_login+" vs. "+strTagStrippedText,

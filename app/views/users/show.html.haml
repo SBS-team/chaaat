@@ -5,8 +5,9 @@
   %span#user_name
     = "#{@user.firstname} #{@user.lastname}"
   %br
-    Write me on:
-    = "#{@user.email}"
+    %span#user_email
+      Write me on:
+      = "#{@user.email}"
   %span#last_activity
     - if (@user.user_status == "Offline")
       = "Last seen at: "

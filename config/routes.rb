@@ -1,5 +1,7 @@
 Chat::Application.routes.draw do
 
+  get "errors/error_404"
+  get "errors/error_500"
   get "message/index", to: "message#index"
   resources :friendships, :only => [:create, :destroy]
   resources :users,:path => :persons, :only => [:index, :show]
@@ -21,6 +23,8 @@ Chat::Application.routes.draw do
   devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }
 
   post 'pusher/auth'
+  get '*not_found', to: 'errors#error_404'
+
 
   devise_scope :user do
     root to: "devise/registrations#new"

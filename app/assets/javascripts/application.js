@@ -23,3 +23,4 @@
 //= require messages.js
 //= require bootstrap
 //= require rooms.js
+

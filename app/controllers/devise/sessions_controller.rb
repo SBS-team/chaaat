@@ -15,16 +15,12 @@ class Devise::SessionsController < DeviseController
     set_flash_message(:notice, :signed_in) if is_flashing_format?
 
     sign_in(resource_name, resource)
-    User.update(current_user.id, :user_status=>"Available")
-    Pusher['status'].trigger('change_status', :status=>"Available",:user_id=>current_user.id)
     yield resource if block_given?
     respond_with resource, location: after_sign_in_path_for(resource)
   end
 
   # DELETE /resource/sign_out
   def destroy
-    User.update(current_user.id, :user_status=>"Offline")
-    Pusher['status'].trigger('change_status', :status=>"Offline",:user_id=>current_user.id)
     redirect_path = after_sign_out_path_for(resource_name)
     signed_out = (Devise.sign_out_all_scopes ? sign_out : sign_out(resource_name))
     set_flash_message :notice, :signed_out if signed_out && is_flashing_format?

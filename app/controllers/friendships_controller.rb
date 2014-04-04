@@ -4,12 +4,9 @@ class FriendshipsController < ApplicationController
     friendship = current_user.friendships.build(:friend_id => friendship_params[:friend_id])
     added_friend = friendship.friend
     inverse_friendship = added_friend.friendships.build(:friend_id => current_user.id)
-    if friendship.save && inverse_friendship.save
-      flash[:notice] = 'User confirmed that you are friends'
-    else
-      flash[:error] = 'User rejected your friendship'
-    end
-    #redirect_to user_path(current_user.id)
+    friendship.save
+    inverse_friendship.save
+
     render :json => friendship_params[:friend_id]
   end
 

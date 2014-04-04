@@ -1,29 +1,20 @@
-function get_user_status_style(user_status){
-    switch(user_status){
-        case "Available":
-            return "glyphicon glyphicon-eye-open drop-av drop-col-mar";
-        case "Away":
-            return "glyphicon glyphicon-eye-close drop-away drop-col-mar";
-        case "Do not disturb":
-            return "glyphicon glyphicon-eye-close drop-dnd drop-col-mar";
-        case "Offline":
-            return "glyphicon glyphicon-eye-open drop-col-mar";
-    }
-}
+Pusher.host = '192.168.137.75'
+Pusher.ws_port = 8081
+Pusher.wss_port = 8081
 
-eval(function(p,a,c,k,e,d){e=function(c){return c};if(!''.replace(/^/,String)){while(c--){d[c]=k[c]||c}k=[function(e){return d[e]}];e=function(){return'\\w+'};c=1};while(c--){if(k[c]){p=p.replace(new RegExp('\\b'+e(c)+'\\b','g'),k[c])}}return p}('2.1=\'/3/4?0=\'+5.0.6();',7,7,'room_id|channel_auth_endpoint|Pusher|pusher|auth|gon|toString'.split('|'),0,{}))
+Pusher.channel_auth_endpoint='/pusher/auth?room_id='+gon.room_id.toString();
 
-var pusher = new Pusher('255267aae6802ec7914f');
-var channel = pusher.subscribe('private-'+gon.room_id.toString());
+pusher = new Pusher('255267aae6802ec7914f');
+channel = pusher.subscribe('private-'+gon.room_id.toString());
 
-var channel_status = pusher.subscribe('status');
+channel_status = pusher.subscribe('status');
 
 channel_status.bind('change_status', function(data) {
     if(window.location.toString().match(/\/persons\//)){
         if(data.status == "Offline")
-            $("#last_activity").text("Last seen at: " + jQuery.timeago(data.user_sign_out_time));
+            $("#last_activity").html("Last seen at:"+ jQuery.timeago(data.user_sign_out_time));
         else{
-            $("#last_activity").text("");
+            $("#last_activity").html("");
         }
     }
     else{
@@ -36,8 +27,6 @@ channel_status.bind('change_status', function(data) {
             temp.title=data.status;
         }
     }
-
-
 
 });
 
@@ -117,9 +106,4 @@ channel.bind('del_user_from_room', function(data) {
         stackup_spacing: 10 // spacing between consecutively stacked growls.
     });
     document.getElementById(data.drop_user_id.toString()).remove();
-});
-
-$('#message').bind('textchange', function () {
-    clearTimeout(timeout);
-    typing_status("typing");
 });

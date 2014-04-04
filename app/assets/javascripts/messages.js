@@ -5,6 +5,10 @@ $(document).ready(function(){
     var message_offset = 10;
     invoted_users();
 
+    Pusher.host = '192.168.137.75'
+    Pusher.ws_port = 8081
+    Pusher.wss_port = 8081
+
     var pusher = new Pusher('255267aae6802ec7914f');
     var channel = pusher.subscribe('private-'+gon.room_id.toString());
 
@@ -103,6 +107,9 @@ $(document).ready(function(){
     });
 
     function send_message(){
+
+
+
         if ($.trim(message_textarea.val()).length>0 || ($('input[type="file"]')[0].files[0])){
             var fd = new FormData();
             fd.append('message[body]', $.trim(message_textarea.val()));
@@ -181,6 +188,7 @@ $(document).ready(function(){
            $("#message").focus();
            $popup_target.popover({html:true});
            $popup_target.popover('show');
+
 
            $(".popover-content").find("span.glyphicon.glyphicon-remove").click(function(){
               $("#attach_path").val("");
@@ -293,7 +301,7 @@ $(document).ready(function(){
         maxCount: 5
     }
     ]).on({
-    'textComplete:show': function () {            
+    'textComplete:show': function () {
         set_top=setInterval(function(){$('ul.dropdown-menu:last').css('top',-$('ul.dropdown-menu:last').height())},100);
         },
         'textComplete:hide': function () {
@@ -375,4 +383,5 @@ $(document).ready(function(){
             }
         });
     });
+
 });
