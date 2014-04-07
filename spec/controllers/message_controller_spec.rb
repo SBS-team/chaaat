@@ -5,11 +5,13 @@ describe MessageController do
   let(:room) { FactoryGirl.create(:room) }
 
   before { sign_in user }
-  describe "POST 'create'" do
-    it "returns  success" do
-      get 'new'
-    end
+  it "should not save message" do
+    message = Message.new
+    assert !message.save
   end
-
+  it "should not save message" do
+    message = Message.new
+    assert !message.save
+  end
 
 end
