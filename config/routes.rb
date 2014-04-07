@@ -30,7 +30,7 @@ Chat::Application.routes.draw do
   #end
 
   devise_scope :user do
-    root to: "devise/registrations#new"
+    root to: "devise/sessions#new"
   end
   match "rooms_users/:id/:room_id", :to => "rooms_users#destroy" , :as => "delete_user", :via => :delete
 

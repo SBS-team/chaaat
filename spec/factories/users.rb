@@ -68,10 +68,17 @@
 #
 
 
-
+require 'factory_girl'
 
 
 FactoryGirl.define do
   factory :user do
+   email "example@test.com"
+   firstname "example"
+   lastname "user"
+   login "petro"
+   password "123456789"
+   password_confirmation "123456789"
+   user_status "Available"
   end
 end

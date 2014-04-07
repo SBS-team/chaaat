@@ -1,11 +1,15 @@
 require 'spec_helper'
 
 describe MessageController do
-  #before do
-  #  @message = Message.new(user_id: "1", body: "bla bla", room_id: "1")
-  #end
-  #subject { @message }
+  let(:user) { FactoryGirl.create(:user) }
+  let(:room) { FactoryGirl.create(:room) }
 
+  before { sign_in user }
+  describe "POST 'create'" do
+    it "returns  success" do
+      get 'new'
+    end
+  end
 
 
 end

@@ -44,10 +44,7 @@ describe Message do
   it { should respond_to(:room_id) }
   it { should respond_to(:user_id) }
 
-  describe "when body is not present" do
-    before { @message.body = "" }
-    it { should_not be_valid }
-  end
+
 
   describe "when user is not present" do
     before { @message.user_id = "" }
