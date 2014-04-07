@@ -11,10 +11,11 @@
 // about supported directives.
 //
 //= require jquery
+//= require handlebars-v1.3.0
 //= require jquery_ujs
 //= require emojify
 //= require jquery-1.10.2.js
-//= require_tree    //#FIXME require_self
+//= require_tree
 //= require jquery.overlay.js
 //= require jquery.textcomplete.min.js
 //= require main.js

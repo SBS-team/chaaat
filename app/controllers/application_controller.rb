@@ -3,8 +3,6 @@ class ApplicationController < ActionController::Base
   before_filter :rooms_user,:except=>[:new,:create,:facebook]
   helper_method :background_image
 
-
-
   def after_sign_in_path_for(resource)
     if resource.is_a? User
       gon.user_login = current_user.login
@@ -50,7 +48,6 @@ class ApplicationController < ActionController::Base
   def rooms_user
     @room_list=Room.where("id in (?)",RoomsUser.where(:user_id=>current_user.id).pluck(:room_id)).order(id: :asc) #FIXME
   end
-
 
   def configure_permitted_parameters
     devise_parameter_sanitizer.for(:sign_up) << :login
