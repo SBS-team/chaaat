@@ -1,7 +1,7 @@
 class ApplicationController < ActionController::Base
   before_filter :configure_permitted_parameters, if: :devise_controller?
   before_filter :rooms_user,:except=>[:new,:create,:facebook]
-  helper_method :background_image
+  before_filter :background_image, if: :devise_controller?
 
   def after_sign_in_path_for(resource)
     if resource.is_a? User
@@ -35,12 +35,11 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  #def background_image()
-  #  Dir.chdir(Rails.root+"public/background")
-  #  target = Dir.new("#{Dir.pwd}")
-  #  target.entries.sort![rand(2..target.entries.size-1)]
-  #end
 
+  def background_image
+    backgrounds = Background.all.shuffle
+    @background_image = backgrounds.first
+  end
   #unless
   #  rescue_from Exception, with: lambda { |exception| render_error 500, exception }
   #  rescue_from ActionController::RoutingError, ActionController::UnknownController, ::AbstractController::ActionNotFound, ActiveRecord::RecordNotFound, with: lambda { |exception| render_error 404, exception }

@@ -16,12 +16,6 @@ ActiveRecord::Schema.define(version: 20140407105848) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "backgrounds", force: true do |t|
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.text     "path"
-  end
-
   create_table "active_admin_comments", force: true do |t|
     t.string   "namespace"
     t.text     "body"
@@ -54,6 +48,12 @@ ActiveRecord::Schema.define(version: 20140407105848) do
 
   add_index "admin_users", ["email"], name: "index_admin_users_on_email", unique: true, using: :btree
   add_index "admin_users", ["reset_password_token"], name: "index_admin_users_on_reset_password_token", unique: true, using: :btree
+
+  create_table "backgrounds", force: true do |t|
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.text     "path"
+  end
 
   create_table "friendships", force: true do |t|
     t.integer  "user_id"
@@ -110,7 +110,6 @@ ActiveRecord::Schema.define(version: 20140407105848) do
     t.datetime "sign_out_at"
     t.string   "login"
     t.string   "avatar"
-
     t.string   "profile_avatar"
     t.string   "invitation_token"
     t.datetime "invitation_created_at"
@@ -120,7 +119,6 @@ ActiveRecord::Schema.define(version: 20140407105848) do
     t.integer  "invited_by_id"
     t.string   "invited_by_type"
     t.integer  "invitations_count",      default: 0
-    t.string   "profile_avatar"
     t.string   "user_status"
   end
 
