@@ -51,10 +51,10 @@ class User < ActiveRecord::Base
   has_many :inverse_friends, :through => :inverse_friendships, :source => :user
   has_many :rooms_users
   has_many :friends, :through => :friendships
-  belongs_to :user_stat
-  validates  :email, :lastname, :firstname, :encrypted_password, :presence => true
+  validates  :email, :encrypted_password, :presence => true
+  validates   :lastname, :firstname, length: 1..20, :presence => true
   validates_uniqueness_of :login, :message => "has already been taken"
-  validates :login, format: { with: /\A[a-zA-Z0-9_-]+\Z/ }
+  validates :login,length: 1..20, format: { with: /\A[a-zA-Z0-9_-]+\Z/ }
   devise :invitable, :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable,:omniauthable, :omniauth_providers => [:github,:facebook]
 

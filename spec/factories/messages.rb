@@ -17,7 +17,7 @@
 #  index_messages_on_user_id  (user_id)
 #
 
-
+require 'factory_girl'
 FactoryGirl.define do
   factory :message do
     user nil

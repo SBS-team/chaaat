@@ -18,13 +18,20 @@ class ApplicationController < ActionController::Base
 
   def after_sign_out_path_for(resource)
 
-    if resource.is_a? User
-      Pusher['status'].trigger_async('change_status', :status=>"Offline",:user_id=>current_user.id)
-      User.update(current_user.id, :user_status => "Offline")
-      User.update(current_user.id, :sign_out_at => Time.now)
-      root_path
+  if current_admin_user.is_a? AdminUser
+    super
     else
-      super
+      Pusher['status'].trigger_async('change_status', :status=>"Offline",:user_id=>current_user.id)
+      User.update(current_user.id, :user_status =>"Offline")
+      User.update(current_user.id, :sign_out_at => Time.now)
+      if resource.is_a? User
+        Pusher['status'].trigger_async('change_status', :status=>"Offline",:user_id=>current_user.id)
+        User.update(current_user.id, :user_status => "Offline")
+        User.update(current_user.id, :sign_out_at => Time.now)
+        root_path
+      else
+        super
+      end
     end
   end
 
@@ -48,6 +55,9 @@ class ApplicationController < ActionController::Base
   #end
 
   def rooms_user
+    if current_user.is_a? User
+    @room_list=Room.where("id in (?)",RoomsUser.where(:user_id=>current_user.id).pluck(:room_id)).order(id: :asc)
+    end
     #@room_list=Room.where("id in (?)",RoomsUser.where(:user_id=>current_user.id).pluck(:room_id)).order(id: :asc)
   end
 
