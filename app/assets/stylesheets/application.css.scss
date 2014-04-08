@@ -9,5 +9,13 @@
  * compiled file, but it's generally better to create a new file per style scope.
  *
  *= require_self
- *= require_tree .
+ *= require all
+ *= require backgrounds
+ *= require bootstrap
+ *= require chat
+ *= require emoji
+ *= require errors
+ *= require framework_and_overrides
+ *= require lobby
+ *= require users
  */
