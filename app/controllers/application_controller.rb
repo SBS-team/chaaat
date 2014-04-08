@@ -28,11 +28,11 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def background_image()
-    Dir.chdir(Rails.root+"public/background")
-    target = Dir.new("#{Dir.pwd}")
-    target.entries.sort![rand(2..target.entries.size-1)]
-  end
+  #def background_image()
+  #  Dir.chdir(Rails.root+"public/background")
+  #  target = Dir.new("#{Dir.pwd}")
+  #  target.entries.sort![rand(2..target.entries.size-1)]
+  #end
 
   #unless
   #  rescue_from Exception, with: lambda { |exception| render_error 500, exception }
