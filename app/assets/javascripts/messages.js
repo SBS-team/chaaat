@@ -84,7 +84,7 @@ $(document).ready(function(){
             $('html, body').animate({scrollTop: $("body").height()}, 800);
         }
         if (e.keyCode ==13 && e.ctrlKey) {
-            document.getElementById('message_input').value += "\r\n";
+            document.getElementById('message').value += "\r\n";
         }
     });
 

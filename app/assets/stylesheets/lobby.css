@@ -574,3 +574,7 @@ span.glyphicon.glyphicon-remove:hover{
 {
     cursor: pointer;
 }
+#lineh.glyphicon:before
+{
+    line-height: 56px;
+}

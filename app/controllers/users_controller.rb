@@ -2,7 +2,7 @@ class UsersController < ApplicationController
   before_filter :authenticate_user!
 
 	def search
-		users=User.where("login like ?", "#{params[:login]}%")
+		users = User.where("login like ?", "#{params[:login]}%")
 		render :json=>users,:root=>false
 	end
 
@@ -27,7 +27,7 @@ class UsersController < ApplicationController
   end
 
   def change_status
-    User.update(current_user.id,:user_status=>params[:status])
+    User.update(current_user.id,:user_status=>params[:status].gsub(/[\n]/,""))
     user = User.find(current_user)
     if(params[:status] == "Offline")
       User.update(user.id, :sign_out_at => Time.now)
