@@ -52,14 +52,14 @@ class User < ActiveRecord::Base
   has_many :rooms_users
   has_many :friends, :through => :friendships
   belongs_to :user_stat
-  validates  :email, :lastname, :firstname, :encrypted_password, :presence => true
+  validates :email, :encrypted_password, :presence => true
   validates_uniqueness_of :login, :message => "has already been taken"
-  validates :login, format: { with: /\A[a-zA-Z0-9_-]+\Z/ }
+  validates :login, format: { with: /\A[a-zA-Z0-9._-]+\Z/ }
   devise :invitable, :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable,:omniauthable, :omniauth_providers => [:github,:facebook]
 
   def self.create_with_omniauth(auth, signed_in_resource=nil)
-    user = User.where(:provider => auth.provider, :uid => auth.uid).first
+    user = User.where(:provider => auth.provider, :uid => auth.uid.to_s).first
     if user
       return user
     else
@@ -67,12 +67,15 @@ class User < ActiveRecord::Base
       if registered_user
         return registered_user
       else
-        user = User.create(login:auth.info.name,
-                           provider:auth.provider,
-                           uid:auth.uid,
-                           email:auth.info.email,
-                           password:Devise.friendly_token[0,20]
+        User.create(
+           firstname:auth.info.name,
+           login:auth.extra.raw_info.login,
+           provider:auth.provider,
+           uid:auth.uid,
+           email:auth.info.email,
+           password:Devise.friendly_token[0,20]
         )
+
       end
     end
   end
@@ -86,18 +89,22 @@ class User < ActiveRecord::Base
       if registered_user
         return registered_user
       else
-        user = User.create(firstname:auth.extra.raw_info.first_name,
-                           lastname:auth.extra.raw_info.last_name,
-                           provider:auth.provider,
-                           uid:auth.uid,
-                           avatar:auth.info.image+"?width=50&height=50",
-                           profile_avatar:auth.info.image+"?width=125&height=125",
-                           email:auth.info.email,
-                           login:auth.extra.raw_info.username,
-                           password:Devise.friendly_token[0,20],
-        )
+        User.create(firstname:auth.extra.raw_info.first_name,
+                    lastname:auth.extra.raw_info.last_name,
+                    provider:auth.provider,
+                    uid:auth.uid,
+                    avatar:auth.info.image+"?width=50&height=50",
+                    profile_avatar:auth.info.image+"?width=125&height=125",
+                    email:auth.info.email,
+                    login:auth.extra.raw_info.username,
+                    password:Devise.friendly_token[0,20]
+            )
       end
     end
+  end
+
+  def password_required?
+    super && provider.blank?
   end
 
 end

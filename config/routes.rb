@@ -21,7 +21,7 @@ Chat::Application.routes.draw do
   post "rooms/previous_messages", :to=>"rooms#load_previous_10_msg", :as=>"previous_messages"
 
   devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }
-
+  #devise_for :users, :controllers => {:registrations => 'registrations'}
   post 'pusher/auth'
   unless Rails.application.config.consider_all_requests_local
     get '*not_found', to: 'errors#error_404'
