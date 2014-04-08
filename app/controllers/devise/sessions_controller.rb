@@ -33,8 +33,6 @@ class Devise::SessionsController < DeviseController
     end
   end
 
-
-
   protected
 
   def sign_in_params

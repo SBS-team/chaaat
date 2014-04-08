@@ -19,7 +19,6 @@ channel_status.bind('change_status', function(data) {
     }
     else{
         var temp=document.getElementById(data.user_id);
-        temp.getElementsByTagName('span')[0].className=get_user_status_style(data.status);
         if (data.status==="Offline"){
             temp.title="Offline "+jQuery.timeago(new Date());
         }

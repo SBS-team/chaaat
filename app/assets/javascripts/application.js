@@ -10,12 +10,13 @@
 // Read Sprockets README (https://github.com/sstephenson/sprockets#sprockets-directives) for details
 // about supported directives.
 //
+//= require jquery
 //= require jquery_ujs
 //= require emojify
 //= require jquery-1.10.2.js
-//= require_tree
 //= require jquery.overlay.js
-//= require jquery.textcomplete.min.js
+//= require jquery.textcomplete.min
+//= require jquery.confirm.min
 //= require main.js
 //= require user.js
 //= require pusher.js

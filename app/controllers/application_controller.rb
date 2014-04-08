@@ -17,7 +17,6 @@ class ApplicationController < ActionController::Base
   end
 
   def after_sign_out_path_for(resource)
-
   if current_admin_user.is_a? AdminUser
     super
     else
@@ -25,9 +24,6 @@ class ApplicationController < ActionController::Base
       User.update(current_user.id, :user_status =>"Offline")
       User.update(current_user.id, :sign_out_at => Time.now)
       if resource.is_a? User
-        Pusher['status'].trigger_async('change_status', :status=>"Offline",:user_id=>current_user.id)
-        User.update(current_user.id, :user_status => "Offline")
-        User.update(current_user.id, :sign_out_at => Time.now)
         root_path
       else
         super
