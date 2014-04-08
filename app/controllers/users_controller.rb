@@ -27,7 +27,7 @@ class UsersController < ApplicationController
   end
 
   def change_status
-    User.update(current_user.id,:user_status=>params[:status])
+    User.update(current_user.id,:user_status=>params[:status].gsub(/[\n]/,""))
     user = User.find(current_user)
     if(params[:status] == "Offline")
       User.update(user.id, :sign_out_at => Time.now)

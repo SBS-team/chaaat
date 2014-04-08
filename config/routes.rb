@@ -23,9 +23,9 @@ Chat::Application.routes.draw do
   devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }
   #devise_for :users, :controllers => {:registrations => 'registrations'}
   post 'pusher/auth'
-  unless Rails.application.config.consider_all_requests_local
+  #unless Rails.application.config.consider_all_requests_local
     get '*not_found', to: 'errors#error_404'
-  end
+  #end
 
   devise_scope :user do
     root to: "devise/registrations#new"
