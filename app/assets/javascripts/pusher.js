@@ -84,3 +84,6 @@ function get_user_status_style(user_status_id){
             return "glyphicon glyphicon-eye-close drop-col-mar";
     }
 }
+channel.bind('change-topic', function(data) {
+    $('h3.room_topic').text(data.topic);
+})
