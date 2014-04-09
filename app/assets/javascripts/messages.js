@@ -23,7 +23,12 @@ $(document).ready(function(){
 
         var pusher = new Pusher(gon.pusher_app, {authEndpoint:'/pusher/auth?room_id='+gon.room_id});
         var channel = pusher.subscribe('private-'+gon.room_id);
-        channel.bind('new_message',function(data){render_message(data);});
+        channel.bind('new_message',function(data){
+            render_message(data);
+            if ($('#messages-wrapper li').size()>30){
+                $('#messages-wrapper li').first().remove();
+            }
+        });
     };
     $(document).on('click', '.emoji', function(e) {
         message_textarea.val(message_textarea.val() + $(e.target).attr("title"));
@@ -143,24 +148,28 @@ $(document).ready(function(){
     }
 
     function show_attachment(){
-       $popup_target = $('label.upload-but');
-       input_file.change(function(){
-           $popup_target.attr({
-               "id": "attach_popup",
-               "data-container": "body",
-               "data-content": '<div class="attach_wrapper"><div class="attach_header"><span class="glyphicon glyphicon-remove"></span></div><div class="attach_content"><span>'+$input_file[0].files[0].name+'</span></div></div>',
-               "data-placement": "top",
-               "data-toggle": "popover",
-               "type": "button"
-           });
-           message_textarea.focus();
-           $popup_target.popover({html:true});
-           $popup_target.popover('show');
-           $(".popover-content").find("span.glyphicon.glyphicon-remove").click(function(){
-              $("#attach_path").val("");
-              $("attach_wrapper").remove();
-              $popup_target.popover('hide');
-           });
+        $popup_target = $('label.upload-but');
+        input_file.change(function(){
+            if (input_file[0].files[0].size>30000000){
+                $.bootstrapGrowl("File size over than 30mb");
+            }else{
+               $popup_target.attr({
+                   "id": "attach_popup",
+                   "data-container": "body",
+                   "data-content": '<div class="attach_wrapper"><div class="attach_header"><span class="glyphicon glyphicon-remove"></span></div><div class="attach_content"><span>'+input_file[0].files[0].name+'</span></div></div>',
+                   "data-placement": "top",
+                   "data-toggle": "popover",
+                   "type": "button"
+               });
+               message_textarea.focus();
+               $popup_target.popover({html:true});
+               $popup_target.popover('show');
+               $(".popover-content").find("span.glyphicon.glyphicon-remove").click(function(){
+                  $("#attach_path").val("");
+                  $("attach_wrapper").remove();
+                  $popup_target.popover('hide');
+               });
+            }
        })
     }
 
