@@ -1,5 +1,6 @@
 class RoomsController < ApplicationController
   before_filter :authenticate_user!
+  before_filter :init_gon
 
   def new
     @new_room = Room.new
@@ -30,9 +31,6 @@ class RoomsController < ApplicationController
 
   def show #FIXME refactoring (tut vse ploho)
     @message = Message.new
-    @room_id = params[:id] #FIXME refactoring
-    gon.user_login = current_user.login
-    gon.user_id = current_user.id
     if Room.where("id in (?)",RoomsUser.where(:user_id=>current_user.id).pluck(:room_id)).pluck(:id).include?(params[:id].to_i) #FIXME refactoring
       gon.room_id = params[:id]
     else
@@ -52,15 +50,22 @@ class RoomsController < ApplicationController
     room=Room.where("user_id = ? AND id = ?",current_user.id,params[:id]).first
     room.destroy
     Pusher['status'].trigger('delete_room', :room_id=>params[:id])
-    render :text=>"done" #FIXME wat?
   end
 
   def load_previous_10_msg
     previous_messages = Message.limit(10).offset(params[:offset_records].to_i).where("room_id = ?", params[:room_id]).order(created_at: :desc).preload(:user); #FIXME wat?
-    render :json => previous_messages
+    previous_messages.sort!
+    render :json => previous_messages, :root=>"message"
   end
 
   private
+
+  def init_gon
+    gon.pusher_app=ENV['PUSHER_APP']
+    gon.user_login = current_user.login
+    gon.user_id = current_user.id
+  end
+
   def room_params
     params.require(:room).permit( :name, :topic)
   end

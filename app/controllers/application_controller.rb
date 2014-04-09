@@ -1,7 +1,7 @@
 class ApplicationController < ActionController::Base
   before_filter :configure_permitted_parameters, if: :devise_controller?
   before_filter :rooms_user,:except=>[:new,:create,:facebook]
-  helper_method :background_image
+  before_filter :init_gon
 
   def after_sign_in_path_for(resource)
     if resource.is_a? User
@@ -26,27 +26,13 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def background_image()
-    Dir.chdir(Rails.root+"public/background")
-    target = Dir.new("#{Dir.pwd}")
-    target.entries.sort![rand(2..target.entries.size-1)] #FIXME carrierwave?
-  end
-  unless Rails.application.config.consider_all_requests_local #FIXME remove
-    rescue_from Exception, with: lambda { |exception| render_error 500, exception }
-    rescue_from ActionController::RoutingError, ActionController::UnknownController, ::AbstractController::ActionNotFound, ActiveRecord::RecordNotFound, with: lambda { |exception| render_error 404, exception }
-  end
-
   private
-  def render_error(status, exception) #FIXME remove
-    respond_to do |format|
-      format.html { render template: "errors/error_#{status}", layout: 'layouts/application', status: status }
-      format.all { render nothing: true, status: status }
-    end
-  end
-  private
-
   def rooms_user
     @room_list=Room.where("id in (?)",RoomsUser.where(:user_id=>current_user.id).pluck(:room_id)).order(id: :asc) #FIXME
+  end
+    
+  def init_gon
+      gon.pusher_app=ENV['PUSHER_APP']
   end
 
   def configure_permitted_parameters

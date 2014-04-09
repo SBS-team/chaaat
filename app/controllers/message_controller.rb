@@ -14,7 +14,6 @@ class MessageController < ApplicationController
         end
       end
     end
-    redirect_to room_path(params[:message][:room_id])
   end
 
   def search

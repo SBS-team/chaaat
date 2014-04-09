@@ -1,15 +1,12 @@
 %html
   %head
     = include_gon(:init => true)
-    -#%script{:src=>"http://js.pusher.com/2.1/pusher.min.js"}
     %meta{:name => "viewport", :content => "width=device-width, initial-scale=1.0"}
     %title= content_for?(:title) ? yield(:title) : 'Chat'
     %meta{:name => "description", :content => "#{content_for?(:description) ? yield(:description) : 'Chat'}"}
-    -#FIXME move application.js
     %script{:src=>"http://js.pusher.com/2.1/pusher.min.js"}
     = stylesheet_link_tag "application", media: "all"
     = csrf_meta_tags
     = javascript_include_tag "application"
-  -#FIXME background images in rails.cache
-  %body{:style=>("background-image:url('../background/#{background_image()}');" unless user_signed_in?)}
+  %body
     = yield

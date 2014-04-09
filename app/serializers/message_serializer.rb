@@ -1,5 +1,5 @@
 class MessageSerializer < ActiveModel::Serializer
-  attributes :message, :user_id, :login, :avatar, :created_at, :attach_file_path
+  attributes :message, :user_id, :login, :avatar, :create_at, :attach_file_path
 
   def message
     object.body
@@ -13,7 +13,7 @@ class MessageSerializer < ActiveModel::Serializer
     object.attach_path.url
   end
 
-  def created_at
+  def create_at
   	object.created_at.strftime("%a %T")
   end
 

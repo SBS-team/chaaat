@@ -2,8 +2,8 @@ class UsersController < ApplicationController
   before_filter :authenticate_user!
 
 	def search
-		users=User.where("login like ?", "#{params[:login]}%")
-		render :json=>users,:root=>false
+		users=User.where("login like ?", "%#{params[:login]}%")
+		render :json=>users, :root=>"users"
 	end
 
 
@@ -19,7 +19,7 @@ class UsersController < ApplicationController
   end
 
   def show
-    @user = User.find(params[:id])
+    @user = User.where(:login=>params[:id]).first
   end
 
   def invite_user

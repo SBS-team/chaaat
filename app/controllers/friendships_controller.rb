@@ -9,7 +9,6 @@ class FriendshipsController < ApplicationController
     else
       flash[:error] = 'User rejected your friendship'
     end
-    #redirect_to user_path(current_user.id)
     render :json => friendship_params[:friend_id]
   end
 
