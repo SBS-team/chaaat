@@ -19,7 +19,7 @@ Chat::Application.routes.draw do
   post "users/invite_user", :to=>"users#invite_user", :as=>"invite_user"
   post "rooms/del", :to=>"rooms#delete_room"
   post "rooms/previous_messages", :to=>"rooms#load_previous_10_msg", :as=>"previous_messages"
-
+  post "rooms/change", to: "rooms#update"
   devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }
 
   post 'pusher/auth'

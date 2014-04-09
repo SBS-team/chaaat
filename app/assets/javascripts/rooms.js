@@ -78,4 +78,22 @@ jQuery(function($){
             self.location="/persons/"+$(this).parent().attr('user_id');
         }
     });
+
+    $('.change-topic').on('submit',function(){
+        change_topic();
+        return false;
+    });
+    function change_topic(){
+        $.ajax({
+            type: "POST",
+            beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
+            url: "/rooms/change",
+            data: { query: $("input[name='change']").val(),room_id:gon.room_id}
+
+        })
+            .done(function(chang){
+                $('#change').val('');
+            });
+
+    }
 });

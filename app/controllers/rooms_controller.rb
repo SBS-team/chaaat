@@ -48,6 +48,15 @@ class RoomsController < ApplicationController
     gon.rooms_users = @room_users.pluck(:login)
   end
 
+  def update
+    room=Room.find(params[:room_id])
+      if RoomsUser.where('user_id=? AND room_id=?',current_user.id,room.id).first
+        room.update(:topic=>params[:query])
+        Pusher["private-#{room.id}"].trigger('change-topic',:topic=>params[:query])
+        end
+    render :text=>params[:query]
+  end
+
   def delete_room
     room=Room.where("user_id = ? AND id = ?",current_user.id,params[:id]).first
     room.destroy

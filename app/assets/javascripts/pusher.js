@@ -7,6 +7,7 @@ Pusher.channel_auth_endpoint='/pusher/auth?room_id='+gon.room_id.toString();
 pusher = new Pusher('255267aae6802ec7914f');
 channel = pusher.subscribe('private-'+gon.room_id.toString());
 
+
 channel_status = pusher.subscribe('status');
 
 channel_status.bind('change_status', function(data) {
@@ -105,4 +106,8 @@ channel.bind('del_user_from_room', function(data) {
         stackup_spacing: 10 // spacing between consecutively stacked growls.
     });
     document.getElementById(data.drop_user_id.toString()).remove();
+});
+
+channel.bind('change-topic', function(data) {
+    $('h3.room_topic').text(data.topic);
 });
