@@ -1,9 +1,7 @@
 class ApplicationController < ActionController::Base
   before_filter :configure_permitted_parameters, if: :devise_controller?
-  before_filter :rooms_user,:except=>[:new,:create,:facebook]
+  before_filter :rooms_user,:except=>[:new,:create,:facebook, :github]
   helper_method :background_image
-
-
 
   def after_sign_in_path_for(resource)
     if resource.is_a? User
@@ -49,7 +47,7 @@ class ApplicationController < ActionController::Base
   end
 
   def rooms_user
-    #@room_list=Room.where("id in (?)",RoomsUser.where(:user_id=>current_user.id).pluck(:room_id)).order(id: :asc)
+    @room_list=Room.where("id in (?)",RoomsUser.where(:user_id=>current_user.id).pluck(:room_id)).order(id: :asc)
   end
 
 
@@ -57,6 +55,9 @@ class ApplicationController < ActionController::Base
     devise_parameter_sanitizer.for(:sign_up) << :login
     devise_parameter_sanitizer.for(:sign_in) { |u| u.permit(:email, :password, :remember_me) }
     devise_parameter_sanitizer.for(:sign_up) { |u| u.permit({ roles: [] },:firstname,:lastname,:avatar, :email, :password, :password_confirmation, :login) }
+    devise_parameter_sanitizer.for(:account_update) { |u|
+      u.permit(:login, :firstname, :lastname, :email, :password, :password_confirmation, :current_password)
+    }
   end
 
 
