@@ -8,6 +8,6 @@
 #  updated_at  :datetime
 #
 
-class UserStat < ActiveRecord::Base
+class UserStat < ActiveRecord::Base  #FIXME remove
 	has_one :user
 end

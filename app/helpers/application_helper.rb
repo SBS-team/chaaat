@@ -9,7 +9,7 @@ module ApplicationHelper
     else
       default_url = "#{root_url}images/guest.png"
       gravatar_id = Digest::MD5::hexdigest(user.email).downcase
-      "http://gravatar.com/avatar/#{gravatar_id}.png?s=#{foto_size}&d=#{CGI.escape("mm")}"
+      "http://gravatar.com/avatar/#{gravatar_id}.png?s=#{foto_size}&d=#{CGI.escape("mm")}" #FIXME change to gem
     end
   end
 

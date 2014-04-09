@@ -76,7 +76,7 @@
   - if @room_users != nil
     .list
       - @room_users.each do |user|
-        .member{:id=>user.id, :user_id => user.id, :room_id => @room.id,:data=>{:toggle=>"tooltip"}, :title=>"#{user.user_status=="Offline" ? "Offline "+time_ago_in_words(user.updated_at) : user.user_status}"}
+        .member{:data=>{:toggle=>"tooltip",:user_id => user.id, :room_id => @room.id}, :title=>"#{user.user_status=="Offline" ? "Offline "+time_ago_in_words(user.updated_at) : user.user_status}"}
           %span{:class=>get_user_status_style(user.user_status)}
-          = link_to "#{user.login}","#"
+          = link_to "#{user.login}", user_path(user.login)
   .footer

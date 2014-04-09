@@ -21,7 +21,7 @@
               .chat-body.clearfix
                 .header
                   %strong.primary-font
-                    =link_to message.user.login, user_path(message.user.id)
+                    =link_to message.user.login, user_path(message.user.login)
                   %small.pull-right.text-muted
                     %span.glyphicon.glyphicon-time
                     =message.created_at.strftime("%a %T")
@@ -36,7 +36,7 @@
               .chat-body.clearfix
                 .header
                   %strong.primary-font
-                    =link_to message.user.login, user_path(message.user.id)
+                    =link_to message.user.login, user_path(message.user.login)
                   %small.pull-right.text-muted
                     %span.glyphicon.glyphicon-time
                     =message.created_at.strftime("%a %T")
@@ -67,8 +67,7 @@
                                                         "data-content" => smile,
                                                         "data-placement" => "top",
                                                         "data-toggle" => "popover", type: "button"}
-    -#%ul
-    -#  =render "layouts/index"
 %audio#new-message
   %source{:src=>"../sounds/button_tiny.ogg", :type=>"audio/ogg"}
   %source{:src=>"../sounds/button_tiny.mp3", :type=>"audio/mp3"}
+  -#FIXME wat?

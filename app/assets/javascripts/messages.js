@@ -1,27 +1,42 @@
+//#FIXME coffescript
 $(document).ready(function(){
+    Handlebars.registerHelper("equal",function (r_value){return (gon.user_id == r_value) ? 'from': 'to';});
+    Handlebars.registerHelper("safe_mess",function (messag){return $.trim(changetags(safe_tags_replace(messag)))});
+    Handlebars.registerHelper("attach-files",function (attach_file_path){return check_file(attach_file_path) });
+    var template_message = '{{#message}}<li class="{{#equal user_id}}{{/equal}} clearfix"><span class="chat-img pull-left"><img class="avatar" src="{{avatar}}"></span><div class="chat-body clearfix"><div class="header"> <strong class="primary-font"> <a href="/persons/{{url}}">{{login}}</a></strong><small class="pull-right text-muted"><span class="glyphicon glyphicon-time"></span>{{create_at}}</small></div><p>{{#safe_mess message}}{{/safe_mess}}</p>{{#if attach_file_path}}<p class="attach-file">{{#attach-files attach_file_path}}{{/attach-files}}</p>{{/if}}</div></li>{{/message}}';
+    var template = Handlebars.compile(template_message);
+
     $('#pop').popover({html:true});
     var message_textarea=$("#message");
-    users= gon.rooms_users;
+    var iframe = $('iframe');
+    var search = $("#search");
+    var input_file = $("input[type=file]#attach_path");
+    var users=gon.rooms_users;
     var message_offset = 10;
     invoted_users();
+    show_attachment();
 
-    Pusher.host = '192.168.137.75'
-    Pusher.ws_port = 8081
-    Pusher.wss_port = 8081
+    if (gon.room_id) {
+        Pusher.host = '192.168.137.75'
+        Pusher.ws_port = 8081
+        Pusher.wss_port = 8081
 
-    var pusher = new Pusher('255267aae6802ec7914f');
-    var channel = pusher.subscribe('private-'+gon.room_id.toString());
-
-    channel.bind('new_message', function(data) {
-        render_message(data.user_id,data.login,data.message,data.avatar,data.create_at,true,data.attach_file_path);
-    });
-
+        var pusher = new Pusher(gon.pusher_app, {authEndpoint:'/pusher/auth?room_id='+gon.room_id});
+        var channel = pusher.subscribe('private-'+gon.room_id);
+        channel.bind('new_message',function(data){
+            render_message(data);
+            if ($('#messages-wrapper li').size()>30){
+                $('#messages-wrapper li').first().remove();
+            }
+        });
+    };
     $(document).on('click', '.emoji', function(e) {
-        $("#message").val($("#message").val() + $(e.target).attr("title"));
-        $("#message").focus();
+        message_textarea.val(message_textarea.val() + $(e.target).attr("title"));
+        message_textarea.focus();
     });
+
     $(document).on('click', '.show_smile', function(){
-        $('iframe').each(function(){
+        iframe.each(function(){
             var url = $(this).attr("src");
             var char = "?";
             if(url.indexOf("?") != -1){
@@ -32,9 +47,10 @@ $(document).ready(function(){
         });
     });
 
-    $('.content').on('click','.delete_room',function(event){        
+    $('.content').on('click','.delete_room',function(event){
                 element_delete_room = event.currentTarget;
     });
+
     $('.delete_room').confirm({
             text: "Are you sure you want to delete this room?",
             title: "Confirmation required",
@@ -55,8 +71,7 @@ $(document).ready(function(){
             post: false
         });
 
-
-    $("iframe").each(function(){
+    iframe.each(function(){
         var ifr_source = $(this).attr('src');
         var wmode = "wmode=transparent";
         if(ifr_source.indexOf('?') != -1) {
@@ -77,7 +92,7 @@ $(document).ready(function(){
     {
         if (e.keyCode == 13 && e.ctrlKey == false) {
             send_message();
-            if($("input[type=file]#attach_path")){
+            if(input_file){
                 $("attach_wrapper").remove();
                 $('label.upload-but').popover('hide');
             }
@@ -88,28 +103,28 @@ $(document).ready(function(){
         }
     });
 
-    $("#search").keyup(function(){
+    search.keyup(function(){
         $.ajax({
             type: "POST",
             beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
             url: "../message/search/",
-            data: { query: $("#search").val(),room_id: gon.room_id }
-
+            data: { query: search.val(),room_id: gon.room_id }
         })
             .done(function(msg) {
-                $('#messages-wrapper').html('');
-                for (var i = 0; i <= msg.length - 1; i++) {
-                    render_message(msg[i].user_id,msg[i].login,msg[i].body,msg[i].avatar,msg[i].created_at,false,msg[i].attach_file_path);
-
-                };
-
+                $('#messages-wrapper').html(template(msg));
             });
     });
 
+    function check_file(attach_file_path){        
+        url_to_file=location.origin+attach_file_path;
+        if (url_to_file.match(/http.*(jpg|gif|jpeg|png)/)){
+            return '<img src="'+url_to_file+'" height="200px" width="200px"/>';
+        }else{
+            return '<a href="'+url_to_file+'" download><span class="glyphicon glyphicon-download-alt"></span>'+attach_file_path.match(/(\w|[-.])+$/)[0]+'</a>';
+        }
+    }
+
     function send_message(){
-
-
-
         if ($.trim(message_textarea.val()).length>0 || ($('input[type="file"]')[0].files[0])){
             var fd = new FormData();
             fd.append('message[body]', $.trim(message_textarea.val()));
@@ -132,97 +147,40 @@ $(document).ready(function(){
         }
     }
 
-    function create_message(user_id, login, body, avatar, time,msg_class,attach_file_path){
-        message= "<li class=\""+ msg_class +" clearfix\">"
-            + "<span class=\"chat-img pull-left\">"
-            + "<img class=\"avatar\" src="+avatar+">"
-            + "</span>"
-            + "<div class=\"chat-body clearfix\">"
-            + " <div class=\"header\">"
-            + " <strong class=\"primary-font\"><a href=\"/persons/"+ user_id +"\">"
-            + login
-            + "</a></strong>"
-            + "<small class=\"pull-right text-muted\">"
-            + "<span class=\"glyphicon glyphicon-time\"></span>"+time
-            + "</small>"
-            + "</div>"
-            + "<p>"+ $.trim(changetags(safe_tags_replace(body))) +"</p>";
-            if(attach_file_path){
-             message=message + "<p class=\"attach-file\">"+check_file(attach_file_path)+"</p>";
+    function show_attachment(){
+        $popup_target = $('label.upload-but');
+        input_file.change(function(){
+            if (input_file[0].files[0].size>30000000){
+                $.bootstrapGrowl("File size over than 30mb");
+            }else{
+               $popup_target.attr({
+                   "id": "attach_popup",
+                   "data-container": "body",
+                   "data-content": '<div class="attach_wrapper"><div class="attach_header"><span class="glyphicon glyphicon-remove"></span></div><div class="attach_content"><span>'+input_file[0].files[0].name+'</span></div></div>',
+                   "data-placement": "top",
+                   "data-toggle": "popover",
+                   "type": "button"
+               });
+               message_textarea.focus();
+               $popup_target.popover({html:true});
+               $popup_target.popover('show');
+               $(".popover-content").find("span.glyphicon.glyphicon-remove").click(function(){
+                  $("#attach_path").val("");
+                  $("attach_wrapper").remove();
+                  $popup_target.popover('hide');
+               });
             }
-            message=message + "</div>"
-        + "</li>";
-        return message;
-    }
-
-    function check_file(url){
-        url_to_file=location.origin+url;
-        if (url_to_file.match(/http.*(jpg|gif|jpeg|png)/)){
-            return '<img src="'+url_to_file+'" height="200px" width="200px"/>';
-        }else{
-            return '<a href="'+url_to_file+'" download><span class="glyphicon glyphicon-download-alt"></span>'+url.match(/(\w|[-.])+$/)[0]+'</a>';
-        }
-    }
-
-    (function show_attachment(){
-       $popup_target = $('label.upload-but');
-       $input_file = $("input[type=file]#attach_path");
-
-
-       $input_file.change(function(){
-           $popup_target.attr({
-               "id": "attach_popup",
-               "data-container": "body",
-               "data-content": "<div class='attach_wrapper'>" +
-                                    "<div class='attach_header'>" +
-                                        "<span class='glyphicon glyphicon-remove'></span>" +
-                                    "</div>" +
-                                    "<div class='attach_content'>" +
-                                        "<span>" + $input_file[0].files[0].name + "</span>" +
-                                    "</div>" +
-                                "</div>",
-               "data-placement": "top",
-               "data-toggle": "popover",
-               "type": "button"
-           });
-           $("#message").focus();
-           $popup_target.popover({html:true});
-           $popup_target.popover('show');
-
-           $(".popover-content").find("span.glyphicon.glyphicon-remove").click(function(){
-              $("#attach_path").val("");
-              $("attach_wrapper").remove();
-              $popup_target.popover('hide');
-           });
        })
-    })();
+    }
 
 
-    function render_message(user_id, login, body, avatar, time,scroll_true,attach_file_path){
-        if(gon.user_id==user_id){
-            $('#messages-wrapper').append(create_message(user_id, login, body, avatar, time,"from",attach_file_path));
-        }else{
-            document.getElementById('new-message').play();
-            $('#messages-wrapper').append(create_message(user_id, login, body, avatar, time,"to",attach_file_path));
-        }
-        if (scroll_true==true)
-        {
+    function render_message(data){
+        $("#messages-wrapper").append(template(data));
         var objDiv = document.getElementsByClassName('chat')[0];
         objDiv.scrollTop = objDiv.scrollHeight+2000;
-        }
         emojify.setConfig({ emoticons_enabled: true, people_enabled: true, nature_enabled: true, objects_enabled: true, places_enabled: true, symbols_enabled: true });
         for(var i= 0;i<document.getElementsByClassName('chat-body').length; i++){
             emojify.run(document.getElementsByClassName('chat-body')[i]);
-        }
-    }
-
-    function prepend_message(user_id,login,body,avatar,time,message,attach_file_path){
-        if(gon.user_id == user_id){
-
-            $('#messages-wrapper').prepend(create_message(user_id, login, body, avatar, time,"from"));
-        }
-        else{
-            $('#messages-wrapper').prepend(create_message(user_id, login, body, avatar, time,"to"));
         }
     }
 
@@ -241,10 +199,8 @@ $(document).ready(function(){
     function changetags(text) {
         var words = text.split(' '),
             results = [];
-
         for (var i = 0; i < words.length; i++) {
             var word = words[i];
-
             if ((word.match(/\@\S*/)) && (!word.match(/<span>\@\S*/) && (word.match(/\@\S*/g)[0] == "@" + gon.user_login))) {
                 results.push(word.replace(/\@\S*/, "<span class=\"to-user\">" + $.trim(word.match(/\@\S*/)[0]) + "</span> "));
             } else if (word.match(/http.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?].\S\S*)/)) {
@@ -326,8 +282,7 @@ $(document).ready(function(){
         }
     });
 
-
-    $(".friend_action.add_friend").click(function(){
+    $('.rooms_group').on('click',".friend_action.add_friend",function(){
         $.ajax({
            type: "POST",
            beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
@@ -339,7 +294,6 @@ $(document).ready(function(){
                 $('tr[friend_id = \"' + response + '\"]').remove();
             }
         });
-
     });
 
     $('.friend_action.remove_friend').click(function(){
@@ -359,7 +313,7 @@ $(document).ready(function(){
 
     $(".pag").click(function(){
         $.ajax({
-            url: '/rooms/previous_messages',
+            url: '../rooms/previous_messages',
             type: 'POST',
             beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
             data:{
@@ -367,18 +321,30 @@ $(document).ready(function(){
                 offset_records: message_offset
             },
             success: function(response){
-                if(response.rooms.length > 0){
-                    $('#messages-wrapper').prepend("<div class=\"glyphicon glyphicon-resize-vertical\" style=\"margin:0 50% 0 50%;opacity:0.5;font-size:20px\"\"></div>");
-                    for (var i = 0; i <= response.rooms.length - 1; i++) {
-                        prepend_message(response.rooms[i].user_id,response.rooms[i].login,response.rooms[i].body,response.rooms[i].avatar,response.rooms[i].created_at,response.rooms[i].attach_file_path);
-                    }
+                if(response.message.length > 0){
+                    $('#messages-wrapper').prepend('<div class="glyphicon glyphicon-resize-vertical" style="margin:0 50% 0 50%;opacity:0.5;font-size:20px"></div>');
+                    $('#messages-wrapper').prepend(template(response));
                     emojify.setConfig({ emoticons_enabled: true, people_enabled: true, nature_enabled: true, objects_enabled: true, places_enabled: true, symbols_enabled: true });
                     for(var i= 0;i<document.getElementsByClassName('chat-body').length; i++){
                         emojify.run(document.getElementsByClassName('chat-body')[i]);
                     }
                     message_offset += 10;
                 }
-
+            }
+        });
+    });
+var template_search_user='{{#users}}<tr friend_id="{{id}}"><td><div class="friend_photo"><img class="avatar" src="{{avatar}}"></div><div class="friend_name"></div><a href="/persons/{{login}}">{{login}}</a></td><td class="friend_action add_friend"><span class="glyphicon glyphicon-plus add_new_friend"></span></td></tr>{{/users}}';
+var search_user = Handlebars.compile(template_search_user);
+    $("#search-box").keyup(function(){
+        $.ajax({
+            url: '/users/search',
+            type: 'POST',
+            beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
+            data:{
+                login: $("#search-box").val()
+            },
+            success: function(response){
+                $('.rooms_group').html(search_user(response))
             }
         });
     });
