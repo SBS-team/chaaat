@@ -1,6 +1,13 @@
 .content
   .alert.alert-success.top-alert
-    %input.form-control#search{:placeholder=>"Search..."}
+    -#%input.form-control#search{:placeholder=>"Search..."}
+    %h3.room_topic #{@room.topic}
+    .dropdown
+      %span#drop1.change_topic.glyphicon.glyphicon-pencil{"data-toggle"=>"dropdown"}
+      %form.dropdown-menu.search-form.change-topic{:action => "", "aria-labelledby" => "drop3", :method => "post", :role => "menu"}
+        %input{:name => "change",:id=>'change', :placeholder => "Change topic", :type => "search"}
+          %button{:type => "submit"}
+            %span.glyphicon.glyphicon-record
   .chat
     .pag
       .glyphicon.glyphicon-chevron-up
@@ -14,7 +21,7 @@
               .chat-body.clearfix
                 .header
                   %strong.primary-font
-                    =link_to message.user.login, user_path(message.user.id)
+                    =link_to message.user.login, user_path(message.user.login)
                   %small.pull-right.text-muted
                     %span.glyphicon.glyphicon-time
                     =message.created_at.strftime("%a %T")
@@ -29,7 +36,7 @@
               .chat-body.clearfix
                 .header
                   %strong.primary-font
-                    =link_to message.user.login, user_path(message.user.id)
+                    =link_to message.user.login, user_path(message.user.login)
                   %small.pull-right.text-muted
                     %span.glyphicon.glyphicon-time
                     =message.created_at.strftime("%a %T")
@@ -60,8 +67,7 @@
                                                         "data-content" => smile,
                                                         "data-placement" => "top",
                                                         "data-toggle" => "popover", type: "button"}
-    -#%ul
-    -#  =render "layouts/index"
 %audio#new-message
   %source{:src=>"../sounds/button_tiny.ogg", :type=>"audio/ogg"}
   %source{:src=>"../sounds/button_tiny.mp3", :type=>"audio/mp3"}
+  -#FIXME wat?

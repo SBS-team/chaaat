@@ -524,5 +524,17 @@ div.server-upsell {
 	font-size: 14px;
 	line-height: 20px;
 }
+.change_topic
+{
+  float: right;
+  margin-top: -20px;
+    margin-right: 2px;
+  cursor: pointer;
+}
+.room_topic
+{
+    margin: 0 auto;
+    text-align: center;
+}
 
 /* sign_up end */

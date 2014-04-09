@@ -26,7 +26,7 @@ gem "active_model_serializers"
 gem 'emoji'
 gem 'activerecord-reset-pk-sequence'
 gem 'carrierwave'
-
+gem 'dotenv-rails', :groups => [:development, :test]
 group :development do
   gem 'better_errors'
   gem 'binding_of_caller', :platforms=>[:mri_19, :mri_20, :rbx]
