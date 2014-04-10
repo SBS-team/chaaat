@@ -58,6 +58,7 @@ jQuery(function($){
                 return (p1 == "lt")? "<" : ">";
             });
             var strTagStrippedText = strInputCode.replace(/<\/?[^>]+(>|$)/g, "");
+            alert($(this).parent().attr('user_id'));
             posting = $.post('/rooms/',
             {   express:true,
                 room: {

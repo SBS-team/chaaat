@@ -157,7 +157,7 @@ body {background-color: #f0f0f0;line-height: normal;}
     top:1px;
 }
 .lobby-panel{
-
+    height: 100%;
 }
 .lobby-btn{
     border-color: #333;
@@ -251,12 +251,11 @@ body {background-color: #f0f0f0;line-height: normal;}
 }
 .lobby-panel .tabs li {
 
-    /*background: url("../img/vtab_bg.png") repeat-x scroll 0 0 rgba(0, 0, 0, 0);*/
     display: block;
-    margin: 0 0 -7px;
+    height: 27px;
+    margin: 0;
     padding: 0;
     position: relative;
-    height:35px;
 
 }
 .lobby-panel .tabs li.selected a {
@@ -271,7 +270,7 @@ body {background-color: #f0f0f0;line-height: normal;}
     display: block;
     font-size: 13px;
     outline: medium none;
-    padding: 12px 10px;
+    padding: 5px 10px;
     position: relative;
     text-decoration: none;
     text-shadow: 0 -1px #000000;
@@ -443,7 +442,7 @@ h2.public{
 
 /********/
 .top-alert{
-    height: 35px;
+    height: 30px;
     margin-top: 0;
     top: 0;
     left: 200px;
@@ -578,13 +577,13 @@ span.glyphicon.glyphicon-remove:hover{
 }
 .change-topic
 {
+    padding: 0;
+    top: -34px;
     width: 250px;
     left: auto;
     right:26px;
-    top:-26px;
     border-radius: 0;
     background: #697686;
-    padding: 1px;
     position: absolute;
     z-index: 500;
 }

@@ -4,12 +4,18 @@ class MessageController < ApplicationController
 
   def new
     if Room.where("id in (?)",RoomsUser.where(:user_id=>current_user.id).pluck(:room_id)).pluck(:id).include?(params[:message][:room_id].to_i) #FIXME refactoring
-      message=Message.create(message_params.merge(:user_id=>current_user.id,:body=>params[:message][:body].gsub(/[\n]/,"\r"))) #FIXME move gsub in to before save or validate method
-      Pusher["private-#{message.room_id}"].trigger_async('new_message', {:message=>{:room_id=>message.room_id,:user_id=>current_user.id,:login=>current_user.login,:avatar=>avatar_url(current_user,50),:message=>message.body,:attach_file_path=>message.attach_path.url,:create_at=>message.created_at.strftime("%a %T")}})
+    if params[:message][:message_type]=="system"
+      message=Message.create(message_params.merge(:user_id=>01,:body=>params[:message][:body])) #FIXME move gsub in to before save or validate method
+      Pusher["private-#{message.room_id}"].trigger_async('new_message', :message=>{:room_id=>message.room_id,:avatar=>"../img/sys-notification.png",:message=>message.body,:attach_file_path=>message.attach_path.url,:create_at=>message.created_at.strftime("%a %T")})
+
+    else
+      message=Message.create(message_params.merge(:user_id=>current_user.id,:body=>params[:message][:body])) #FIXME move gsub in to before save or validate method
+      Pusher["private-#{message.room_id}"].trigger_async('new_message', :message=>{:room_id=>message.room_id,:user_id=>current_user.id,:login=>current_user.login,:avatar=>avatar_url(current_user,50),:message=>message.body,:attach_file_path=>message.attach_path.url,:create_at=>message.created_at.strftime("%a %T")})
+    end
       users=message.body.gsub(/(?<=@)(\w+)(?=\s)/)
       if !users #FIXME wat?
-        offline_user_emails=User.where("login IN (?) AND user_status='Offline' AND id IN (?)", users, RoomsUser.where("room_id IN (?)",params[:message][:room_id]).pluck(:user_id)).pluck(:email) #FIXME refactoring
-        offline_user_emails.each do |email|
+      offline_user_emails=User.includes(:rooms_users).where(:login=>users,'rooms_users.room_id'=>params[:message][:room_id]).pluck(:email)
+      offline_user_emails.each do |email|
           UserMailer.offline_message(email,message.body).deliver
         end
       end

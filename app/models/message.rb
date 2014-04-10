@@ -28,4 +28,12 @@ class Message < ActiveRecord::Base
             :file_size => {
                 :maximum => 20.megabytes.to_i
             }
+
+  before_save :gsub_message, on: :create
+
+  private
+  def gsub_message
+    self.body.gsub!(/[\n]/,"")
+  end
+
 end

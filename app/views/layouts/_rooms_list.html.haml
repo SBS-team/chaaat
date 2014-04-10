@@ -14,7 +14,7 @@
           Lobby
       - if !@room_list.nil?
         - @room_list.each do |room|
-          - if room.id==@room_id.to_i
+          - if room.id==params[:id].to_i
             %li.active#room
               =link_to "#{room.name}",room_path(:id=>room.id),:room_id => room.id
           -else
@@ -63,13 +63,13 @@
           %button{:type => "submit"}
             %span.glyphicon.glyphicon-record
     .dropdown
-      -if request.path!="/rooms" and @room
+      -if request.path!="/rooms" and params[:id]
         %button#drop2.btn.btn-default.dropdown-toggle.tf-but{"data-toggle" => "dropdown", :role => "button"}
           Friends
           %span.caret
         %ul.dropdown-menu.room-action.friend_list{"aria-labelledby" => "drop2", :role => "menu"}
           - current_user.friends.each do |friend|
-            %li.user_friend{:user_id => friend.id, :room_id => @room.id }
+            %li.user_friend{:user_id => friend.id, :room_id => params[:id] }
               = link_to rooms_users_path, :method => :post do
                 %span{:class=>get_user_status_style(friend.user_status)}
                 = "#{friend.login}"
@@ -78,5 +78,6 @@
       - @room_users.each do |user|
         .member{:data=>{:toggle=>"tooltip",:user_id => user.id, :room_id => @room.id}, :title=>"#{user.user_status=="Offline" ? "Offline "+time_ago_in_words(user.updated_at) : user.user_status}"}
           %span{:class=>get_user_status_style(user.user_status)}
-          = link_to "#{user.login}", user_path(user.login)
+          = link_to "#{user.login}","#"
   .footer
+

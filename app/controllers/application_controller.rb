@@ -8,17 +8,13 @@ class ApplicationController < ActionController::Base
     if resource.is_a? User
       gon.user_login = current_user.login
       gon.user_id = current_user.id
-      Pusher['status'].trigger_async('change_status', :status=>"Available",:user_id=>current_user.id) #FIXME remove
-      User.update(current_user.id, :user_status =>"Available") #FIXME use pusher hooks
-      rooms_path
+        rooms_path
     else
       super
     end
   end
 
   def after_sign_out_path_for(resource)
-    Pusher['status'].trigger_async('change_status', :status=>"Offline",:user_id=>current_user.id) #FIXME remove
-    User.update(current_user.id, :user_status =>"Offline") #FIXME use pusher hooks
     User.update(current_user.id, :sign_out_at => Time.now)
     if resource.is_a? User
       root_path
@@ -29,7 +25,7 @@ class ApplicationController < ActionController::Base
 
   private
   def rooms_user
-    @room_list=Room.where("id in (?)",RoomsUser.where(:user_id=>current_user.id).pluck(:room_id)).order(id: :asc) #FIXME
+    @room_list=Room.includes(:rooms_users).where('rooms_users.user_id'=>current_user.id).preload(:user).order(id: :asc)
   end
 
   def init_gon
@@ -46,8 +42,4 @@ class ApplicationController < ActionController::Base
     }
   end
 
-
-  # Prevent CSRF attacks by raising an exception. #FIXME cleanup commented code
-  # For APIs, you may want to use :null_session instead.
-  #protect_from_forgery with: :exception
 end
