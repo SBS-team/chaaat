@@ -52,7 +52,7 @@
           = link_to destroy_user_session_path, :method=>'delete', :tabindex => "-1" do
             %span.glyphicon.glyphicon-share-alt.drop-col-mar>
             Sign out
-    %a.glyphicon.glyphicon-cog{:href=>"/persons"}
+    %a.glyphicon.glyphicon-cog{:href=>edit_user_registration_path}
 %aside.right_panel
   .top-form
     .dropdown
@@ -62,21 +62,18 @@
         %input{:name => "search", :placeholder => "Search", :type => "search"}
           %button{:type => "submit"}
             %span.glyphicon.glyphicon-record
-    .dropdown
-      -if request.path!="/rooms" and @room
-        %button#drop2.btn.btn-default.dropdown-toggle.tf-but{"data-toggle" => "dropdown", :role => "button"}
-          Friends
-          %span.caret
-        %ul.dropdown-menu.room-action.friend_list{"aria-labelledby" => "drop2", :role => "menu"}
-          - current_user.friends.each do |friend|
-            %li.user_friend{:user_id => friend.id, :room_id => @room.id }
-              = link_to rooms_users_path, :method => :post do
-                %span{:class=>get_user_status_style(friend.user_status)}
-                = "#{friend.login}"
   - if @room_users != nil
     .list
       - @room_users.each do |user|
-        .member{:id=>user.id, :user_id => user.id, :room_id => @room.id,:data=>{:toggle=>"tooltip"}, :title=>"#{user.user_status=="Offline" ? "Offline "+time_ago_in_words(user.updated_at) : user.user_status}"}
+        .member{:data=>{:toggle=>"tooltip",:user_id => user.id, :room_id => @room.id}, :title=>"#{user.user_status=="Offline" ? "Offline "+time_ago_in_words(user.updated_at) : user.user_status}"}
           %span{:class=>get_user_status_style(user.user_status)}
-          = link_to "#{user.login}","#"
+          = link_to "#{user.login}", user_path(user.login)
+    %input#search-user.form-control{:placeholder=>"Enter email",:width=>"70%"}
+    %ul.right_search_user
+      - current_user.friends.each do |friend|
+        %li
+          = link_to user_path(friend.login) do
+            %span{:class=>get_user_status_style(friend.user_status)}>
+            = "#{friend.login}"
+          %span.glyphicon.glyphicon-plus.pull-right.user_friend{:data=>{:user_id => friend.id}}
   .footer

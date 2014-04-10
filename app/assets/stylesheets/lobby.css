@@ -125,7 +125,7 @@ body {background-color: #f0f0f0;line-height: normal;}
 }
 
 .list{
-    height: 100%;
+    height: 50%;
     position: relative;
     padding-top: 35px;
 }
@@ -339,8 +339,8 @@ h2.public{
     text-decoration: none;
 }
 .owner{
-	float:left;
-	margin-right:10px;
+    float:left;
+    margin-right:10px;
 }
 .name{
     float:left;
@@ -443,7 +443,7 @@ h2.public{
 
 /********/
 .top-alert{
-    height: 32px;
+    height: 35px;
     margin-top: 0;
     top: 0;
     left: 200px;
@@ -454,10 +454,12 @@ h2.public{
     padding: 0px;
     font: 14px Verdana;
     color: #000;
-    z-index: 100;
+    z-index: 10;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis !important;
+    background-color: #F5F5F5;
+    border: none;
 }
 .input {
     background: #697686;
@@ -573,4 +575,16 @@ span.glyphicon.glyphicon-remove:hover{
 .delete_room
 {
     cursor: pointer;
+}
+.change-topic
+{
+    width: 250px;
+    left: auto;
+    right:26px;
+    top:-26px;
+    border-radius: 0;
+    background: #697686;
+    padding: 1px;
+    position: absolute;
+    z-index: 500;
 }

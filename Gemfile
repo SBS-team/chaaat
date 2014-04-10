@@ -16,7 +16,7 @@ gem 'unicorn'
 gem 'unicorn-rails'
 gem 'omniauth'
 gem 'omniauth-facebook'
-gem 'omniauth-github'
+gem 'omniauth-github', '1.0.1'
 gem 'pusher'
 gem 'rails-erd'
 gem 'gon'
@@ -26,7 +26,7 @@ gem "active_model_serializers"
 gem 'emoji'
 gem 'activerecord-reset-pk-sequence'
 gem 'carrierwave'
-
+gem 'dotenv-rails'
 group :development do
   gem 'better_errors'
   gem 'binding_of_caller', :platforms=>[:mri_19, :mri_20, :rbx]

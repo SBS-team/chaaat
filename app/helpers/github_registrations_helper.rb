@@ -1,0 +1,2 @@
+module GithubRegistrationsHelper
+end

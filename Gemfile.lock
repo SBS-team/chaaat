@@ -111,6 +111,8 @@ GEM
     domain_name (0.5.18)
       unf (>= 0.0.5, < 1.0.0)
     dotenv (0.10.0)
+    dotenv-rails (0.10.0)
+      dotenv (= 0.10.0)
     email_spec (1.5.0)
       launchy (~> 2.1)
       mail (~> 2.2)
@@ -204,9 +206,9 @@ GEM
       rack (~> 1.0)
     omniauth-facebook (1.6.0)
       omniauth-oauth2 (~> 1.1)
-    omniauth-github (1.1.1)
+    omniauth-github (1.0.1)
       omniauth (~> 1.0)
-      omniauth-oauth2 (~> 1.1)
+      omniauth-oauth2 (~> 1.0)
     omniauth-oauth2 (1.1.2)
       faraday (>= 0.8, < 0.10)
       multi_json (~> 1.3)
@@ -367,6 +369,7 @@ DEPENDENCIES
   devise (~> 3.2.4)
   devise_invitable (~> 1.3.4)
   disable_assets_logger
+  dotenv-rails
   email_spec
   emoji
   factory_girl_rails
@@ -379,7 +382,7 @@ DEPENDENCIES
   launchy
   omniauth
   omniauth-facebook
-  omniauth-github
+  omniauth-github (= 1.0.1)
   pg
   poltergeist
   pusher

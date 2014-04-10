@@ -2,8 +2,8 @@ class UsersController < ApplicationController
   before_filter :authenticate_user!
 
 	def search
-		users=User.where("login like ?", "#{params[:login]}%")
-		render :json=>users,:root=>false
+		users=User.where("login like ?", "%#{params[:login]}%")
+		render :json=>users, :root=>"users"
 	end
 
 
@@ -19,17 +19,18 @@ class UsersController < ApplicationController
   end
 
   def show
-    @user = User.find(params[:id])
+    @user = User.where(:login=>params[:id]).first
   end
 
   def invite_user
-    @user = User.invite!(:email => params[:email])
+    user = User.invite!(:email => params[:email])
+    render :text=>user.email 
   end
 
   def change_status
-    User.update(current_user.id,:user_status=>params[:status])
+    User.update(current_user.id,:user_status=>params[:status].gsub(/[\n]/,""))
     user = User.find(current_user)
-    if(params[:status] == "Offline")
+    if(params[:status] == "Offline") #FIXME wat?
       User.update(user.id, :sign_out_at => Time.now)
     end
     Pusher['status'].trigger('change_status', :status=>user.user_status,:user_id=>user.id,:user_sign_out_time=>user.sign_out_at)

@@ -48,5 +48,5 @@ config.action_mailer.delivery_method = :smtp
   ## Send email in development mode.
   #config.action_mailer.perform_deliveries = false
   # Send email in development mode.
-
+  #FIXME remove
 end

@@ -2,7 +2,7 @@ $(document).ready(function(){
 
     $('.change-status').on('click',function(event){
         var strInputCode = $(this)[0].text;
-        strTagStrippedText = strInputCode.replace(/[\n]( *) /, "");
+        var strTagStrippedText = strInputCode.replace(/[\n]( *) /, "");
         $.ajax({
             type: "GET",
             beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},

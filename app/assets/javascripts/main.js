@@ -1,3 +1,4 @@
+//#FIXME coffescript
 $(function () {
 
     $('#myModal').on('click','#modal-submit', function(){

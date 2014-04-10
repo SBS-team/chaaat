@@ -18,10 +18,14 @@
 #
 
 
-
+require 'file_size_validator'
 class Message < ActiveRecord::Base
   require 'carrierwave'
   belongs_to :user
   belongs_to :room
   mount_uploader :attach_path, ImageUploader
+  validates :attach_path,
+            :file_size => {
+                :maximum => 20.megabytes.to_i
+            }
 end
