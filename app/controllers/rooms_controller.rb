@@ -6,7 +6,6 @@ class RoomsController < ApplicationController
   end
 
   def index
-    @room_list=Room.where("id in (?)",RoomsUser.where(:user_id=>current_user.id).pluck(:room_id)).order(id: :asc).preload(:user) #FIXME refactoring
     @rooms_preload=RoomsUser.preload(:user)
   end
 
@@ -19,10 +18,10 @@ class RoomsController < ApplicationController
       render :json=>@room.id,:root=>false
     else
       @rooms_preload=RoomsUser.preload(:user)#FIXME refactoring
-      @room_list = Room.where("id in (?)",RoomsUser.where("user_id in (?)",current_user.id).pluck(:room_id)) #FIXME refactoring
+      @room_list=Room.includes(:rooms_users).where('rooms_users.user_id'=>current_user.id).preload(:user).order(id: :asc)
       respond_to do |format|
         format.html { redirect_to rooms_path}
-        format.js {} #FIXME remove
+        format.js {}
         format.json { render json: @room_list, status: :created}
       end
     end
@@ -30,34 +29,29 @@ class RoomsController < ApplicationController
 
   def show #FIXME refactoring (tut vse ploho)
     @message = Message.new
-    @room_id = params[:id] #FIXME refactoring
-    gon.user_login = current_user.login
-    gon.user_id = current_user.id
-    if Room.where("id in (?)",RoomsUser.where(:user_id=>current_user.id).pluck(:room_id)).pluck(:id).include?(params[:id].to_i) #FIXME refactoring
+    if Room.includes(:rooms_users).where('rooms_users.user_id'=>current_user.id,'rooms.id'=>params[:id].to_i).exists?
       gon.room_id = params[:id]
+      @messages = Message.where(:room_id=>params[:id]).preload(:user).order(created_at: :asc).last(10)
     else
       gon.room_id = 0
     end
-    if RoomsUser.where(:user_id => current_user.id,:room_id => params[:id]).first
-      @messages = Message.where(:room_id=>params[:id]).preload(:user).order(created_at: :desc).limit(10).reverse() #FIXME wat?
-    end
-    @room = Room.find(params[:id])
-    @room_list=Room.where("id in (?)",RoomsUser.where(:user_id=>current_user.id).pluck(:room_id)).order(id: :asc) #FIXME refactoring
-    room_user_ids = RoomsUser.where(:room_id => @room.id).map{|item| item.user_id}
-    @room_users = User.where("id IN (?)", room_user_ids)
+    @room_users =User.includes(:rooms_users).where('rooms_users.room_id'=>params[:id])
     gon.rooms_users = @room_users.pluck(:login)
+    gon.user_login = current_user.login
+    gon.user_id = current_user.id
   end
 
   def delete_room
     room=Room.where("user_id = ? AND id = ?",current_user.id,params[:id]).first
     room.destroy
     Pusher['status'].trigger('delete_room', :room_id=>params[:id])
-    render :text=>"done" #FIXME wat?
   end
 
   def load_previous_10_msg
-    previous_messages = Message.limit(10).offset(params[:offset_records].to_i).where("room_id = ?", params[:room_id]).order(created_at: :desc).preload(:user); #FIXME wat?
-    render :json => previous_messages
+    if Room.includes(:rooms_users).where('rooms_users.user_id'=>current_user.id,'rooms.id'=>params[:room_id].to_i).exists?
+      previous_messages = Message.offset(params[:offset_records].to_i).where(:room_id=>params[:room_id]).preload(:user).order(created_at: :desc).last(10);
+      render :json => previous_messages
+    end
   end
 
   private

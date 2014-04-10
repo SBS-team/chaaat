@@ -14,13 +14,17 @@
 //= require jquery_ujs
 //= require emojify
 //= require jquery-1.10.2.js
-//= require_tree    //#FIXME require_self
+
+
 //= require jquery.overlay.js
 //= require jquery.textcomplete.min.js
 //= require main.js
 //= require user.js
-//= require pusher.js
-//= require messages.js
+
 //= require bootstrap
 //= require rooms.js
+
+//= require pusher.js
+//= require messages.js
+//= require_tree
 

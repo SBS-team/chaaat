@@ -25,4 +25,11 @@ class Message < ActiveRecord::Base
   belongs_to :room
   mount_uploader :attach_path, ImageUploader
   #FIXME validates?
+  before_save :gsub_message, on: :create
+
+  private
+  def gsub_message
+    self.body.gsub!(/[\n]/,"")
+  end
+
 end

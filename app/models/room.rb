@@ -16,4 +16,13 @@ class Room < ActiveRecord::Base
   belongs_to :user
 
   #FIXME validates?
+
+  before_save :rooms_users_create, on: :create
+
+  private
+  def rooms_users_create
+    #RoomsUser.create(:user_id => self.id, :room_id => self.id)
+    #@book = Book.new(:name=>"Book name")
+    #@character = @book.characters.build(:name=>"Character name",:user=>current_user)
+  end
 end

@@ -85,7 +85,7 @@ $(document).ready(function(){
             $('html, body').animate({scrollTop: $("body").height()}, 800);
         }
         if (e.keyCode ==13 && e.ctrlKey) {
-            document.getElementById('message_input').value += "\r\n";
+            document.getElementById('message').value += "\r\n";
         }
     });
 
@@ -134,16 +134,21 @@ $(document).ready(function(){
     }
 
     function create_message(user_id, login, body, avatar, time,msg_class,attach_file_path){ //#FIXME jquery template/handlebars
+        if (user_id!= null){
+            user_info="<a href=\"/persons/"+ user_id +"\">"+ login + "</a>";
+        }
+        else{
+            user_info="chat notification"
+        }
+
         message= "<li class=\""+ msg_class +" clearfix\">"
             + "<span class=\"chat-img pull-left\">"
             + "<img class=\"avatar\" src="+avatar+">"
             + "</span>"
             + "<div class=\"chat-body clearfix\">"
             + " <div class=\"header\">"
-            + " <strong class=\"primary-font\"><a href=\"/persons/"+ user_id +"\">"
-            + login
-            + "</a></strong>"
-            + "<small class=\"pull-right text-muted\">"
+            + " <strong class=\"primary-font\">"+user_info
+            +"</strong><small class=\"pull-right text-muted\">"
             + "<span class=\"glyphicon glyphicon-time\"></span>"+time
             + "</small>"
             + "</div>"
