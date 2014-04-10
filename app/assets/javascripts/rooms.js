@@ -10,14 +10,14 @@ jQuery(function($){
         mymodal.modal('hide');
     });
 
-    $(".user_friend").click(function(event){
+    $(".right_search_user").on('click',".user_friend",function(event){
         $.ajax({
             url: '/rooms_users',
             type: 'POST',
             beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
             data: {
                 room_id: gon.room_id,
-                user_id: $(this).attr('user_id')
+                user_id: $(this).data('user-id')
             }
         });
         return false;

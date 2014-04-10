@@ -78,4 +78,12 @@
         .member{:data=>{:toggle=>"tooltip",:user_id => user.id, :room_id => @room.id}, :title=>"#{user.user_status=="Offline" ? "Offline "+time_ago_in_words(user.updated_at) : user.user_status}"}
           %span{:class=>get_user_status_style(user.user_status)}
           = link_to "#{user.login}", user_path(user.login)
+    %input#search-user.form-control{:placeholder=>"Enter email",:width=>"70%"}
+    %ul.right_search_user
+      - current_user.friends.each do |friend|
+        %li
+          = link_to user_path(friend.login) do
+            %span{:class=>get_user_status_style(friend.user_status)}>
+            = "#{friend.login}"
+          %span.glyphicon.glyphicon-plus.pull-right.user_friend{:data=>{:user_id => friend.id}}
   .footer

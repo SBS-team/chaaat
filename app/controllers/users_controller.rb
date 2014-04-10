@@ -23,7 +23,8 @@ class UsersController < ApplicationController
   end
 
   def invite_user
-    @user = User.invite!(:email => params[:email])
+    user = User.invite!(:email => params[:email])
+    render :text=>user.email 
   end
 
   def change_status
