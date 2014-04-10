@@ -10,7 +10,7 @@
 #
 
 
-
+require 'factory_girl'
 FactoryGirl.define do
   factory :friendship do
     user_id 1

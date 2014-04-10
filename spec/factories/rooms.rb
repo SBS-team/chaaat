@@ -9,7 +9,7 @@
 #  updated_at :datetime
 #  user_id    :integer
 #
-
+require 'factory_girl'
 FactoryGirl.define do
   factory :room do
     name "MyString"

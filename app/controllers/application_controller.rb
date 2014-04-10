@@ -1,7 +1,8 @@
 class ApplicationController < ActionController::Base
   before_filter :configure_permitted_parameters, if: :devise_controller?
   before_filter :rooms_user,:except=>[:new,:create,:facebook, :github]
-  helper_method :background_image
+  before_filter :background_image, if: :devise_controller?
+
 
 
   def after_sign_in_path_for(resource)
@@ -17,19 +18,30 @@ class ApplicationController < ActionController::Base
   end
 
   def after_sign_out_path_for(resource)
-    Pusher['status'].trigger_async('change_status', :status=>"Offline",:user_id=>current_user.id) #FIXME remove
-    User.update(current_user.id, :user_status =>"Offline") #FIXME use pusher hooks
-    User.update(current_user.id, :sign_out_at => Time.now)
-    if resource.is_a? User
-      root_path
-    else
+    if current_admin_user.is_a? AdminUser
       super
+    else
+      Pusher['status'].trigger_async('change_status', :status=>"Offline",:user_id=>current_user.id)
+      User.update(current_user.id, :user_status =>"Offline")
+      User.update(current_user.id, :sign_out_at => Time.now)
+      if resource.is_a? User
+        root_path
+      else
+        super
+      end
     end
+  end
+
+  def background_image
+    backgrounds = Background.all.shuffle
+    @background_image = backgrounds.first
   end
 
   private
   def rooms_user
-    @room_list=Room.where("id in (?)",RoomsUser.where(:user_id=>current_user.id).pluck(:room_id)).order(id: :asc) #FIXME
+    if current_user.is_a? User
+      @room_list=Room.where("id in (?)",RoomsUser.where(:user_id=>current_user.id).pluck(:room_id)).order(id: :asc)
+    end
   end
 
   def init_gon
@@ -45,9 +57,4 @@ class ApplicationController < ActionController::Base
       u.permit(:login, :firstname, :lastname, :email, :password, :password_confirmation, :current_password)
     }
   end
-
-
-  # Prevent CSRF attacks by raising an exception. #FIXME cleanup commented code
-  # For APIs, you may want to use :null_session instead.
-  #protect_from_forgery with: :exception
 end

@@ -31,7 +31,7 @@ $(document).ready(function(){
         });
     };
     $(document).on('click', '.emoji', function(e) {
-        message_textarea.val(message_textarea.val() + $(e.target).attr("title"));
+        message_textarea.val(message_textarea.val() + $(e.target).attr("id"));
         message_textarea.focus();
     });
 
@@ -48,28 +48,28 @@ $(document).ready(function(){
     });
 
     $('.content').on('click','.delete_room',function(event){
-                element_delete_room = event.currentTarget;
+        element_delete_room = event.currentTarget;
     });
 
     $('.delete_room').confirm({
-            text: "Are you sure you want to delete this room?",
-            title: "Confirmation required",
-            confirm: function() {
-                $.ajax({
-                    url: '../rooms/del/',
-                    type: 'POST',
-                    beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
-                    data: { id: $(element_delete_room).data("id") },
-                    success: function(response){
-                      $(element_delete_room).parents('table.rooms_group').hide();
-                      $("a[room_id='"+$(element_delete_room).data("id")+"']").parents('li#room').hide();
-                    }
-                });
-            },
-            confirmButton: "Yes I am",
-            cancelButton: "No",
-            post: false
-        });
+        text: "Are you sure you want to delete this room?",
+        title: "Confirmation required",
+        confirm: function() {
+            $.ajax({
+                url: '../rooms/del/',
+                type: 'POST',
+                beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
+                data: { id: $(element_delete_room).data("id") },
+                success: function(response){
+                    $(element_delete_room).parents('table.rooms_group').hide();
+                    $("a[room_id='"+$(element_delete_room).data("id")+"']").parents('li#room').hide();
+                }
+            });
+        },
+        confirmButton: "Yes I am",
+        cancelButton: "No",
+        post: false
+    });
 
     iframe.each(function(){
         var ifr_source = $(this).attr('src');
@@ -115,7 +115,7 @@ $(document).ready(function(){
             });
     });
 
-    function check_file(attach_file_path){        
+    function check_file(attach_file_path){
         url_to_file=location.origin+attach_file_path;
         if (url_to_file.match(/http.*(jpg|gif|jpeg|png)/)){
             return '<img src="'+url_to_file+'" height="200px" width="200px"/>';
@@ -131,18 +131,18 @@ $(document).ready(function(){
             fd.append('message[room_id]', gon.room_id);
             fd.append('message[attach_path]', $('input[type="file"]')[0].files[0]);
             $.ajax({
-              type: 'POST',
-              beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
-              url: '../message/new',
-              data: fd,
-              processData: false,
-              contentType: false,
-              success: function(data){
-                $("#new_message")[0].reset();
-              },
-              error: function(data) {
-                console.log(data);
-              }
+                type: 'POST',
+                beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
+                url: '../message/new',
+                data: fd,
+                processData: false,
+                contentType: false,
+                success: function(data){
+                    $("#new_message")[0].reset();
+                },
+                error: function(data) {
+                    console.log(data);
+                }
             });
         }
     }
@@ -153,24 +153,24 @@ $(document).ready(function(){
             if (input_file[0].files[0].size>30000000){
                 $.bootstrapGrowl("File size over than 30mb");
             }else{
-               $popup_target.attr({
-                   "id": "attach_popup",
-                   "data-container": "body",
-                   "data-content": '<div class="attach_wrapper"><div class="attach_header"><span class="glyphicon glyphicon-remove"></span></div><div class="attach_content"><span>'+input_file[0].files[0].name+'</span></div></div>',
-                   "data-placement": "top",
-                   "data-toggle": "popover",
-                   "type": "button"
-               });
-               message_textarea.focus();
-               $popup_target.popover({html:true});
-               $popup_target.popover('show');
-               $(".popover-content").find("span.glyphicon.glyphicon-remove").click(function(){
-                  $("#attach_path").val("");
-                  $("attach_wrapper").remove();
-                  $popup_target.popover('hide');
-               });
+                $popup_target.attr({
+                    "id": "attach_popup",
+                    "data-container": "body",
+                    "data-content": '<div class="attach_wrapper"><div class="attach_header"><span class="glyphicon glyphicon-remove"></span></div><div class="attach_content"><span>'+input_file[0].files[0].name+'</span></div></div>',
+                    "data-placement": "top",
+                    "data-toggle": "popover",
+                    "type": "button"
+                });
+                message_textarea.focus();
+                $popup_target.popover({html:true});
+                $popup_target.popover('show');
+                $(".popover-content").find("span.glyphicon.glyphicon-remove").click(function(){
+                    $("#attach_path").val("");
+                    $("attach_wrapper").remove();
+                    $popup_target.popover('hide');
+                });
             }
-       })
+        })
     }
 
 
@@ -239,25 +239,25 @@ $(document).ready(function(){
     };
 
     $('#message').textcomplete([
-    {
-        match: /\B@([\-+\w]*)$/,
-        search: function (term, callback) {
-            callback($.map(users, function (user) {
-                return user.indexOf(term) === 0 ? user : null;
-            }));
-        },
-        template: function (value) {
-            return '@' + value;
-        },
-        replace: function (value) {
-            return '@' + value + ' ';
-        },
-        index: 1,
-        maxCount: 5
-    }
-    ]).on({
-    'textComplete:show': function () {
-        set_top=setInterval(function(){$('ul.dropdown-menu:last').css('top',-$('ul.dropdown-menu:last').height())},100);
+            {
+                match: /\B@([\-+\w]*)$/,
+                search: function (term, callback) {
+                    callback($.map(users, function (user) {
+                        return user.indexOf(term) === 0 ? user : null;
+                    }));
+                },
+                template: function (value) {
+                    return '@' + value;
+                },
+                replace: function (value) {
+                    return '@' + value + ' ';
+                },
+                index: 1,
+                maxCount: 5
+            }
+        ]).on({
+        'textComplete:show': function () {
+            set_top=setInterval(function(){$('ul.dropdown-menu:last').css('top',-$('ul.dropdown-menu:last').height())},100);
         },
         'textComplete:hide': function () {
             if(set_top) clearInterval(set_top);
@@ -284,12 +284,12 @@ $(document).ready(function(){
 
     $('.rooms_group').on('click',".friend_action.add_friend",function(){
         $.ajax({
-           type: "POST",
-           beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
-           url: "/friendships",
-           data:{
+            type: "POST",
+            beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
+            url: "/friendships",
+            data:{
                 friend_id: $(this).parent().attr('friend_id')
-           },
+            },
             success: function(response){
                 $('tr[friend_id = \"' + response + '\"]').remove();
             }
@@ -344,7 +344,7 @@ $(document).ready(function(){
                 email: $("#search-user").val()
             },
             success: function(response){
-               $.bootstrapGrowl("You have send invite to: "+response, {
+                $.bootstrapGrowl("You have send invite to: "+response, {
                     type: 'success',
                     offset: {from: 'top', amount: 50},
                     align: 'center',
@@ -352,9 +352,9 @@ $(document).ready(function(){
                     delay: 10000,
                     allow_dismiss: true,
                     stackup_spacing: 10
-                }); 
-               $('#search-user').val('');
-               $('.right_search_user').html("")
+                });
+                $('#search-user').val('');
+                $('.right_search_user').html("")
             }
         });
     });

@@ -536,5 +536,8 @@ div.server-upsell {
     margin: 0 auto;
     text-align: center;
 }
-
+.user_friend
+{
+    cursor: pointer;
+}
 /* sign_up end */

@@ -1,5 +1,9 @@
 Chat::Application.routes.draw do
 
+  resources :backgrounds, :only => [:new, :show, :create]
+  devise_for :admin_users, ActiveAdmin::Devise.config
+  ActiveAdmin.routes(self)
+
   get "message/index", to: "message#index"
   resources :friendships, :only => [:create, :destroy]
   resources :users,:path => :persons, :only => [:index, :show]
@@ -24,7 +28,7 @@ Chat::Application.routes.draw do
 
   post 'pusher/auth'
   devise_scope :user do
-    root to: "devise/registrations#new"
+    root to: "devise/sessions#new"
   end
   match "rooms_users/:id/:room_id", :to => "rooms_users#destroy" , :as => "delete_user", :via => :delete
 

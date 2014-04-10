@@ -1,17 +1,16 @@
 # == Schema Information
 #
-# Table name: statuses
+# Table name: backgrounds
 #
 #  id         :integer          not null, primary key
-#  status     :string(255)
 #  created_at :datetime
 #  updated_at :datetime
+#  path       :text
 #
 
 # Read about factories at https://github.com/thoughtbot/factory_girl
 
 FactoryGirl.define do
-  factory :status do
-    status "MyString"
+  factory :background do
   end
 end

@@ -1,7 +1,15 @@
-.emoji {
-    width: 1.5em;
-    height: 1.5em;
-    display: inline-block;
-    margin-bottom: -0.25em;
-    cursor: pointer;
+span.emoji {
+  background-image:url(/img/csg-53454c6ee14a2.png);
+  display: -moz-inline-box;
+  -moz-box-orient: vertical;
+  display: inline-block;
+  vertical-align: baseline;
+  *vertical-align: auto;
+  *zoom: 1;
+  *display: inline;
+  width: 1.5em;
+  height: 1.5em;
+  background-size: 1.5em;
+  background-repeat: no-repeat;
+  text-indent: -9999px;
 }

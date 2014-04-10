@@ -51,7 +51,6 @@ class User < ActiveRecord::Base
   has_many :inverse_friends, :through => :inverse_friendships, :source => :user
   has_many :rooms_users
   has_many :friends, :through => :friendships
-  belongs_to :user_stat
   validates :email, :encrypted_password, :presence => true
   validates_uniqueness_of :login, :message => "has already been taken"
   validates :login, format: { with: /\A[a-zA-Z0-9._-]+\Z/ }
@@ -69,12 +68,12 @@ class User < ActiveRecord::Base
         return registered_user
       else
         User.create(
-           firstname:auth.info.name,
-           login:auth.extra.raw_info.login,
-           provider:auth.provider,
-           uid:auth.uid,
-           email:auth.info.email,
-           password:Devise.friendly_token[0,20]
+            firstname:auth.info.name,
+            login:auth.extra.raw_info.login,
+            provider:auth.provider,
+            uid:auth.uid,
+            email:auth.info.email,
+            password:Devise.friendly_token[0,20]
         )
 
       end
@@ -99,7 +98,7 @@ class User < ActiveRecord::Base
                     email:auth.info.email,
                     login:auth.extra.raw_info.username,
                     password:Devise.friendly_token[0,20]
-            )
+        )
       end
     end
   end

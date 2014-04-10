@@ -28,4 +28,5 @@ class Message < ActiveRecord::Base
             :file_size => {
                 :maximum => 20.megabytes.to_i
             }
+  validates :user_id, :room_id, :presence => true
 end

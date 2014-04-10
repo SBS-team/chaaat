@@ -27,6 +27,7 @@ gem 'emoji'
 gem 'activerecord-reset-pk-sequence'
 gem 'carrierwave'
 gem 'dotenv-rails'
+gem 'activeadmin', github: 'gregbell/active_admin'
 group :development do
   gem 'better_errors'
   gem 'binding_of_caller', :platforms=>[:mri_19, :mri_20, :rbx]
