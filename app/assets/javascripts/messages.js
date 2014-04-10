@@ -103,12 +103,21 @@ $(document).ready(function(){
         }
     });
 
-    search.keyup(function(){
+    $('.send_message_button').click(function(){
+        send_message();
+        if(input_file){
+            $("attach_wrapper").remove();
+            $('label.upload-but').popover('hide');
+        }
+        $('html, body').animate({scrollTop: $("body").height()}, 800);
+    });
+
+    $("#search").keyup(function(){
         $.ajax({
             type: "POST",
             beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
             url: "../message/search/",
-            data: { query: search.val(),room_id: gon.room_id }
+            data: { query:  $("#search").val(),room_id: gon.room_id }
         })
             .done(function(msg) {
                 $('#messages-wrapper').html(template(msg));
@@ -214,7 +223,7 @@ $(document).ready(function(){
                 src = "\""+word+"?muted=false&autostart=false&originalSize=false&hideTopBar=false&noSiteButtons=false&startWithHD=false"+"\"";
                 results.push("<br><iframe src=" +src + "\" frameborder=\"0\" allowfullscreen=\"true\" height=\"315px\" width=\"560px\"></iframe><br>");
             } else if (word.match(/http.*/)) {
-                results.push("<a href=" + word + ">"+word+"</a>");
+                results.push("<a href=" + word+ " target=\"_blank\">"+word+"</a>");
             }
             else {
                 results.push(word);

@@ -55,15 +55,14 @@
     %a.glyphicon.glyphicon-cog{:href=>edit_user_registration_path}
 %aside.right_panel
   .top-form
-    .dropdown
-      %button#drop3.btn.btn-default.dropdown-toggle.tf-but{"data-toggle" => "dropdown", :type => ""}
-        %span.glyphicon.glyphicon-search
-      %form.dropdown-menu.search-form{:action => "/", "aria-labelledby" => "drop3", :method => "get", :role => "menu"}
-        %input{:name => "search", :placeholder => "Search", :type => "search"}
-          %button{:type => "submit"}
-            %span.glyphicon.glyphicon-record
-    .dropdown
-      -if request.path!="/rooms" and @room
+    -if request.path!="/rooms" and @room
+      .dropdown
+        %button#drop3.btn.btn-default.dropdown-toggle.tf-but{"data-toggle" => "dropdown", :type => ""}
+          %span.glyphicon.glyphicon-search
+        %form.dropdown-menu.search-form{"aria-labelledby" => "drop3", :method => "get", :role => "menu"}
+          %input#search{:placeholder=>"Search", :type => "search"}
+
+      .dropdown
         %button#drop2.btn.btn-default.dropdown-toggle.tf-but{"data-toggle" => "dropdown", :role => "button"}
           Friends
           %span.caret
