@@ -14,6 +14,7 @@
 //= require handlebars-v1.3.0
 //= require jquery_ujs
 //= require emojify
+
 //= require jquery-1.10.2
 //= require jquery.bootstrap-growl
 //= require jquery.confirm.min
@@ -21,7 +22,9 @@
 //= require jquery.textcomplete.min
 //= require main.js
 //= require user.coffee
-//= require pusher.js
+//= require jquery.timeago.js
 //= require messages.js
+//= require pusher.js
 //= require bootstrap
 //= require rooms.js
+

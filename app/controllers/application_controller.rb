@@ -9,9 +9,7 @@ class ApplicationController < ActionController::Base
     if resource.is_a? User
       gon.user_login = current_user.login
       gon.user_id = current_user.id
-      Pusher['status'].trigger_async('change_status', :status=>"Available",:user_id=>current_user.id) #FIXME remove
-      User.update(current_user.id, :user_status =>"Available") #FIXME use pusher hooks
-      rooms_path
+        rooms_path
     else
       super
     end
@@ -21,8 +19,6 @@ class ApplicationController < ActionController::Base
     if current_admin_user.is_a? AdminUser
       super
     else
-      Pusher['status'].trigger_async('change_status', :status=>"Offline",:user_id=>current_user.id)
-      User.update(current_user.id, :user_status =>"Offline")
       User.update(current_user.id, :sign_out_at => Time.now)
       if resource.is_a? User
         root_path
@@ -40,7 +36,7 @@ class ApplicationController < ActionController::Base
   private
   def rooms_user
     if current_user.is_a? User
-      @room_list=Room.where("id in (?)",RoomsUser.where(:user_id=>current_user.id).pluck(:room_id)).order(id: :asc)
+      @room_list=Room.includes(:rooms_users).where('rooms_users.user_id'=>current_user.id).preload(:user).order(id: :asc)
     end
   end
 
@@ -57,4 +53,5 @@ class ApplicationController < ActionController::Base
       u.permit(:login, :firstname, :lastname, :email, :password, :password_confirmation, :current_password)
     }
   end
+
 end

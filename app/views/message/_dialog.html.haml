@@ -17,11 +17,11 @@
           -if message.user_id==current_user.id
             %li.from.clearfix
               %span.chat-img.pull-left
-                =image_tag avatar_url(message.user, 50),:class => "avatar"
+                =image_tag (message.user) ?  avatar_url(message.user, 50) : "../img/sys-notification.png",:class => "avatar"
               .chat-body.clearfix
                 .header
                   %strong.primary-font
-                    =link_to message.user.login, user_path(message.user.login)
+                    =(message.user) ? (link_to message.user.login, user_path(message.user.id)) : "chat notification"
                   %small.pull-right.text-muted
                     %span.glyphicon.glyphicon-time
                     =message.created_at.strftime("%a %T")
@@ -32,11 +32,11 @@
           -else
             %li.to.clearfix
               %span.chat-img.pull-left
-                =image_tag avatar_url(message.user, 50),:class => "avatar"
+                =image_tag (message.user) ?  avatar_url(message.user, 50) : "../img/sys-notification.png",:class => "avatar"
               .chat-body.clearfix
                 .header
                   %strong.primary-font
-                    =link_to message.user.login, user_path(message.user.login)
+                    =(message.user) ? (link_to message.user.login, user_path(message.user.id)) : "chat notification"
                   %small.pull-right.text-muted
                     %span.glyphicon.glyphicon-time
                     =message.created_at.strftime("%a %T")

@@ -25,8 +25,9 @@ Chat::Application.routes.draw do
   post "rooms/previous_messages", :to=>"rooms#load_previous_10_msg", :as=>"previous_messages"
   post "rooms/change", to: "rooms#update"
   devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }
-
   post 'pusher/auth'
+  post 'pusher/stat'
+
   devise_scope :user do
     root to: "devise/sessions#new"
   end

@@ -61,17 +61,6 @@
           %span.glyphicon.glyphicon-search
         %form.dropdown-menu.search-form{"aria-labelledby" => "drop3", :method => "get", :role => "menu"}
           %input#search{:placeholder=>"Search", :type => "search"}
-
-      .dropdown
-        %button#drop2.btn.btn-default.dropdown-toggle.tf-but{"data-toggle" => "dropdown", :role => "button"}
-          Friends
-          %span.caret
-        %ul.dropdown-menu.room-action.friend_list{"aria-labelledby" => "drop2", :role => "menu"}
-          - current_user.friends.each do |friend|
-            %li.user_friend{:user_id => friend.id, :room_id => @room.id }
-              = link_to rooms_users_path, :method => :post do
-                %span{:class=>get_user_status_style(friend.user_status)}
-                = "#{friend.login}"
   - if @room_users != nil
     .list
       - @room_users.each do |user|

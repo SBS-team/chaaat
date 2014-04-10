@@ -3,7 +3,8 @@ $(document).ready(function(){
     Handlebars.registerHelper("equal",function (r_value){return (gon.user_id == r_value) ? 'from': 'to';});
     Handlebars.registerHelper("safe_mess",function (messag){return $.trim(changetags(safe_tags_replace(messag)))});
     Handlebars.registerHelper("attach-files",function (attach_file_path){return check_file(attach_file_path) });
-    var template_message = '{{#message}}<li class="{{#equal user_id}}{{/equal}} clearfix"><span class="chat-img pull-left"><img class="avatar" src="{{avatar}}"></span><div class="chat-body clearfix"><div class="header"> <strong class="primary-font"> <a href="/persons/{{url}}">{{login}}</a></strong><small class="pull-right text-muted"><span class="glyphicon glyphicon-time"></span>{{create_at}}</small></div><p>{{#safe_mess message}}{{/safe_mess}}</p>{{#if attach_file_path}}<p class="attach-file">{{#attach-files attach_file_path}}{{/attach-files}}</p>{{/if}}</div></li>{{/message}}';
+    Handlebars.registerHelper("change_login",function (user_id,login){return (user_id!= null) ? "<a href=\"/persons/"+ user_id +"\">"+ login + "</a>" : "chat notification";});
+    var template_message = '{{#message}}<li class="{{#equal user_id}}{{/equal}} clearfix"><span class="chat-img pull-left"><img class="avatar" src="{{avatar}}"></span><div class="chat-body clearfix"><div class="header"> <strong class="primary-font">{{#change_login user_id login}}{{/change_login}}</strong><small class="pull-right text-muted"><span class="glyphicon glyphicon-time"></span>{{create_at}}</small></div><p>{{#safe_mess message}}{{/safe_mess}}</p>{{#if attach_file_path}}<p class="attach-file">{{#attach-files attach_file_path}}{{/attach-files}}</p>{{/if}}</div></li>{{/message}}';
     var template = Handlebars.compile(template_message);
 
     $('#pop').popover({html:true});
@@ -11,7 +12,7 @@ $(document).ready(function(){
     var iframe = $('iframe');
     var search = $("#search");
     var input_file = $("input[type=file]#attach_path");
-    var users=gon.rooms_users;
+    users=gon.rooms_users;
     var message_offset = 10;
     invoted_users();
     show_attachment();
@@ -265,6 +266,7 @@ $(document).ready(function(){
                 maxCount: 5
             }
         ]).on({
+
         'textComplete:show': function () {
             set_top=setInterval(function(){$('ul.dropdown-menu:last').css('top',-$('ul.dropdown-menu:last').height())},100);
         },
@@ -272,6 +274,7 @@ $(document).ready(function(){
             if(set_top) clearInterval(set_top);
         }
     });
+
 
     function replaceTag(tag) {
         return tagsToReplace[tag] || tag;
@@ -344,6 +347,7 @@ $(document).ready(function(){
     });
 
 
+
     $('ul').on('click','.send_invite', function(){
         $.ajax({
             url: '/users/invite_user',
@@ -392,6 +396,7 @@ $(document).ready(function(){
             });
         }
     });
+
 
     var template_search_user='{{#users}}<tr friend_id="{{id}}"><td><div class="friend_photo"><img class="avatar" src="{{avatar}}"></div><div class="friend_name"></div><a href="/persons/{{login}}">{{login}}</a></td><td class="friend_action add_friend"><span class="glyphicon glyphicon-plus add_new_friend"></span></td></tr>{{/users}}';
     var search_user = Handlebars.compile(template_search_user);
