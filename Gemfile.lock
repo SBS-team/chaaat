@@ -55,6 +55,8 @@ GEM
       activesupport (>= 3.0.0)
     arel (4.0.2)
     atomic (1.1.16)
+    audiojs (0.1.2)
+      railties (>= 3.1)
     bcrypt (3.1.7)
     better_errors (1.1.0)
       coderay (>= 1.0.0)
@@ -397,6 +399,7 @@ DEPENDENCIES
   activeadmin!
   activerecord-reset-pk-sequence
   annotate
+  audiojs (~> 0.1.2)
   better_errors
   binding_of_caller
   bootstrap-sass

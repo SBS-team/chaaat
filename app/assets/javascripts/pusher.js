@@ -124,3 +124,9 @@ channel.bind('del_user_from_room', function(data) {
 
 }
 
+var channel3 = pusher.subscribe('private-'+gon.user_id);
+channel3.bind('notification-room', function(data) {
+    if (data.room_id!==gon.room_id){
+        $('li#room a[room_id="'+data.room_id+'"]').parent().css('background-color','#999');
+    }
+});

@@ -372,10 +372,6 @@ $(document).ready(function(){
         });
     });
 
-
-
-
-
     var template_search_user_right='{{#users}}<li><a data-method="post" href="/persons/{{login}}" rel="nofollow"><span class="{{#get_icon_status user_status}}{{/get_icon_status}}"></span>{{login}}</a><span class="glyphicon glyphicon-plus pull-right user_friend" data-user-id="{{id}}"></span></li>{{/users}}';
     var search_user_right = Handlebars.compile(template_search_user_right);
     $('#search-user').keyup(function(){
