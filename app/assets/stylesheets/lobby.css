@@ -125,14 +125,14 @@ body {background-color: #f0f0f0;line-height: normal;}
 }
 
 .list{
-    height: 50%;
+    height: 100%;
     position: relative;
-    padding-top: 35px;
+    padding-top: 0px;
+    overflow: auto;
 }
 .member {
     cursor: pointer;
     padding: 5px 5px 5px 18px;
-    white-space: nowrap;
 }
 
 .member span {
@@ -386,10 +386,11 @@ h2.public{
     overflow: hidden;
 }
 .top-form{
-    position: absolute;
+    position: relative;
     right: 0;
     left: 0;
     top: 0;
+    height: 32px;
     z-index: 500;
     background: #697686;
 }
@@ -586,4 +587,37 @@ span.glyphicon.glyphicon-remove:hover{
     background: #697686;
     position: absolute;
     z-index: 500;
+}
+.friend-list{
+    overflow-y: auto;
+    overflow-x: hidden;
+    position: fixed;
+    bottom: 0;
+}
+.panel-default > .panel-heading {
+    height: 45px;
+    background-color: #697686;
+    margin-bottom: 10px;
+}
+.panel-default > .panel-heading p{
+    color:white;
+    width: 100%;
+    margin: 0 37px;
+}
+.panel-default > .panel-heading h4{
+    margin: 0 75px;
+    cursor: pointer;
+}
+.panel-body.right_search{
+    /*height: 100%;*/
+    /*overflow: auto;*/
+}
+.panel-heading h4.collapsed:after {
+
+    content: "\e114";
+}
+.panel-heading h4:after {
+    font-family: 'Glyphicons Halflings';
+    content: "\e113";
+    float: right;
 }

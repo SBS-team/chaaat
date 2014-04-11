@@ -14,7 +14,7 @@
           Lobby
       - if !@room_list.nil?
         - @room_list.each do |room|
-          - if room.id==@room_id.to_i
+          - if room.id==params[:id].to_i
             %li.active#room
               =link_to "#{room.name}",room_path(:id=>room.id),:room_id => room.id
           -else
@@ -64,15 +64,22 @@
   - if @room_users != nil
     .list
       - @room_users.each do |user|
-        .member{:data=>{:toggle=>"tooltip",:user_id => user.id, :room_id => @room.id}, :title=>"#{user.user_status=="Offline" ? "Offline "+time_ago_in_words(user.updated_at) : user.user_status}"}
+        .member{:id=>user.id,:data=>{:toggle=>"tooltip",:user_id => user.id, :room_id => @room.id}, :title=>"#{user.user_status=="Offline" ? "Offline "+time_ago_in_words(user.updated_at) : user.user_status}"}
           %span{:class=>get_user_status_style(user.user_status)}
-          = link_to "#{user.login}", user_path(user.login)
-    %input#search-user.form-control{:placeholder=>"Enter email",:width=>"70%"}
-    %ul.right_search_user
-      - current_user.friends.each do |friend|
-        %li
-          = link_to user_path(friend.login) do
-            %span{:class=>get_user_status_style(friend.user_status)}>
-            = "#{friend.login}"
-          %span.glyphicon.glyphicon-plus.pull-right.user_friend{:data=>{:user_id => friend.id}}
+          = link_to "#{user.login}", "#"
+    .friend-list.right_search_user
+      #panel1.panel.panel-default
+        .panel-heading
+          %p
+            Add new friends
+            %h4.collapsed{"data-target" => "#collapseTwo", "data-toggle" => "collapse"}
+        #collapseTwo.panel-collapse.collapse
+          %input#search-user.form-control{:placeholder=>"Enter email",:width=>"70%"}
+          .panel-body.right_search
+            - current_user.friends.each do |friend|
+              .member
+                = link_to user_path(friend.login) do
+                  %span{:class=>get_user_status_style(friend.user_status)}>
+                  = "#{friend.login}"
+                %span.glyphicon.glyphicon-plus.pull-right.user_friend{:data=>{:user_id => friend.id}}
   .footer

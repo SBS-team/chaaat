@@ -3,7 +3,7 @@ Pusher.host = '192.168.137.75'
 Pusher.ws_port = 8081
 Pusher.wss_port = 8081
 Handlebars.registerHelper("get_icon_status",function (value){return get_user_status_style(value)});
-var template_add_user_right='<div class="member" data-room-id="{{room_id}}" data-toggle="tooltip" data-user-id="{{user_id}}" title="{{user_status}}"><span class ="{{#get_icon_status user_status}}{{/get_icon_status}}"></span><a href="/persons/{{user_id}}">{{user_login}}</a></div>';
+var template_add_user_right='<div class="member" id="{{user_id}}" data-room-id="{{room_id}}" data-toggle="tooltip" data-user-id="{{user_id}}" title="{{user_status}}"><span class ="{{#get_icon_status user_status}}{{/get_icon_status}}"></span><a href="#">{{user_login}}</a></div>';
 var add_user_right = Handlebars.compile(template_add_user_right);
 
 pusher_stat = new Pusher(gon.pusher_app);
@@ -88,6 +88,7 @@ channel2.bind('user_add_to_room', function(data) {
         allow_dismiss: true,
         stackup_spacing: 10
     });
+//    $('.lobby-panel').load('/rooms/'+data.room_id+' .lobby-panel');
     $(".tabs.ui-sortable").append("<li><a room_id="+data.rooms_id+" href=/rooms/"+data.rooms_id+">"+data.rooms_name+"</a></li>");
 });
 
@@ -109,6 +110,7 @@ channel.bind('add_user_to_room', function(data) {
     users.push(data.user_login);
     system_message("User: "+data.user_login+" has been added to room: "+data.rooms_name);
     $('.list').append(add_user_right(data));
+//    $('.list').load('/rooms/445 .list');
     if (data.user_status=="Offline"){
         document.getElementById(data.user_id).title="Offline "+jQuery.timeago(data.user_sign_out_time);
     }
