@@ -12,7 +12,7 @@ $(document).ready(function(){
     var iframe = $('iframe');
     var search = $("#search");
     var input_file = $("input[type=file]#attach_path");
-    users=gon.rooms_users.concat(['all']);
+    users=['all'].concat(gon.rooms_users);
     var message_offset = 10;
     invoted_users();
     show_attachment();
@@ -31,7 +31,7 @@ $(document).ready(function(){
             }
         });
     };
-    $(document).on('click', '.emoji', function(e) {
+    $(document).on('click', '.smile', function(e) {
         message_textarea.val(message_textarea.val() + $(e.target).attr("id"));
         message_textarea.focus();
     });
@@ -97,7 +97,6 @@ $(document).ready(function(){
                 $("attach_wrapper").remove();
                 $('label.upload-but').popover('hide');
             }
-            $('html, body').animate({scrollTop: $("body").height()}, 800);
         }
         if (e.keyCode ==13 && e.ctrlKey) {
             document.getElementById('message').value += "\r\n";
@@ -110,7 +109,6 @@ $(document).ready(function(){
             $("attach_wrapper").remove();
             $('label.upload-but').popover('hide');
         }
-        $('html, body').animate({scrollTop: $("body").height()}, 800);
     });
 
     $("#search").keyup(function(){

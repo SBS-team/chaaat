@@ -15,6 +15,7 @@
 //= require jquery_ujs
 //= require emojify
 //= require audiojs
+//=require jquery.blockUI
 //= require jquery-1.10.2
 //= require jquery.bootstrap-growl
 //= require jquery.confirm.min
