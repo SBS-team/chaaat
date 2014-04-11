@@ -51,33 +51,51 @@ jQuery(function($){
         });
     }
 
-    $('.member').on('dblclick','a', function(e) {
-        if ($(this).parent().attr('user_id')!=gon.user_id.toString()){
-            strInputCode = $(this).html();
+    function singleClick(e) {
+        if ($(e).parent().attr('data-user-id')!=gon.user_id.toString()){
+            self.location="/persons/"+$(e).html();
+        }
+    }
+
+    function doubleClick(e) {
+        if ($(e).parent().attr('data-user-id')!=gon.user_id.toString()){
+            strInputCode = $(e).html();
             strInputCode = strInputCode.replace(/&(lt|gt);/g, function (strMatch, p1){
                 return (p1 == "lt")? "<" : ">";
             });
             var strTagStrippedText = strInputCode.replace(/<\/?[^>]+(>|$)/g, "");
-            alert($(this).parent().attr('user_id'));
-            posting = $.post('/rooms/',
-            {   express:true,
-                room: {
-                    name:  gon.user_login+" vs. "+strTagStrippedText,
-                    topic: 'express chat'
-                },
-                user_id:$(this).parent().attr('user_id')
-            });
+            $.ajax(
+                {  type: "POST",
+                    url: "/rooms",
+                    data: {express:true,
+                    room: {
+                        name:  gon.user_login+" vs. "+strTagStrippedText,
+                        topic: 'express chat'
+                    },
+                    user_id:$(e).parent().attr('data-user-id')}
+                })
 
-            posting.done(function(response){
-                $.post('rooms_users/pusher_send_to_user')
+            .done(function(response){
                 self.location=response;
             });
         }
-    });
+    }
 
-    $('.member').on('click','a', function(e) {
-        if ($(this).parent().attr('user_id')!=gon.user_id.toString()){
-            self.location="/persons/"+$(this).parent().attr('user_id');
+    var clickCount = 0;
+
+    $('.list').on('click','a', function () {
+        clickCount++;
+        href_query=this
+        if (clickCount === 1) {
+            singleClickTimer = setTimeout(function () {
+                clickCount = 0;
+                singleClick(href_query);
+            }, 400);
+        }
+        else if (clickCount === 2) {
+            clearTimeout(singleClickTimer);
+            clickCount = 0;
+            doubleClick(href_query);
         }
     });
 
@@ -85,6 +103,7 @@ jQuery(function($){
         change_topic();
         return false;
     });
+
     function change_topic(){
         $.ajax({
             type: "POST",

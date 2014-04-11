@@ -7,6 +7,13 @@ $(document).ready(function(){
     var template_message = '{{#message}}<li class="{{#equal user_id}}{{/equal}} clearfix"><span class="chat-img pull-left"><img class="avatar" src="{{avatar}}"></span><div class="chat-body clearfix"><div class="header"> <strong class="primary-font">{{#change_login user_id login}}{{/change_login}}</strong><small class="pull-right text-muted"><span class="glyphicon glyphicon-time"></span>{{create_at}}</small></div><p>{{#safe_mess message}}{{/safe_mess}}</p>{{#if attach_file_path}}<p class="attach-file">{{#attach-files attach_file_path}}{{/attach-files}}</p>{{/if}}</div></li>{{/message}}';
     var template = Handlebars.compile(template_message);
 
+    function smiles_render(){
+        message=document.getElementsByClassName('chat-body');
+        for(var i= 0;i<message.length; i++){
+            emojify.run(message[i]);
+        }
+    }
+
     $('#pop').popover({html:true});
     var message_textarea=$("#message");
     var iframe = $('iframe');
@@ -31,6 +38,7 @@ $(document).ready(function(){
             }
         });
     };
+
     $(document).on('click', '.emoji', function(e) {
         message_textarea.val(message_textarea.val() + $(e.target).attr("id"));
         message_textarea.focus();
@@ -122,6 +130,7 @@ $(document).ready(function(){
         })
             .done(function(msg) {
                 $('#messages-wrapper').html(template(msg));
+                smiles_render();
             });
     });
 
@@ -183,15 +192,11 @@ $(document).ready(function(){
         })
     }
 
-
     function render_message(data){
         $("#messages-wrapper").append(template(data));
         var objDiv = document.getElementsByClassName('chat')[0];
         objDiv.scrollTop = objDiv.scrollHeight+2000;
-        emojify.setConfig({ emoticons_enabled: true, people_enabled: true, nature_enabled: true, objects_enabled: true, places_enabled: true, symbols_enabled: true });
-        for(var i= 0;i<document.getElementsByClassName('chat-body').length; i++){
-            emojify.run(document.getElementsByClassName('chat-body')[i]);
-        }
+        smiles_render();
     }
 
     function invoted_users(){
@@ -275,7 +280,6 @@ $(document).ready(function(){
         }
     });
 
-
     function replaceTag(tag) {
         return tagsToReplace[tag] || tag;
     }
@@ -336,17 +340,12 @@ $(document).ready(function(){
                 if(response.message.length > 0){
                     $('#messages-wrapper').prepend('<div class="glyphicon glyphicon-resize-vertical" style="margin:0 50% 0 50%;opacity:0.5;font-size:20px"></div>');
                     $('#messages-wrapper').prepend(template(response));
-                    emojify.setConfig({ emoticons_enabled: true, people_enabled: true, nature_enabled: true, objects_enabled: true, places_enabled: true, symbols_enabled: true });
-                    for(var i= 0;i<document.getElementsByClassName('chat-body').length; i++){
-                        emojify.run(document.getElementsByClassName('chat-body')[i]);
-                    }
+                    smiles_render();
                     message_offset += 10;
                 }
             }
         });
     });
-
-
 
     $('ul').on('click','.send_invite', function(){
         $.ajax({
@@ -372,15 +371,11 @@ $(document).ready(function(){
         });
     });
 
-
-
-
-
-    var template_search_user_right='{{#users}}<li><a data-method="post" href="/persons/{{login}}" rel="nofollow"><span class="{{#get_icon_status user_status}}{{/get_icon_status}}"></span>{{login}}</a><span class="glyphicon glyphicon-plus pull-right user_friend" data-user-id="{{id}}"></span></li>{{/users}}';
+    var template_search_user_right='{{#users}}<div class=\"member\"><a data-method="post" href="/persons/{{login}}" rel="nofollow"><span class="{{#get_icon_status user_status}}{{/get_icon_status}}"></span>{{login}}</a><span class="glyphicon glyphicon-plus pull-right user_friend" data-user-id="{{id}}"></span></div>{{/users}}';
     var search_user_right = Handlebars.compile(template_search_user_right);
     $('#search-user').keyup(function(){
         if ($(this).val().match(/^[-a-z0-9!#$%&'*+/=?^_`{|}~]+(\.[-a-z0-9!#$%&'*+/=?^_`{|}~]+)*@([a-z0-9]([-a-z0-9]{0,61}[a-z0-9])?\.)*(aero|arpa|asia|biz|cat|com|coop|edu|gov|info|int|jobs|mil|mobi|museum|name|net|org|pro|tel|travel|[a-z][a-z])$/)){
-            $('.right_search_user').html("<li style='text-align:center'><button class='btn send_invite'>Send invite</button></li>")
+            $('.right_search').html("<li style='text-align:center'><button class='btn send_invite'>Send invite</button></li>")
         }
         else{
             $.ajax({
@@ -391,12 +386,11 @@ $(document).ready(function(){
                     login: $("#search-user").val()
                 },
                 success: function(response){
-                    $('.right_search_user').html(search_user_right(response))
+                    $('.right_search').html(search_user_right(response))
                 }
             });
         }
     });
-
 
     var template_search_user='{{#users}}<tr friend_id="{{id}}"><td><div class="friend_photo"><img class="avatar" src="{{avatar}}"></div><div class="friend_name"></div><a href="/persons/{{login}}">{{login}}</a></td><td class="friend_action add_friend"><span class="glyphicon glyphicon-plus add_new_friend"></span></td></tr>{{/users}}';
     var search_user = Handlebars.compile(template_search_user);
@@ -413,5 +407,4 @@ $(document).ready(function(){
             }
         });
     });
-
 });
