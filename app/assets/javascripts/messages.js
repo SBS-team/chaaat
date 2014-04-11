@@ -1,6 +1,6 @@
 //#FIXME coffescript
 $(document).ready(function(){
-    Handlebars.registerHelper("equal",function (r_value){return (gon.user_id == r_value) ? 'from': 'to';});
+    Handlebars.registerHelper("equal",function (r_value){if (gon.user_id == r_value) {return 'from';}else{$('#new-message')[0].play();return 'to';}});
     Handlebars.registerHelper("safe_mess",function (messag){return $.trim(changetags(safe_tags_replace(messag)))});
     Handlebars.registerHelper("attach-files",function (attach_file_path){return check_file(attach_file_path) });
     Handlebars.registerHelper("change_login",function (user_id,login){return (user_id!= null) ? "<a href=\"/persons/"+ user_id +"\">"+ login + "</a>" : "chat notification";});
