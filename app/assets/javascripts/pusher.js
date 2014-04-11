@@ -70,6 +70,13 @@ if (gon.room_id){
     pusher = new Pusher(gon.pusher_app, {authEndpoint:'/pusher/auth?room_id='+gon.room_id});
     channel = pusher.subscribe('private-'+gon.room_id);
 
+var channel3 = pusher.subscribe('private-'+gon.user_id);
+channel3.bind('notification-room', function(data) {
+    if (data.room_id!=gon.room_id){
+        $('li#room a[room_id="'+data.room_id+'"]').parent().css('background-color','#999');
+    }
+});
+
 var channel2 = pusher.subscribe('private-'+gon.user_id);
 channel2.bind('user_add_to_room', function(data) {
     $.bootstrapGrowl("You have been added to the room: "+data.rooms_name, {
@@ -124,9 +131,3 @@ channel.bind('del_user_from_room', function(data) {
 
 }
 
-var channel3 = pusher.subscribe('private-'+gon.user_id);
-channel3.bind('notification-room', function(data) {
-    if (data.room_id!=gon.room_id){
-        $('li#room a[room_id="'+data.room_id+'"]').parent().css('background-color','#999');
-    }
-});

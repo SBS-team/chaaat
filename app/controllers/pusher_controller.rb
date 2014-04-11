@@ -26,7 +26,7 @@ class PusherController < ApplicationController
     end
     Pusher['presence-status'].trigger_async('change_status', :status=>user_status,:user_id=>params[:user_id])
     User.update(params[:user_id], :user_status =>user_status)
-    render :text=>""
+    render :text=>"Success"
   end
 
 end

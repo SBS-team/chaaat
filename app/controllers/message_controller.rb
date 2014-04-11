@@ -14,13 +14,19 @@ class MessageController < ApplicationController
       users_in_room.each {|user|    Pusher["private-#{user.user_id}"].trigger_async('notification-room',:room_id=>message.room_id)}
     end     
       users=message.body.gsub(/(?<=@)(\w+)(?=\s)/)
-      if !users #FIXME wat?
-      offline_user_emails=User.includes(:rooms_users).where(:login=>users,'rooms_users.room_id'=>params[:message][:room_id]).pluck(:email)
+      if users.any? && message.body.gsub(/@all/).none?
+      offline_user_emails=User.includes(:rooms_users).where('login = ? AND user_status = ? AND rooms_users.room_id = ?',users,"Offline",params[:message][:room_id]).pluck(:email)
       offline_user_emails.each do |email|
           UserMailer.offline_message(email,message.body).deliver
         end
       end
-    end
+      if message.body.match(/@all/)[0]=='@all'
+        offline_user_emails=User.includes(:rooms_users).where('user_status = ? AND rooms_users.room_id = ?',"Offline",params[:message][:room_id]).pluck(:email)
+        offline_user_emails.each do |email|
+          UserMailer.offline_message(email,message.body).deliver
+          end
+        end
+      end
   end
 
   def search

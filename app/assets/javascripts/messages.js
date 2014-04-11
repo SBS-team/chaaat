@@ -12,7 +12,7 @@ $(document).ready(function(){
     var iframe = $('iframe');
     var search = $("#search");
     var input_file = $("input[type=file]#attach_path");
-    users=gon.rooms_users;
+    users=gon.rooms_users.concat(['all']);
     var message_offset = 10;
     invoted_users();
     show_attachment();
@@ -211,7 +211,7 @@ $(document).ready(function(){
             results = [];
         for (var i = 0; i < words.length; i++) {
             var word = words[i];
-            if ((word.match(/\@\S*/)) && (!word.match(/<span>\@\S*/) && (word.match(/\@\S*/g)[0] == "@" + gon.user_login))) {
+            if ((word.match(/\@\S*/)) && (!word.match(/<span>\@\S*/) && ((word.match(/\@\S*/g)[0] == "@" + gon.user_login) || (word.match(/\@\S*/g)[0] == "@all")))) {
                 results.push(word.replace(/\@\S*/, "<span class=\"to-user\">" + $.trim(word.match(/\@\S*/)[0]) + "</span> "));
             } else if (word.match(/http.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?].\S\S*)/)) {
                 results.push(word.replace(/http.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?].\S\S*)/,
