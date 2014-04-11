@@ -15,7 +15,7 @@
       - if @messages
         -@messages.each do |message|
           -if message.user_id==current_user.id
-            %li.from.clearfix
+            %li.from.clearfix{:data=>{:id=>message.id}}
               %span.chat-img.pull-left
                 =image_tag (message.user) ?  avatar_url(message.user, 50) : "../img/sys-notification.png",:class => "avatar"
               .chat-body.clearfix
@@ -30,7 +30,7 @@
                   %br
                   %p.attach_file= message.attach_path
           -else
-            %li.to.clearfix
+            %li.to.clearfix{:data=>{:id=>message.id}}
               %span.chat-img.pull-left
                 =image_tag (message.user) ?  avatar_url(message.user, 50) : "../img/sys-notification.png",:class => "avatar"
               .chat-body.clearfix

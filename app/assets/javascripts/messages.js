@@ -4,7 +4,7 @@ $(document).ready(function(){
     Handlebars.registerHelper("safe_mess",function (messag){return $.trim(changetags(safe_tags_replace(messag)))});
     Handlebars.registerHelper("attach-files",function (attach_file_path){return check_file(attach_file_path) });
     Handlebars.registerHelper("change_login",function (user_id,login){return (user_id!= null) ? "<a href=\"/persons/"+ user_id +"\">"+ login + "</a>" : "chat notification";});
-    var template_message = '{{#message}}<li class="{{#equal user_id}}{{/equal}} clearfix"><span class="chat-img pull-left"><img class="avatar" src="{{avatar}}"></span><div class="chat-body clearfix"><div class="header"> <strong class="primary-font">{{#change_login user_id login}}{{/change_login}}</strong><small class="pull-right text-muted"><span class="glyphicon glyphicon-time"></span>{{create_at}}</small></div><p>{{#safe_mess message}}{{/safe_mess}}</p>{{#if attach_file_path}}<p class="attach-file">{{#attach-files attach_file_path}}{{/attach-files}}</p>{{/if}}</div></li>{{/message}}';
+    var template_message = '{{#message}}<li class="{{#equal user_id}}{{/equal}} clearfix" data-id="{{id}}"><span class="chat-img pull-left"><img class="avatar" src="{{avatar}}"></span><div class="chat-body clearfix"><div class="header"> <strong class="primary-font">{{#change_login user_id login}}{{/change_login}}</strong><small class="pull-right text-muted"><span class="glyphicon glyphicon-time"></span>{{create_at}}</small></div><p>{{#safe_mess message}}{{/safe_mess}}</p>{{#if attach_file_path}}<p class="attach-file">{{#attach-files attach_file_path}}{{/attach-files}}</p>{{/if}}</div></li>{{/message}}';
     var template = Handlebars.compile(template_message);
 
     $('#pop').popover({html:true});
@@ -330,12 +330,11 @@ $(document).ready(function(){
             beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
             data:{
                 room_id: gon.room_id,
-                offset_records: message_offset
+                message: $('.clearfix').first().data('id')
             },
             success: function(response){
                 if(response.message.length > 0){
-                    $('#messages-wrapper').prepend('<div class="glyphicon glyphicon-resize-vertical" style="margin:0 50% 0 50%;opacity:0.5;font-size:20px"></div>');
-                    $('#messages-wrapper').prepend(template(response));
+                    $('#messages-wrapper').prepend(template(response)+'<div class="glyphicon glyphicon-resize-vertical" style="margin:0 50% 0 50%;opacity:0.5;font-size:20px"></div>');
                     emojify.setConfig({ emoticons_enabled: true, people_enabled: true, nature_enabled: true, objects_enabled: true, places_enabled: true, symbols_enabled: true });
                     for(var i= 0;i<document.getElementsByClassName('chat-body').length; i++){
                         emojify.run(document.getElementsByClassName('chat-body')[i]);
