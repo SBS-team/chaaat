@@ -57,7 +57,7 @@ class User < ActiveRecord::Base
   validates :login, length: 1..20, :presence => true
   devise :invitable, :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable,:omniauthable, :omniauth_providers => [:github,:facebook]
-  before_save :default_stat, on: :create
+  before_save :default_stat
 
   def self.create_with_omniauth(auth, signed_in_resource=nil)
     user = User.where(:provider => auth.provider, :uid => auth.uid.to_s).first
@@ -107,6 +107,8 @@ class User < ActiveRecord::Base
 
   private
   def default_stat
-    self.user_status="Available"
+     if self.user_status==nil
+     self.user_status="Available"
+    end
   end
 end
