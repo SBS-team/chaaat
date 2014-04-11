@@ -73,6 +73,16 @@ if (gon.room_id){
 var channel3 = pusher.subscribe('private-'+gon.user_id);
 channel3.bind('notification-room', function(data) {
     if (data.room_id!=gon.room_id){
+        var newTxt="New message";
+        var oldTxt=document.title;
+        function migalka(){
+            if(document.title==oldTxt){
+                document.title=newTxt;
+            }else{
+                document.title=oldTxt;
+            }
+        } 
+    timer = setInterval(migalka,800);
         $('li#room a[room_id="'+data.room_id+'"]').parent().css('background-color','#999');
     }
 });
@@ -133,3 +143,4 @@ channel.bind('del_user_from_room', function(data) {
 
 }
 
+window.onfocus=function(){clearTimeout(timer);$('title').text('Chat')};
