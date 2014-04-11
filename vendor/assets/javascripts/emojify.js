@@ -90,10 +90,11 @@
 
             /* Given a match in a node, replace the text with an image */
             function insertEmojicon(node, match, emojiName) {
-                var emojiImg = document.createElement('span');
-                emojiImg.setAttribute('class', 'emoji');
-                emojiImg.setAttribute('id', ":"+emojiName+":");
-                emojiImg.setAttribute('style',"background-image:url("+ defaultConfig.img_dir + '/' + emojiName + '.png)');
+                var emojiImg = document.createElement('div');
+                emojiImg.setAttribute('class','smile sprite-' + emojiName);
+                emojiImg.setAttribute('data-smile', ":"+emojiName+":");
+                emojiImg.setAttribute('id',":"+emojiName+ ":" );
+//                emojiImg.setAttribute('style',"");
                 node.splitText(match.index);
                 node.nextSibling.nodeValue = node.nextSibling.nodeValue.substr(match[0].length, node.nextSibling.nodeValue.length);
                 emojiImg.appendChild(node.splitText(match.index));
@@ -116,7 +117,7 @@
             }
 
             function defaultReplacer(emoji, name) {
-                return "<span class='emoji' style ='background-image:url('" + defaultConfig.img_dir + '/' + emojiName + '.png)'+">:"+name+":</span>";
+                return "<div class='smile sprite-'" + emojiName + "style ='background-image:url('" + defaultConfig.img_dir + '/' + emojiName + '.png)'+">:"+name+":</span>";
             }
 
             function Validator() {

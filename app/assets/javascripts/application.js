@@ -14,7 +14,8 @@
 //= require handlebars-v1.3.0
 //= require jquery_ujs
 //= require emojify
-
+//=require jquery.blockUI
+//=require jquery.textchange.min
 //= require jquery-1.10.2
 //= require jquery.bootstrap-growl
 //= require jquery.confirm.min

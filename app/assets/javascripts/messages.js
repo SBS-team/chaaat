@@ -31,7 +31,7 @@ $(document).ready(function(){
             }
         });
     };
-    $(document).on('click', '.emoji', function(e) {
+    $(document).on('click', '.smile', function(e) {
         message_textarea.val(message_textarea.val() + $(e.target).attr("id"));
         message_textarea.focus();
     });
