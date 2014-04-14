@@ -70,7 +70,7 @@ if (gon.room_id){
     pusher = new Pusher(gon.pusher_app, {authEndpoint:'/pusher/auth?room_id='+gon.room_id});
     channel = pusher.subscribe('private-'+gon.room_id);
 
-
+var channel3 = pusher.subscribe('private-'+gon.user_id);
 channel3.bind('notification-room', function(data) {
     if (data.room_id!=gon.room_id){
         if (null!=typeof timer) {clearTimeout(timer);}
@@ -144,4 +144,4 @@ channel.bind('del_user_from_room', function(data) {
 
 }
 
-//window.onfocus=function(){clearTimeout(timer);$('title').text('Chat')};
+window.onfocus=function(){clearTimeout(timer);$('title').text('Chat')};
