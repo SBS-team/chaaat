@@ -110,7 +110,7 @@
             %ul
             -@links.each do |link|
               %li
-                =link_to link.body
+                =link_to link.body, link.body
                 %br
                 %small.text-muted
                   = "#{link.user.login}"

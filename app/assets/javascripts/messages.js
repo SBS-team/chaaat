@@ -33,8 +33,8 @@ $(document).ready(function(){
         var channel = pusher.subscribe('private-'+gon.room_id);
         channel.bind('new_message',function(data){
             render_message(data);
-            for (var i = 0; i <=30; i++) {
-                $('#messages-wrapper *').first().remove();
+            for (var i = 0; $('#messages-wrapper li').size()>30; i++) {
+                $('#messages-wrapper li').first().remove();
             };            
         });
     };
@@ -402,13 +402,6 @@ $(document).ready(function(){
             },
             success: function(response){
                 $('.rooms_group').html(search_user(response))
-            }
-        });
-    });
-    $('body').on('click', function (e) {
-        $('[data-toggle="popover"]').each(function () {
-            if (!$(this).is(e.target) && $(this).has(e.target).length === 0 && $('.popover').has(e.target).length === 0) {
-                $(this).popover('hide');
             }
         });
     });
