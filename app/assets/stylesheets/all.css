@@ -542,3 +542,4 @@ div.server-upsell {
     cursor: pointer;
 }
 /* sign_up end */
+.tabbable .active{background-color: white;}

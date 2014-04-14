@@ -5,7 +5,7 @@ Pusher.wss_port = 8081
 Handlebars.registerHelper("get_icon_status",function (value){return get_user_status_style(value)});
 var template_add_user_right='<div class="member" id="{{user_id}}" data-room-id="{{room_id}}" data-toggle="tooltip" data-user-id="{{user_id}}" title="{{user_status}}"><span class ="{{#get_icon_status user_status}}{{/get_icon_status}}"></span><a href="#">{{user_login}}</a></div>';
 var add_user_right = Handlebars.compile(template_add_user_right);
-
+var timer;
 pusher_stat = new Pusher(gon.pusher_app);
 
 channel_status = pusher_stat.subscribe('presence-status');
@@ -73,6 +73,7 @@ if (gon.room_id){
 var channel3 = pusher.subscribe('private-'+gon.user_id);
 channel3.bind('notification-room', function(data) {
     if (data.room_id!=gon.room_id){
+        clearTimeout(timer);
         var newTxt="New message";
         var oldTxt=document.title;
         function migalka(){

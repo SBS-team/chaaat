@@ -33,9 +33,9 @@ $(document).ready(function(){
         var channel = pusher.subscribe('private-'+gon.room_id);
         channel.bind('new_message',function(data){
             render_message(data);
-            if ($('#messages-wrapper li').size()>30){
-                $('#messages-wrapper li').first().remove();
-            }
+            for (var i = 0; i <=30; i++) {
+                $('#messages-wrapper *').first().remove();
+            };            
         });
     };
     $(document).on('click', '.smile', function(e) {

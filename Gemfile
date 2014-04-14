@@ -29,6 +29,7 @@ gem 'activerecord-reset-pk-sequence'
 gem 'carrierwave'
 gem 'activeadmin', github: 'gregbell/active_admin'
 gem 'audiojs', '~> 0.1.2'
+
 group :development do
   gem 'better_errors'
   gem 'binding_of_caller', :platforms=>[:mri_19, :mri_20, :rbx]
@@ -36,12 +37,10 @@ group :development do
   gem 'html2haml'
   gem 'quiet_assets'
   gem 'rails_layout'
-
   gem 'capistrano'
   gem 'capistrano-bundler'
   gem 'capistrano-rvm'
   gem 'capistrano-rails'
-
   gem "disable_assets_logger"
 end
 
