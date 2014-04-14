@@ -35,7 +35,7 @@ $(document).ready(function(){
             render_message(data);
             for (var i = 0; $('#messages-wrapper li').size()>30; i++) {
                 $('#messages-wrapper li').first().remove();
-            };            
+            };
         });
     };
     $(document).on('click', '.smile', function(e) {
@@ -109,7 +109,6 @@ $(document).ready(function(){
             document.getElementById('message').value += "\r\n";
         }
     });
-
     $('.send_message_button').click(function(){
         send_message();
         if(input_file){
@@ -123,7 +122,7 @@ $(document).ready(function(){
             type: "POST",
             beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
             url: "../message/search/",
-            data: { query:  $("#search").val(),room_id: gon.room_id }
+            data: { query: $("#search").val(),room_id: gon.room_id }
         })
             .done(function(msg) {
                 $('#messages-wrapper').html(template(msg));
@@ -221,7 +220,8 @@ $(document).ready(function(){
             } else if (word.match(/http.*(jpg|gif|jpeg)/)) {
                 src = word.match(/http.*(jpg|gif|jpeg)/);
                 results.push(word.replace(/http.*(jpg|gif|jpeg)/, "<br><img src=" + src[0] + " height=\"500px\" width=\"300px\"/a>"));
-            }else if (word.match(/http:\/\/(coub\.com\/view\/.*|coub\.com\/embed\/.*)/i)) {
+            }else if
+                (word.match(/http:\/\/(coub\.com\/view\/.*|coub\.com\/embed\/.*)/i)) {
                 word=word.replace("view","embed");
                 src = "\""+word+"?muted=false&autostart=false&originalSize=false&hideTopBar=false&noSiteButtons=false&startWithHD=false"+"\"";
                 results.push("<br><iframe src=" +src + "\" frameborder=\"0\" allowfullscreen=\"true\" height=\"315px\" width=\"560px\"></iframe><br>");
@@ -269,13 +269,13 @@ $(document).ready(function(){
             }
         ]).on({
 
-        'textComplete:show': function () {
-            set_top=setInterval(function(){$('ul.dropdown-menu:last').css('top',-$('ul.dropdown-menu:last').height())},100);
-        },
-        'textComplete:hide': function () {
-            if(set_top) clearInterval(set_top);
-        }
-    });
+            'textComplete:show': function () {
+                set_top=setInterval(function(){$('ul.dropdown-menu:last').css('top',-$('ul.dropdown-menu:last').height())},100);
+            },
+            'textComplete:hide': function () {
+                if(set_top) clearInterval(set_top);
+            }
+        });
 
     function replaceTag(tag) {
         return tagsToReplace[tag] || tag;
@@ -369,41 +369,14 @@ $(document).ready(function(){
         });
     });
 
-    var template_search_user_right='{{#users}}<div class=\"member\"><a data-method="post" href="/persons/{{login}}" rel="nofollow"><span class="{{#get_icon_status user_status}}{{/get_icon_status}}"></span>{{login}}</a><span class="glyphicon glyphicon-plus pull-right user_friend" data-user-id="{{id}}"></span></div>{{/users}}';
-    var search_user_right = Handlebars.compile(template_search_user_right);
-    $('#search-user').keyup(function(){
-        if ($(this).val().match(/^[-a-z0-9!#$%&'*+/=?^_`{|}~]+(\.[-a-z0-9!#$%&'*+/=?^_`{|}~]+)*@([a-z0-9]([-a-z0-9]{0,61}[a-z0-9])?\.)*(aero|arpa|asia|biz|cat|com|coop|edu|gov|info|int|jobs|mil|mobi|museum|name|net|org|pro|tel|travel|[a-z][a-z])$/)){
-            $('.right_search').html("<li style='text-align:center'><button class='btn send_invite'>Send invite</button></li>")
-        }
-        else{
-            $.ajax({
-                url: '/users/search',
-                type: 'POST',
-                beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
-                data:{
-                    login: $("#search-user").val()
-                },
-                success: function(response){
-                    $('.right_search').html(search_user_right(response))
-                }
-            });
-        }
-    });
-
-    var template_search_user='{{#users}}<tr friend_id="{{id}}"><td><div class="friend_photo"><img class="avatar" src="{{avatar}}"></div><div class="friend_name"></div><a href="/persons/{{login}}">{{login}}</a></td><td class="friend_action add_friend"><span class="glyphicon glyphicon-plus add_new_friend"></span></td></tr>{{/users}}';
-    var search_user = Handlebars.compile(template_search_user);
-    $("#search-box").keyup(function(){
-        $.ajax({
-            url: '/users/search',
-            type: 'POST',
-            beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
-            data:{
-                login: $("#search-box").val()
-            },
-            success: function(response){
-                $('.rooms_group').html(search_user(response))
+    var template_search_user_right='{{#users}}<div class=\"member\"><a data-method="post" href="/persons/{{login}}" rel="nofollow"><span class="{{#get_icon_status
+    $('body').on('click', function (e) {
+        $('[data-toggle="popover"]').each(function () {
+            if (!$(this).is(e.target) && $(this).has(e.target).length === 0 && $('.popover').has(e.target).length === 0) {
+                $(this).popover('hide');
             }
         });
+
     });
 $('body').on('click', function (e) {
 $('[data-toggle="popover"]').each(function () {
