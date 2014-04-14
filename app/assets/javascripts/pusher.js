@@ -35,7 +35,7 @@ channel_status.bind('pusher:member_removed', function(member) {
 });
 
 channel_status.bind('pusher:member_added', function(member) {
-    if(timerId!= null){
+    if (null!=typeof timerid){
     clearTimeout(timerId);
     }
     $.ajax({
@@ -70,10 +70,10 @@ if (gon.room_id){
     pusher = new Pusher(gon.pusher_app, {authEndpoint:'/pusher/auth?room_id='+gon.room_id});
     channel = pusher.subscribe('private-'+gon.room_id);
 
-var channel3 = pusher.subscribe('private-'+gon.user_id);
+
 channel3.bind('notification-room', function(data) {
     if (data.room_id!=gon.room_id){
-        clearTimeout(timer);
+        if (null!=typeof timer) {clearTimeout(timer);}
         var newTxt="New message";
         var oldTxt=document.title;
         function migalka(){
@@ -82,8 +82,8 @@ channel3.bind('notification-room', function(data) {
             }else{
                 document.title=oldTxt;
             }
-        } 
-    timer = setInterval(migalka,800);
+        }
+        timer = setInterval(migalka,800);
         $('li#room a[room_id="'+data.room_id+'"]').parent().css('background-color','#999');
     }
 });
@@ -144,4 +144,4 @@ channel.bind('del_user_from_room', function(data) {
 
 }
 
-window.onfocus=function(){clearTimeout(timer);$('title').text('Chat')};
+//window.onfocus=function(){clearTimeout(timer);$('title').text('Chat')};

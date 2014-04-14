@@ -124,12 +124,6 @@ body {background-color: #f0f0f0;line-height: normal;}
     overflow-y: auto;
 }
 
-.list{
-    height: 100%;
-    position: relative;
-    padding-top: 0px;
-    overflow: auto;
-}
 .member {
     cursor: pointer;
     padding: 5px 5px 5px 18px;
@@ -589,15 +583,12 @@ span.glyphicon.glyphicon-remove:hover{
     z-index: 500;
 }
 .friend-list{
-    overflow-y: auto;
-    overflow-x: hidden;
-    position: fixed;
-    bottom: 0;
+    float:left;
+    clear:left;
 }
 .panel-default > .panel-heading {
     height: 45px;
     background-color: #697686;
-    margin-bottom: 10px;
 }
 .panel-default > .panel-heading p{
     color:white;
@@ -609,15 +600,27 @@ span.glyphicon.glyphicon-remove:hover{
     cursor: pointer;
 }
 .panel-body.right_search{
-    /*height: 100%;*/
-    /*overflow: auto;*/
+    /*height: 100px;*/
+    overflow-y: auto;
+    position: relative;
 }
 .panel-heading h4.collapsed:after {
-
     content: "\e114";
 }
 .panel-heading h4:after {
     font-family: 'Glyphicons Halflings';
     content: "\e113";
     float: right;
+}
+#panel1.panel.panel-default{
+    position: fixed;
+    height: auto;
+    bottom: -20px;
+
+}
+.list{
+    height: 100%;
+    position: relative;
+    padding-top: 0px;
+    overflow: auto;
 }

@@ -108,7 +108,7 @@ class User < ActiveRecord::Base
   private
   def default_stat
      if self.user_status==nil
-     self.user_status="Available"
+     self.user_status="Offline"
     end
   end
 end
