@@ -344,36 +344,38 @@ $(document).ready(function(){
             }
         });
     });
-
-    $('ul').on('click','.send_invite', function(){
-        $.ajax({
-            url: '/users/invite_user',
-            type: 'POST',
-            beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
-            data:{
-                email: $("#search-user").val()
-            },
-            success: function(response){
-                $.bootstrapGrowl("You have send invite to: "+response, {
-                    type: 'success',
-                    offset: {from: 'top', amount: 50},
-                    align: 'center',
-                    width: 250,
-                    delay: 10000,
-                    allow_dismiss: true,
-                    stackup_spacing: 10
-                });
-                $('#search-user').val('');
-                $('.right_search_user').html("")
-            }
+     function send_invite (){
+        $('li .send_invite').on('click', function(){
+            $.ajax({
+                url: '/users/invite_user',
+                type: 'POST',
+                beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
+                data:{
+                    email: $("#search-user").val()
+                },
+                success: function(response){
+                    $.bootstrapGrowl("You have send invite to: "+response, {
+                        type: 'success',
+                        offset: {from: 'top', amount: 50},
+                        align: 'center',
+                        width: 250,
+                        delay: 10000,
+                        allow_dismiss: true,
+                        stackup_spacing: 10
+                    });
+                    $('#search-user').val('');
+                    $('.right_search_user').html("")
+                }
+            });
         });
-    });
+     }
 
     var template_search_user_right='{{#users}}<div class=\"member\"><a data-method="post" href="/persons/{{login}}" rel="nofollow"><span class="{{#get_icon_status user_status}}{{/get_icon_status}}"></span>{{login}}</a><span class="glyphicon glyphicon-plus pull-right user_friend" data-user-id="{{id}}"></span></div>{{/users}}';
     var search_user_right = Handlebars.compile(template_search_user_right);
     $('#search-user').keyup(function(){
         if ($(this).val().match(/^[-a-z0-9!#$%&'*+/=?^_`{|}~]+(\.[-a-z0-9!#$%&'*+/=?^_`{|}~]+)*@([a-z0-9]([-a-z0-9]{0,61}[a-z0-9])?\.)*(aero|arpa|asia|biz|cat|com|coop|edu|gov|info|int|jobs|mil|mobi|museum|name|net|org|pro|tel|travel|[a-z][a-z])$/)){
             $('.right_search').html("<li style='text-align:center'><button class='btn send_invite'>Send invite</button></li>")
+            send_invite();
         }
         else{
             $.ajax({
