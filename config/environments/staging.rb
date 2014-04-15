@@ -82,7 +82,7 @@ Chat::Application.configure do
       user_name: ENV["GMAIL_USERNAME"],
       password: ENV["GMAIL_PASSWORD"]
   }
-  Whatever::Application.config.middleware.use ExceptionNotification::Rack,
+  Chat::Application.config.middleware.use ExceptionNotification::Rack,
       :email => {
           :email_prefix => "[chaaat] ",
           :sender_address => %{"notifier" <chaaat.chaaat@gmail.com>},
