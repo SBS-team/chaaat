@@ -29,7 +29,7 @@ gem 'activerecord-reset-pk-sequence'
 gem 'carrierwave'
 gem 'activeadmin', github: 'gregbell/active_admin'
 gem 'audiojs', '~> 0.1.2'
-
+gem 'exception_notification'
 group :development do
   gem 'better_errors'
   gem 'binding_of_caller', :platforms=>[:mri_19, :mri_20, :rbx]

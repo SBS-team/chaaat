@@ -10,16 +10,16 @@ class UsersController < ApplicationController
   def index
     friend_ids = current_user.friends.map {|item| item.id}
     if friend_ids.count == 0 && params[:search].nil?
-      @possible_friends = User.where('id != ?', current_user.id).order(:lastname => :asc)
+      @possible_friends = User.where('id != ? AND login IS NOT NULL', current_user.id).order(:lastname => :asc)
     elsif friend_ids.count == 0 && !params[:search].nil?
-      @possible_friends = User.where('id != ? AND firstname LIKE ?', current_user.id, "#{params[:search]}%").order(:lastname => :asc)
+      @possible_friends = User.where('id != ? AND login IS NOT NULL AND firstname LIKE ?', current_user.id, "#{params[:search]}%").order(:lastname => :asc)
     else
-      @possible_friends = User.where('id != ? AND id NOT IN (?) AND firstname LIKE ?', current_user.id, friend_ids, "#{params[:search]}%").order(:lastname => :asc)
+      @possible_friends = User.where('id != ? AND login IS NOT NULL AND id NOT IN (?) AND firstname LIKE ?', current_user.id, friend_ids, "#{params[:search]}%").order(:lastname => :asc)
     end
   end
 
   def show
-    @user = User.where(:login=>params[:id]).first
+    @user = User.where(:login=>request.path.split('/')[2]).first
   end
 
   def invite_user

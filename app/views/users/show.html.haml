@@ -8,10 +8,6 @@
     %span#user_email
       Write me on:
       = "#{@user.email}"
-  %span#last_activity
-    - if (@user.user_status == "Offline")
-      = "Last seen at: "
-      = "#{time_ago_in_words(@user.sign_out_at)} ago"
   %br
   %br
   %span#find_more_friends
