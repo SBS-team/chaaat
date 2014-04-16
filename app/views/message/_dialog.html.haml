@@ -1,7 +1,9 @@
 .content
   .alert.alert-success.top-alert
     -#%input.form-control#search{:placeholder=>"Search..."}
-    %h3.room_topic #{@room.topic}
+    %h3.room_topic 
+      -if (@room) 
+        ="#{@room.topic}"
     .dropdown
       %span#drop1.change_topic.glyphicon.glyphicon-pencil{"data-toggle"=>"dropdown"}
       %form.dropdown-menu.search-form.change-topic{:action => "", "aria-labelledby" => "drop3", :method => "post", :role => "menu"}
@@ -44,33 +46,33 @@
                 -if message.attach_path?
                   %br
                   %p.attach_file= message.attach_path
-  .input
-    = form_for @message, :authenticity_token => true, :url => new_message_path,:id=>"form-message", :name => "messageForm", :html => {:multipart => true}, :method=>"post" do |f|
-      %table{:cellspacing => "0", :width => "100%"}
-        %tbody
-          %tr
-            %td
-              .textwrapper
-                = f.text_area :body , :class => "form-control", :id=>"message", :autocomplete => "off"
-            %td.up-pl-wrap{:width => "10%"}
-              %span.glyphicon.glyphicon-ok.ok#lineh
-              %label.upload-place
-                = f.file_field :attach_path ,:id=>"attach_path"
-            %td{:width => "1%"}
-              = f.hidden_field :room_id, :value=>@room_id
-              %label.upload-but{:for => "attach_path"}
-                %span.glyphicon.glyphicon-paperclip#lineh
-            %td{:width => "1%"}
-              %div.form-but.upload-but
-                -smile=render "layouts/index"
-                %span.glyphicon.glyphicon-thumbs-up#lineh#pop{"data-container" => "body",
-                                                        "data-content" => smile,
-                                                        "data-placement" => "top",
-                                                        "data-toggle" => "popover", type: "button"}
-            %td{:width => "1%"}
-              %div.form-but.upload-but.send_message_button
-                %span.glyphicon.glyphicon-send
-
+  -if @message
+    .input
+      = form_for @message, :authenticity_token => true, :url => new_message_path,:id=>"form-message", :name => "messageForm", :html => {:multipart => true}, :method=>"post" do |f|
+        %table{:cellspacing => "0", :width => "100%"}
+          %tbody
+            %tr
+              %td
+                .textwrapper
+                  = f.text_area :body , :class => "form-control", :id=>"message", :autocomplete => "off"
+              %td.up-pl-wrap{:width => "10%"}
+                %span.glyphicon.glyphicon-ok.ok#lineh
+                %label.upload-place
+                  = f.file_field :attach_path ,:id=>"attach_path"
+              %td{:width => "1%"}
+                = f.hidden_field :room_id, :value=>@room_id
+                %label.upload-but{:for => "attach_path"}
+                  %span.glyphicon.glyphicon-paperclip#lineh
+              %td{:width => "1%"}
+                %div.form-but.upload-but
+                  -smile=render "layouts/index"
+                  %span.glyphicon.glyphicon-thumbs-up#lineh#pop{"data-container" => "body",
+                                                          "data-content" => smile,
+                                                          "data-placement" => "top",
+                                                          "data-toggle" => "popover", type: "button"}
+              %td{:width => "1%"}
+                %div.form-but.upload-but.send_message_button
+                  %span.glyphicon.glyphicon-send
 %audio#new-message
   %source{:src=>"../sounds/button_tiny.ogg", :type=>"audio/ogg"}
   %source{:src=>"../sounds/button_tiny.mp3", :type=>"audio/mp3"}
