@@ -61,7 +61,7 @@
           %span.glyphicon.glyphicon-search
         %form.dropdown-menu.search-form{"aria-labelledby" => "drop3", :method => "get", :role => "menu"}
           %input#search{:placeholder=>"Search", :type => "search"}
-  - if @room_users != nil
+  - if @room_users != nil && @cur_user_present_in_room == true
     .tabbable
       %ul.nav.nav-tabs
         %li.active
@@ -77,6 +77,8 @@
               .member{:data=>{:toggle=>"tooltip",:user_id => user.id, :room_id => @room.id}, :title=>"#{user.user_status=="Offline" ? "Offline "+time_ago_in_words(user.updated_at) : user.user_status}"}
                 %span{:class=>get_user_status_style(user.user_status)}
                 = link_to "#{user.login}", "#"
+                - if user.id != current_user.id && @room.user_id == current_user.id
+                  %span{:class => "glyphicon glyphicon-minus drop_room_user"}
           .friend-list.right_search_user
             #panel1.panel.panel-default
               .panel-heading
