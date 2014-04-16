@@ -64,10 +64,11 @@ $(document).ready(function(){
         title: "Confirmation required",
         confirm: function() {
             $.ajax({
-                url: '../rooms/del/',
+                url: '../rooms/' +$(element_delete_room).data("id") ,
                 type: 'POST',
                 beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
-                data: { id: $(element_delete_room).data("id") },
+                data: { _method: "DELETE",
+                    id: $(element_delete_room).data("id") },
                 success: function(response){
                     $(element_delete_room).parents('table.rooms_group').hide();
                     $("a[room_id='"+$(element_delete_room).data("id")+"']").parents('li#room').hide();
