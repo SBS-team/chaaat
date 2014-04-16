@@ -222,9 +222,7 @@ $(document).ready(function(){
                 src = word.match(/http.*(jpg|gif|jpeg)/);
                 results.push(word.replace(/http.*(jpg|gif|jpeg)/, "<br><img src=" + src[0] + " height=\"500px\" width=\"300px\"/a>"));
             }else if (word.match(/http:\/\/(coub\.com\/view\/.*|coub\.com\/embed\/.*)/i)) {
-                console.log(word);
                 word=word.replace("view","embed");
-                console.log(word);
                 src = "\""+word.slice(0,27)+"?muted=false&autostart=false&originalSize=false&hideTopBar=false&noSiteButtons=false&startWithHD=false"+"\"";
                 results.push("<br><iframe src=" +src + "\" frameborder=\"0\" allowfullscreen=\"true\" height=\"315px\" width=\"560px\"></iframe><br>");
             } else if (word.match(/http.*/)) {
