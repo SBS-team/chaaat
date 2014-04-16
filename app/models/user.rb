@@ -44,12 +44,12 @@
 #
 
 class User < ActiveRecord::Base
-  has_many :message
-  has_many :room
-  has_many :friendships
+  has_many :message, dependent: :destroy
+  has_many :room, dependent: :destroy
+  has_many :friendships, dependent: :destroy
   has_many :inverse_friendships, :class_name => "Friendship", :foreign_key => "friend_id"
   has_many :inverse_friends, :through => :inverse_friendships, :source => :user
-  has_many :rooms_users
+  has_many :rooms_users, dependent: :destroy
   has_many :friends, :through => :friendships
   validates :email, :encrypted_password, :presence => true
   validates_uniqueness_of :login, :message => "has already been taken"

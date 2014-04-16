@@ -23,7 +23,7 @@ class UsersController < ApplicationController
   end
 
   def invite_user
-    user = User.invite!(:email => params[:email])
+    user = User.invite!(:email => params[:email],:login=>params[:email].match(/(^.*)@/)[1])
     render :text=>user.email
   end
 
