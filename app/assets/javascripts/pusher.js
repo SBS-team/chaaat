@@ -5,7 +5,7 @@ Pusher.wss_port = 8081
 Handlebars.registerHelper("get_icon_status",function (value){return get_user_status_style(value)});
 var template_add_user_right='<div class="member" id="{{user_id}}" data-room-id="{{room_id}}" data-toggle="tooltip" data-user-id="{{user_id}}" title="{{user_status}}"><span class ="{{#get_icon_status user_status}}{{/get_icon_status}}"></span><a href="#">{{user_login}}</a></div>';
 var add_user_right = Handlebars.compile(template_add_user_right);
-var timer;
+var timer,timerId;
 pusher_stat = new Pusher(gon.pusher_app);
 
 channel_status = pusher_stat.subscribe('presence-status');
@@ -35,7 +35,7 @@ channel_status.bind('pusher:member_removed', function(member) {
 });
 
 channel_status.bind('pusher:member_added', function(member) {
-    if (null!=typeof timerid){
+    if (null!=typeof timerId){
     clearTimeout(timerId);
     }
     $.ajax({
