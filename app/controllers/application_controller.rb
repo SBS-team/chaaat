@@ -18,15 +18,13 @@ class ApplicationController < ActionController::Base
   def after_sign_out_path_for(resource)
     if current_admin_user.is_a? AdminUser
       super
-    else
-      User.update(current_user.id, :sign_out_at => Time.now)
-      if resource.is_a? User
+    elsif resource.is_a? User
+        User.update(:id=>current_user.id, :sign_out_at => Time.now)
         root_path
       else
         super
       end
     end
-  end
 
   def background_image
     backgrounds = Background.all.shuffle
@@ -53,7 +51,7 @@ class ApplicationController < ActionController::Base
       u.permit(:login, :firstname, :lastname, :email, :password, :password_confirmation, :current_password)
     }
     devise_parameter_sanitizer.for(:accept_invitation) { |u|
-      u.permit(:login, :password, :password_confirmation,:invitation_token)
+      u.permit(:login, :firstname,:lastname, :password, :password_confirmation,:invitation_token)
     }
   end
 
