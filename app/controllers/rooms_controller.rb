@@ -54,7 +54,7 @@ class RoomsController < ApplicationController
     render :text=>params[:query]
   end
 
-  def delete_room
+  def destroy
     room=Room.where("user_id = ? AND id = ?",current_user.id,params[:id]).first
     room.destroy
     Pusher['status'].trigger('delete_room', :room_id=>params[:id])
