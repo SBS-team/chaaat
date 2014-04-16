@@ -34,8 +34,8 @@ class RoomsController < ApplicationController
     if Room.includes(:rooms_users).where('rooms_users.user_id'=>current_user.id,'rooms.id'=>params[:id].to_i).exists?
       gon.room_id = params[:id]
       @messages = Message.where(:room_id=>params[:id]).preload(:user).order(created_at: :asc).last(10)
-      @links =Message.where("room_id= ? AND body LIKE ? OR body LIKE ?",params[:id],"http://%","https://%").preload(:user).order(created_at: :asc)
-      @attah = Message.where("room_id= ? AND attach_path IS NOT NULL",params[:id]).preload(:user).order(created_at: :asc)
+      @links =Message.where("room_id = ? AND (body LIKE ? OR body LIKE ?)",params[:id],"http://%","https://%").preload(:user).order(created_at: :asc)
+      @attah =Message.where("room_id = ? AND attach_path IS NOT NULL",params[:id]).preload(:user).order(created_at: :asc)
     else
       gon.room_id = 0
     end
