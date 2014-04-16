@@ -11,15 +11,15 @@ class RoomsController < ApplicationController
   end
 
   def create
-    @room = Room.create(room_params.merge(:user_id=>current_user.id)) #FIXME refactoring (create)
-    RoomsUser.create(:user_id => current_user.id, :room_id => @room.id) #FIXME refactoring (create)
+    @room = Room.create(room_params.merge(:user_id=>current_user.id))
+    RoomsUser.create(:user_id => current_user.id, :room_id => @room.id)
     if params[:express]
       Pusher["private-#{params[:user_id]}"].trigger_async('user_add_to_room', {:rooms_id=>@room.id,:rooms_name=>@room.name})
       RoomsUser.create(:user_id => params[:user_id], :room_id => @room.id)
       render :json=>@room.id,:root=>false
     else
-      @rooms_preload=RoomsUser.preload(:user)#FIXME refactoring
-      @room_list=Room.includes(:rooms_users).where('rooms_users.user_id'=>current_user.id).preload(:user).order(id: :asc)
+      @rooms_preload = RoomsUser.preload(:user)
+      @room_list = Room.includes(:rooms_users).where('rooms_users.user_id' => current_user.id).preload(:user).order(id: :asc)
       respond_to do |format|
         format.html { redirect_to rooms_path}
         format.js {}
@@ -28,8 +28,8 @@ class RoomsController < ApplicationController
     end
   end
 
-  def show #FIXME refactoring (tut vse ploho)
-    @room=Room.find(params[:id])
+  def show
+    @room = Room.find(params[:id])
     @message = Message.new
     if Room.includes(:rooms_users).where('rooms_users.user_id'=>current_user.id,'rooms.id'=>params[:id].to_i).exists?
       gon.room_id = params[:id]
@@ -39,10 +39,13 @@ class RoomsController < ApplicationController
     else
       gon.room_id = 0
     end
-    @room_users =User.includes(:rooms_users).where('rooms_users.room_id'=>params[:id])
+    @room_list = Room.where("id in (?)",RoomsUser.where(:user_id=>current_user.id).pluck(:room_id)).order(id: :asc)
+    room_user_ids = RoomsUser.where(:room_id => @room.id).map{|item| item.user_id}
+    @room_users = User.includes(:rooms_users).where('rooms_users.room_id'=>params[:id])
     gon.rooms_users = @room_users.pluck(:login)
     gon.user_login = current_user.login
     gon.user_id = current_user.id
+    @cur_user_present_in_room = room_user_ids.to_a.include? current_user.id
   end
 
   def update
@@ -72,7 +75,7 @@ class RoomsController < ApplicationController
   private
 
   def init_gon
-    gon.pusher_app=ENV['PUSHER_APP']
+    gon.pusher_app = ENV['PUSHER_APP']
     gon.user_login = current_user.login
     gon.user_id = current_user.id
   end

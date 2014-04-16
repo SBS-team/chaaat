@@ -55,6 +55,34 @@ $(document).ready(function(){
         });
     });
 
+    $('.list').on('click','.drop_room_user',function(event){
+        drop_user_span = event.currentTarget;
+        joined_member = $(drop_user_span).parent();
+    });
+
+    $('.drop_room_user').confirm({
+        text: "Are you sure you want to delete user?",
+        title: "User deleting confirmation",
+        confirm: function() {
+            $.ajax({
+                url: '/rooms_users/' + joined_member.data('user-id')+'/' + joined_member.data('room-id'),
+                type: 'POST',
+                beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
+                data: {
+                    _method: 'DELETE',
+                    room_id: joined_member.data('room-id'),
+                    user_id: joined_member.data('user-id')
+                },
+                success: function(response){
+                    joined_member.remove();
+                }
+            });
+        },
+        confirmButton: "Yes I am",
+        cancelButton: "No",
+        post: false
+    });
+
     $('.content').on('click','.delete_room',function(event){
         element_delete_room = event.currentTarget;
     });
