@@ -51,7 +51,7 @@ class FileSizeValidator < ActiveModel::EachValidator
       errors_options[:file_size] = help.number_to_human_size check_value
 
       default_message = options[MESSAGES[key]]
-      errors_options[:message] ||= default_message if default_message
+      errors_options[:messages] ||= default_message if default_message
 
       record.errors.add(attribute, MESSAGES[key], errors_options)
     end
