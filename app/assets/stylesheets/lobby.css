@@ -37,13 +37,9 @@ body {background-color: #f0f0f0;line-height: normal;}
     z-index: 10;
 }
 .title{
-    padding-top: 35px;/*js*/
+    padding-top: 20px;/*js*/
 }
-.left h1{
-    margin-left: 20px;
-    margin-top: -140px;
 
-}
 .row{
     position: relative;
     height: 100%;
@@ -150,9 +146,7 @@ body {background-color: #f0f0f0;line-height: normal;}
     position:relative;
     top:1px;
 }
-.lobby-panel{
-    height: 100%;
-}
+
 .lobby-btn{
     border-color: #333;
     background: #313949;
@@ -163,16 +157,7 @@ body {background-color: #f0f0f0;line-height: normal;}
     background: #a0aabf;
     color: #333;
 }
-#status_ui {
-    background: #525f78;
-    box-shadow: inset 0 1px 0 #555, inset 0 2px 3px #333, 0 -1px 0 #777, 0 -1px 5px #222;
-    bottom: 0;
-    cursor: pointer;
-    height: 35px;
-    max-height: 15%;
-    position: absolute;
-    width: 201px;
-}
+
 #status_ui span.glyphicon-user{
     display: block;
     width: 25px;
@@ -308,11 +293,23 @@ h2.public{
     text-shadow: 0 -1px #FFFFFF;
     padding-left: 15px;
 }
+
 .rooms_group {
     background-color: #FFFFFF;
     border: 1px solid #E2E2E2;
     width: 100%;
 }
+
+.tableContainer{
+    bottom: 0;
+    clear: both;
+    left: 220px;
+    overflow: auto;
+    position: absolute;
+    right: 205px;
+    top: 180px;
+}
+
 .rooms_group tr{
     border-bottom: 1px solid rgba(119,119,119,.3);
     overflow: hidden;
@@ -623,4 +620,55 @@ span.glyphicon.glyphicon-remove:hover{
     position: relative;
     padding-top: 0px;
     overflow: auto;
+}
+#pane3,#pane2{
+    /*height: 100%;*/
+    /*overflow-y: auto;*/
+    /*position: absolute;*/
+    /*bottom: 0px;*/
+}
+.list2{
+    height: 100%;
+    position: fixed;
+    padding: 0 5px;
+    overflow: auto;
+}
+
+.left h1{
+    margin-left: 20px;
+    margin-top: -140px;
+
+    position:absolute;
+
+}
+.lobby_friends li{
+   height: 20px;
+    cursor: pointer;
+}
+
+.lobby_friends a{
+    position:relative;
+    top:10px; /*height of top div*/
+    bottom:100px; /*height of bottom div*/
+    width:100%;
+    color: #FFFFFF;
+}
+.lobby_friends span{
+    padding: 0 15px;
+}
+
+.lobby-panel{
+    position:absolute;
+    top:190px; /*height of top div*/
+    bottom:35px; /*height of bottom div*/
+    width:100%;
+}
+#status_ui {
+    background: #525f78;
+    box-shadow: inset 0 1px 0 #555, inset 0 2px 3px #333, 0 -1px 0 #777, 0 -1px 5px #222;
+    bottom: 0;
+    cursor: pointer;
+    height: 35px;
+    position: absolute;
+    width: 199px;
 }

@@ -33,6 +33,7 @@ $(document).ready(function(){
         var channel = pusher.subscribe('private-'+gon.room_id);
         channel.bind('new_message',function(data){
             render_message(data);
+
             for (var i = 0; $('#messages-wrapper li').size()>30; i++) {
                 $('#messages-wrapper li').first().remove();
             };
@@ -96,10 +97,12 @@ $(document).ready(function(){
         return false;
     });
 
-    message_textarea.keyup(function(e)
+    message_textarea.keydown(function(e)
     {
         if (e.keyCode == 13 && e.ctrlKey == false) {
             send_message();
+            e.preventDefault();
+            return false;
             if(input_file){
                 $("attach_wrapper").remove();
                 $('label.upload-but').popover('hide');
@@ -140,7 +143,17 @@ $(document).ready(function(){
         }
     }
 
+    var i=0;
+    pagExist=false;
+    if ($('.pag').length > 0){
+        pagExist=true;
+    }
     function send_message(){
+        ++i;
+        if (i==31){
+            if (pagExist!=true)
+            $('.chat').prepend('<div class="pag"><div class="glyphicon glyphicon-chevron-up"></div></div>');
+        }
         if ($.trim(message_textarea.val()).length>0 || ($('input[type="file"]')[0].files[0])){
             var fd = new FormData();
             fd.append('message[body]', $.trim(message_textarea.val()));
@@ -225,7 +238,7 @@ $(document).ready(function(){
                 word=word.replace("view","embed");
                 src = "\""+word+"?muted=false&autostart=false&originalSize=false&hideTopBar=false&noSiteButtons=false&startWithHD=false"+"\"";
                 results.push("<br><iframe src=" +src + "\" frameborder=\"0\" allowfullscreen=\"true\" height=\"315px\" width=\"560px\"></iframe><br>");
-            } else if (word.match(/http.*/)) {
+            } else if (word.match(/(\b\w+:\/\/\w+((\.\w)*\w+)*\.\S{2,3}(\/\S*|\.\w*|\?\w*\=\S*)*)/)) {
                 results.push("<a href=" + word+ " target=\"_blank\">"+word+"</a>");
             }
             else {
@@ -324,7 +337,7 @@ $(document).ready(function(){
         });
     });
 
-    $(".pag").click(function(){
+    $(".chat").on('click',(function(){
         $.ajax({
             url: '../rooms/previous_messages',
             type: 'POST',
@@ -343,7 +356,7 @@ $(document).ready(function(){
                 }
             }
         });
-    });
+    }));
      function send_invite (){
         $('li .send_invite').on('click', function(){
             $.ajax({

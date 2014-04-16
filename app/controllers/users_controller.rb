@@ -19,7 +19,7 @@ class UsersController < ApplicationController
   end
 
   def show
-    @user = User.where(:login=>params[:id]).first
+    @user = User.where(:login=>request.path.split('/')[2]).first
   end
 
   def invite_user

@@ -8,10 +8,6 @@
     %span#user_email
       Write me on:
       = "#{@user.email}"
-  %span#last_activity
-    - if (@user.user_status == "Offline")
-      = "Last seen at: "
-      = "#{time_ago_in_words(@user.sign_out_at)} ago"
   %br
   %br
   %span#find_more_friends
@@ -19,19 +15,20 @@
   #friendship
     .title
       Friends
-      - @user.friendships.each do |friendship|
-        - if friendship.friend
-          %table.rooms_group
-            %tr{:friend_id => friendship.friend.id}
-              %td.name
-                .friend_photo
-                  = image_tag avatar_url(friendship.friend,50),:class => "friend_photo"
-                .friend_name
-                =link_to "#{friendship.friend.login}",user_path(friendship.friend.login)
-              - if (@user.id == current_user.id)
-                %td.friend_action.remove_friend{:friend_id => friendship.friend.id}
-                  %span{:class => "glyphicon glyphicon-minus remove_friend"}
-              -elsif friendship.friend.id != current_user.id
-                - if !is_friend? friendship.friend.id
-                  %td.friend_action.add_friend
-                    %span{:class => "glyphicon glyphicon-plus add_new_friend"}
+  - @user.friendships.each do |friendship|
+    - if friendship.friend
+      .tableContainer
+        %table.rooms_group
+          %tr{:friend_id => friendship.friend.id}
+            %td.name
+              .friend_photo
+                = image_tag avatar_url(friendship.friend,50),:class => "friend_photo"
+              .friend_name
+              =link_to "#{friendship.friend.login}",user_path(friendship.friend.login)
+            - if (@user.id == current_user.id)
+              %td.friend_action.remove_friend{:friend_id => friendship.friend.id}
+                %span{:class => "glyphicon glyphicon-minus remove_friend"}
+            - elsif friendship.friend.id != current_user.id
+              - if !is_friend? friendship.friend.id
+                %td.friend_action.add_friend
+                  %span{:class => "glyphicon glyphicon-plus add_new_friend"}
