@@ -9,9 +9,9 @@ Chat::Application.routes.draw do
   resources :users,:path => :persons, :only => [:index, :show]
 
   #FIXME resources do ?
-  resources :message, :only => [:show, :new]
+  resources :messages, :only => [:show, :create]
   #get "message/:id", to: "message#show"
-  #post "message/new", to: "message#new", as: "new_message"
+  #post "message", to: "message#create", as: "new_message"
   post "message/search", to: "message#search"
   get "message/search/:search", to: "message#search"
   get "users/search/:id", to: "users#search"

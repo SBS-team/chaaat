@@ -1,5 +1,5 @@
-class MessageSerializer < ActiveModel::Serializer
-  attributes :id, :message, :user_id, :login, :avatar, :create_at, :attach_file_path
+class MessagesSerializer < ActiveModel::Serializer
+  attributes :id, :messages, :user_id, :login, :avatar, :create_at, :attach_file_path
 
   def message
     object.body

@@ -70,7 +70,7 @@ describe User do
     it { should have_db_column(:uid).of_type(:string)}
   end
   context 'User relationship' do
-    it { should have_many(:message) }
+    it { should have_many(:messages) }
     it { should have_many(:rooms_users) }
   end
   it { should respond_to(:email) }

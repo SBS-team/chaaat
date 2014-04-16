@@ -4,7 +4,7 @@ $(document).ready(function(){
     Handlebars.registerHelper("safe_mess",function (messag){return $.trim(changetags(safe_tags_replace(messag)))});
     Handlebars.registerHelper("attach-files",function (attach_file_path){return check_file(attach_file_path) });
     Handlebars.registerHelper("change_login",function (user_id,login){return (user_id!= null) ? "<a href=\"/persons/"+ user_id +"\">"+ login + "</a>" : "chat notification";});
-    var template_message = '{{#message}}<li class="{{#equal user_id}}{{/equal}} clearfix" data-id="{{id}}"><span class="chat-img pull-left"><img class="avatar" src="{{avatar}}"></span><div class="chat-body clearfix"><div class="header"> <strong class="primary-font">{{#change_login user_id login}}{{/change_login}}</strong><small class="pull-right text-muted"><span class="glyphicon glyphicon-time"></span>{{create_at}}</small></div><p>{{#safe_mess message}}{{/safe_mess}}</p>{{#if attach_file_path}}<p class="attach-file">{{#attach-files attach_file_path}}{{/attach-files}}</p>{{/if}}</div></li>{{/message}}';
+    var template_message = '{{#messages}}<li class="{{#equal user_id}}{{/equal}} clearfix" data-id="{{id}}"><span class="chat-img pull-left"><img class="avatar" src="{{avatar}}"></span><div class="chat-body clearfix"><div class="header"> <strong class="primary-font">{{#change_login user_id login}}{{/change_login}}</strong><small class="pull-right text-muted"><span class="glyphicon glyphicon-time"></span>{{create_at}}</small></div><p>{{#safe_mess messages}}{{/safe_mess}}</p>{{#if attach_file_path}}<p class="attach-file">{{#attach-files attach_file_path}}{{/attach-files}}</p>{{/if}}</div></li>{{/messages}}';
     var template = Handlebars.compile(template_message);
 
     function smiles_render(){
@@ -144,13 +144,13 @@ $(document).ready(function(){
     function send_message(){
         if ($.trim(message_textarea.val()).length>0 || ($('input[type="file"]')[0].files[0])){
             var fd = new FormData();
-            fd.append('message[body]', $.trim(message_textarea.val()));
-            fd.append('message[room_id]', gon.room_id);
-            fd.append('message[attach_path]', $('input[type="file"]')[0].files[0]);
+            fd.append('messages[body]', $.trim(message_textarea.val()));
+            fd.append('messages[room_id]', gon.room_id);
+            fd.append('messages[attach_path]', $('input[type="file"]')[0].files[0]);
             $.ajax({
                 type: 'POST',
                 beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
-                url: '../message/new',
+                url: '/messages',
                 data: fd,
                 processData: false,
                 contentType: false,

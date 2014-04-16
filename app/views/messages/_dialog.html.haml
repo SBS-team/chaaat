@@ -47,7 +47,7 @@
                   %p.attach_file= message.attach_path
   -if @message
     .input
-      = form_for @message, :authenticity_token => true, :url => new_message_path,:id=>"form-message", :name => "messageForm", :html => {:multipart => true}, :method=>"post" do |f|
+      = form_for @message, :authenticity_token => true, :url => messages_path,:id=>"form-message", :name => "messageForm", :html => {:multipart => true}, :method=>"post" do |f|
         %table{:cellspacing => "0", :width => "100%"}
           %tbody
             %tr

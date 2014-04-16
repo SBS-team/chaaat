@@ -24,7 +24,7 @@
 //= require main.js
 //= require user.coffee
 //= require jquery.timeago.js
-//= require messages.js
+//= require messages
 //= require pusher.js
 //= require bootstrap
 //= require rooms.js

@@ -19,7 +19,7 @@
 
 require 'factory_girl'
 FactoryGirl.define do
-  factory :message do
+  factory :messages do
     user nil
     body "MyText"
     attach_path "MyText"

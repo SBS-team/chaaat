@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe MessageController do
+describe MessagesController do
   let(:user) { FactoryGirl.create(:user) }
   let(:room) { FactoryGirl.create(:room) }
 
