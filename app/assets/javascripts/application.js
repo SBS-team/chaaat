@@ -18,11 +18,11 @@
 //=require jquery.blockUI
 //= require jquery-1.10.2
 //= require jquery.bootstrap-growl
-//= require jquery.confirm.min
+//= require jquery.confirm.min.js
 //= require jquery.overlay
 //= require jquery.textcomplete.min
 //= require main.js
-//= require user.coffee
+//= require user
 //= require jquery.timeago.js
 //= require messages
 //= require pusher.js

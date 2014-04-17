@@ -15,10 +15,10 @@
   #friendship
     .title
       Friends
-  - @user.friendships.each do |friendship|
-    - if friendship.friend
-      .tableContainer
-        %table.rooms_group
+  .tableContainer
+    %table.rooms_group
+      - @user.friendships.each do |friendship|
+        - if friendship.friend
           %tr{:friend_id => friendship.friend.id}
             %td.name
               .friend_photo
