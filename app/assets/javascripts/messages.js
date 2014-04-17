@@ -332,16 +332,17 @@ $(document).ready(function(){
             beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
             data:{
                 room_id: gon.room_id,
-                message: $('.clearfix').first().data('id')
+                messages: $('.clearfix').first().data('id')
             },
             success: function(response){
-                if(response.message.length > 0){
-                    $('#messages-wrapper').prepend('<div class="glyphicon glyphicon-resize-vertical" style="margin:0 50% 0 50%;opacity:0.5;font-size:20px"></div>');
-                    $('#messages-wrapper').prepend(template(response));
-                    smiles_render();
-
-                    message_offset += 10;
-                }
+                console.log(response.messages);
+//                if(response.messages.length > 0){
+//                    $('#messages-wrapper').prepend('<div class="glyphicon glyphicon-resize-vertical" style="margin:0 50% 0 50%;opacity:0.5;font-size:20px"></div>');
+//                    $('#messages-wrapper').prepend(template(response));
+//                    smiles_render();
+//
+//                    message_offset += 10;
+//                }
             }
         });
     });

@@ -63,9 +63,10 @@ class RoomsController < ApplicationController
 
   def load_previous_10_msg
     if Room.includes(:rooms_users).where('rooms_users.user_id'=>current_user.id,'rooms.id'=>params[:room_id].to_i).exists?
-      previous_messages = Message.limit(10).where("room_id = ? AND id < ?", params[:room_id],params[:messages]).order(created_at: :desc).preload(:user);
+      previous_messages = Message.where("room_id = ? AND id < ?", params[:room_id],params[:messages]).order(created_at: :asc).preload(:user).last(10);
       previous_messages.sort!
-      render :json => previous_messages, :root=>"message"
+      previous_message=Message.all
+      render :json =>previous_message, :root=>"messages"
     end
   end
 
