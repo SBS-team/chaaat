@@ -6,7 +6,7 @@ Handlebars.registerHelper("get_icon_status",function (value){return get_user_sta
 Handlebars.registerHelper("set_user_to_drop",function (room_owner_id){
     var drop_room_user_span = "";
     if(room_owner_id == gon.user_id)
-        drop_room_user_span = "<span class=\"glyphicon glyphicon-minus drop_room_user\"></span>";
+        drop_room_user_span = "<span class=\"glyphicon glyphicon-minus pull-right drop_room_user\"></span>";
     return drop_room_user_span;
 });
 var template_add_user_right='<div class="member" id="{{user_id}}" data-room-id="{{room_id}}" data-toggle="tooltip" data-user-id="{{user_id}}" title="{{user_status}}"><span class ="{{#get_icon_status user_status}}{{/get_icon_status}}"></span><a href="#">{{user_login}}</a>{{#set_user_to_drop rooms_owner_id}}{{/set_user_to_drop}}</div>';
@@ -16,9 +16,10 @@ pusher_stat = new Pusher(gon.pusher_app);
 channel_status = pusher_stat.subscribe('presence-status');
 
 channel_status.bind('change_status', function(data) {
-    var tmp=$('div[data-user-id='+data.user_id+']');
+    var tmp = $('div[data-user-id='+data.user_id+']');
     tmp.attr('title',data.status);
-    tmp.find('span').attr('class', get_user_status_style(data.status))
+    $('div[friend_id='+ data.user_id+']').find("a > span").attr("class", get_user_status_style(data.status));
+    tmp.find(':first-child').attr('class', get_user_status_style(data.status));
     if(window.location.toString().match(/\/persons\//)){
         if(data.status == "Offline")
             $("#last_activity").html("Last seen at:"+ jQuery.timeago(data.user_sign_out_time));

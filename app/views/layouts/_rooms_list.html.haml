@@ -78,7 +78,7 @@
                 %span{:class=>get_user_status_style(user.user_status)}
                 = link_to "#{user.login}", "#"
                 - if user.id != current_user.id && @room.user_id == current_user.id
-                  %span{:class => "glyphicon glyphicon-minus drop_room_user"}
+                  %span{:class => "glyphicon glyphicon-minus pull-right drop_room_user"}
           .friend-list.right_search_user
             #panel1.panel.panel-default
               .panel-heading
@@ -89,7 +89,7 @@
                 %input#search-user.form-control{:placeholder=>"Search...",:width=>"70%"}
                 .panel-body.right_search
                   - current_user.friends.each do |friend|
-                    .member
+                    .member{:friend_id => friend.id}
                       = link_to user_path(friend.login) do
                         %span{:class=>get_user_status_style(friend.user_status)}>
                         = "#{friend.login}"
