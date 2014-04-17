@@ -366,7 +366,7 @@ $(document).ready(function(){
         });
     });
 
-    $(".chat").on('click',(function(){
+    $(".chat").on('click','.pag',(function(){
         $.ajax({
             url: '../rooms/previous_messages',
             type: 'POST',
