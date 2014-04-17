@@ -155,6 +155,12 @@ $(document).ready(function(){
             if (pagExist!=true)
             $('.chat').prepend('<div class="pag"><div class="glyphicon glyphicon-chevron-up"></div></div>');
         }
+        if ($('input[type="file"]')[0].files[0]){
+            $('.input').block({
+                message: '<img src="../img/busy.gif" /><p>File uploading, please wait</p>',
+                css: {}
+            });
+        }
         if ($.trim(message_textarea.val()).length>0 || ($('input[type="file"]')[0].files[0])){
             var fd = new FormData();
             fd.append('messages[body]', $.trim(message_textarea.val()));
@@ -169,6 +175,7 @@ $(document).ready(function(){
                 contentType: false,
                 success: function(data){
                     $("#new_message")[0].reset();
+                    $('.input').unblock();
                 },
                 error: function(data) {
                     console.log(data);
@@ -338,7 +345,7 @@ $(document).ready(function(){
         });
     });
 
-    $(".chat").on('click',(function(){
+    $(".chat").on('click','.pag',(function(){
         $.ajax({
             url: '../rooms/previous_messages',
             type: 'POST',
@@ -348,7 +355,6 @@ $(document).ready(function(){
                 messages: $('.clearfix').first().data('id')
             },
             success: function(response){
-                console.log(response.messages);
                 if(response.messages.length > 0){
                     $('#messages-wrapper').prepend('<div class="glyphicon glyphicon-resize-vertical" style="margin:0 50% 0 50%;opacity:0.5;font-size:20px"></div>');
                     $('#messages-wrapper').prepend(template(response));

@@ -1,7 +1,7 @@
 .content
   .alert.alert-success.top-alert
     %h3.room_topic 
-      -if (@room) 
+      -if (@room)
         ="#{@room.topic}"
     .dropdown
       %span#drop1.change_topic.glyphicon.glyphicon-pencil{"data-toggle"=>"dropdown"}

@@ -128,7 +128,6 @@
                 margin:		0,
                 width:		'30%',
                 top:		'40%',
-                left:		'35%',
                 textAlign:	'center',
                 color:		'#000',
                 cursor:		'wait'
@@ -137,8 +136,7 @@
             // minimal style set used when themes are used
             themedCSS: {
                 width:	'30%',
-                top:	'40%',
-                left:	'35%'
+                top:	'40%'
             },
 
             // styles for the overlay
@@ -156,7 +154,6 @@
             growlCSS: {
                 width:		'350px',
                 top:		'10px',
-                left:		'',
                 right:		'10px',
                 border:		'none',
                 padding:	'5px',
@@ -181,7 +178,7 @@
             baseZ: 1000,
 
             // set these to true to have the message automatically centered
-            centerX: true, // <-- only effects element blocking (page block controlled via css above)
+            centerX: false, // <-- only effects element blocking (page block controlled via css above)
             centerY: true,
 
             // allow body element to be stetched in ie6; this makes blocking look better
