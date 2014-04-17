@@ -28,7 +28,7 @@
     .dropdown
       %a#drop1.dropdown-toggle.avail{"data-toggle" => "dropdown", :href => "#", :role => "button", :type => "button"}
         %span{:class=>get_user_status_style(current_user.user_status)}>
-        =current_user.user_status
+        = current_user.user_status
         %span.glyphicon.glyphicon-hand-down
       %ul.dropdown-menu.avail-drop{"aria-labelledby" => "drop1", :role => "menu"}
         %li
@@ -64,7 +64,7 @@
           %span.glyphicon.glyphicon-search
         %form.dropdown-menu.search-form{"aria-labelledby" => "drop3", :method => "get", :role => "menu"}
           %input#search{:placeholder=>"Search", :type => "search"}
-  - if @room_users != nil
+  - if @room_users != nil && @cur_user_present_in_room == true
     .tabbable
       %ul.nav.nav-tabs
         %li.active
@@ -80,6 +80,8 @@
               .member{:data=>{:toggle=>"tooltip",:user_id => user.id, :room_id => @room.id}, :title=>"#{user.user_status=="Offline" ? "Offline "+time_ago_in_words(user.updated_at) : user.user_status}"}
                 %span{:class=>get_user_status_style(user.user_status)}
                 = link_to "#{user.login}", "#"
+                - if user.id != current_user.id && @room.user_id == current_user.id
+                  %span{:class => "glyphicon glyphicon-minus pull-right drop_room_user"}
           .friend-list.right_search_user
             #panel1.panel.panel-default
               .panel-heading
@@ -90,7 +92,7 @@
                 %input#search-user.form-control{:placeholder=>"Search...",:width=>"70%"}
                 .panel-body.right_search
                   - current_user.friends.each do |friend|
-                    .member
+                    .member{:friend_id => friend.id}
                       = link_to user_path(friend.login) do
                         %span{:class=>get_user_status_style(friend.user_status)}>
                         = "#{friend.login}"
