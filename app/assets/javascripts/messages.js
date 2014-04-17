@@ -123,7 +123,7 @@ $(document).ready(function(){
         $.ajax({
             type: "POST",
             beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
-            url: "../message/search/",
+            url: "../messages/search/",
             data: { query:  $("#search").val(),room_id: gon.room_id }
         })
             .done(function(msg) {
@@ -335,6 +335,7 @@ $(document).ready(function(){
                 messages: $('.clearfix').first().data('id')
             },
             success: function(response){
+                console.log(response.messages);
                 if(response.messages.length > 0){
                     $('#messages-wrapper').prepend('<div class="glyphicon glyphicon-resize-vertical" style="margin:0 50% 0 50%;opacity:0.5;font-size:20px"></div>');
                     $('#messages-wrapper').prepend(template(response));

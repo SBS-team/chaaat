@@ -31,6 +31,11 @@ class Message < ActiveRecord::Base
   validates  :room_id, :presence => true
   before_save :gsub_message, on: :create
 
+
+  #def as_json(*args)
+  #  super.tap { |hash| hash["messages"] = hash.delete "body" }
+  #end
+
   private
   def gsub_message
     self.body.gsub!(/[\n]/,"")

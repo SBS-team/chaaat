@@ -4,19 +4,19 @@ Chat::Application.routes.draw do
   devise_for :admin_users, ActiveAdmin::Devise.config
   ActiveAdmin.routes(self)
 
-  get "message/index", to: "message#index"
+
   resources :friendships, :only => [:create, :destroy]
   resources :users,:path => :persons, :only => [:index, :show]
 
   #FIXME resources do ?
-  resources :messages, :only => [:show, :create]
+  resources :messages, :only => [:show, :create,:index]
   #get "message/:id", to: "message#show"
   #post "message", to: "message#create", as: "new_message"
-  post "message/search", to: "message#search"
-  get "message/search/:search", to: "message#search"
+  post "messages/search", to: "messages#search"
+  get "messages/search/:search", to: "messages#search"
   get "users/search/:id", to: "users#search"
 
-  get "message/search/:search", to: "message#search"
+  get "messages/search/:search", to: "messages#search"
   resources :rooms, :only => [:new, :create, :show, :index, :destroy]
   resources :rooms_users, :only => [:create, :destroy]
   get "users/status/", :to=>"users#change_status"
