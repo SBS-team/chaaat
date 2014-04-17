@@ -376,7 +376,6 @@ $(document).ready(function(){
                 messages: $('.clearfix').first().data('id')
             },
             success: function(response){
-                console.log(response.messages);
                 if(response.messages.length > 0){
                     $('#messages-wrapper').prepend('<div class="glyphicon glyphicon-resize-vertical" style="margin:0 50% 0 50%;opacity:0.5;font-size:20px"></div>');
                     $('#messages-wrapper').prepend(template(response));
