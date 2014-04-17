@@ -62,7 +62,7 @@ class RoomsController < ApplicationController
     room = Room.where("user_id = ? AND id = ?",current_user.id,params[:id]).first
     room.destroy
     Pusher['status'].trigger('delete_room', :room_id=>params[:id])
-    render :text=>"Success"
+    render :text => "Success"
   end
 
   respond_to :json, :xml
