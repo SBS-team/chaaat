@@ -534,6 +534,7 @@ div.server-upsell {
 .room_topic
 {
     background-color: #FFFFFF;
+    color: #808080;
     margin: 3px auto;
     text-align: center;
 }

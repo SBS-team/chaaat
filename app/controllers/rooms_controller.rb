@@ -33,8 +33,9 @@ class RoomsController < ApplicationController
       @room=Room.find(params[:id])
       @message = Message.new
       gon.room_id = params[:id]
+      @message_count = Message.where(:room_id=>params[:id]).preload(:user).count
       @messages = Message.where(:room_id=>params[:id]).preload(:user).order(created_at: :asc).last(10)
-      @links =Message.where("room_id = ? AND (body LIKE ? OR body LIKE ?)",params[:id],"http://%","https://%").preload(:user).order(created_at: :asc)
+      @links =Message.where("room_id = ? AND (body LIKE ? OR body LIKE ? OR body LIKE ?)",params[:id],"%http://%","%https://%","%ftp://%").preload(:user).order(created_at: :asc)
       @attah =Message.where("room_id = ? AND attach_path IS NOT NULL",params[:id]).preload(:user).order(created_at: :asc)
       @room_users =User.includes(:rooms_users).where('rooms_users.room_id'=>params[:id])
       gon.rooms_users = @room_users.pluck(:login)
@@ -65,12 +66,6 @@ class RoomsController < ApplicationController
     if Room.includes(:rooms_users).where('rooms_users.user_id'=>current_user.id,'rooms.id'=>params[:room_id].to_i).exists?
       previous_messages = Message.where("room_id = ? AND id < ?", params[:room_id],params[:messages]).order(created_at: :asc).last(10);
       previous_messages.sort!
-      #previous_message={:messages=>  previous_messages.to_ruby}
-
-    #  respond_with(previous_messages) do |format|
-    #    format.json { render :json =>{ :messages=>previous_messages},:root=>false
-    #    }
-    #end
       render :json =>previous_messages, :root=>"messages"
     end
   end
