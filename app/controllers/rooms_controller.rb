@@ -60,13 +60,20 @@ class RoomsController < ApplicationController
     Pusher['status'].trigger('delete_room', :room_id=>params[:id])
     render :text=>"Success"
   end
-
+  respond_to :json, :xml
   def load_previous_10_msg
     if Room.includes(:rooms_users).where('rooms_users.user_id'=>current_user.id,'rooms.id'=>params[:room_id].to_i).exists?
       previous_messages = Message.where("room_id = ? AND id < ?", params[:room_id],params[:messages]).order(created_at: :asc).preload(:user).last(10);
       previous_messages.sort!
-      previous_message=Message.all
-      render :json =>previous_message, :root=>"messages"
+      #previous_message={:messages=>  previous_messages.to_ruby}
+
+      respond_with(previous_messages) do |format|
+        format.json { render :json => previous_messages.to_json(
+            :only => [:id,:message, :body]
+            )
+        }
+    end
+      #render :json =>previous_message, :root=>"messages"
     end
   end
 

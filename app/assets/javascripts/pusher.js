@@ -105,13 +105,13 @@ channel2.bind('user_add_to_room', function(data) {
 
     function system_message(body){
     var fd = new FormData();
-    fd.append('message[body]', $.trim(body));
-    fd.append('message[room_id]', gon.room_id);
-    fd.append('message[message_type]', "system");
+    fd.append('messages[body]', $.trim(body));
+    fd.append('messages[room_id]', gon.room_id);
+    fd.append('messages[message_type]', "system");
     $.ajax({
         type: 'POST',
         beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
-        url: '../message/new',
+        url: '/messages',
         data:  fd,
         processData: false,
         contentType: false
