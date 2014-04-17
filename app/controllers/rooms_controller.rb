@@ -34,14 +34,14 @@ class RoomsController < ApplicationController
     if Room.includes(:rooms_users).where('rooms_users.user_id'=>current_user.id,'rooms.id'=>params[:id].to_i).exists?
       gon.room_id = params[:id]
       @messages = Message.where(:room_id=>params[:id]).preload(:user).order(created_at: :asc).last(10)
-      @links =Message.where("room_id= ? AND body LIKE ? OR body LIKE ?",params[:id],"http://%","https://%").preload(:user).order(created_at: :asc)
+      @links = Message.where("room_id= ? AND body LIKE ? OR body LIKE ?",params[:id],"http://%","https://%").preload(:user).order(created_at: :asc)
       @attah = Message.where("room_id= ? AND attach_path IS NOT NULL",params[:id]).preload(:user).order(created_at: :asc)
     else
       gon.room_id = 0
     end
     @room_list = Room.where("id in (?)",RoomsUser.where(:user_id=>current_user.id).pluck(:room_id)).order(id: :asc)
     room_user_ids = RoomsUser.where(:room_id => @room.id).map{|item| item.user_id}
-    @room_users = User.includes(:rooms_users).where('rooms_users.room_id'=>params[:id])
+    @room_users = User.includes(:rooms_users).where('rooms_users.room_id' => params[:id])
     gon.rooms_users = @room_users.pluck(:login)
     gon.user_login = current_user.login
     gon.user_id = current_user.id
@@ -49,7 +49,7 @@ class RoomsController < ApplicationController
   end
 
   def update
-    room=Room.find(params[:room_id])
+    room = Room.find(params[:room_id])
       if RoomsUser.where('user_id=? AND room_id=?',current_user.id,params[:room_id]).first
         Pusher["private-#{params[:room_id]}"].trigger('change-topic',:topic=>params[:query],:previous_topic=>room.topic)
         room.update(:topic=>params[:query])
@@ -58,7 +58,7 @@ class RoomsController < ApplicationController
   end
 
   def delete_room
-    room=Room.where("user_id = ? AND id = ?",current_user.id,params[:id]).first
+    room = Room.where("user_id = ? AND id = ?",current_user.id,params[:id]).first
     room.destroy
     Pusher['status'].trigger('delete_room', :room_id=>params[:id])
     render :text=>"Success"
