@@ -14,7 +14,12 @@ class RoomsController < ApplicationController
     @room = Room.create(room_params.merge(:user_id=>current_user.id))
     RoomsUser.create(:user_id => current_user.id, :room_id => @room.id)
     if params[:express]
-      Pusher["private-#{params[:user_id]}"].trigger_async('user_add_to_room', {:rooms_id=>@room.id,:rooms_name=>@room.name})
+      Pusher["private-#{params[:user_id]}"].trigger_async('user_add_to_room', {:rooms_id=>@room.id,:rooms_name=>@room.name,
+                                                                               :room_owner_id => @room.user_id,
+                                                                               :user_login => current_user.login,
+                                                                               :user_id => current_user.id,
+                                                                               :rooms_owner_login => current_user.login,
+                                                                               :room_members_count => "2"})
       RoomsUser.create(:user_id => params[:user_id], :room_id => @room.id)
       render :json=>@room.id,:root=>false
     else
@@ -51,11 +56,12 @@ class RoomsController < ApplicationController
 
   def update
     room = Room.find(params[:room_id])
+    previous_topic=room.topic
       if RoomsUser.where('user_id=? AND room_id=?',current_user.id,params[:room_id]).first
-        Pusher["private-#{params[:room_id]}"].trigger('change-topic',:topic=>params[:query],:previous_topic=>room.topic)
+        Pusher["private-#{params[:room_id]}"].trigger('change-topic',:topic=>params[:query])
         room.update(:topic=>params[:query])
         end
-    render :text=>params[:query]
+    render :json=>{:curr_topic=>params[:query],:prev_topic=>previous_topic}
   end
 
   def destroy

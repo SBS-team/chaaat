@@ -10,7 +10,7 @@
   %h3 Invite user
   = form_tag invite_user_path, :method => 'post' do
     = text_field_tag 'email', nil, :placeholder=>"E-mail", :type => 'email'
-    = submit_tag 'Send invite', :class=>"btn btn-primary lobby-btn"
+    = button_tag 'Send invite', :class=>"btn btn-primary lobby-btn inv"
   %h3
     Possible friends
   .tableContainer

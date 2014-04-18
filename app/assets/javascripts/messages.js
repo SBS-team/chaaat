@@ -1,4 +1,19 @@
 //#FIXME coffescript
+function system_message(body){
+    var fd = new FormData();
+    fd.append('messages[body]', $.trim(body));
+    fd.append('messages[room_id]', gon.room_id);
+    fd.append('messages[message_type]', "system");
+    $.ajax({
+        type: 'POST',
+        beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
+        url: '/messages',
+        data:  fd,
+        processData: false,
+        contentType: false
+    })
+}
+
 $(document).ready(function(){
     Handlebars.registerHelper("equal",function (r_value){if (gon.user_id == r_value) {return 'from';}else{$('#new-message')[0].play();return 'to';}});
     Handlebars.registerHelper("safe_mess",function (messag){if(messag.length>240 || messag.match(/http.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?].\S\S*)/) || messag.match(/http.*(jpg|gif|jpeg)/) || messag.match(/http:\/\/(coub\.com\/view\/.*|coub\.com\/embed\/.*)/i) ){
@@ -34,6 +49,7 @@ $(document).ready(function(){
                                 "</div>";}}}
                         else {return  "<p>"+$.trim(changetags(safe_tags_replace(messag)))+ "</p>"; }});
     Handlebars.registerHelper("attach-files",function (attach_file_path){return check_file(attach_file_path) });
+
     Handlebars.registerHelper("change_login",function (user_id,login){return (user_id!= null) ? "<a href=\"/persons/"+ user_id +"\">"+ login + "</a>" : "chat notification";});
     var template = Handlebars.compile($('#template_message').html());
 
@@ -105,6 +121,7 @@ $(document).ready(function(){
                     user_id: joined_member.data('user-id')
                 },
                 success: function(response){
+                    system_message("User: " + response.user_login + " has been deleted from room: " + response.room_name);
                     joined_member.remove();
                 }
             });
@@ -246,7 +263,16 @@ $(document).ready(function(){
         $popup_target = $('label.upload-but');
         input_file.change(function(){
             if (input_file[0].files[0].size>40000000){
-                $.bootstrapGrowl("File size over than 30mb");
+                $.bootstrapGrowl("File size over than 40mb", {
+                    type: 'success', // (null, 'info', 'error', 'success')
+                    offset: {from: 'bottom', amount: 50}, // 'top', or 'bottom'
+                    align: 'center', // ('left', 'right', or 'center')
+                    width: 250, // (integer, or 'auto')
+                    delay: 5000,
+                    allow_dismiss: true,
+                    stackup_spacing: 10 // spacing between consecutively stacked growls.
+                });
+                input_file.replaceWith(input_file.clone(true));
             }else{
                 $popup_target.attr({
                     "id": "attach_popup",
@@ -423,30 +449,39 @@ $(document).ready(function(){
             }
         });
     }));
+
+    function inviteAjax(InputId){
+        $.ajax({
+            url: '/users/invite_user',
+            type: 'POST',
+            beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
+            data:{
+                email: InputId
+            },
+            success: function(response){
+                $.bootstrapGrowl("You have send invite to: "+response, {
+                    type: 'success',
+                    offset: {from: 'top', amount: 50},
+                    align: 'center',
+                    width: 250,
+                    delay: 10000,
+                    allow_dismiss: true,
+                    stackup_spacing: 10
+                });
+                $('#search-user').val('');
+                $('.right_search_user').html("")
+            }
+        });
+    }
+    $('.inv').on('click', function(e){
+        inviteAjax($("#email").val());
+        e.preventDefault();
+    });
      function send_invite (){
         $('li .send_invite').on('click', function(){
-            $.ajax({
-                url: '/users/invite_user',
-                type: 'POST',
-                beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
-                data:{
-                    email: $("#search-user").val()
-                },
-                success: function(response){
-                    $.bootstrapGrowl("You have send invite to: "+response, {
-                        type: 'success',
-                        offset: {from: 'top', amount: 50},
-                        align: 'center',
-                        width: 250,
-                        delay: 10000,
-                        allow_dismiss: true,
-                        stackup_spacing: 10
-                    });
-                    $('#search-user').val('');
-                    $('.right_search_user').html("")
-                }
-            });
+            inviteAjax($("#search-user").val());
         });
+
      }
 
     var template_search_user_right='{{#users}}<div class=\"member\"><a data-method="post" href="/persons/{{login}}" rel="nofollow"><span class="{{#get_icon_status user_status}}{{/get_icon_status}}"></span>{{login}}</a><span class="glyphicon glyphicon-plus pull-right user_friend" data-user-id="{{id}}"></span></div>{{/users}}';

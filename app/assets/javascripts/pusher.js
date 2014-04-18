@@ -86,7 +86,7 @@ channel2.bind('user_add_to_room', function(data) {
         allow_dismiss: true,
         stackup_spacing: 10
     });
-    $("#tabs").append("<li><a room_id="+data.rooms_id+" href=/rooms/"+data.rooms_id+">"+data.rooms_name+"</a></li>");
+    $(".lobby-panel #tabs").append("<li id=\"room\"><a room_id="+data.rooms_id+" href=/rooms/"+data.rooms_id+">"+data.rooms_name+"</a></li>");
     var remove_room_span = "";
     if (gon.user_id == data.rooms_owner_id){
         remove_room_span = "<span class='delete_room glyphicon glyphicon-remove-circle' data-id='"+ data.rooms_id +"'></span>"
@@ -100,7 +100,7 @@ channel2.bind('user_add_to_room', function(data) {
         "</td>" +
         "<td class='memb-count'>" + data.room_members_count + " members" + "</td>" +
         "<td class='owner'> Owned by: " +
-        "<a href='/persons/"+ data.rooms_owner_id +"'>" + data.rooms_owner_login + "</a>" +
+        "<a href='/persons/"+ data.room_owner_id +"'>" + data.rooms_owner_login + "</a>" +
         "</td>" +
         "<td class='set-arr'>" + remove_room_span + "</td>" +
         "</tr>" +
@@ -149,24 +149,9 @@ if(gon.room_id){
         }
     });
 
-    function system_message(body){
-        var fd = new FormData();
-        fd.append('messages[body]', $.trim(body));
-        fd.append('messages[room_id]', gon.room_id);
-        fd.append('messages[message_type]', "system");
-        $.ajax({
-            type: 'POST',
-            beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
-            url: '/messages',
-            data:  fd,
-            processData: false,
-            contentType: false
-        })
-    }
 
     channel.bind('add_user_to_room', function(data) {
         users.push(data.user_login);
-        system_message("User: " + data.user_login + " has been added to room: " + data.rooms_name);
         $('.list').append(add_user_right(data));
         if (data.user_status == "Offline"){
             document.getElementById(data.user_id).title = "Offline "+jQuery.timeago(data.user_sign_out_time);
@@ -201,13 +186,11 @@ if(gon.room_id){
 
 
     channel.bind('change-topic', function(data) {
-        system_message("Rooms topic has been changed from: \""+data.previous_topic+"\" on: \""+data.topic+"\"");
         $('h3.room_topic').text(data.topic);
 
     });
 
     channel.bind('del_user_from_room', function(data) {
-        system_message("User: " + data.user_login + " has been deleted from room: " + data.room_name);
         $(".member[data-user-id = \"" + data.drop_user_id + "\"]").remove();
     });
 
