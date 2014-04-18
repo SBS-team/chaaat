@@ -86,7 +86,7 @@ channel2.bind('user_add_to_room', function(data) {
         allow_dismiss: true,
         stackup_spacing: 10
     });
-    $("#tabs").append("<li><a room_id="+data.rooms_id+" href=/rooms/"+data.rooms_id+">"+data.rooms_name+"</a></li>");
+    $(".lobby-panel#tabs").append("<li id=\"room\"><a room_id="+data.rooms_id+" href=/rooms/"+data.rooms_id+">"+data.rooms_name+"</a></li>");
     var remove_room_span = "";
     if (gon.user_id == data.rooms_owner_id){
         remove_room_span = "<span class='delete_room glyphicon glyphicon-remove-circle' data-id='"+ data.rooms_id +"'></span>"
