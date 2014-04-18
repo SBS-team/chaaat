@@ -1,4 +1,19 @@
 //#FIXME coffescript
+function system_message(body){
+    var fd = new FormData();
+    fd.append('messages[body]', $.trim(body));
+    fd.append('messages[room_id]', gon.room_id);
+    fd.append('messages[message_type]', "system");
+    $.ajax({
+        type: 'POST',
+        beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
+        url: '/messages',
+        data:  fd,
+        processData: false,
+        contentType: false
+    })
+}
+
 $(document).ready(function(){
     Handlebars.registerHelper("equal",function (r_value){if (gon.user_id == r_value) {return 'from';}else{$('#new-message')[0].play();return 'to';}});
     Handlebars.registerHelper("safe_mess",function (messag){if($.trim(changetags(safe_tags_replace(messag))).length>240 || messag.match(/http.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?].\S\S*)/) || messag.match(/http.*(jpg|gif|jpeg)/) || messag.match(/http:\/\/(coub\.com\/view\/.*|coub\.com\/embed\/.*)/i) ){
@@ -28,7 +43,7 @@ $(document).ready(function(){
     var template_message = '{{#messages}}<li class="{{#equal user_id}}{{/equal}} clearfix" data-id="{{id}}">' +
         '<span class="chat-img pull-left"><img class="avatar" src="{{avatar}}"></span>' +
         '<div class="chat-body clearfix"><div class="header"> ' +
-        '                   <strong class="primary-font"> <a href="/persons/{{url}}">{{login}}</a></strong>' +
+        '                   <strong class="primary-font">{{#change_login user_id login}}{{/change_login}}</strong>' +
         '<small class="pull-right text-muted">' +
         '                   <span class="glyphicon glyphicon-time"></span>{{create_at}}</small>' +
         '<div class="message">{{#safe_mess messages}}{{/safe_mess}}</div>{{#if attach_file_path}}<p class="attach-file">{{#attach-files attach_file_path}}{{/attach-files}}</p>{{/if}}</div></li>{{/messages}}';
@@ -103,6 +118,7 @@ $(document).ready(function(){
                     user_id: joined_member.data('user-id')
                 },
                 success: function(response){
+                    system_message("User: " + response.user_login + " has been deleted from room: " + response.room_name);
                     joined_member.remove();
                 }
             });
