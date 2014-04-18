@@ -461,7 +461,7 @@ $(document).ready(function(){
             }
         });
     }
-    $('.lobby-btn').on('click', function(e){
+    $('.inv').on('click', function(e){
         inviteAjax($("#email").val());
         e.preventDefault();
     });
