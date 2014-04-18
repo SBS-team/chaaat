@@ -437,30 +437,39 @@ $(document).ready(function(){
             }
         });
     }));
+
+    function inviteAjax(InputId){
+        $.ajax({
+            url: '/users/invite_user',
+            type: 'POST',
+            beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
+            data:{
+                email: InputId
+            },
+            success: function(response){
+                $.bootstrapGrowl("You have send invite to: "+response, {
+                    type: 'success',
+                    offset: {from: 'top', amount: 50},
+                    align: 'center',
+                    width: 250,
+                    delay: 10000,
+                    allow_dismiss: true,
+                    stackup_spacing: 10
+                });
+                $('#search-user').val('');
+                $('.right_search_user').html("")
+            }
+        });
+    }
+    $('.lobby-btn').on('click', function(e){
+        inviteAjax($("#email").val());
+        e.preventDefault();
+    });
      function send_invite (){
         $('li .send_invite').on('click', function(){
-            $.ajax({
-                url: '/users/invite_user',
-                type: 'POST',
-                beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
-                data:{
-                    email: $("#search-user").val()
-                },
-                success: function(response){
-                    $.bootstrapGrowl("You have send invite to: "+response, {
-                        type: 'success',
-                        offset: {from: 'top', amount: 50},
-                        align: 'center',
-                        width: 250,
-                        delay: 10000,
-                        allow_dismiss: true,
-                        stackup_spacing: 10
-                    });
-                    $('#search-user').val('');
-                    $('.right_search_user').html("")
-                }
-            });
+            inviteAjax($("#search-user").val());
         });
+
      }
 
     var template_search_user_right='{{#users}}<div class=\"member\"><a data-method="post" href="/persons/{{login}}" rel="nofollow"><span class="{{#get_icon_status user_status}}{{/get_icon_status}}"></span>{{login}}</a><span class="glyphicon glyphicon-plus pull-right user_friend" data-user-id="{{id}}"></span></div>{{/users}}';
