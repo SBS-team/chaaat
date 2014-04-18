@@ -51,11 +51,12 @@ class RoomsController < ApplicationController
 
   def update
     room = Room.find(params[:room_id])
+    previous_topic=room.topic
       if RoomsUser.where('user_id=? AND room_id=?',current_user.id,params[:room_id]).first
-        Pusher["private-#{params[:room_id]}"].trigger('change-topic',:topic=>params[:query],:previous_topic=>room.topic)
+        Pusher["private-#{params[:room_id]}"].trigger('change-topic',:topic=>params[:query])
         room.update(:topic=>params[:query])
         end
-    render :text=>params[:query]
+    render :json=>{:curr_topic=>params[:query],:prev_topic=>previous_topic}
   end
 
   def destroy

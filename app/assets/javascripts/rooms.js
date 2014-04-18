@@ -17,9 +17,12 @@ jQuery(function($){
             beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
             data: {
                 room_id: gon.room_id,
-                user_id: $(this).data('user-id')
-            }
-        });
+                user_id: $(this).data('user-id')}
+
+        })
+            .done(function(response){
+                system_message("User: " + response.joined_user.login + " has been added to room: " + response.room_name);
+            });
         return false;
     });
 
@@ -112,7 +115,8 @@ jQuery(function($){
             data: { query: $("input[name='change']").val(),room_id:gon.room_id}
 
         })
-            .done(function(chang){
+            .done(function(topic){
+                system_message("Rooms topic has been changed from: \""+topic.prev_topic+"\" on: \""+topic.curr_topic+"\"");
                 $('#change').val('');
             });
 
