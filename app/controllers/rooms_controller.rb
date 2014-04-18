@@ -14,7 +14,12 @@ class RoomsController < ApplicationController
     @room = Room.create(room_params.merge(:user_id=>current_user.id))
     RoomsUser.create(:user_id => current_user.id, :room_id => @room.id)
     if params[:express]
-      Pusher["private-#{params[:user_id]}"].trigger_async('user_add_to_room', {:rooms_id=>@room.id,:rooms_name=>@room.name})
+      Pusher["private-#{params[:user_id]}"].trigger_async('user_add_to_room', {:rooms_id=>@room.id,:rooms_name=>@room.name,
+                                                                               :room_owner_id => @room.user_id,
+                                                                               :user_login => current_user.login,
+                                                                               :user_id => current_user.id,
+                                                                               :rooms_owner_login => current_user.login,
+                                                                               :room_members_count => "2"})
       RoomsUser.create(:user_id => params[:user_id], :room_id => @room.id)
       render :json=>@room.id,:root=>false
     else
