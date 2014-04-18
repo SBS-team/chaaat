@@ -1,39 +1,41 @@
 //#FIXME coffescript
 $(document).ready(function(){
     Handlebars.registerHelper("equal",function (r_value){if (gon.user_id == r_value) {return 'from';}else{$('#new-message')[0].play();return 'to';}});
-    Handlebars.registerHelper("safe_mess",function (messag){if($.trim(changetags(safe_tags_replace(messag))).length>240 || messag.match(/http.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?].\S\S*)/) || messag.match(/http.*(jpg|gif|jpeg)/) || messag.match(/http:\/\/(coub\.com\/view\/.*|coub\.com\/embed\/.*)/i) ){
-        if (messag.match(/http.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?].\S\S*)/) || messag.match(/http.*(jpg|gif|jpeg)/) || messag.match(/http:\/\/(coub\.com\/view\/.*|coub\.com\/embed\/.*)/i) ){
-            return "<div id=\"short-text\" style=\"display: block;\">" +
-                "<small class=\"pull-right text-muted\">" +
-                "<span class=\"glyphicon glyphicon-chevron-down\" style=\"cursor: pointer;\"></span></small>"+
-                "<p class=\"primary-font\">"+"<div class=\"text-muted\">"+"<i>"+"this text has a content..."+"</i></div></p></div>" +
-                "<div id=\"long-text\" style=\"display: none;\">"+
-                "<small class=\"pull-right text-muted\">" +
-                "<span class=\"glyphicon glyphicon-chevron-up\" style=\"cursor: pointer;\"></span></small>"+
-                "<p>"+$.trim(changetags(safe_tags_replace(messag)))+"</p>" + "</div>"; }
-        else{return "<div id=\"short-text\" style=\"display: block;\">" +
-            "<small class=\"pull-right text-muted\">" +
-            "<span class=\"glyphicon glyphicon-chevron-down\" style=\"cursor: pointer;\"></span></small>"+
-            "<p>"+$.trim(changetags(safe_tags_replace(messag))).substr(0,109) +"..." +"</p>"+
-            "</div>" +
-            "<div id=\"long-text\" style=\"display: none;\">"+
-            "<small class=\"pull-right text-muted\">" +
-            "<span class=\"glyphicon glyphicon-chevron-up\" style=\"cursor: pointer;\"></span></small>"+
-            "<p>"+$.trim(changetags(safe_tags_replace(messag)))+"</p>" +
-            "</div>";}}
-    else {return  "<p>"+$.trim(changetags(safe_tags_replace(messag)))+ "</p>"; }});
+    Handlebars.registerHelper("safe_mess",function (messag){if(messag.length>240 || messag.match(/http.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?].\S\S*)/) || messag.match(/http.*(jpg|gif|jpeg)/) || messag.match(/http:\/\/(coub\.com\/view\/.*|coub\.com\/embed\/.*)/i) ){
+                            if (messag.match(/http.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?].\S\S*)/) || messag.match(/http.*(jpg|gif|jpeg)/) || messag.match(/http:\/\/(coub\.com\/view\/.*|coub\.com\/embed\/.*)/i) ){
+                                return "<div id=\"short-text\" style=\"display: block;\">" +
+                                    "<small class=\"pull-right text-muted\">" +
+                                    "<span class=\"glyphicon glyphicon-chevron-down\" style=\"cursor: pointer;\"></span></small>"+
+                                    "<p class=\"primary-font\">"+"<div class=\"text-muted\">"+"<i>"+"this text has a content..."+"</i></div></p></div>" +
+                                    "<div id=\"long-text\" style=\"display: none;\">"+
+                                    "<small class=\"pull-right text-muted\">" +
+                                    "<span class=\"glyphicon glyphicon-chevron-up\" style=\"cursor: pointer;\"></span></small>"+
+                                    "<p>"+$.trim(changetags(safe_tags_replace(messag)))+"</p>" + "</div>"; }
+                            else{if (messag.match(/(\b\w+:\/\/\w+((\.\w)*\w+)*\.\S{2,3}(\/\S*|\.\w*|\?\w*\=\S*)*)/)){
+                                return "<div id=\"short-text\" style=\"display: block;\">" +
+                                    "<small class=\"pull-right text-muted\">" +
+                                    "<span class=\"glyphicon glyphicon-chevron-down\" style=\"cursor: pointer;\"></span></small>"+
+                                    "<p><a href="+messag.substr(0,109)+"..."+"\"  target=\"_blank\">"+messag.substr(0,109) +"..." +"</a></p></div>" +
+                                    "<div id=\"long-text\" style=\"display: none;\">"+
+                                    "<small class=\"pull-right text-muted\">" +
+                                    "<span class=\"glyphicon glyphicon-chevron-up\" style=\"cursor: pointer;\"></span></small>"+
+                                    "<p>"+$.trim(changetags(safe_tags_replace(messag)))+"</p>" +
+                                    "</div>";
+                                }
+                                else{
+                                return "<div id=\"short-text\" style=\"display: block;\">" +
+                                "<small class=\"pull-right text-muted\">" +
+                                "<span class=\"glyphicon glyphicon-chevron-down\" style=\"cursor: pointer;\"></span></small>"+
+                                "<p>"+$.trim(changetags(safe_tags_replace(messag))).substr(0,109) +"..." +"</p></div>" +
+                                "<div id=\"long-text\" style=\"display: none;\">"+
+                                "<small class=\"pull-right text-muted\">" +
+                                "<span class=\"glyphicon glyphicon-chevron-up\" style=\"cursor: pointer;\"></span></small>"+
+                                "<p>"+$.trim(changetags(safe_tags_replace(messag)))+"</p>" +
+                                "</div>";}}}
+                        else {return  "<p>"+$.trim(changetags(safe_tags_replace(messag)))+ "</p>"; }});
     Handlebars.registerHelper("attach-files",function (attach_file_path){return check_file(attach_file_path) });
     Handlebars.registerHelper("change_login",function (user_id,login){return (user_id!= null) ? "<a href=\"/persons/"+ user_id +"\">"+ login + "</a>" : "chat notification";});
-//    var template_message = '{{#messages}}<li class="{{#equal user_id}}{{/equal}} clearfix" data-id="{{id}}"><span class="chat-img pull-left"><img class="avatar" src="{{avatar}}"></span><div class="chat-body clearfix"><div class="header"> <strong class="primary-font">{{#change_login user_id login}}{{/change_login}}</strong><small class="pull-right text-muted"><span class="glyphicon glyphicon-time"></span>{{create_at}}</small></div><p>{{#safe_mess messages}}{{/safe_mess}}</p>{{#if attach_file_path}}<p class="attach-file">{{#attach-files attach_file_path}}{{/attach-files}}</p>{{/if}}</div></li>{{/messages}}';
-    var template_message = '{{#messages}}<li class="{{#equal user_id}}{{/equal}} clearfix" data-id="{{id}}">' +
-        '<span class="chat-img pull-left"><img class="avatar" src="{{avatar}}"></span>' +
-        '<div class="chat-body clearfix"><div class="header"> ' +
-        '                   <strong class="primary-font"> <a href="/persons/{{url}}">{{login}}</a></strong>' +
-        '<small class="pull-right text-muted">' +
-        '                   <span class="glyphicon glyphicon-time"></span>{{create_at}}</small>' +
-        '<div class="message">{{#safe_mess messages}}{{/safe_mess}}</div>{{#if attach_file_path}}<p class="attach-file">{{#attach-files attach_file_path}}{{/attach-files}}</p>{{/if}}</div></li>{{/messages}}';
-
-    var template = Handlebars.compile(template_message);
+    var template = Handlebars.compile($('#template_message').html());
 
     function smiles_render(){
         message=document.getElementsByClassName('chat-body');
