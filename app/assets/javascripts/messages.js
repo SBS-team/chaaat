@@ -260,7 +260,8 @@ $(document).ready(function(){
         $popup_target = $('label.upload-but');
         input_file.change(function(){
             if (input_file[0].files[0].size>40000000){
-                $.bootstrapGrowl("File size over than 30mb");
+                $.bootstrapGrowl("File size over than 40mb");
+                input_file.replaceWith(input_file.clone(true));
             }else{
                 $popup_target.attr({
                     "id": "attach_popup",
