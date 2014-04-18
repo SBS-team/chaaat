@@ -78,7 +78,7 @@
                 .chat-body.clearfix
                   .header
                     %strong.primary-font
-                      =(message.user) ? (link_to message.user.login, user_path(message.user.id)) : "chat notification"
+                      =(message.user) ? (link_to message.user.login, user_path(message.user.login)) : "chat notification"
                     %small.pull-right.text-muted
                       %span.glyphicon.glyphicon-time>
                       =message.created_at.strftime("%a %T")
@@ -94,7 +94,7 @@
                 .chat-body.clearfix
                   .header
                     %strong.primary-font
-                      =(message.user) ? (link_to message.user.login, user_path(message.user.id)) : "chat notification"
+                      =(message.user) ? (link_to message.user.login, user_path(message.user.login)) : "chat notification"
                     %small.pull-right.text-muted
                       %span.glyphicon.glyphicon-time>
                       =message.created_at.strftime("%a %T")

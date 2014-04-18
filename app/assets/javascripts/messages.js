@@ -38,7 +38,7 @@ $(document).ready(function(){
             "</div>";}}
     else {return  "<p>"+$.trim(changetags(safe_tags_replace(messag)))+ "</p>"; }});
     Handlebars.registerHelper("attach-files",function (attach_file_path){return check_file(attach_file_path) });
-    Handlebars.registerHelper("change_login",function (user_id,login){return (user_id!= null) ? "<a href=\"/persons/"+ user_id +"\">"+ login + "</a>" : "chat notification";});
+    Handlebars.registerHelper("change_login",function (user_id,login){return (user_id!= null) ? "<a href=\"/persons/"+ login +"\">"+ login + "</a>" : "chat notification";});
 //    var template_message = '{{#messages}}<li class="{{#equal user_id}}{{/equal}} clearfix" data-id="{{id}}"><span class="chat-img pull-left"><img class="avatar" src="{{avatar}}"></span><div class="chat-body clearfix"><div class="header"> <strong class="primary-font">{{#change_login user_id login}}{{/change_login}}</strong><small class="pull-right text-muted"><span class="glyphicon glyphicon-time"></span>{{create_at}}</small></div><p>{{#safe_mess messages}}{{/safe_mess}}</p>{{#if attach_file_path}}<p class="attach-file">{{#attach-files attach_file_path}}{{/attach-files}}</p>{{/if}}</div></li>{{/messages}}';
     var template_message = '{{#messages}}<li class="{{#equal user_id}}{{/equal}} clearfix" data-id="{{id}}">' +
         '<span class="chat-img pull-left"><img class="avatar" src="{{avatar}}"></span>' +
