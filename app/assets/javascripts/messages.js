@@ -260,7 +260,15 @@ $(document).ready(function(){
         $popup_target = $('label.upload-but');
         input_file.change(function(){
             if (input_file[0].files[0].size>40000000){
-                $.bootstrapGrowl("File size over than 40mb");
+                $.bootstrapGrowl("File size over than 40mb", {
+                    type: 'success', // (null, 'info', 'error', 'success')
+                    offset: {from: 'bottom', amount: 50}, // 'top', or 'bottom'
+                    align: 'center', // ('left', 'right', or 'center')
+                    width: 250, // (integer, or 'auto')
+                    delay: 5000,
+                    allow_dismiss: true,
+                    stackup_spacing: 10 // spacing between consecutively stacked growls.
+                });
                 input_file.replaceWith(input_file.clone(true));
             }else{
                 $popup_target.attr({
