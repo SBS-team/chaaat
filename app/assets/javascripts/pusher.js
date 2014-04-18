@@ -100,7 +100,7 @@ channel2.bind('user_add_to_room', function(data) {
         "</td>" +
         "<td class='memb-count'>" + data.room_members_count + " members" + "</td>" +
         "<td class='owner'> Owned by: " +
-        "<a href='/persons/"+ data.rooms_owner_id +"'>" + data.rooms_owner_login + "</a>" +
+        "<a href='/persons/"+ data.room_owner_id +"'>" + data.rooms_owner_login + "</a>" +
         "</td>" +
         "<td class='set-arr'>" + remove_room_span + "</td>" +
         "</tr>" +
