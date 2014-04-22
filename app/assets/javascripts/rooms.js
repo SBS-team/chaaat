@@ -27,38 +27,8 @@ jQuery(function($){
         return false;
     });
 
-    var list_item = $(document.getElementById(gon.user_id));
-    if (document.getElementById(gon.user_id)){
-        $(document.getElementById(gon.user_id)).confirm({
-            text: "Are you sure you want to delete yourself?",
-            title: "Confirmation required",
-            confirm: function(button) {
-                $.ajax({
-                    url: '/rooms_users/' + list_item.attr('user_id')+'/' + list_item.attr('room_id'),
-                    type: 'POST',
-                    beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
-                    data: {
-                        _method: 'DELETE',
-                        room_id: list_item.attr('room_id'),
-                        user_id: list_item.attr('user_id')
-                    },
-                    success: function(response){
-                        list_item.remove();
-                        self.location="/rooms";
-                    }
-                });
-            },
-
-            confirmButton: "Yes I am",
-            cancelButton: "No",
-            post: false
-        });
-    }
-
     function singleClick(e) {
-        if ($(e).parent().attr('data-user-id')!=gon.user_id.toString()){
             self.location="/persons/"+$(e).html();
-        }
     }
 
     function doubleClick(e) {
