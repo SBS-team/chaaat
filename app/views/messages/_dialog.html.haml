@@ -9,8 +9,9 @@
           %button{:type => "submit"}
             %span.glyphicon.glyphicon-record
   .chat
-    .pag
-      .glyphicon.glyphicon-chevron-up
+    -if @message_count>10
+      .pag
+        .glyphicon.glyphicon-chevron-up
     #messages-wrapper
       - if @messages
         -@messages.each_with_index do |message, i|
