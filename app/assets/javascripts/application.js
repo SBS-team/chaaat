@@ -24,6 +24,6 @@
 //= require user
 //= require jquery.timeago.js
 //= require messages
-//= require pusher.js
+//= require pusher
 //= require bootstrap
-//= require rooms.js
+//= require rooms
