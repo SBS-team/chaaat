@@ -124,7 +124,7 @@ if gon.room_id
   channel = pusher.subscribe("private-" + gon.room_id)
   channel3 = pusher.subscribe("private-" + gon.user_id)
   channel3.bind "notification-room", (data) ->
-    unless data.room_id is gon.room_id
+    if data.room_id isnt parseInt gon.room_id
       migalka = ->
         if document.title is oldTxt
           document.title = newTxt
