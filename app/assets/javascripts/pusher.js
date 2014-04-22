@@ -86,7 +86,7 @@ channel2.bind('user_add_to_room', function(data) {
         allow_dismiss: true,
         stackup_spacing: 10
     });
-    $(".lobby-panel").find("#tabs").append("<li><a room_id="+data.rooms_id+" href=/rooms/"+data.rooms_id+">"+data.rooms_name+"</a></li>");
+    $(".lobby-panel #tabs").append("<li id=\"room\"><a room_id="+data.rooms_id+" href=/rooms/"+data.rooms_id+">"+data.rooms_name+"</a></li>");
     var remove_room_span = "";
     if (gon.user_id == data.rooms_owner_id){
         remove_room_span = "<span class='delete_room glyphicon glyphicon-remove-circle' data-id='"+ data.rooms_id +"'></span>"
@@ -100,13 +100,12 @@ channel2.bind('user_add_to_room', function(data) {
         "</td>" +
         "<td class='memb-count'>" + data.room_members_count + " members" + "</td>" +
         "<td class='owner'> Owned by: " +
-        "<a href='/persons/"+ data.rooms_owner_id +"'>" + data.rooms_owner_login + "</a>" +
+        "<a href='/persons/"+ data.room_owner_id +"'>" + data.rooms_owner_login + "</a>" +
         "</td>" +
         "<td class='set-arr'>" + remove_room_span + "</td>" +
         "</tr>" +
         "</table>"
     );
-
     room_owner_id = data.rooms_owner_id;
 });
 
@@ -182,6 +181,7 @@ if(gon.room_id){
             cancelButton: "No",
             post: false
         });
+        $('.user_friend[data-user-id = ' + joined_member.data('user-id') + ']').remove();
     });
 
 
@@ -192,6 +192,9 @@ if(gon.room_id){
 
     channel.bind('del_user_from_room', function(data) {
         $(".member[data-user-id = \"" + data.drop_user_id + "\"]").remove();
+        $(".member[friend_id = '" + data.drop_user_id + "']").append("<span class='glyphicon glyphicon-plus pull-right user_friend' data-user-id = "
+            + data.drop_user_id +"></span>");
+        system_message("User: " + data.user_login + " has been deleted from room: " + data.room_name);
     });
 
 }
