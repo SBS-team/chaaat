@@ -174,6 +174,7 @@ if(gon.room_id){
                     },
                     success: function(response){
                         joined_member.remove();
+                        system_message("User: " + response.user_login + " has been deleted from room: " + response.room_name);
                     }
                 });
             },
@@ -194,7 +195,6 @@ if(gon.room_id){
         $(".member[data-user-id = \"" + data.drop_user_id + "\"]").remove();
         $(".member[friend_id = '" + data.drop_user_id + "']").append("<span class='glyphicon glyphicon-plus pull-right user_friend' data-user-id = "
             + data.drop_user_id +"></span>");
-        system_message("User: " + data.user_login + " has been deleted from room: " + data.room_name);
     });
 
 }

@@ -180,7 +180,7 @@ $(document).ready(function(){
             e.preventDefault();
             return false;
             if(input_file){
-                $("attach_wrapper").remove();
+                $(".attach_wrapper").remove();
                 $('label.upload-but').popover('hide');
             }
         }
@@ -192,7 +192,7 @@ $(document).ready(function(){
     $('.send_message_button').click(function(){
         send_message();
         if(input_file){
-            $("attach_wrapper").remove();
+            $(".attach_wrapper").remove();
             $('label.upload-but').popover('hide');
         }
     });
@@ -287,7 +287,7 @@ $(document).ready(function(){
                 $popup_target.popover('show');
                 $(".popover-content").find("span.glyphicon.glyphicon-remove").click(function(){
                     $("#attach_path").val("");
-                    $("attach_wrapper").remove();
+                    $(".attach_wrapper").remove();
                     $popup_target.popover('hide');
                 });
             }
