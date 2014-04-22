@@ -1,3 +1,4 @@
+root = exports ? this
 mymodal = $("#myModal")
 $("#modal-submit").click ->
   mymodal.hide()
@@ -42,7 +43,7 @@ jQuery ($) ->
         query: $("input[name='change']").val()
         room_id: gon.room_id
     ).done (topic) ->
-      system_message "Rooms topic has been changed from: \"" + topic.prev_topic + "\" on: \"" + topic.curr_topic + "\""
+      root.system_message "Rooms topic has been changed from: \"" + topic.prev_topic + "\" on: \"" + topic.curr_topic + "\""
       $("#change").val ""
       return
 
@@ -63,7 +64,7 @@ jQuery ($) ->
         room_id: gon.room_id
         user_id: $(this).data("user-id")
     ).done (response) ->
-      system_message "User: " + response.joined_user.login + " has been added to room: " + response.room_name
+      root.system_message "User: " + response.joined_user.login + " has been added to room: " + response.room_name
       $("div[friend_id=" + response.joined_user.id + "]").remove()
       return
 

@@ -49,5 +49,5 @@ $(document).ready ->
 
     return
 
-  right_height()  if location.pathname.toString().split("/")[2].match(/^[0-9]+$/)?  unless location.pathname.toString().split("/")[2] is `undefined`
+  (right_height()  if location.pathname.toString().split("/")[2].match(/^[0-9]+$/)?)  unless location.pathname.toString().split("/")[2] is `undefined`
   return

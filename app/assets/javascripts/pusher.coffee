@@ -1,3 +1,4 @@
+root = exports ? this
 get_user_status_style = (user_status_id) ->
   switch user_status_id
     when "Available"
@@ -139,7 +140,7 @@ if gon.room_id
     return
 
   channel.bind "add_user_to_room", (data) ->
-    users.push data.user_login
+    root.users.push data.user_login
     $(".list").append add_user_right(data)
     if data.user_status is "Offline"
       document.getElementById(data.user_id).title = "Offline " + jQuery.timeago(data.user_sign_out_time)

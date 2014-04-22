@@ -1,4 +1,6 @@
+root = exports ? this
 $(document).ready ->
+
   smiles_render = ->
     message = document.getElementsByClassName("chat-body")
     i = 0
@@ -15,7 +17,7 @@ $(document).ready ->
       "<a href=\"" + url_to_file + "\" download><span class=\"glyphicon glyphicon-download-alt\"></span>" + attach_file_path.match(/(\w|[-.])+$/)[0] + "</a>"
   send_message = ->
     ++i
-    $(".chat").prepend "<div class=\"pag\"><div class=\"glyphicon glyphicon-chevron-up\"></div></div>"  if pagExist isnt true  if i is 31
+    (($(".chat").prepend "<div class=\"pag\"><div class=\"glyphicon glyphicon-chevron-up\"></div></div>")  if pagExist isnt true)  if i is 31
     if $("input[type=\"file\"]")[0].files[0]
       $(".input").block
         message: "<img src=\"../img/busy.gif\" /><p>File uploading, please wait</p>"
@@ -173,7 +175,7 @@ $(document).ready ->
       return
 
     return
-  system_message = (body) ->
+  root.system_message = (body) ->
     fd = new FormData()
     fd.append "messages[body]", $.trim(body)
     fd.append "messages[room_id]", gon.room_id
@@ -221,7 +223,7 @@ $(document).ready ->
   iframe = $("iframe")
   search = $("#search")
   input_file = $("input[type=file]#attach_path")
-  users = ["all"].concat(gon.rooms_users)
+  root.users = ["all"].concat(gon.rooms_users)
   message_offset = 10
   invoted_users()
   show_attachment()
@@ -258,8 +260,9 @@ $(document).ready ->
     return
 
   $(".list").on "click", ".drop_room_user", (event) ->
+
     drop_user_span = event.currentTarget
-    joined_member = $(drop_user_span).parent()
+    root.joined_member = $(drop_user_span).parent()
     return
 
   $(".drop_room_user").confirm
@@ -267,7 +270,7 @@ $(document).ready ->
     title: "User deleting confirmation"
     confirm: ->
       $.ajax
-        url: "/rooms_users/" + joined_member.data("user-id") + "/" + joined_member.data("room-id")
+        url: "/rooms_users/" + root.joined_member.data("user-id") + "/" + root.joined_member.data("room-id")
         type: "POST"
         beforeSend: (xhr) ->
           xhr.setRequestHeader "X-CSRF-Token", $("meta[name=\"csrf-token\"]").attr("content")
@@ -275,12 +278,12 @@ $(document).ready ->
 
         data:
           _method: "DELETE"
-          room_id: joined_member.data("room-id")
-          user_id: joined_member.data("user-id")
+          room_id: root.joined_member.data("room-id")
+          user_id: root.joined_member.data("user-id")
 
         success: (response) ->
-          system_message "User: " + response.user_login + " has been deleted from room: " + response.room_name
-          joined_member.remove()
+          root.system_message "User: " + response.user_login + " has been deleted from room: " + response.room_name
+          root.joined_member.remove()
           return
 
       return
@@ -290,7 +293,7 @@ $(document).ready ->
     post: false
 
   $(".content").on "click", ".delete_room", (event) ->
-    element_delete_room = event.currentTarget
+    root.element_delete_room = event.currentTarget
     return
 
   $(".delete_room").confirm
@@ -298,7 +301,7 @@ $(document).ready ->
     title: "Confirmation required"
     confirm: ->
       $.ajax
-        url: "../rooms/" + $(element_delete_room).data("id")
+        url: "../rooms/" + $(root.element_delete_room).data("id")
         type: "POST"
         beforeSend: (xhr) ->
           xhr.setRequestHeader "X-CSRF-Token", $("meta[name=\"csrf-token\"]").attr("content")
@@ -306,11 +309,11 @@ $(document).ready ->
 
         data:
           _method: "DELETE"
-          id: $(element_delete_room).data("id")
+          id: $(root.element_delete_room).data("id")
 
         success: (response) ->
-          $(element_delete_room).parents("table.rooms_group").hide()
-          $("a[room_id='" + $(element_delete_room).data("id") + "']").parents("li#room").hide()
+          $(root.element_delete_room).parents("table.rooms_group").hide()
+          $("a[room_id='" + $(root.element_delete_room).data("id") + "']").parents("li#room").hide()
           return
 
       return
@@ -479,7 +482,7 @@ $(document).ready ->
   template_search_user_right = "{{#users}}<div class=\"member\"><a data-method=\"post\" href=\"/persons/{{login}}\" rel=\"nofollow\"><span class=\"{{#get_icon_status user_status}}{{/get_icon_status}}\"></span>{{login}}</a><span class=\"glyphicon glyphicon-plus pull-right user_friend\" data-user-id=\"{{id}}\"></span></div>{{/users}}"
   search_user_right = Handlebars.compile(template_search_user_right)
   $("#search-user").keyup ->
-    if $(this).val().match(/^[-a-z0-9!#$%&'*+/=?^_`{|}~]+(\.[-a-z0-9!#$%&'*+/=?^_`{|}~]+)*@([a-z0-9]([-a-z0-9]{0,61}[a-z0-9])?\.)*(aero|arpa|asia|biz|cat|com|coop|edu|gov|info|int|jobs|mil|mobi|museum|name|net|org|pro|tel|travel|[a-z][a-z])$/)
+    if $(this).val().match(/^[-a-z0-9!#$%&'*+\/=?^_`{|}~]+(\.[-a-z0-9!#$%&'*+\/=?^_`{|}~]+)*@([a-z0-9]([-a-z0-9]{0,61}[a-z0-9])?\.)*(aero|arpa|asia|biz|cat|com|coop|edu|gov|info|int|jobs|mil|mobi|museum|name|net|org|pro|tel|travel|[a-z][a-z])$/)
       $(".right_search").html "<li style='text-align:center'><button class='btn send_invite'>Send invite</button></li>"
       send_invite()
     else
