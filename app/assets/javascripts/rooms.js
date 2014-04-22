@@ -2,13 +2,26 @@
 var mymodal = $("#myModal");
 
 $(function () {
-    $('#modal-submit').click(function(){mymodal.hide();$(".modal-backdrop").hide();})
+    $('#modal-submit').click(function(){
+        if($('#room_topic').val()=="")
+        {
+            $.bootstrapGrowl("You have write TOPIC" , {
+                type: 'success', // (null, 'info', 'error', 'success')
+                offset: {from: 'top', amount: 50}, // 'top', or 'bottom'
+                align: 'center', // ('left', 'right', or 'center')
+                width: 250, // (integer, or 'auto')
+                delay: 10000,
+                allow_dismiss: true,
+                stackup_spacing: 10 // spacing between consecutively stacked growls.
+            });
+            mymodal.hide();
+            $(".modal-backdrop").hide();
+        }
+
+    })
 })
 
 jQuery(function($){
-    mymodal.on('click','#modal-submit', function(){
-        mymodal.modal('hide');
-    });
 
     $(".right_search_user").on('click',".user_friend",function(event){
         $.ajax({
