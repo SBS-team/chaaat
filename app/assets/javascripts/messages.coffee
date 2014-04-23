@@ -215,7 +215,11 @@ $(document).ready ->
     check_file attach_file_path
 
   Handlebars.registerHelper "change_login", (user_id, login) ->
-    (if (user_id isnt null) then "<a href=\"/persons/" + user_id + "\">" + login + "</a>" else "chat notification")
+    if user_id?
+      "<a href=\"/persons/" + user_id + "\">" + login + "</a>"
+    else
+      "chat notification"
+
 
   template = Handlebars.compile($("#template_message").html())
   $("#pop").popover html: true
