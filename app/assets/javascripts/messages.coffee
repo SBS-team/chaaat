@@ -1,3 +1,20 @@
+@system_message = (body) ->
+  fd = new FormData()
+  fd.append "messages[body]", $.trim(body)
+  fd.append "messages[room_id]", gon.room_id
+  fd.append "messages[message_type]", "system"
+  $.ajax
+    type: "POST"
+    beforeSend: (xhr) ->
+      xhr.setRequestHeader "X-CSRF-Token", $("meta[name=\"csrf-token\"]").attr("content")
+      return
+
+    url: "/messages"
+    data: fd
+    processData: false
+    contentType: false
+
+  return
 $(document).ready ->
   smiles_render = ->
     message = document.getElementsByClassName("chat-body")
@@ -173,23 +190,6 @@ $(document).ready ->
       return
 
     return
-  system_message = (body) ->
-    fd = new FormData()
-    fd.append "messages[body]", $.trim(body)
-    fd.append "messages[room_id]", gon.room_id
-    fd.append "messages[message_type]", "system"
-    $.ajax
-      type: "POST"
-      beforeSend: (xhr) ->
-        xhr.setRequestHeader "X-CSRF-Token", $("meta[name=\"csrf-token\"]").attr("content")
-        return
-
-      url: "/messages"
-      data: fd
-      processData: false
-      contentType: false
-
-    return
   Handlebars.registerHelper "equal", (r_value) ->
     if gon.user_id is r_value
       "from"
@@ -213,7 +213,10 @@ $(document).ready ->
     check_file attach_file_path
 
   Handlebars.registerHelper "change_login", (user_id, login) ->
-    (if (user_id isnt null) then "<a href=\"/persons/" + user_id + "\">" + login + "</a>" else "chat notification")
+    (if user_id? 
+      "<a href=\"/persons/" + user_id + "\">" + login + "</a>"
+    else 
+      "chat notification")
 
   template = Handlebars.compile($("#template_message").html())
   $("#pop").popover html: true
@@ -221,7 +224,7 @@ $(document).ready ->
   iframe = $("iframe")
   search = $("#search")
   input_file = $("input[type=file]#attach_path")
-  users = ["all"].concat(gon.rooms_users)
+  @users = ["all"].concat(gon.rooms_users)
   message_offset = 10
   invoted_users()
   show_attachment()
@@ -290,7 +293,7 @@ $(document).ready ->
     post: false
 
   $(".content").on "click", ".delete_room", (event) ->
-    element_delete_room = event.currentTarget
+    @element_delete_room = event.currentTarget
     return
 
   $(".delete_room").confirm
@@ -298,7 +301,7 @@ $(document).ready ->
     title: "Confirmation required"
     confirm: ->
       $.ajax
-        url: "../rooms/" + $(element_delete_room).data("id")
+        url: "../rooms/" + $(@element_delete_room).data("id")
         type: "POST"
         beforeSend: (xhr) ->
           xhr.setRequestHeader "X-CSRF-Token", $("meta[name=\"csrf-token\"]").attr("content")

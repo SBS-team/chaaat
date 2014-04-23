@@ -5,23 +5,6 @@ $("#modal-submit").click ->
   return
 
 jQuery ($) ->
-  system_message = (body) ->
-    fd = new FormData()
-    fd.append "messages[body]", $.trim(body)
-    fd.append "messages[room_id]", gon.room_id
-    fd.append "messages[message_type]", "system"
-    $.ajax
-      type: "POST"
-      beforeSend: (xhr) ->
-        xhr.setRequestHeader "X-CSRF-Token", $("meta[name=\"csrf-token\"]").attr("content")
-        return
-
-      url: "/messages"
-      data: fd
-      processData: false
-      contentType: false
-
-    return
   singleClick = (e) ->
     self.location = "/persons/" + $(e).html()
     return
@@ -59,7 +42,7 @@ jQuery ($) ->
         query: $("input[name='change']").val()
         room_id: gon.room_id
     ).done (topic) ->
-      system_message "Rooms topic has been changed from: \"" + topic.prev_topic + "\" on: \"" + topic.curr_topic + "\""
+      window.system_message 'Rooms topic has been changed from: "' + topic.prev_topic + '" on: "' + topic.curr_topic + '"'
       $("#change").val ""
       return
 
@@ -80,7 +63,7 @@ jQuery ($) ->
         room_id: gon.room_id
         user_id: $(this).data("user-id")
     ).done (response) ->
-      system_message "User: " + response.joined_user.login + " has been added to room: " + response.room_name
+      window.system_message "User: " + response.joined_user.login + " has been added to room: " + response.room_name
       $("div[friend_id=" + response.joined_user.id + "]").remove()
       return
 
