@@ -10,15 +10,15 @@ $(document).ready ->
   check_file = (attach_file_path) ->
     url_to_file = location.origin + attach_file_path
     if url_to_file.match(/http.*(jpg|gif|jpeg|png)/)
-      "<img src=\"" + url_to_file + "\" height=\"200px\" width=\"200px\"/>"
+      '<img src="' + url_to_file + '" height="200px" width="200px"/>'
     else
-      "<a href=\"" + url_to_file + "\" download><span class=\"glyphicon glyphicon-download-alt\"></span>" + attach_file_path.match(/(\w|[-.])+$/)[0] + "</a>"
+      '<a href="' + url_to_file + '" download><span class="glyphicon glyphicon-download-alt"></span>' + attach_file_path.match(/(\w|[-.])+$/)[0] + '</a>'
   send_message = ->
     ++i
-    $(".chat").prepend "<div class=\"pag\"><div class=\"glyphicon glyphicon-chevron-up\"></div></div>"  if pagExist isnt true  if i is 31
+    $(".chat").prepend '<div class="pag"><div class="glyphicon glyphicon-chevron-up"></div></div>'  if pagExist isnt true  if i is 31
     if $("input[type=\"file\"]")[0].files[0]
       $(".input").block
-        message: "<img src=\"../img/busy.gif\" /><p>File uploading, please wait</p>"
+        message: '<img src="../img/busy.gif" /><p>File uploading, please wait</p>'
         css: {}
 
     if $.trim(message_textarea.val()).length > 0 or ($("input[type=\"file\"]")[0].files[0])
@@ -203,9 +203,9 @@ $(document).ready ->
         "<div id=\"short-text\" style=\"display: block;\">" + "<small class=\"pull-right text-muted\">" + "<span class=\"glyphicon glyphicon-chevron-down\" style=\"cursor: pointer;\"></span></small>" + "<p class=\"primary-font\">" + "<div class=\"text-muted\">" + "<i>" + "This message has a content..." + "</i></div></p></div>" + "<div id=\"long-text\" style=\"display: none;\">" + "<small class=\"pull-right text-muted\">" + "<span class=\"glyphicon glyphicon-chevron-up\" style=\"cursor: pointer;\"></span></small>" + "<p>" + $.trim(changetags(safe_tags_replace(messag))) + "</p>" + "</div>"
       else
         if messag.match(/(\b\w+:\/\/\w+((\.\w)*\w+)*\.\S{2,3}(\/\S*|\.\w*|\?\w*\=\S*)*)/)
-          "<div id=\"short-text\" style=\"display: block;\">" + "<small class=\"pull-right text-muted\">" + "<span class=\"glyphicon glyphicon-chevron-down\" style=\"cursor: pointer;\"></span></small>" + "<p><a href=" + messag.substr(0, 109) + "..." + "\"  target=\"_blank\">" + messag.substr(0, 109) + "..." + "</a></p></div>" + "<div id=\"long-text\" style=\"display: none;\">" + "<small class=\"pull-right text-muted\">" + "<span class=\"glyphicon glyphicon-chevron-up\" style=\"cursor: pointer;\"></span></small>" + "<p>" + $.trim(changetags(safe_tags_replace(messag))) + "</p>" + "</div>"
+          '<div id="short-text" style="display: block;"><small class="pull-right text-muted"><span class="glyphicon glyphicon-chevron-down" style="cursor: pointer;"></span></small><p><a href='+ messag.substr(0, 109) + "..." + "\"  target=\"_blank\">" + messag.substr(0, 109) + "..." + "</a></p></div>" + "<div id=\"long-text\" style=\"display: none;\">" + "<small class=\"pull-right text-muted\">" + "<span class=\"glyphicon glyphicon-chevron-up\" style=\"cursor: pointer;\"></span></small>" + "<p>" + $.trim(changetags(safe_tags_replace(messag))) + "</p>" + "</div>"
         else
-          "<div id=\"short-text\" style=\"display: block;\">" + "<small class=\"pull-right text-muted\">" + "<span class=\"glyphicon glyphicon-chevron-down\" style=\"cursor: pointer;\"></span></small>" + "<p>" + $.trim(changetags(safe_tags_replace(messag))).substr(0, 109) + "..." + "</p></div>" + "<div id=\"long-text\" style=\"display: none;\">" + "<small class=\"pull-right text-muted\">" + "<span class=\"glyphicon glyphicon-chevron-up\" style=\"cursor: pointer;\"></span></small>" + "<p>" + $.trim(changetags(safe_tags_replace(messag))) + "</p>" + "</div>"
+          '<div id="short-text" style="display: block;"><small class="pull-right text-muted"><span class="glyphicon glyphicon-chevron-down" style="cursor: pointer;"></span></small><p>'+ $.trim(changetags(safe_tags_replace(messag))).substr(0, 109) + "..." + "</p></div>" + "<div id=\"long-text\" style=\"display: none;\">" + "<small class=\"pull-right text-muted\">" + "<span class=\"glyphicon glyphicon-chevron-up\" style=\"cursor: pointer;\"></span></small>" + "<p>" + $.trim(changetags(safe_tags_replace(messag))) + "</p>" + "</div>"
     else
       "<p>" + $.trim(changetags(safe_tags_replace(messag))) + "</p>"
 

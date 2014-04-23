@@ -21,9 +21,9 @@
 //= require jquery.overlay
 //= require jquery.textcomplete.min
 //= require jquery.blockUI
-//= require user
 //= require jquery.timeago.js
 //= require messages
-//= require pusher.js
+//= require pusher
+//= require user
 //= require bootstrap
-//= require rooms.js
+//= require rooms

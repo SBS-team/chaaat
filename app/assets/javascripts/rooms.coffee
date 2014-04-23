@@ -5,6 +5,23 @@ $("#modal-submit").click ->
   return
 
 jQuery ($) ->
+  system_message = (body) ->
+    fd = new FormData()
+    fd.append "messages[body]", $.trim(body)
+    fd.append "messages[room_id]", gon.room_id
+    fd.append "messages[message_type]", "system"
+    $.ajax
+      type: "POST"
+      beforeSend: (xhr) ->
+        xhr.setRequestHeader "X-CSRF-Token", $("meta[name=\"csrf-token\"]").attr("content")
+        return
+
+      url: "/messages"
+      data: fd
+      processData: false
+      contentType: false
+
+    return
   singleClick = (e) ->
     self.location = "/persons/" + $(e).html()
     return
