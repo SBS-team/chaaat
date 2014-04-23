@@ -106,7 +106,6 @@ channel2.bind('user_add_to_room', function(data) {
         "</tr>" +
         "</table>"
     );
-
     room_owner_id = data.rooms_owner_id;
 });
 
@@ -175,6 +174,8 @@ if(gon.room_id){
                     },
                     success: function(response){
                         joined_member.remove();
+                        system_message("User: " + response.user_login + " has been deleted from room: " + response.room_name);
+                        users.splice(users.indexOf(response.user_login), 1);
                     }
                 });
             },
@@ -182,6 +183,7 @@ if(gon.room_id){
             cancelButton: "No",
             post: false
         });
+        $('.user_friend[data-user-id = ' + joined_member.data('user-id') + ']').remove();
     });
 
 
@@ -192,6 +194,8 @@ if(gon.room_id){
 
     channel.bind('del_user_from_room', function(data) {
         $(".member[data-user-id = \"" + data.drop_user_id + "\"]").remove();
+        $(".member[friend_id = '" + data.drop_user_id + "']").append("<span class='glyphicon glyphicon-plus pull-right user_friend' data-user-id = "
+            + data.drop_user_id +"></span>");
     });
 
 }

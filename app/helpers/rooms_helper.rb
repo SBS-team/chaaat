@@ -7,4 +7,13 @@ module RoomsHelper
     end
     member_count
   end
+
+  def user_in_room?(room_id, user_id)
+    if RoomsUser.where(:room_id => room_id, :user_id => user_id).first != nil
+      true
+    else
+      false
+    end
+  end
+
 end

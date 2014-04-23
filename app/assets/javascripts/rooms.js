@@ -35,7 +35,7 @@ jQuery(function($){
         })
             .done(function(response){
                 system_message("User: " + response.joined_user.login + " has been added to room: " + response.room_name);
-                $('div[friend_id='+response.joined_user.id+']').remove();
+                $('.user_friend[data-user-id = ' + response.joined_user.id + ']').remove();
             });
         return false;
     });
