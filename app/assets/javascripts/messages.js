@@ -492,7 +492,6 @@ $(document).ready(function(){
             add_room_user_span = "<span class='glyphicon glyphicon-plus pull-right user_friend' data-user-id='" + user_id + "'></span>";
         }
         return add_room_user_span;
-
     });
 
     var template_search_user_right='{{#users}}<div class=\"member\" friend_id={{id}} ><a data-method="post" href="/persons/{{login}}" rel="nofollow"><span class="{{#get_icon_status user_status}}{{/get_icon_status}}"></span>{{login}}</a>{{#check_room_user_presence login id}}{{/check_room_user_presence}}</div>{{/users}}';
