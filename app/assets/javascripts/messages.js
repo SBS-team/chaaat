@@ -123,6 +123,7 @@ $(document).ready(function(){
                 success: function(response){
                     system_message("User: " + response.user_login + " has been deleted from room: " + response.room_name);
                     joined_member.remove();
+                    users.splice(users.indexOf(response.user_login), 1);
                 }
             });
         },
@@ -484,7 +485,17 @@ $(document).ready(function(){
 
      }
 
-    var template_search_user_right='{{#users}}<div class=\"member\"><a data-method="post" href="/persons/{{login}}" rel="nofollow"><span class="{{#get_icon_status user_status}}{{/get_icon_status}}"></span>{{login}}</a><span class="glyphicon glyphicon-plus pull-right user_friend" data-user-id="{{id}}"></span></div>{{/users}}';
+
+    Handlebars.registerHelper("check_room_user_presence",function (user_login, user_id){
+        var add_room_user_span = "";
+        if(users.indexOf(user_login) == -1){
+            add_room_user_span = "<span class='glyphicon glyphicon-plus pull-right user_friend' data-user-id='" + user_id + "'></span>";
+        }
+        return add_room_user_span;
+
+    });
+
+    var template_search_user_right='{{#users}}<div class=\"member\" friend_id={{id}} ><a data-method="post" href="/persons/{{login}}" rel="nofollow"><span class="{{#get_icon_status user_status}}{{/get_icon_status}}"></span>{{login}}</a>{{#check_room_user_presence login id}}{{/check_room_user_presence}}</div>{{/users}}';
     var search_user_right = Handlebars.compile(template_search_user_right);
     $('#search-user').keyup(function(){
         if ($(this).val().match(/^[-a-z0-9!#$%&'*+/=?^_`{|}~]+(\.[-a-z0-9!#$%&'*+/=?^_`{|}~]+)*@([a-z0-9]([-a-z0-9]{0,61}[a-z0-9])?\.)*(aero|arpa|asia|biz|cat|com|coop|edu|gov|info|int|jobs|mil|mobi|museum|name|net|org|pro|tel|travel|[a-z][a-z])$/)){

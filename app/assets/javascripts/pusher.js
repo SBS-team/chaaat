@@ -175,6 +175,7 @@ if(gon.room_id){
                     success: function(response){
                         joined_member.remove();
                         system_message("User: " + response.user_login + " has been deleted from room: " + response.room_name);
+                        users.splice(users.indexOf(response.user_login), 1);
                     }
                 });
             },

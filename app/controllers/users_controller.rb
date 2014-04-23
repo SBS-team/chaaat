@@ -3,7 +3,7 @@ class UsersController < ApplicationController
 
   def search
     users = User.where("login like ? AND id != ?", "%#{params[:login]}%", current_user.id)
-    render :json=>users, :root=>"users"
+    render :json => users, :root => "users"
   end
 
 
