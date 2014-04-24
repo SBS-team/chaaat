@@ -22,6 +22,7 @@
 //= require jquery.textcomplete.min
 //= require jquery.blockUI
 //= require user
+//= require main
 //= require jquery.timeago.js
 //= require messages
 //= require pusher

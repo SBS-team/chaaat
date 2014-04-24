@@ -348,6 +348,7 @@ $(document).ready ->
       if input_file
         $(".attach_wrapper").remove()
         $("label.upload-but").popover "hide"
+        message_textarea.val("");
       e.preventDefault()
     document.getElementById("message").value += "\r\n"  if e.keyCode is 13 and e.ctrlKey
     return
