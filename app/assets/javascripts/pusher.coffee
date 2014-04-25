@@ -1,5 +1,5 @@
-root = exports ? this
-get_user_status_style = (user_status_id) ->
+@get_user_status_style = (user_status_id) ->
+
   switch user_status_id
     when "Available"
       "glyphicon glyphicon-eye-open drop-av drop-col-mar"
@@ -19,7 +19,7 @@ Handlebars.registerHelper "get_icon_status", (value) ->
 
 Handlebars.registerHelper "set_user_to_drop", (room_owner_id) ->
   drop_room_user_span = ""
-  drop_room_user_span = "<span class=\"glyphicon glyphicon-minus pull-right drop_room_user\"></span>"  if room_owner_id is gon.user_id
+  drop_room_user_span = '<span class="glyphicon glyphicon-minus pull-right drop_room_user"></span>'  if room_owner_id is gon.user_id
   drop_room_user_span
 
 template_add_user_right = "<div class=\"member\" id=\"{{user_id}}\" data-room-id=\"{{room_id}}\" data-toggle=\"tooltip\" data-user-id=\"{{user_id}}\" title=\"{{user_status}}\"><span class =\"{{#get_icon_status user_status}}{{/get_icon_status}}\"></span><a href=\"#\">{{user_login}}</a>{{#set_user_to_drop rooms_owner_id}}{{/set_user_to_drop}}</div>"
@@ -93,25 +93,25 @@ channel2.bind "user_add_to_room", (data) ->
     allow_dismiss: true
     stackup_spacing: 10
 
-  $(".lobby-panel #tabs").append "<li id=\"room\"><a room_id=" + data.rooms_id + " href=/rooms/" + data.rooms_id + ">" + data.rooms_name + "</a></li>"
+  $(".lobby-panel #tabs").append '<li id="room"><a room_id=' + data.rooms_id + ' href=/rooms/' + data.rooms_id + '>' + data.rooms_name + '</a></li>'
   remove_room_span = ""
   remove_room_span = "<span class='delete_room glyphicon glyphicon-remove-circle' data-id='" + data.rooms_id + "'></span>"  if gon.user_id is data.rooms_owner_id
   $("div#room_list").append "<table class='rooms_group' data-room='" + data.rooms_id + "'>" + "<tr>" + "<td class='name'>" + "<a class='clean'>" + "<a href='/rooms/" + data.rooms_id + "' room_id='" + data.rooms_id + "'>" + data.rooms_name + "</a>" + "</a>" + "</td>" + "<td class='memb-count'>" + data.room_members_count + " members" + "</td>" + "<td class='owner'> Owned by: " + "<a href='/persons/" + data.room_owner_id + "'>" + data.rooms_owner_login + "</a>" + "</td>" + "<td class='set-arr'>" + remove_room_span + "</td>" + "</tr>" + "</table>"
   room_owner_id = data.rooms_owner_id
   return
 
-channel2.bind "private_del_user_from_room", (data) ->
+channel2.bind 'private_del_user_from_room', (data) ->
   $.bootstrapGrowl "You have been removed from the room: " + data.rooms_name,
     type: "success" # (null, 'info', 'error', 'success')
     offset: # 'top', or 'bottom'
       from: "top"
       amount: 50
 
-    align: "center" # ('left', 'right', or 'center')
-    width: 250 # (integer, or 'auto')
+    align: "center"
+    width: 250
     delay: 10000
     allow_dismiss: true
-    stackup_spacing: 10 # spacing between consecutively stacked growls.
+    stackup_spacing: 10
 
   $("a[room_id='" + data.room_id + "']").parent().remove()
   $(".rooms_group[data-room='" + data.room_id + "']").remove()  if self.location.pathname is "/rooms"
@@ -140,7 +140,7 @@ if gon.room_id
     return
 
   channel.bind "add_user_to_room", (data) ->
-    root.users.push data.user_login
+    window.users.push data.user_login
     $(".list").append add_user_right(data)
     if data.user_status is "Offline"
       document.getElementById(data.user_id).title = "Offline " + jQuery.timeago(data.user_sign_out_time)

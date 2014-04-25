@@ -12,96 +12,50 @@
       .pag
         .glyphicon.glyphicon-chevron-up
     #messages-wrapper
-      - if @messages
-        -@messages.each_with_index do |message, i|
-          -if message.body.length>240 || message.body.scan(/http.*(jpg|gif|jpeg)/)!=[] || message.body.scan(/http.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?].\S\S*)/)!=[] || message.body.scan(/http:\/\/(coub\.com\/view\/.*|coub\.com\/embed\/.*)/i)!=[]
-            -if message.user_id==current_user.id
-              %li.from.clearfix{:data=>{:id=>message.id}}
-                %span.chat-img.pull-left
-                  =image_tag avatar_url(message.user, 50),:class => "avatar"
-                .chat-body.clearfix
-                  .header
-                    %strong.primary-font
-                      =link_to message.user.login, user_path(message.user.login)
+      -@messages.each_with_index do |message, i|
+        -if message.body.length>240 || message.body.scan(/http.*(jpg|gif|jpeg)/)!=[] || message.body.scan(/http.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?].\S\S*)/)!=[] || message.body.scan(/http:\/\/(coub\.com\/view\/.*|coub\.com\/embed\/.*)/i)!=[]
+          %li.clearfix{:data=>{:id=>message.id},:class=>(message.user_id==current_user.id ? "from" : "to" )}
+            %span.chat-img.pull-left
+              =image_tag avatar_url(message.user, 50),:class => "avatar"
+            .chat-body.clearfix
+              .header
+                %strong.primary-font
+                  =link_to message.user.login, user_path(message.user.login)
+                %small.pull-right.text-muted
+                  %span.glyphicon.glyphicon-time>
+                  =message.created_at.strftime("%a %T")
+                .message
+                  #short-text
                     %small.pull-right.text-muted
-                      %span.glyphicon.glyphicon-time>
-                      =message.created_at.strftime("%a %T")
-                    .message
-                      #short-text
-                        %small.pull-right.text-muted
-                          %span.glyphicon.glyphicon-chevron-down{style: "cursor: pointer;"}
-                        -if message.body.scan(/http.*(jpg|gif|jpeg)/)!=[] || message.body.scan(/http.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?].\S\S*)/)!=[] || message.body.scan(/http:\/\/(coub\.com\/view\/.*|coub\.com\/embed\/.*)/i)!=[]
-                          .text-muted
-                            %i= "This message has a content..."
-                        -else
-                          %p= truncate(message.body, separator: ' ', length: 112)
-                      #long-text{style: "display: none;"}
-                        %small.pull-right.text-muted
-                          %span.glyphicon.glyphicon-chevron-up{style: "cursor: pointer;"}
-                        %p= message.body
-                        -if message.attach_path?
-                          %br
-
-            -else
-              %li.to.clearfix{:data=>{:id=>message.id}}
-                %span.chat-img.pull-left
-                  =image_tag avatar_url(message.user, 50),:class => "avatar"
-                .chat-body.clearfix
-                  .header
-                    %strong.primary-font
-                      =link_to message.user.login, user_path(message.user.login)
+                      %span.glyphicon.glyphicon-chevron-down{style: "cursor: pointer;"}
+                    -if message.body.scan(/http.*(jpg|gif|jpeg)/)!=[] || message.body.scan(/http.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?].\S\S*)/)!=[] || message.body.scan(/http:\/\/(coub\.com\/view\/.*|coub\.com\/embed\/.*)/i)!=[]
+                      .text-muted
+                        %i= "This message has a content..."
+                    -else
+                      %p= truncate(message.body, separator: ' ', length: 112)
+                  #long-text{style: "display: none;"}
                     %small.pull-right.text-muted
-                      %span.glyphicon.glyphicon-time>
-                      =message.created_at.strftime("%a %T")
-                    .message
-                      #short-text
-                        %small.pull-right.text-muted
-                          %span.glyphicon.glyphicon-chevron-down{style: "cursor: pointer;"}
-                        -if message.body.scan(/http.*(jpg|gif|jpeg)/)!=[] || message.body.scan(/http.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?].\S\S*)/)!=[] || message.body.scan(/http:\/\/(coub\.com\/view\/.*|coub\.com\/embed\/.*)/i)!=[]
-                          .text-muted
-                            %i= "This message has a content..."
-                        -else
-                          %p= truncate(message.body, separator: ' ', length: 112)
-                      #long-text{style: "display: none;"}
-                        %small.pull-right.text-muted
-                          %span.glyphicon.glyphicon-chevron-up{style: "cursor: pointer;"}
-                        %p= message.body
-                        -if message.attach_path?
-                          %br
-          -else
-            -if message.user_id==current_user.id
-              %li.from.clearfix{:data=>{:id=>message.id}}
-                %span.chat-img.pull-left
-                  =image_tag (message.user) ? avatar_url(message.user, 50) : "../img/sys-notification.png",:class => "avatar"
-                .chat-body.clearfix
-                  .header
-                    %strong.primary-font
-                      =(message.user) ? (link_to message.user.login, user_path(message.user.login)) : "chat notification"
-                    %small.pull-right.text-muted
-                      %span.glyphicon.glyphicon-time>
-                      =message.created_at.strftime("%a %T")
-                    .message
-                      %p= message.body
-                      -if message.attach_path?
-                        %br
-                        %p.attach_file= message.attach_path
-            -else
-              %li.to.clearfix{:data=>{:id=>message.id}}
-                %span.chat-img.pull-left
-                  =image_tag (message.user) ? avatar_url(message.user, 50) : "../img/sys-notification.png",:class => "avatar"
-                .chat-body.clearfix
-                  .header
-                    %strong.primary-font
-                      =(message.user) ? (link_to message.user.login, user_path(message.user.login)) : "chat notification"
-                    %small.pull-right.text-muted
-                      %span.glyphicon.glyphicon-time>
-                      =message.created_at.strftime("%a %T")
-                    .message
-                      %p=message.body
-                      -if message.attach_path?
-                        %br
-                        %p.attach_file= message.attach_path
-
+                      %span.glyphicon.glyphicon-chevron-up{style: "cursor: pointer;"}
+                    %p= message.body
+                    -if message.attach_path?
+                      %br
+                      %p.attach_file= message.attach_path    
+        -else
+          %li.clearfix{:data=>{:id=>message.id},:class=>(message.user_id==current_user.id ? "from" : "to")}
+            %span.chat-img.pull-left
+              =image_tag (message.user) ? avatar_url(message.user, 50) : "../img/sys-notification.png",:class => "avatar"
+            .chat-body.clearfix
+              .header
+                %strong.primary-font
+                  =(message.user) ? (link_to message.user.login, user_path(message.user.login)) : "chat notification"
+                %small.pull-right.text-muted
+                  %span.glyphicon.glyphicon-time>
+                  =message.created_at.strftime("%a %T")
+                .message
+                  %p=message.body
+                  -if message.attach_path?
+                    %br
+                    %p.attach_file= message.attach_path 
   .input
     = form_for @message, :authenticity_token => true, :url => messages_path,:id=>"form-message", :name => "messageForm", :html => {:multipart => true}, :method=>"post" do |f|
       %table{:cellspacing => "0", :width => "100%"}
@@ -121,14 +75,10 @@
             %td{:width => "1%"}
               %div.form-but.upload-but
                 -smile=render "layouts/index"
-                %span.glyphicon.glyphicon-thumbs-up#lineh#pop{"data-container" => "body",
-                                                        "data-content" => smile,
-                                                        "data-placement" => "top",
-                                                        "data-toggle" => "popover", type: "button"}
+                %span.glyphicon.glyphicon-thumbs-up#lineh#pop{:data=>{:container=>"body",:content=> smile,:placement=>"top",:toggle=>"popover"}, :type=>"button"}
             %td{:width => "1%"}
               %div.form-but.upload-but.send_message_button
                 %span.glyphicon.glyphicon-send
-
 %audio#new-message
   %source{:src=>"../sounds/button_tiny.ogg", :type=>"audio/ogg"}
   %source{:src=>"../sounds/button_tiny.mp3", :type=>"audio/mp3"}
