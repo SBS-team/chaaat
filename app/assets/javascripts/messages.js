@@ -50,7 +50,7 @@ $(document).ready(function(){
                         else {return  "<p>"+$.trim(changetags(safe_tags_replace(messag)))+ "</p>"; }});
     Handlebars.registerHelper("attach-files",function (attach_file_path){return check_file(attach_file_path) });
 
-    Handlebars.registerHelper("change_login",function (user_id,login){return (user_id!= null) ? "<a href=\"/persons/"+ user_id +"\">"+ login + "</a>" : "chat notification";});
+    Handlebars.registerHelper("change_login",function (user_id,login){return (user_id!= null) ? "<a href=\"/persons/"+ login +"\">"+ login + "</a>" : "chat notification";});
     var template = Handlebars.compile($('#template_message').html());
 
     function smiles_render(){
