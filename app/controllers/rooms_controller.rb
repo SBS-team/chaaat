@@ -14,12 +14,12 @@ class RoomsController < ApplicationController
     @room = Room.create(room_params.merge(:user_id=>current_user.id))
     RoomsUser.create(:user_id => current_user.id, :room_id => @room.id)
     if params[:express]
-      Pusher["private-#{params[:user_id]}"].trigger_async('user_add_to_room', {:rooms_id=>@room.id,:rooms_name=>@room.name,
-                                                                               :room_owner_id => @room.user_id,
-                                                                               :user_login => current_user.login,
-                                                                               :user_id => current_user.id,
-                                                                               :rooms_owner_login => current_user.login,
-                                                                               :room_members_count => "2"})
+      Pusher["private-#{params[:user_id]}"].trigger_async('user_add_to_room',{:rooms_id=>@room.id,:rooms_name=>@room.name,
+                                                                              :room_owner_id => @room.user_id,
+                                                                              :user_login => current_user.login,
+                                                                              :user_id => current_user.id,
+                                                                              :rooms_owner_login => current_user.login,
+                                                                              :room_members_count => "2"})
       RoomsUser.create(:user_id => params[:user_id], :room_id => @room.id)
       render :json=>@room.id,:root=>false
     else
@@ -38,7 +38,7 @@ class RoomsController < ApplicationController
       @room=Room.find(params[:id])
       @message = Message.new
       gon.room_id = params[:id]
-      @message_count = Message.where(:room_id=>params[:id]).preload(:user).count
+      @message_count = Message.where(:room_id=>params[:id]).count
       @messages = Message.where(:room_id=>params[:id]).preload(:user).order(created_at: :asc).last(10)
       @links = Message.where("room_id = ? AND (body LIKE ? OR body LIKE ? OR body LIKE ?)",params[:id],"%http://%","%https://%","%ftp://%").preload(:user).order(created_at: :asc)
       @attah = Message.where("room_id = ? AND attach_path IS NOT NULL",params[:id]).preload(:user).order(created_at: :asc)

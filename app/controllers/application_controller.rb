@@ -27,8 +27,7 @@ class ApplicationController < ActionController::Base
     end
 
   def background_image
-    backgrounds = Background.all.shuffle
-    @background_image = backgrounds.first
+    @background_image = Background.all.shuffle.first
   end
 
   private

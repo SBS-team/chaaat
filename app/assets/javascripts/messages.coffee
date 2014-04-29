@@ -1,4 +1,22 @@
 root = exports ? this
+@system_message = (body) ->
+  fd = new FormData()
+  fd.append "messages[body]", $.trim(body)
+  fd.append "messages[room_id]", gon.room_id
+  fd.append "messages[message_type]", "system"
+  $.ajax
+    type: "POST"
+    beforeSend: (xhr) ->
+      xhr.setRequestHeader "X-CSRF-Token", $("meta[name=\"csrf-token\"]").attr("content")
+      return
+
+    url: "/messages"
+    data: fd
+    processData: false
+    contentType: false
+
+  return
+
 $(document).ready ->
 
   smiles_render = ->
@@ -12,15 +30,15 @@ $(document).ready ->
   check_file = (attach_file_path) ->
     url_to_file = location.origin + attach_file_path
     if url_to_file.match(/http.*(jpg|gif|jpeg|png)/)
-      "<img src=\"" + url_to_file + "\" height=\"200px\" width=\"200px\"/>"
+      '<img src="' + url_to_file + '" height="200px" width="200px"/>'
     else
-      "<a href=\"" + url_to_file + "\" download><span class=\"glyphicon glyphicon-download-alt\"></span>" + attach_file_path.match(/(\w|[-.])+$/)[0] + "</a>"
+      '<a href="' + url_to_file + '" download><span class="glyphicon glyphicon-download-alt"></span>' + attach_file_path.match(/(\w|[-.])+$/)[0] + '</a>'
   send_message = ->
     ++i
     (($(".chat").prepend "<div class=\"pag\"><div class=\"glyphicon glyphicon-chevron-up\"></div></div>")  if pagExist isnt true)  if i is 31
     if $("input[type=\"file\"]")[0].files[0]
       $(".input").block
-        message: "<img src=\"../img/busy.gif\" /><p>File uploading, please wait</p>"
+        message: '<img src="../img/busy.gif" /><p>File uploading, please wait</p>'
         css: {}
 
     if $.trim(message_textarea.val()).length > 0 or ($("input[type=\"file\"]")[0].files[0])
@@ -175,23 +193,7 @@ $(document).ready ->
       return
 
     return
-  root.system_message = (body) ->
-    fd = new FormData()
-    fd.append "messages[body]", $.trim(body)
-    fd.append "messages[room_id]", gon.room_id
-    fd.append "messages[message_type]", "system"
-    $.ajax
-      type: "POST"
-      beforeSend: (xhr) ->
-        xhr.setRequestHeader "X-CSRF-Token", $("meta[name=\"csrf-token\"]").attr("content")
-        return
 
-      url: "/messages"
-      data: fd
-      processData: false
-      contentType: false
-
-    return
   Handlebars.registerHelper "equal", (r_value) ->
     if gon.user_id is r_value
       "from"
@@ -205,9 +207,9 @@ $(document).ready ->
         "<div id=\"short-text\" style=\"display: block;\">" + "<small class=\"pull-right text-muted\">" + "<span class=\"glyphicon glyphicon-chevron-down\" style=\"cursor: pointer;\"></span></small>" + "<p class=\"primary-font\">" + "<div class=\"text-muted\">" + "<i>" + "This message has a content..." + "</i></div></p></div>" + "<div id=\"long-text\" style=\"display: none;\">" + "<small class=\"pull-right text-muted\">" + "<span class=\"glyphicon glyphicon-chevron-up\" style=\"cursor: pointer;\"></span></small>" + "<p>" + $.trim(changetags(safe_tags_replace(messag))) + "</p>" + "</div>"
       else
         if messag.match(/(\b\w+:\/\/\w+((\.\w)*\w+)*\.\S{2,3}(\/\S*|\.\w*|\?\w*\=\S*)*)/)
-          "<div id=\"short-text\" style=\"display: block;\">" + "<small class=\"pull-right text-muted\">" + "<span class=\"glyphicon glyphicon-chevron-down\" style=\"cursor: pointer;\"></span></small>" + "<p><a href=" + messag.substr(0, 109) + "..." + "\"  target=\"_blank\">" + messag.substr(0, 109) + "..." + "</a></p></div>" + "<div id=\"long-text\" style=\"display: none;\">" + "<small class=\"pull-right text-muted\">" + "<span class=\"glyphicon glyphicon-chevron-up\" style=\"cursor: pointer;\"></span></small>" + "<p>" + $.trim(changetags(safe_tags_replace(messag))) + "</p>" + "</div>"
+          '<div id="short-text" style="display: block;"><small class="pull-right text-muted"><span class="glyphicon glyphicon-chevron-down" style="cursor: pointer;"></span></small><p><a href='+ messag.substr(0, 109) + "..." + "\"  target=\"_blank\">" + messag.substr(0, 109) + "..." + "</a></p></div>" + "<div id=\"long-text\" style=\"display: none;\">" + "<small class=\"pull-right text-muted\">" + "<span class=\"glyphicon glyphicon-chevron-up\" style=\"cursor: pointer;\"></span></small>" + "<p>" + $.trim(changetags(safe_tags_replace(messag))) + "</p>" + "</div>"
         else
-          "<div id=\"short-text\" style=\"display: block;\">" + "<small class=\"pull-right text-muted\">" + "<span class=\"glyphicon glyphicon-chevron-down\" style=\"cursor: pointer;\"></span></small>" + "<p>" + $.trim(changetags(safe_tags_replace(messag))).substr(0, 109) + "..." + "</p></div>" + "<div id=\"long-text\" style=\"display: none;\">" + "<small class=\"pull-right text-muted\">" + "<span class=\"glyphicon glyphicon-chevron-up\" style=\"cursor: pointer;\"></span></small>" + "<p>" + $.trim(changetags(safe_tags_replace(messag))) + "</p>" + "</div>"
+          '<div id="short-text" style="display: block;"><small class="pull-right text-muted"><span class="glyphicon glyphicon-chevron-down" style="cursor: pointer;"></span></small><p>'+ $.trim(changetags(safe_tags_replace(messag))).substr(0, 109) + "..." + "</p></div>" + "<div id=\"long-text\" style=\"display: none;\">" + "<small class=\"pull-right text-muted\">" + "<span class=\"glyphicon glyphicon-chevron-up\" style=\"cursor: pointer;\"></span></small>" + "<p>" + $.trim(changetags(safe_tags_replace(messag))) + "</p>" + "</div>"
     else
       "<p>" + $.trim(changetags(safe_tags_replace(messag))) + "</p>"
 
@@ -219,15 +221,13 @@ $(document).ready ->
       "<a href=\"/persons/" + login + "\">" + login + "</a>"
     else
       "chat notification"
-
-
   template = Handlebars.compile($("#template_message").html())
   $("#pop").popover html: true
   message_textarea = $("#message")
   iframe = $("iframe")
   search = $("#search")
   input_file = $("input[type=file]#attach_path")
-  root.users = ["all"].concat(gon.rooms_users)
+  @users = ["all"].concat(gon.rooms_users)
   message_offset = 10
   invoted_users()
   show_attachment()
@@ -297,7 +297,7 @@ $(document).ready ->
     post: false
 
   $(".content").on "click", ".delete_room", (event) ->
-    root.element_delete_room = event.currentTarget
+    @element_delete_room = event.currentTarget
     return
 
   $(".delete_room").confirm
@@ -305,7 +305,7 @@ $(document).ready ->
     title: "Confirmation required"
     confirm: ->
       $.ajax
-        url: "../rooms/" + $(root.element_delete_room).data("id")
+        url: "../rooms/" + $(@element_delete_room).data("id")
         type: "POST"
         beforeSend: (xhr) ->
           xhr.setRequestHeader "X-CSRF-Token", $("meta[name=\"csrf-token\"]").attr("content")
