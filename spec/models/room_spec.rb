@@ -9,6 +9,7 @@
 #  topic      :string(255)
 #  created_at :datetime
 #  updated_at :datetime
+#  user_id    :integer
 #
 
 >>>>>>> 9dde62727069a06226059d77ebb237c88094d748

@@ -1,7 +1,6 @@
 class Room < ActiveRecord::Base
   has_many :message
   has_many :rooms_users
-
 # == Schema Information
 #
 # Table name: rooms
@@ -11,6 +10,7 @@ class Room < ActiveRecord::Base
 #  topic      :string(255)
 #  created_at :datetime
 #  updated_at :datetime
+#  user_id    :integer
 #
 
 end
