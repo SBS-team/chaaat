@@ -44,19 +44,20 @@
 #
 
 class User < ActiveRecord::Base
-  has_many :message
-  has_many :room
-  has_many :friendships
+  has_many :message, dependent: :destroy
+  has_many :room, dependent: :destroy
+  has_many :friendships, dependent: :destroy
   has_many :inverse_friendships, :class_name => "Friendship", :foreign_key => "friend_id"
   has_many :inverse_friends, :through => :inverse_friendships, :source => :user
-  has_many :rooms_users
+  has_many :rooms_users, dependent: :destroy
   has_many :friends, :through => :friendships
-  belongs_to :user_stat
   validates :email, :encrypted_password, :presence => true
   validates_uniqueness_of :login, :message => "has already been taken"
   validates :login, format: { with: /\A[a-zA-Z0-9._-]+\Z/ }
+  validates :login, length: 1..20, :presence => true
   devise :invitable, :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable,:omniauthable, :omniauth_providers => [:github,:facebook]
+  before_save :default_stat
 
   def self.create_with_omniauth(auth, signed_in_resource=nil)
     user = User.where(:provider => auth.provider, :uid => auth.uid.to_s).first
@@ -68,19 +69,19 @@ class User < ActiveRecord::Base
         return registered_user
       else
         User.create(
-           firstname:auth.info.name,
-           login:auth.extra.raw_info.login,
-           provider:auth.provider,
-           uid:auth.uid,
-           email:auth.info.email,
-           password:Devise.friendly_token[0,20]
+            firstname:auth.info.name,
+            login:auth.extra.raw_info.login,
+            provider:auth.provider,
+            uid:auth.uid,
+            email:auth.info.email,
+            password:Devise.friendly_token[0,20]
         )
 
       end
     end
   end
 
-  def self.find_for_facebook_oauth(auth, signed_in_resource=nil)
+  def self.find_for_facebook_oauth(auth, signed_in_resource=nil)  #FIXME refactoring
     user = User.where(:provider => auth.provider, :uid => auth.uid).first
     if user
       return user
@@ -98,9 +99,15 @@ class User < ActiveRecord::Base
                     email:auth.info.email,
                     login:auth.extra.raw_info.username,
                     password:Devise.friendly_token[0,20]
-            )
+        )
       end
     end
   end
 
+  private
+  def default_stat
+     if self.user_status==nil
+     self.user_status="Offline"
+    end
+  end
 end

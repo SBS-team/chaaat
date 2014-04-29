@@ -11,7 +11,7 @@
           ="members"
         %td.owner
           ="Owned by: "
-          =link_to "#{room.user.login}", user_path(room.user.id)
+          =link_to "#{room.user.login}", user_path(room.user.login)
         %td.set-arr
           -if room.user.login==current_user.login
             %span.delete_room.glyphicon.glyphicon-remove-circle{:data=>{:id=>room.id}}

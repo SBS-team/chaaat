@@ -47,7 +47,7 @@
   overflow-x: hidden;
   height:100%;
   list-style: none;
-  margin: 7px -20px 0px -20px;
+  margin: 5px -20px 0px -20px;
   padding: 0 45px;
   li {
     margin-bottom: 10px;
@@ -76,7 +76,7 @@
     }
     .chat-body p {
       margin: 0;
-      color: #777777;
+      color: black;
       white-space: pre-line;
       white-space: -moz-pre-line;
       /* Mozilla, since 1999 */
@@ -117,4 +117,13 @@
 ::-webkit-scrollbar-thumb {
   -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
   background-color: #555;
+}
+
+#search-user{
+  margin: 0px 15px;
+  width:87%;
+}
+#send_invite{
+  background-color:#697686;
+  color:white;
 }

@@ -524,5 +524,33 @@ div.server-upsell {
 	font-size: 14px;
 	line-height: 20px;
 }
-
+.change_topic
+{
+  float: right;
+  margin-top: -20px;
+    margin-right: 2px;
+  cursor: pointer;
+}
+.room_topic
+{
+    background-color: #FFFFFF;
+    color: #808080;
+    margin: 3px auto;
+    text-align: center;
+}
+.user_friend
+{
+    cursor: pointer;
+}
+.social-button
+{
+    display: inline;
+    width: 35px;
+}
+.navbar-brand>.social-button
+{
+    width: 20px;
+}
 /* sign_up end */
+.tabbable .active{background-color: white;}
+.textcomplete-wrapper{height:100%;}

@@ -31,13 +31,13 @@ db/*.sqlite3
 .rspec
 .redcar/
 .sass-cache
+/Gemfile.lock
 /config/config.yml
 /config/database.yml
 /coverage.data
 /coverage/
 /db/*.javadb/
 /db/*.sqlite3
-/db/schema.rb
 /doc/api/
 /doc/app/
 /doc/features.html
@@ -50,6 +50,7 @@ db/*.sqlite3
 /capybara*
 /capybara-*.html
 /gems
+/public/uploads
 /specifications
 rerun.txt
 pickle-email-*.html

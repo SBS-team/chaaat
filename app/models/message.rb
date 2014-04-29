@@ -18,12 +18,22 @@
 #
 
 
-
+require 'file_size_validator'
 class Message < ActiveRecord::Base
   require 'carrierwave'
   belongs_to :user
   belongs_to :room
   mount_uploader :attach_path, ImageUploader
-  validates :user_id, :room_id, :presence => true
+  validates :attach_path,
+            :file_size => {
+                :maximum => 20.megabytes.to_i
+            }
+  validates  :room_id, :presence => true
+  before_save :gsub_message, on: :create
+
+  private
+  def gsub_message
+    self.body.gsub!(/[\n]/,"")
+  end
 
 end

@@ -16,7 +16,7 @@ gem 'unicorn'
 gem 'unicorn-rails'
 gem 'omniauth'
 gem 'omniauth-facebook'
-gem 'omniauth-github', '1.0.1'
+gem 'omniauth-github'
 gem 'pusher'
 gem 'rails-erd'
 gem 'gon'
@@ -24,9 +24,12 @@ gem "annotate"
 gem 'sanitize'
 gem "active_model_serializers"
 gem 'emoji'
+gem 'dotenv-rails'
 gem 'activerecord-reset-pk-sequence'
 gem 'carrierwave'
-
+gem 'activeadmin', github: 'gregbell/active_admin'
+gem 'audiojs', '~> 0.1.2'
+gem 'exception_notification'
 group :development do
   gem 'better_errors'
   gem 'binding_of_caller', :platforms=>[:mri_19, :mri_20, :rbx]
@@ -34,12 +37,10 @@ group :development do
   gem 'html2haml'
   gem 'quiet_assets'
   gem 'rails_layout'
-
   gem 'capistrano'
   gem 'capistrano-bundler'
   gem 'capistrano-rvm'
   gem 'capistrano-rails'
-
   gem "disable_assets_logger"
 end
 

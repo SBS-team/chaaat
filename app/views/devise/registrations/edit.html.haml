@@ -23,23 +23,24 @@
         = f.label :email
         %br/
         = f.email_field :email, class: 'form-control'
-    .form-group
-      %div
-        = f.label :password
-        %i (leave blank if you don't want to change it)
-        %br/
-        = f.password_field :password, :autocomplete => "off", class: 'form-control'
-    .form-group
-      %div
-        = f.label :password_confirmation
-        %br/
-        = f.password_field :password_confirmation, class: 'form-control'
-    .form-group
-      %div
-        = f.label :current_password
-        %i (we need your current password to confirm your changes)
-        %br/
-        = f.password_field :current_password, class: 'form-control'
+    -if current_user.provider==nil
+      .form-group
+        %div
+          = f.label :password
+          %i (leave blank if you don't want to change it)
+          %br/
+          = f.password_field :password, :autocomplete => "off", class: 'form-control'
+      .form-group
+        %div
+          = f.label :password_confirmation
+          %br/
+          = f.password_field :password_confirmation, class: 'form-control'
+      .form-group
+        %div
+          = f.label :current_password
+          %i (we need your current password to confirm your changes)
+          %br/
+          = f.password_field :current_password, class: 'form-control'
     %div= f.submit "Update", :class => 'button right'
   %h3 Cancel my account
   %p

@@ -17,9 +17,9 @@
 #  index_messages_on_user_id  (user_id)
 #
 
-
+require 'factory_girl'
 FactoryGirl.define do
-  factory :message do
+  factory :messages do
     user nil
     body "MyText"
     attach_path "MyText"

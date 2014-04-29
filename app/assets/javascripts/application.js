@@ -11,16 +11,21 @@
 // about supported directives.
 //
 //= require jquery
+//= require handlebars-v1.3.0
 //= require jquery_ujs
 //= require emojify
-//= require jquery-1.10.2.js
-//= require_tree
-//= require jquery.overlay.js
-//= require jquery.textcomplete.min.js
+//= require audiojs
+//= require jquery-1.10.2
+//= require jquery.bootstrap-growl
+//= require jquery.confirm.min.js
+//= require jquery.overlay
+//= require jquery.textcomplete.min
+//= require jquery.blockUI
 //= require main.js
-//= require user.js
+//= require user
+//= require jquery.timeago.js
+//= require messages
 //= require pusher.js
-//= require messages.js
 //= require bootstrap
 //= require rooms.js
 

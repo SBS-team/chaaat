@@ -1,7 +1,7 @@
+!!!
 %html
   %head
     = include_gon(:init => true)
-    -#%script{:src=>"http://js.pusher.com/2.1/pusher.min.js"}
     %meta{:name => "viewport", :content => "width=device-width, initial-scale=1.0"}
     %title= content_for?(:title) ? yield(:title) : 'Chat'
     %meta{:name => "description", :content => "#{content_for?(:description) ? yield(:description) : 'Chat'}"}
@@ -9,5 +9,31 @@
     = stylesheet_link_tag "application", media: "all"
     = csrf_meta_tags
     = javascript_include_tag "application"
-  %body{:style=>("background-image:url('../background/#{background_image()}');" unless user_signed_in?)}
-    = yield
+  - if !@background_image.nil?
+    %body{:style=>("background-image:url('#{@background_image.path}');")}
+      = yield
+  - else
+    %body
+      %script{:type=>"text/template", :id=>"template_message"}
+        {{#messages}}
+        %li{:class=>"{{#equal user_id}}{{/equal}} clearfix", "data"=>{"id" => "{{id}}"}}
+          %span.chat-img.pull-left
+            %img.avatar{src: "{{avatar}}"}
+          .chat-body.clearfix
+            .header
+              %strong.primary-font
+                {{#change_login user_id login}}{{/change_login}}
+              %small.pull-right.text-muted
+                %span.glyphicon.glyphicon-time
+                {{create_at}}
+              .message
+                {{#safe_mess messages}}{{/safe_mess}}
+              {{#if attach_file_path}}
+              %p.attach-file
+                {{#attach-files attach_file_path}}{{/attach-files}}
+              {{/if}}
+        {{/messages}}
+      = yield
+
+
+

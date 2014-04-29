@@ -70,7 +70,7 @@ describe User do
     it { should have_db_column(:uid).of_type(:string)}
   end
   context 'User relationship' do
-    it { should have_many(:message) }
+    it { should have_many(:messages) }
     it { should have_many(:rooms_users) }
   end
   it { should respond_to(:email) }
@@ -96,12 +96,26 @@ describe User do
     before { @user.firstname = "" }
     it { should_not be_valid }
   end
-  describe "when user_status is not present" do
-    before { @user.user_status = "" }
-    it { should_not be_valid }
-  end
+
   describe "when password is not present" do
     before { @user.encrypted_password = "" }
     it { should_not be_valid }
   end
+  describe "when firstname is too long" do
+    before { @user.firstname = "a" * 51 }
+    it { should_not be_valid }
+  end
+  describe "when lastname is too long" do
+    before { @user.lastname = "a" * 51 }
+    it { should_not be_valid }
+  end
+  describe "when login is too long" do
+    before { @user.login = "a" * 51 }
+    it { should_not be_valid }
+  end
+  describe "when email is not present" do
+    before { @user.email = "a" *50 +"@" +"b"*50 + ".com" }
+    it { should_not be_valid }
+  end
+
  end

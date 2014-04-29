@@ -10,10 +10,10 @@
 #Room.delete_all
 #RoomsUser.delete_all
 #
-#for i in 1..5 do
+#for i in 1..30 do
 #  User.create(:email => "user#{i}@mail.com", :password => "userpass#{i}",
 #              :password_confirmation => "userpass#{i}",
-#              :firstname => "user#{i}", :lastname => "user#{i}")
+#              :firstname => "user#{i}", :lastname => "user#{i}",:login=>"login#{i}")
 #end
 #namespace :rake do
 #  namespace :db do

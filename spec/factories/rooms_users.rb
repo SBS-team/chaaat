@@ -10,10 +10,10 @@
 #
 
 
-
+require 'factory_girl'
 FactoryGirl.define do
   factory :rooms_user do
-    user_id 1
-    room_id 1
+    user_id 1 #FIXME
+    room_id 1 #FIXME
   end
 end
