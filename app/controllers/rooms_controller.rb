@@ -84,7 +84,7 @@ class RoomsController < ApplicationController
 
   private
   def init_gon
-    gon.pusher_app = ENV['PUSHER_APP']
+    gon.pusher_app = ENV["PUSHER_KEY"]
     gon.user_login = current_user.login
     gon.user_id = current_user.id
   end

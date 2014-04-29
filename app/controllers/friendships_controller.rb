@@ -11,10 +11,7 @@ class FriendshipsController < ApplicationController
   end
 
   def destroy
-    friendship = current_user.friendships.where(:friend_id => params[:friend_id]).first #FIXME refactoring
-    inverse_friendship = Friendship.find_by(:user_id => friendship.friend.id, :friend_id => current_user.id) #FIXME refactoring
-    friendship.destroy
-    inverse_friendship.destroy
+    friendship = Friendship.where('(friend_id = ? AND user_id = ?) OR (friend_id = ? AND user_id = ?)', params[:friend_id], current_user.id, current_user.id, params[:friend_id]).destroy_all
     render :json => params[:friend_id]
   end
 
