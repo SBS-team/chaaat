@@ -1,3 +1,4 @@
+
 $(function () {
 
     $('#myModal').on('click','#modal-submit', function(){
@@ -34,5 +35,4 @@ $(function () {
         }
         $textarea.keyup();
     };
-
 });

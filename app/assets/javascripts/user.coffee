@@ -1,4 +1,6 @@
 $(document).ready ->
+  $(".nano").nanoScroller({ scroll: 'bottom' })
+  $(".lobby-panel .nano-slider").css "background", "rgba(255,255,255,.5)"
   right_height = ->
     $(".list").css "height", $(".panel-default")[0].offsetTop - 72
     $(".list2").css "height", $("body")[0].offsetHeight - 72
