@@ -5,7 +5,7 @@ describe MessagesController do
   let(:room) { FactoryGirl.create(:room) }
 
   before { sign_in user
-  @message = FactoryGirl.create(:message)
+  #@message = FactoryGirl.create(:message)
   }
   it "should  save message" do
     response.should be_success
@@ -23,10 +23,9 @@ describe MessagesController do
     expect(response.status).to eq(200)
   end
 
-  it "room create" do
+  it "message create" do
     expect {
-      post :create, :messages => FactoryGirl.build(:message).attributes
+      post :create, :messages => FactoryGirl.create(:message).attributes
     }.to change(Message, :count).by(1)
   end
-
 end

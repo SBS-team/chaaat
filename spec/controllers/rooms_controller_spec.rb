@@ -3,9 +3,10 @@ describe RoomsController do
 
 
   let(:user) { FactoryGirl.create(:user) }
-  before { sign_in user
-  @room = FactoryGirl.create(:room).attributes
-  }
+  let(:room) {FactoryGirl.create(:room) }
+  let(:rooms_user) {FactoryGirl.create(:rooms_user) }
+
+  before { sign_in user }
   it "should not save room" do
     room = Room.new
     assert !room.save
@@ -47,5 +48,24 @@ describe RoomsController do
     expect {
       post :create, :room => FactoryGirl.build(:room).attributes
     }.to change(Room, :count).by(1)
+  end
+
+  it "should route index /" do
+    { :get => rooms_path }.should route_to(
+      :controller => "rooms",
+      :action => "index"
+      )
+  end
+  it "should route index /" do
+    { :get => new_room_path }.should route_to(
+      :controller => "rooms",
+      :action => "new"
+      )
+  end
+  it "should route index /" do
+    { :delete => room_path(room) }.should route_to(
+                                         :controller => "rooms",
+                                         :action => "destroy"
+                                     )
   end
 end

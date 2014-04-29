@@ -27,7 +27,11 @@ describe UsersController do
   it "should be redirect" do
     response.should_not be_redirect
   end
-
-
+  it "should route index /" do
+    { :get => "/persons" }.should route_to(
+                                    :controller => "users",
+                                    :action => "index"
+                                )
+  end
 end
 

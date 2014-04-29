@@ -2,7 +2,10 @@ require 'spec_helper'
 
 describe RoomsUsersController do
 
+  let(:user) { FactoryGirl.create(:user) }
+  let(:rooms_user) { FactoryGirl.create(:rooms_user) }
 
+  before { sign_in user  }
   it "should not save room" do
     room = Room.new
     assert !room.save
