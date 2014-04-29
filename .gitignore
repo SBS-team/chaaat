@@ -38,7 +38,6 @@ db/*.sqlite3
 /coverage/
 /db/*.javadb/
 /db/*.sqlite3
-/db/schema.rb
 /doc/api/
 /doc/app/
 /doc/features.html
@@ -87,6 +86,5 @@ pickle-email-*.html
 
 /public/uploads/message
 /public/tmp
-schema.rb
 
 

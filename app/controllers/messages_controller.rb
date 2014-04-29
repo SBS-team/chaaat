@@ -5,7 +5,7 @@ class MessagesController < ApplicationController
   def create
     if Room.where("id in (?)",RoomsUser.where(:user_id=>current_user.id).pluck(:room_id)).pluck(:id).include?(params[:messages][:room_id].to_i)
       if params[:messages][:message_type]=="system"
-        message=Message.create(message_params.merge(:body=>params[:messages][:body])) #FIXME move gsub in to before save or validate method
+        message=Message.create(message_params.merge(:body=>params[:messages][:body]))
         Pusher["private-#{message.room_id}"].trigger_async('new_message', :messages=>{:id=>message.id,
                                                                                       :room_id=>message.room_id,
                                                                                       :avatar=>"../img/sys-notification.png",
@@ -13,7 +13,7 @@ class MessagesController < ApplicationController
                                                                                       :attach_file_path=>message.attach_path.url,
                                                                                       :create_at=>message.created_at.strftime("%a %T")})
       else
-        message=Message.create(message_params.merge(:user_id=>current_user.id,:body=>params[:messages][:body])) #FIXME move gsub in to before save or validate method
+        message=Message.create(message_params.merge(:user_id=>current_user.id,:body=>params[:messages][:body]))
         Pusher["private-#{message.room_id}"].trigger_async('new_message', :messages=>{:id=>message.id,
                                                                                       :room_id=>message.room_id,
                                                                                       :user_id=>current_user.id,

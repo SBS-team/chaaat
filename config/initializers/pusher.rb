@@ -1,11 +1,6 @@
-#require 'pusher'
-#FIXME move to ENV
-Pusher.app_id = '68323'
-Pusher.key = '255267aae6802ec7914f'
-Pusher.secret = '456aa3a324e2b5e8a2f2'
-
-#Pusher.url = "http://255267aae6802ec7914f:456aa3a324e2b5e8a2f2@api.pusherapp.com/apps/68323"
+Pusher.app_id = ENV['PUSHER_APP']
+Pusher.key = ENV['PUSHER_KEY']
+Pusher.secret = ENV['PUSHER_SECRET']
 Pusher.logger = Rails.logger
-
-Pusher.host   = '192.168.137.75'
-Pusher.port   = 4567
+Pusher.host   = ENV['PUSHER_HOST']
+Pusher.port   = ENV['PUSHER_PORT'].to_i

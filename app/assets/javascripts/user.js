@@ -16,7 +16,7 @@ $(document).ready(function(){
     });
 
     function right_height(){
-    $('.list').css('height',$('.panel-default')[0].offsetTop-72);
+    // $('.list').css('height',$('.panel-default')[0].offsetTop-72);
     $('.list2').css('height',$('body')[0].offsetHeight-72);
     window.onresize = function(event) {
         body=$('body')[0].offsetHeight;
