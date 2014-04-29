@@ -24,7 +24,7 @@
             %li#room
               =link_to "#{room.name}",room_path(:id=>room.id), :room_id => room.id
   #status_ui
-    =image_tag avatar_url(current_user,50),:class => "avatar_mini"
+    =image_tag avatar_url(current_user, 50),:class => "avatar_mini"
     .dropdown
       %a#drop1.dropdown-toggle.avail{"data-toggle" => "dropdown", :href => "#", :role => "button", :type => "button"}
         %span{:class=>get_user_status_style(current_user.user_status)}>
@@ -118,7 +118,7 @@
               %ul
               -@links.each do |link|
                 %li
-                  =link_to link.body.match(/(\b\w+:\/\/\w+((\.\w)*\w+)*\.\w{2,3}(\/\S*|\.\w*|\?\w*\=\S*)*)/), link.body
+                  =link_to link.body.match(/(\b\w+:\/\/\w+((\.\w)*\w+)*\.\w{2,3}(\/\S*|\.\w*|\?\w*\=\S*)*)/), link.body, {:target => "_blank"}
                   %br
                   %small.text-muted
                     = "#{link.user.login}"

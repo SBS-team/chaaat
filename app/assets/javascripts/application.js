@@ -21,7 +21,6 @@
 //= require jquery.overlay
 //= require jquery.textcomplete.min
 //= require jquery.blockUI
-//= require main.js
 //= require user
 //= require jquery.timeago.js
 //= require messages

@@ -18,7 +18,7 @@ $(function () {
             $(".modal-backdrop").hide();
         }
 
-    })
+    });
 })
 
 jQuery(function($){
