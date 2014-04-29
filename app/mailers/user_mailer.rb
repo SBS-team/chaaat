@@ -4,7 +4,7 @@ class UserMailer < ActionMailer::Base
 
   def welcome_email(user)
     @user = user
-    @url = "http://localhost:3000" #FIXME wat?
+    @url = "http://localhost:3000"
     mail(to: @user.email, subject: 'Welcome to InYourShoes!')
   end
 	def offline_message(user,message)
