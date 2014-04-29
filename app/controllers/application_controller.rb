@@ -19,7 +19,7 @@ class ApplicationController < ActionController::Base
     if current_admin_user.is_a? AdminUser
       super
     elsif resource.is_a? User
-        User.update(:id=>current_user.id, :sign_out_at => Time.now)
+        User.update(current_user, sign_out_at: Time.now)
         root_path
       else
         super
@@ -27,14 +27,13 @@ class ApplicationController < ActionController::Base
     end
 
   def background_image
-    backgrounds = Background.all.shuffle
-    @background_image = backgrounds.first
+    @background_image = Background.all.sample
   end
 
   private
   def rooms_user
     if current_user.is_a? User
-      @room_list=Room.includes(:rooms_users).where('rooms_users.user_id'=>current_user.id).preload(:user).order(id: :asc)
+      @room_list = Room.includes(:rooms_users).where(user_id: current_user).preload(:user).order(id: :asc)
     end
   end
 
