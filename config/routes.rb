@@ -8,10 +8,8 @@ Chat::Application.routes.draw do
   resources :friendships, :only => [:create, :destroy]
   resources :users,:path => :persons, :only => [:index, :show]
 
-  #FIXME resources do ?
+
   resources :messages, :only => [:show, :create,:index]
-  #get "message/:id", to: "message#show"
-  #post "message", to: "message#create", as: "new_message"
   post "messages/search", to: "messages#search"
   get "messages/search/:search", to: "messages#search"
   get "users/search/:id", to: "users#search"
@@ -22,7 +20,6 @@ Chat::Application.routes.draw do
   get "users/status/", :to=>"users#change_status"
   post "users/search", :to=>"users#search"
   post "users/invite_user", :to=>"users#invite_user", :as=>"invite_user"
-  #post "rooms/del", :to=>"rooms#delete_room"
   post "rooms/previous_messages", :to=>"rooms#load_previous_10_msg", :as=>"previous_messages"
   post "rooms/change", to: "rooms#update"
   devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }

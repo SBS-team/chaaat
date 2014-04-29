@@ -542,6 +542,15 @@ div.server-upsell {
 {
     cursor: pointer;
 }
+.social-button
+{
+    display: inline;
+    width: 35px;
+}
+.navbar-brand>.social-button
+{
+    width: 20px;
+}
 /* sign_up end */
 .tabbable .active{background-color: white;}
 .textcomplete-wrapper{height:100%;}

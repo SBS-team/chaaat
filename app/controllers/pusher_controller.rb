@@ -3,7 +3,11 @@ class PusherController < ApplicationController
 
   def auth
     if current_user && params[:room_id]
-      authentication_query=Room.includes(:rooms_users).where('rooms_users.user_id'=>current_user.id,'rooms.id'=>params[:room_id].to_i).exists? && (params[:channel_name] == "private-#{params[:room_id]}" || params[:channel_name] == "private-#{current_user.id}"|| params[:channel_name] == "presence-status")
+      authentication_query=Room.includes(:rooms_users).where('rooms_users.user_id'=>current_user.id,
+                                                             'rooms.id'=>params[:room_id].to_i).exists? &&
+                                                              (params[:channel_name] == "private-#{params[:room_id]}" ||
+                                                              params[:channel_name] == "private-#{current_user.id}"||
+                                                              params[:channel_name] == "presence-status")
     else
       authentication_query=params[:channel_name] == "presence-status" || params[:channel_name] == "private-#{current_user.id}"
     end

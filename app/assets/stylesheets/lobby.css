@@ -53,8 +53,7 @@ body {background-color: #f0f0f0;line-height: normal;}
     padding-bottom: 74px;
 }
 .content p{
-    text-shadow:0 0 3px rgba(150,150,150,.5);
-    font-size: 14px;
+    font-size: 13px;
 }
 .chat-txt{
     margin-bottom:67px;

@@ -50,7 +50,7 @@ $(document).ready(function(){
                         else {return  "<p>"+$.trim(changetags(safe_tags_replace(messag)))+ "</p>"; }});
     Handlebars.registerHelper("attach-files",function (attach_file_path){return check_file(attach_file_path) });
 
-    Handlebars.registerHelper("change_login",function (user_id,login){return (user_id!= null) ? "<a href=\"/persons/"+ user_id +"\">"+ login + "</a>" : "chat notification";});
+    Handlebars.registerHelper("change_login",function (user_id,login){return (user_id!= null) ? "<a href=\"/persons/"+ login +"\">"+ login + "</a>" : "chat notification";});
     var template = Handlebars.compile($('#template_message').html());
 
     function smiles_render(){
@@ -450,6 +450,8 @@ $(document).ready(function(){
             }
         });
     }));
+    var template_search_user='{{#users}}<tr friend_id="{{id}}"><td><div class="friend_photo"><img class="avatar" src="{{avatar}}"></div><div class="friend_name"></div><a href="/persons/{{login}}">{{login}}</a></td><td class="friend_action add_friend"><span class="glyphicon glyphicon-plus add_new_friend"></span></td></tr>{{/users}}';
+    var search_user = Handlebars.compile(template_search_user);
 
     function inviteAjax(InputId){
         $.ajax({
@@ -470,7 +472,7 @@ $(document).ready(function(){
                     stackup_spacing: 10
                 });
                 $('#search-user').val('');
-                $('.right_search_user').html("")
+                $("#send").css("display", "none");
             }
         });
     }
@@ -485,6 +487,9 @@ $(document).ready(function(){
 
      }
 
+    var template_search_user='{{#users}}<tr friend_id="{{id}}"><td><div class="friend_photo"><img class="avatar" src="{{avatar}}"></div><div class="friend_name"></div><a href="/persons/{{login}}">{{login}}</a></td><td class="friend_action add_friend"><span class="glyphicon glyphicon-plus add_new_friend"></span></td></tr>{{/users}}';
+    var search_user = Handlebars.compile(template_search_user);
+
 
     Handlebars.registerHelper("check_room_user_presence",function (user_login, user_id){
         var add_room_user_span = "";
@@ -498,7 +503,7 @@ $(document).ready(function(){
     var search_user_right = Handlebars.compile(template_search_user_right);
     $('#search-user').keyup(function(){
         if ($(this).val().match(/^[-a-z0-9!#$%&'*+/=?^_`{|}~]+(\.[-a-z0-9!#$%&'*+/=?^_`{|}~]+)*@([a-z0-9]([-a-z0-9]{0,61}[a-z0-9])?\.)*(aero|arpa|asia|biz|cat|com|coop|edu|gov|info|int|jobs|mil|mobi|museum|name|net|org|pro|tel|travel|[a-z][a-z])$/)){
-            $('.right_search').html("<li style='text-align:center'><button class='btn send_invite'>Send invite</button></li>")
+            $('.right_search').html("<li style='text-align:center'><button id='send' class='btn send_invite'>Send invite</button></li>")
             send_invite();
         }
         else{
@@ -516,8 +521,7 @@ $(document).ready(function(){
         }
     });
 
-    var template_search_user='{{#users}}<tr friend_id="{{id}}"><td><div class="friend_photo"><img class="avatar" src="{{avatar}}"></div><div class="friend_name"></div><a href="/persons/{{login}}">{{login}}</a></td><td class="friend_action add_friend"><span class="glyphicon glyphicon-plus add_new_friend"></span></td></tr>{{/users}}';
-    var search_user = Handlebars.compile(template_search_user);
+
     $("#search-box").keyup(function(){
         $.ajax({
             url: '/users/search',

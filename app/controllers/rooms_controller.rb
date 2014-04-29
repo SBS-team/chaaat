@@ -71,7 +71,7 @@ class RoomsController < ApplicationController
     render :text => "Success"
   end
 
-  respond_to :json, :xml
+
 
   def load_previous_10_msg
     if Room.includes(:rooms_users).where('rooms_users.user_id'=>current_user.id,'rooms.id'=>params[:room_id].to_i).exists?
