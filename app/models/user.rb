@@ -61,9 +61,8 @@ class User < ActiveRecord::Base
 
   def self.create_with_omniauth(auth, signed_in_resource=nil)
     user = User.where(:provider => auth.provider, :uid => auth.uid.to_s).first
-
     if user
-      return user  #FIXME find_or_create_by(:provider => auth.provider, :uid => auth.uid)
+      return user
     else
       registered_user = User.where(:email => auth.email).first
       if registered_user

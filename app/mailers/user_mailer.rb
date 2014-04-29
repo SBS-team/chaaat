@@ -4,8 +4,8 @@ class UserMailer < ActionMailer::Base
 
   def welcome_email(user)
     @user = user
-    @url = "http://localhost:3000" #FIXME wat?
-    mail(to: @user.email, subject: 'Welcome to InYourShoes!')
+    @url = ENV["HOSTNAME_SITE"]
+    mail(to: @user.email, subject: 'Welcome to '+ENV["TITLE_SITE"])
   end
 	def offline_message(user,message)
 		@user = user

@@ -39,7 +39,7 @@ class ApplicationController < ActionController::Base
   end
 
   def init_gon
-    gon.pusher_app=ENV['PUSHER_APP']
+    gon.pusher_app=ENV["PUSHER_KEY"]
   end
 
 
