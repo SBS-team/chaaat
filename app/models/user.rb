@@ -44,6 +44,7 @@
 #
 
 class User < ActiveRecord::Base
+
   has_many :message, dependent: :destroy
   has_many :room, dependent: :destroy
   has_many :friendships, dependent: :destroy
@@ -51,12 +52,15 @@ class User < ActiveRecord::Base
   has_many :inverse_friends, :through => :inverse_friendships, :source => :user
   has_many :rooms_users, dependent: :destroy
   has_many :friends, :through => :friendships
+
   validates :email, :encrypted_password, :presence => true
   validates_uniqueness_of :login, :message => "has already been taken"
   validates :login, format: { with: /\A[a-zA-Z0-9._-]+\Z/ }
   validates :login, length: 1..20, :presence => true
+
   devise :invitable, :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable,:omniauthable, :omniauth_providers => [:github,:facebook]
+
   before_save :default_stat
 
   def self.create_with_omniauth(auth, signed_in_resource=nil)
