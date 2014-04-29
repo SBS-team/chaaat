@@ -19,8 +19,8 @@
 #  lastname               :string(255)
 #  provider               :string(255)
 #  uid                    :string(255)
-#  login                  :string(255)
 #  sign_out_at            :datetime
+#  login                  :string(255)
 #  avatar                 :string(255)
 #  invitation_token       :string(255)
 #  invitation_created_at  :datetime
@@ -43,7 +43,7 @@
 #  index_users_on_reset_password_token  (reset_password_token) UNIQUE
 #
 
-#  sign_out_at            :datetime
+#  profile_avatar         :string(255)
 
 #  invitation_token       :string(255)
 #  invitation_created_at  :datetime
@@ -54,7 +54,7 @@
 #  invited_by_type        :string(255)
 #  invitations_count      :integer          default(0)
 #  user_stat_id           :integer
-
+#  profile_avatar         :string(255)
 #
 # Indexes
 #
@@ -67,23 +67,18 @@
 #  index_users_on_user_stat_id          (user_stat_id)
 #
 
-# Indexes
-#
-#  index_users_on_email                 (email) UNIQUE
-#  index_users_on_login                 (login) UNIQUE
-#  index_users_on_reset_password_token  (reset_password_token) UNIQUE
-#
 
-# Indexes
-#
-#  index_users_on_email                 (email) UNIQUE
-#  index_users_on_login                 (login) UNIQUE
-#  index_users_on_reset_password_token  (reset_password_token) UNIQUE
-#
+require 'factory_girl'
 
-# Read about factories at https://github.com/thoughtbot/factory_girl
 
 FactoryGirl.define do
   factory :user do
+   email "example@test.com"
+   firstname "example"
+   lastname "user"
+   login "petro"
+   password "123456789"
+   password_confirmation "123456789"
+   user_status "Available"
   end
 end

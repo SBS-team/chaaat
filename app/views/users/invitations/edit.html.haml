@@ -1,0 +1,27 @@
+=render 'layouts/navigation'
+.authform
+  %h2= t 'devise.invitations.edit.header'
+  = form_for resource, :as => resource_name, :url => invitation_path(resource_name), :html => { :method => :put } do |f|
+    = devise_error_messages!
+    = f.hidden_field :invitation_token
+    .form-group
+      %div
+        = f.label :firstname
+        %br/
+        = f.text_field :firstname
+    .form-group
+      %div
+        = f.label :lastname
+        %br/
+        = f.text_field :lastname
+    .form-group
+      %div
+        = f.label :password
+        %br/
+        = f.password_field :password
+    .form-group
+      %div
+        = f.label :password_confirmation
+        %br/
+      = f.password_field :password_confirmation
+    %p= f.submit t("devise.invitations.edit.submit_button"),:class => 'button right'

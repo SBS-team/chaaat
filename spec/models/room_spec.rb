@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-=======
 # == Schema Information
 #
 # Table name: rooms
@@ -12,9 +10,40 @@
 #  user_id    :integer
 #
 
->>>>>>> 9dde62727069a06226059d77ebb237c88094d748
 require 'spec_helper'
 
 describe Room do
-  pending "add some examples to (or delete) #{__FILE__}"
+  before do
+    @room = Room.new(name: "bla bla")
+  end
+  subject { @room }
+  context 'Room db columns' do
+    it { should have_db_column(:name).of_type(:string)}
+    it { should have_db_column(:topic).of_type(:string) }
+    it { should have_db_column(:created_at).of_type(:datetime)}
+    it { should have_db_column(:updated_at).of_type(:datetime) }
+  end
+
+  context 'Room relationship' do
+    it { should have_many(:messages) }
+    it { should have_many(:rooms_users) }
+  end
+  it { should respond_to(:name) }
+
+  describe "when name is not present" do
+    before { @room.name = "" }
+    it { should_not be_valid }
+  end
+  describe "when name is too long" do
+    before { @room.name = "a" * 51 }
+    it { should_not be_valid }
+  end
+  describe "when topic is too long" do
+    before { @room.topic = "a" * 51 }
+    it { should_not be_valid }
+  end
+  describe "when topic is too long" do
+    before { @room.topic = ""}
+    it { should_not be_valid }
+  end
 end

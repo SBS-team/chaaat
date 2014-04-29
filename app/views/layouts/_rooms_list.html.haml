@@ -1,11 +1,129 @@
-%nav.navbar-inverse
-  %ul.nav.navbar-nav.side-nav
-    %li
-      = link_to new_room_path do
-        %span.glyphicon.glyphicon-plus
-          Create room
-    - if !@room.nil?
-      - @room.each do |room|
-        %li
-          =link_to "#{room.name}",room_path(:id=>room.id)
+%aside.left
+  %h1.logo
+    %a
+      %img{:alt => "SBS", :src => "../img/logo.png"}
+  %nav.lobby_friends
+    %ul#tabs.tabs.ui-sortable
+      %li#tab_lobby.selected
+        %a.open{:href => "#{users_path}"}
+          %span.glyphicon.glyphicon-user>
+          Friends
+      %li#tab_lobby.selected
+        %a.open{:href => "#{rooms_path}"}
+          %span.glyphicon.glyphicon-th-list>
+          Lobby
+  %nav.lobby-panel
+    %ul#tabs.tabs.ui-sortable
 
+      - if !@room_list.nil?
+        - @room_list.each do |room|
+          - if room.id==params[:id].to_i
+            %li.active#room
+              =link_to "#{room.name}",room_path(:id=>room.id),:room_id => room.id
+          -else
+            %li#room
+              =link_to "#{room.name}",room_path(:id=>room.id), :room_id => room.id
+  #status_ui
+    =image_tag avatar_url(current_user,50),:class => "avatar_mini"
+    .dropdown
+      %a#drop1.dropdown-toggle.avail{"data-toggle" => "dropdown", :href => "#", :role => "button", :type => "button"}
+        %span{:class=>get_user_status_style(current_user.user_status)}>
+        = current_user.user_status
+        %span.glyphicon.glyphicon-hand-down
+      %ul.dropdown-menu.avail-drop{"aria-labelledby" => "drop1", :role => "menu"}
+        %li
+          %a.change-status{:tabindex => "-1"}
+            %span.glyphicon.glyphicon-eye-open.drop-av.drop-col-mar>
+            Available
+        %li
+          %a.change-status{:tabindex => "-1"}
+            %span.glyphicon.glyphicon-eye-close.drop-away.drop-col-mar>
+            Away
+        %li
+          %a.change-status{:tabindex => "-1"}
+            %span.glyphicon.glyphicon-eye-close.drop-dnd.drop-col-mar>
+            Do not disturb
+        %li
+          %a.change-status{:tabindex => "-1"}
+            %span.glyphicon.glyphicon-question-sign.drop-hlp.drop-col-mar>
+            Help
+        %li
+          %a.change-status{:tabindex => "-1"}
+            %span.glyphicon.glyphicon-eye-close.drop-col-mar>
+            Offline
+        %li
+          = link_to destroy_user_session_path, :method=>'delete', :tabindex => "-1" do
+            %span.glyphicon.glyphicon-share-alt.drop-col-mar>
+            Sign out
+    %a.glyphicon.glyphicon-cog{:href=>edit_user_registration_path}
+%aside.right_panel
+  .top-form
+    -if request.path!="/rooms" and @room
+      .dropdown
+        %button#drop3.btn.btn-default.dropdown-toggle.tf-but{"data-toggle" => "dropdown", :type => ""}
+          %span.glyphicon.glyphicon-search
+        %form.dropdown-menu.search-form{"aria-labelledby" => "drop3", :method => "get", :role => "menu"}
+          %input#search{:placeholder=>"Search", :type => "search"}
+  - if @room_users != nil && @cur_user_present_in_room == true
+    .tabbable
+      %ul.nav.nav-tabs
+        %li.active
+          %a{"data-toggle" => "tab", :href => "#pane1"} Users
+        %li
+          %a{"data-toggle" => "tab", :href => "#pane2"} Files
+        %li
+          %a{"data-toggle" => "tab", :href => "#pane3"} Links
+      .tab-content
+        #pane1.tab-pane.active
+          .list
+            - @room_users.each do |user|
+              .member{:data=>{:toggle=>"tooltip",:user_id => user.id, :room_id => @room.id}, :title=>"#{user.user_status=="Offline" ? "Offline "+time_ago_in_words(user.updated_at) : user.user_status}"}
+                %span{:class=>get_user_status_style(user.user_status)}
+                = link_to "#{user.login}", "#"
+                - if user.id != current_user.id && @room.user_id == current_user.id
+                  %span{:class => "glyphicon glyphicon-minus pull-right drop_room_user"}
+          .friend-list.right_search_user
+            #panel1.panel.panel-default
+              .panel-heading
+                %p
+                  Add new friends
+                  %h4.collapsed{"data-target" => "#collapseTwo", "data-toggle" => "collapse"}
+              #collapseTwo.panel-collapse.collapse
+                %input#search-user.form-control{:placeholder=>"Search...",:width=>"70%"}
+                .panel-body.right_search
+                  - current_user.friends.each do |friend|
+                    .member{:friend_id => friend.id}
+                      = link_to user_path(friend.login) do
+                        %span{:class=>get_user_status_style(friend.user_status)}
+                        = "#{friend.login}"
+                      - if !user_in_room?(@room.id, friend.id)
+                        %span.glyphicon.glyphicon-plus.pull-right.user_friend{:data=>{:user_id => friend.id}}
+        #pane2.tab-pane
+          .list2
+            - if @attah
+              %ul
+              -@attah.each do |attach|
+                %li
+                  =link_to attach.attach_path.file.filename, attach.attach_path.url
+                  %br
+                  %small.text-muted
+                    = "#{attach.user.login}"
+                  %br
+                  %small.text-muted
+                    = "#{attach.created_at}"
+                  %br
+        #pane3.tab-pane
+          .list2
+            - if @links
+              %ul
+              -@links.each do |link|
+                %li
+                  =link_to link.body.match(/(\b\w+:\/\/\w+((\.\w)*\w+)*\.\w{2,3}(\/\S*|\.\w*|\?\w*\=\S*)*)/), link.body
+                  %br
+                  %small.text-muted
+                    = "#{link.user.login}"
+                  %br
+                  %small.text-muted
+                    = "#{link.created_at}"
+                  %br
+  .footer

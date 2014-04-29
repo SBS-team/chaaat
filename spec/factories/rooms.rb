@@ -9,9 +9,7 @@
 #  updated_at :datetime
 #  user_id    :integer
 #
-
-# Read about factories at https://github.com/thoughtbot/factory_girl
-
+require 'factory_girl'
 FactoryGirl.define do
   factory :room do
     name "MyString"

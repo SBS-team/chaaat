@@ -1,0 +1,19 @@
+%h2.public OPEN ROOMS
+- if !@room_list.nil?
+  - @room_list.each do |room|
+    %table.rooms_group{:data=>{:room=>room.id}}
+      %tr
+        %td.name
+          %a.clean
+            =link_to "#{room.name}",room_path(:id=>room.id),:room_id => room.id
+        %td.memb-count
+          = count_members(@rooms_preload,room.id)
+          ="members"
+        %td.owner
+          ="Owned by: "
+          =link_to "#{room.user.login}", user_path(room.user.login)
+        %td.set-arr
+          -if room.user.login==current_user.login
+            %span.delete_room.glyphicon.glyphicon-remove-circle{:data=>{:id=>room.id}}
+
+
