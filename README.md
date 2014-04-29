@@ -1,74 +1,60 @@
-
-Chat
-
-This application was generated with the [rails_apps_composer](https://github.com/RailsApps/rails_apps_composer) gem
-provided by the [RailsApps Project](http://railsapps.github.io/).
-This application was built with recipes that are known to work together.
-
-This application was built with preferences that are NOT known to work
-together.
-
-If the application doesn’t work as expected, please [report an issue](https://github.com/RailsApps/rails_apps_composer/issues)
-and include these diagnostics:
-
-We’d also like to know if you’ve found combinations of recipes or
-preferences that do work together.
-
-Recipes:
-
-* apps4
-* controllers
-* core
-* email
-* extras
-* frontend
-* gems
-* git
-* init
-* models
-* prelaunch
-* railsapps
-* readme
-* routes
-* saas
-* setup
-* testing
-* views
-
-Preferences:
-
-* git: true
-* apps4: none
-* dev_webserver: unicorn
-* prod_webserver: unicorn
-* database: postgresql
-* templates: haml
-* unit_test: rspec
-* integration: rspec-capybara
-* continuous_testing: none
-* fixtures: factory_girl
-* frontend: bootstrap3
-* email: gmail
-* authentication: devise
-* devise_modules: default
-* authorization: none
-* form_builder: none
-* starter_app: home_app
-* quiet_assets: true
-* local_env_file: foreman
-* better_errors: true
-* ban_spiders: true
-* jsruntime: true
-
-Ruby on Rails
+Requirements
 -------------
 
-This application requires:
+- ruby 2.1.0p0
+- Rails 4.0.4
+- PostgreSQL 9.1.13
 
--   Ruby
--   Rails
+Getting Started
+-------------
+There a couple of things you need to do before Chat will work on your machine. Assuming you already have a working Ruby environment and Bundler installed, you can go to the repository chaaat https://github.com/SBS-team/chaaat and clone it in your terminal:
 
-Learn more about [Installing Rails](http://railsapps.github.io/installing-rails.html).
+    git clone https://github.com/SBS-team/chaaat.git
+
+- Change directory to chaaat and install the gems from 'Gemfile':
+```
+    cd chaaat
+    bundle install
+```
+
+- Chaaat is configured to use Pusher. To get this working locally, you need to register your app with Pusher and add some Pusher credentials in '.env' file. For example:
+```
+    Pusher.app_id = 'your-pusher-app-id'
+    Pusher.key = 'your-pusher-key'
+    Pusher.secret = 'your-pusher-secret'
+    Pusher.host   = '192.168.137.75'
+    Pusher.port   = 4567
+```
+- Or you can use Slanger. You need to install Slanger Server
+```
+    gem install slanger
+```
+and add Slanger credentials:
+```
+    slanger --app_key 765ec374ae0a69f4ce44 --secret your-pusher-secret
+```
+- Chaaat uses gem OmniAuth for login from Facebook and Github. Add some OmniAuth credentials in '.env' file. For example:
+```
+    provider :github, 'GITHUB_KEY', 'GITHUB_SECRET'
+    provider :facebook, 'FACEBOOK_KEY', 'FACEBOOK_SECRET'
+```
+- Add 'config/database.yml' file.
+
+- Create database:
+```
+    rake db:create
+```
+    
+- Run the database migration:
+```
+    rake db:migrate
+``` 
+- Start the web server:
+```
+    rails s
+```
+
+- Using a browser, go to http://localhost:3000, login and start chatting.
 
 Database
 --------
@@ -81,58 +67,16 @@ Development
 -   Template Engine: Haml
 -   Testing Framework: RSpec and Factory Girl
 -   Front-end Framework: Bootstrap 3.0 (Sass)
--   Form Builder: None
 -   Authentication: Devise
--   Authorization: None
--   Admin: None
+
 
 Email
 -----
 
-The application is configured to send email using a Gmail account.
+The application is configured to send email using a Gmail account. Add credentials in '.env' file. Example you can get from '.env.example' file.
 
-Email delivery is disabled in development.
-
-Getting Started
----------------
-
-Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-
-Documentation and Support
--------------------------
-
-This is the only documentation.
-
-#### Issues
-
-Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-
-Similar Projects
-----------------
-
-Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-
-Contributing
-------------
-
-If you make improvements to this application, please share with others.
-
--   Fork the project on GitHub.
--   Make your feature addition or bug fix.
--   Commit with Git.
--   Send the author a pull request.
-
-If you add functionality to this application, create an alternative
-implementation, or build an application that is similar, please contact
-me and I’ll add a note to the README so that others can find your work.
-
-Credits
--------
-
-Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 
 License
 -------
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-
+Copyright (c) 2014 FaceIT, Inc.
