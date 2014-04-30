@@ -92,11 +92,13 @@ jQuery(function($){
     });
 
     function change_topic(){
+        elemen = $('#drop1.change_topic.glyphicon.glyphicon-pencil')
+        var id = elemen.data('id');
         $.ajax({
-            type: "POST",
+            type: "PUT",
             beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
-            url: "/rooms/change",
-            data: { query: $("input[name='change']").val(),room_id:gon.room_id}
+            url: '/rooms/' + id,
+            data: { query: $("input[name='change']").val() }
 
         })
             .done(function(topic){
