@@ -3,7 +3,7 @@ Site Description
 Chaat is an open-source application which creates for real-time commnication with your partners, friends e.t.c. This app executes in HipChat style and has such functionality as:
 - creating chat rooms where you have an opportunity to сommunicte with a group of people you add
 - chating with person privately
-- adding you friends to your friend list withot any limits
+- adding your friends  through email invitation without any limits
 - attaching files (documents, images, viedos from youtube)
 - every user has his own profile which he can customize
 

@@ -16,12 +16,13 @@ function system_message(body){
 
 $(document).ready(function(){
     Handlebars.registerHelper("equal",function (r_value){if (gon.user_id == r_value) {return 'from';}else{$('#new-message')[0].play();return 'to';}});
-    Handlebars.registerHelper("safe_mess",function (messag){if(messag.length>240 || messag.match(/http.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?].\S\S*)/) || messag.match(/http.*(jpg|gif|jpeg)/) || messag.match(/http:\/\/(coub\.com\/view\/.*|coub\.com\/embed\/.*)/i) ){
-                            if (messag.match(/http.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?].\S\S*)/) || messag.match(/http.*(jpg|gif|jpeg)/) || messag.match(/http:\/\/(coub\.com\/view\/.*|coub\.com\/embed\/.*)/i) ){
+    Handlebars.registerHelper("safe_mess",function (messag){
+                        if(messag.length>800 ){
+                            if (messag.match(/http.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?].\S\S*)/) || messag.match(/http.*(jpg|gif|jpeg|png)/) || messag.match(/http:\/\/(coub\.com\/view\/.*|coub\.com\/embed\/.*)/i) ){
                                 return "<div id=\"short-text\" style=\"display: block;\">" +
                                     "<small class=\"pull-right text-muted\">" +
                                     "<span class=\"glyphicon glyphicon-chevron-down\" style=\"cursor: pointer;\"></span></small>"+
-                                    "<p class=\"primary-font\">"+"<div class=\"text-muted\">"+"<i>"+"this text has a content..."+"</i></div></p></div>" +
+                                    "<p class=\"primary-font\">"+"<div class=\"text-muted\">"+"<i>"+"this message has a content..."+"</i></div></p></div>" +
                                     "<div id=\"long-text\" style=\"display: none;\">"+
                                     "<small class=\"pull-right text-muted\">" +
                                     "<span class=\"glyphicon glyphicon-chevron-up\" style=\"cursor: pointer;\"></span></small>"+
@@ -46,7 +47,8 @@ $(document).ready(function(){
                                 "<small class=\"pull-right text-muted\">" +
                                 "<span class=\"glyphicon glyphicon-chevron-up\" style=\"cursor: pointer;\"></span></small>"+
                                 "<p>"+$.trim(changetags(safe_tags_replace(messag)))+"</p>" +
-                                "</div>";}}}
+                                "</div>";}}
+                             }
                         else {return  "<p>"+$.trim(changetags(safe_tags_replace(messag)))+ "</p>"; }});
     Handlebars.registerHelper("attach-files",function (attach_file_path){return check_file(attach_file_path) });
 
@@ -325,9 +327,9 @@ $(document).ready(function(){
             } else if (word.match(/http.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?].\S\S*)/)) {
                 results.push(word.replace(/http.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?].\S\S*)/,
                     "<br><iframe width=\"560\" height=\"315\" src=\"//www.youtube.com/embed/" + youtube_parser(word) + "\" frameborder=\"0\" allowfullscreen></iframe><br>"));
-            } else if (word.match(/http.*(jpg|gif|jpeg)/)) {
-                src = word.match(/http.*(jpg|gif|jpeg)/);
-                results.push(word.replace(/http.*(jpg|gif|jpeg)/, "<br><img src=" + src[0] + " height=\"500px\" width=\"300px\"/a>"));
+            } else if (word.match(/http.*(jpg|gif|jpeg|png)/)) {
+                src = word.match(/http.*(jpg|gif|jpeg|png)/);
+                results.push(word.replace(/http.*(jpg|gif|jpeg|png)/, "<br><img src=" + src[0] + " height=\"500px\" width=\"300px\"/a>"));
             }else if (word.match(/http:\/\/(coub\.com\/view\/.*|coub\.com\/embed\/.*)/i)) {
                 word=word.replace("view","embed");
                 src = "\""+word.slice(0,27)+"?muted=false&autostart=false&originalSize=false&hideTopBar=false&noSiteButtons=false&startWithHD=false"+"\"";
