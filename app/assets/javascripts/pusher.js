@@ -9,8 +9,13 @@ Handlebars.registerHelper("set_user_to_drop",function (room_owner_id){
         drop_room_user_span = "<span class=\"glyphicon glyphicon-minus pull-right drop_room_user\"></span>";
     return drop_room_user_span;
 });
+Handlebars.registerHelper("get_status_style", function(user_status){
+   return get_user_status_style(user_status);
+});
 var template_add_user_right='<div class="member" id="{{user_id}}" data-room-id="{{room_id}}" data-toggle="tooltip" data-user-id="{{user_id}}" title="{{user_status}}"><span class ="{{#get_icon_status user_status}}{{/get_icon_status}}"></span><a href="#">{{user_login}}</a>{{#set_user_to_drop rooms_owner_id}}{{/set_user_to_drop}}</div>';
+var templete_possible_room_user = '<div class="member" friend_id={{drop_user_id}}><a href="/persons/{{user_login}}"><span class="{{#get_status_style user_status}}{{/get_status_style}}"></span>{{user_login}}</a><span class="glyphicon glyphicon-plus pull-right user_friend" data-user-id="{{drop_user_id}}"></span></div>'
 var add_user_right = Handlebars.compile(template_add_user_right);
+var add_to_possible_room_user = Handlebars.compile(templete_possible_room_user);
 var timer,timerId;
 pusher_stat = new Pusher(gon.pusher_app);
 channel_status = pusher_stat.subscribe('presence-status');
@@ -194,8 +199,9 @@ if(gon.room_id){
 
     channel.bind('del_user_from_room', function(data) {
         $(".member[data-user-id = \"" + data.drop_user_id + "\"]").remove();
-        $(".member[friend_id = '" + data.drop_user_id + "']").append("<span class='glyphicon glyphicon-plus pull-right user_friend' data-user-id = "
-            + data.drop_user_id +"></span>");
+        $(".panel-body").append(add_to_possible_room_user(data));
+//        $(".member[friend_id = '" + data.drop_user_id + "']").append("<span class='glyphicon glyphicon-plus pull-right user_friend' data-user-id = "
+//            + data.drop_user_id +"></span>");
     });
 
 }

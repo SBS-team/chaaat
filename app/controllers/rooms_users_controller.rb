@@ -38,7 +38,8 @@ class RoomsUsersController < ApplicationController
     room_user.destroy
     Pusher["private-#{params[:room_id]}"].trigger_async('del_user_from_room', {:user_login => user.login,
                                                                                :drop_user_id => params[:user_id],
-                                                                               :room_name=>room.name,
+                                                                               :room_name => room.name,
+                                                                               :user_status => user.user_status,
                                                                                :room_id => params[:room_id]})
 
     Pusher["private-#{params[:user_id]}"].trigger_async('private_del_user_from_room', {:room_id => params[:room_id],

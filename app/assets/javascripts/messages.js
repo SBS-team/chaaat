@@ -123,6 +123,7 @@ $(document).ready(function(){
                 success: function(response){
                     system_message("User: " + response.user_login + " has been deleted from room: " + response.room_name);
                     joined_member.remove();
+
                     users.splice(users.indexOf(response.user_login), 1);
                 }
             });
@@ -512,7 +513,8 @@ $(document).ready(function(){
                 type: 'POST',
                 beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
                 data:{
-                    login: $("#search-user").val()
+                    login: $("#search-user").val(),
+                    room_id: $("li.active").find("a").attr("room_id")
                 },
                 success: function(response){
                     $('.right_search').html(search_user_right(response))

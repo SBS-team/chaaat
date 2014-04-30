@@ -2,15 +2,13 @@ module ApplicationHelper
   def avatar_url(user, foto_size)
     #if user.respond_to?('avatar')
     if user.avatar.present?
-      if foto_size==50
+      if foto_size == 50
        user.avatar
       else
         user.profile_avatar
       end
     else
-      default_url = "#{root_url}images/guest.png"
-      gravatar_id = Digest::MD5::hexdigest(user.email).downcase
-      "http://gravatar.com/avatar/#{gravatar_id}.png?s=#{foto_size}&d=#{CGI.escape("mm")}"
+      Gravatar.new(user.email).image_url(:size => foto_size, :default => "http://cdn2.vox-cdn.com/images/verge/default-avatar.v9899025.gif?s=#{foto_size}" )
     end
   end
 
