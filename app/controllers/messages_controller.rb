@@ -4,26 +4,21 @@ class MessagesController < ApplicationController
 
   def create
     if Room.where("id in (?)",RoomsUser.where(:user_id=>current_user.id).pluck(:room_id)).pluck(:id).include?(params[:messages][:room_id].to_i)
+      message = Message.create(message_params)
+
+      message_hash = { id: message.id, room_id: message.room_id, messages: message.body,
+                       attach_file_path:message.attach_path.url, create_at: message.created_at.strftime("%a %T") }
+
       if params[:messages][:message_type]=="system"
-        message=Message.create(message_params.merge(:body=>params[:messages][:body]))
-        Pusher["private-#{message.room_id}"].trigger_async('new_message', :messages=>{:id=>message.id,
-                                                                                      :room_id=>message.room_id,
-                                                                                      :avatar=>"../img/sys-notification.png",
-                                                                                      :messages=>message.body,
-                                                                                      :attach_file_path=>message.attach_path.url,
-                                                                                      :create_at=>message.created_at.strftime("%a %T")})
+        sent_pusher( 'new_message', message.room_id, { messages: message_hash.merge!( avatar: '../img/sys-notification.png' ) } )
       else
-        message=Message.create(message_params.merge(:user_id=>current_user.id,:body=>params[:messages][:body]))
-        Pusher["private-#{message.room_id}"].trigger_async('new_message', :messages=>{:id=>message.id,
-                                                                                      :room_id=>message.room_id,
-                                                                                      :user_id=>current_user.id,
-                                                                                      :login=>current_user.login,
-                                                                                      :avatar=>avatar_url(current_user,50),
-                                                                                      :messages=>message.body,
-                                                                                      :attach_file_path=>message.attach_path.url,
-                                                                                      :create_at=>message.created_at.strftime("%a %T")})
-        users_in_room=RoomsUser.where(:room_id=>message.room_id)
-        users_in_room.each {|user|    Pusher["private-#{user.user_id}"].trigger_async('notification-room',:room_id=>message.room_id)}
+        message.update_attributes( user_id: current_user.id )
+
+        sent_pusher( 'new_message', message.room_id, { messages: message_hash.merge!( user_id: current_user.id, login: current_user.login,
+                                                                                     avatar:avatar_url( current_user, 50 ) ) } )
+
+        users_in_room = RoomsUser.where( room_id: message.room_id )
+        users_in_room.each { |user| sent_pusher( 'notification-room', user.user_id, { room_id: message.room_id } ) }
       end
       users=message.body.gsub(/(?<=@)(\w+)(?=\s)/)
       if users.any? && message.body.gsub(/@all/).none?
@@ -57,6 +52,10 @@ class MessagesController < ApplicationController
 
   def message_params
     params.require(:messages).permit(:body, :attach_path, :room_id)
+  end
+
+  def sent_pusher(obj, id, hash)
+    Pusher["private-#{id}"].trigger_async( obj, hash )
   end
 
 end
