@@ -20,4 +20,7 @@ class Friendship < ActiveRecord::Base
     Friendship.create(user_id: friend_id, friend_id: user_id)
   end
 
+  scope :find_and_destroy, -> (friend_id, user_id) {
+        where('(friend_id = ? AND user_id = ?) OR (friend_id = ? AND user_id = ?)', friend_id, user_id, user_id, friend_id).destroy_all}
+
 end
