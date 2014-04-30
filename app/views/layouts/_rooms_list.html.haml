@@ -68,7 +68,7 @@
           %span.glyphicon.glyphicon-search
         %form.dropdown-menu.search-form{"aria-labelledby" => "drop3", :method => "get", :role => "menu"}
           %input#search{:placeholder=>"Search", :type => "search"}
-  - if @room_users != nil && @cur_user_present_in_room == true
+  -if @room_users != nil && @cur_user_present_in_room == true
     .tabbable
       %ul.nav.nav-tabs
         %li.active
@@ -103,30 +103,28 @@
                       %span.glyphicon.glyphicon-plus.pull-right.user_friend{:data=>{:user_id => friend.id}}
         #pane2.tab-pane
           .list2
-            - if @attah
-              %ul
-              -@attah.each do |attach|
-                %li
-                  =link_to attach.attach_path.file.filename , attach.attach_path.url
-                  %br
-                  %small.text-muted
-                    = "#{attach.user.login}"
-                  %br
-                  %small.text-muted
-                    = "#{attach.created_at}"
-                  %br
+            %ul
+            -@attah.each do |attach|
+              %li
+                =link_to attach.attach_path.file.filename , attach.attach_path.url
+                %br
+                %small.text-muted
+                  = "#{attach.user.login}"
+                %br
+                %small.text-muted
+                  = "#{attach.created_at}"
+                %br
         #pane3.tab-pane
           .list2
-            - if @links
-              %ul
-              -@links.each do |link|
-                %li
-                  =link_to link.body.match(/(\b\w+:\/\/\w+((\.\w)*\w+)*\.\w{2,3}(\/\S*|\.\w*|\?\w*\=\S*)*)/), link.body
-                  %br
-                  %small.text-muted
-                    = "#{link.user.login}"
-                  %br
-                  %small.text-muted
-                    = "#{link.created_at}"
-                  %br
+            %ul
+            -@links.each do |link|
+              %li
+                =link_to link.body.match(/(\b\w+:\/\/\w+((\.\w)*\w+)*\.\w{2,3}(\/\S*|\.\w*|\?\w*\=\S*)*)/), link.body
+                %br
+                %small.text-muted
+                  = "#{link.user.login}"
+                %br
+                %small.text-muted
+                  = "#{link.created_at}"
+                %br
   .footer
