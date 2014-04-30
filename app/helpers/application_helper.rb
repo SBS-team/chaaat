@@ -4,11 +4,19 @@ module ApplicationHelper
   end
 
   def get_user_status_style(status)
-     { :Available => 'glyphicon glyphicon-eye-open drop-av drop-col-mar',
-       :Away => 'glyphicon glyphicon-eye-close drop-away drop-col-mar',
+     { Available: 'glyphicon glyphicon-eye-open drop-av drop-col-mar',
+       Away: 'glyphicon glyphicon-eye-close drop-away drop-col-mar',
        :'Do not disturb' => 'glyphicon glyphicon-eye-close drop-dnd drop-col-mar',
-       :Offline => 'glyphicon glyphicon-eye-close drop-col-mar',
-       :Help => 'glyphicon glyphicon-question-sign drop-hlp drop-col-mar' }[status.to_sym]
+       Offline: 'glyphicon glyphicon-eye-close drop-col-mar',
+       Help: 'glyphicon glyphicon-question-sign drop-hlp drop-col-mar' }[status.to_sym]
+  end
+
+  def get_link_class(room)
+    'active' if room.id == params[:id].to_i
+  end
+
+  def get_status(user)
+    user.user_status == 'Offline' ? 'Offline ' + time_ago_in_words(user.updated_at) : user.user_status
   end
 end
 
