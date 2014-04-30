@@ -20,6 +20,7 @@
 //= require jquery.confirm.min.js
 //= require jquery.overlay
 //= require jquery.textcomplete.min
+//= require jquery.nanoscroller.js
 //= require jquery.blockUI
 //= require user
 //= require main

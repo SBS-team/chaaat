@@ -71,7 +71,6 @@ class RoomsController < ApplicationController
     render :text=>"Success"
   end
 
-  respond_to :json, :xml
 
   def load_previous_10_msg
     if Room.includes(:rooms_users).where('rooms_users.user_id'=>current_user.id,'rooms.id'=>params[:room_id].to_i).exists?
@@ -84,7 +83,7 @@ class RoomsController < ApplicationController
 
   private
   def init_gon
-    gon.pusher_app = ENV['PUSHER_APP']
+    gon.pusher_app = ENV['PUSHER_KEY']
     gon.user_login = current_user.login
     gon.user_id = current_user.id
   end

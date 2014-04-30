@@ -88,8 +88,8 @@ $(document).ready ->
     return
   render_message = (data) ->
     $("#messages-wrapper").append template(data)
-    objDiv = document.getElementsByClassName("chat")[0]
-    objDiv.scrollTop = objDiv.scrollHeight + 2000
+    $(".nano").nanoScroller()
+    $(".nano").nanoScroller({ scroll: 'bottom' })
     smiles_render()
     return
   invoted_users = ->
@@ -216,7 +216,7 @@ $(document).ready ->
 
   Handlebars.registerHelper "change_login", (user_id, login) ->
     if user_id?
-      "<a href=\"/persons/" + user_id + "\">" + login + "</a>"
+      "<a href=\"/persons/" + login + "\">" + login + "</a>"
     else
       "chat notification"
 
@@ -435,6 +435,7 @@ $(document).ready ->
 
       success: (response) ->
         $("tr[friend_id = \"" + response + "\"]").remove()
+        $(".nano").nanoScroller()
         return
 
     return
@@ -453,6 +454,7 @@ $(document).ready ->
 
       success: (response) ->
         $("tr[friend_id = \"" + response + "\"]").remove()
+        $(".nano").nanoScroller()
         return
 
     return

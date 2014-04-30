@@ -5,6 +5,27 @@ $("#modal-submit").click ->
   $(".modal-backdrop").hide()
   return
 
+$ ->
+  $("#modal-submit").click ->
+    if $("#room_topic").val() is ""
+      $.bootstrapGrowl "You have write TOPIC",
+        type: "success" # (null, 'info', 'error', 'success')
+        offset: # 'top', or 'bottom'
+          from: "top"
+          amount: 50
+
+        align: "center" # ('left', 'right', or 'center')
+        width: 250 # (integer, or 'auto')
+        delay: 10000
+        allow_dismiss: true
+        stackup_spacing: 10 # spacing between consecutively stacked growls.
+
+      mymodal.hide()
+      $(".modal-backdrop").hide()
+    return
+
+  return
+
 jQuery ($) ->
   singleClick = (e) ->
     self.location = "/persons/" + $(e).html()
