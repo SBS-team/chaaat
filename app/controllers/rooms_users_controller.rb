@@ -27,6 +27,7 @@ class RoomsUsersController < ApplicationController
       end
       render json: {:joined_user => joined_user, :room_id => @room.id, :room_name=>@room.name}
     end
+    render :nothing => true
   end
 
   def destroy
