@@ -3,8 +3,8 @@ describe RoomsController do
 
 
   let(:user) { FactoryGirl.create(:user) }
-  let(:room) {FactoryGirl.create(:room) }
-  let(:rooms_user) {FactoryGirl.create(:rooms_user) }
+  let(:room) { FactoryGirl.create(:room, :user_id => user.id) }
+  let(:rooms_user) { FactoryGirl.create(:rooms_user) }
 
   before { sign_in user }
   it "should not save room" do
@@ -22,14 +22,12 @@ describe RoomsController do
       get :index
       expect(response).to render_template("index")
     end
-    it "renders the show template" do
-      expect(response).to be_success
-      expect(response.status).to eq(200)
-    end
   end
+
   def do_create
     post :create, :room => FactoryGirl.build(:room).attributes
   end
+
   it "should be redirect" do
     do_create
     response.should be_redirect
@@ -51,21 +49,33 @@ describe RoomsController do
   end
 
   it "should route index /" do
-    { :get => rooms_path }.should route_to(
-      :controller => "rooms",
-      :action => "index"
-      )
+    {:get => rooms_path}.should route_to(
+                                    :controller => "rooms",
+                                    :action => "index"
+                                )
   end
   it "should route index /" do
-    { :get => new_room_path }.should route_to(
-      :controller => "rooms",
-      :action => "new"
-      )
+    {:get => new_room_path}.should route_to(
+                                       :controller => "rooms",
+                                       :action => "new"
+                                   )
   end
-  it "should route index /" do
-    { :delete => room_path(room) }.should route_to(
-                                         :controller => "rooms",
-                                         :action => "destroy"
-                                     )
+  it "should route show /" do
+    {:get => "/rooms/1"}.should route_to("rooms#show", :id => "1")
+  end
+  describe "DELETE 'destroy'" do
+    it 'destroy' do
+      delete :destroy, :id => room
+      response.should be_success
+    end
+    it 'destroy' do
+      expect {       delete :destroy, :id => room
+      }.to change(Room, :count).by(0)
+    end
+    it 'destroy' do
+      delete :destroy, :id => room
+
+      expect(response.status).to eq(200)
+    end
   end
 end
