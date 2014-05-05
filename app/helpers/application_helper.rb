@@ -1,6 +1,15 @@
 module ApplicationHelper
   def avatar_url(user, foto_size)
-      Gravatar.new(user.email).image_url default: 'http://cdn2.vox-cdn.com/images/verge/default-avatar.v9899025.gif'
+    #if user.respond_to?('avatar')
+    if user.avatar.present?
+      if foto_size == 50
+        user.avatar
+      else
+        user.profile_avatar
+      end
+    else
+      Gravatar.new(user.email).image_url(:size => foto_size, :default => "http://cdn2.vox-cdn.com/images/verge/default-avatar.v9899025.gif?s=#{foto_size}" )
+    end
   end
 
   def get_user_status_style(status)
@@ -18,5 +27,6 @@ module ApplicationHelper
   def get_status(user)
     user.user_status == 'Offline' ? 'Offline ' + time_ago_in_words(user.updated_at) : user.user_status
   end
+
 end
 

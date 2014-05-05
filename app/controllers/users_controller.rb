@@ -2,7 +2,7 @@ class UsersController < ApplicationController
   before_filter :authenticate_user!
 
   def search
-    users = User.where("login like ? AND id != ?", "%#{params[:login]}%", current_user.id)
+    users = User.where("login like ? AND id != ? AND id NOT IN (?)", "%#{params[:login]}%", current_user.id, RoomsUser.where(:room_id => params[:room_id]).pluck(:user_id))
     render :json => users, :root => "users"
   end
 
