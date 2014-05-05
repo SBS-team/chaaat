@@ -92,11 +92,11 @@
                 %input#search-user.form-control{:placeholder=>"Search...",:width=>"70%"}
                 .panel-body.right_search
                   - current_user.friends.each do |friend|
-                    .member{:friend_id => friend.id}
-                      = link_to user_path(friend.login) do
-                        %span{:class=>get_user_status_style(friend.user_status)}
-                        = "#{friend.login}"
-                      - if !user_in_room?(@room.id, friend.id)
+                    - if !user_in_room?(@room.id, friend.id)
+                      .member{:friend_id => friend.id}
+                        = link_to user_path(friend.login) do
+                          %span{:class=>get_user_status_style(friend.user_status)}
+                          = "#{friend.login}"
                         %span.glyphicon.glyphicon-plus.pull-right.user_friend{:data=>{:user_id => friend.id}}
         #pane2.tab-pane
           .list2
