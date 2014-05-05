@@ -1,6 +1,6 @@
 class ApplicationController < ActionController::Base
   before_filter :configure_permitted_parameters, if: :devise_controller?
-  before_filter :rooms_user,:except=>[:new,:create,:facebook, :github]
+  before_filter :rooms_user, except: [ :new,:create,:facebook, :github ]
   before_filter :background_image, if: :devise_controller?
 
 
