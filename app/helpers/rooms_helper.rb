@@ -1,4 +1,5 @@
 module RoomsHelper
+
   def count_members(rooms_preload,room_id)
     member_count=0
     rooms_preload.each do |t|

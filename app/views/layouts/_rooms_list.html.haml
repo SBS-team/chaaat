@@ -14,15 +14,19 @@
           Lobby
   %nav.lobby-panel
     %ul#tabs.tabs.ui-sortable
-
-      - if !@room_list.nil?
-        - @room_list.each do |room|
-          - if room.id==params[:id].to_i
-            %li.active#room
-              =link_to "#{room.name}",room_path(:id=>room.id),:room_id => room.id
-          -else
-            %li#room
-              =link_to "#{room.name}",room_path(:id=>room.id), :room_id => room.id
+      %script
+        $(".nano").nanoScroller({ scroll: 'bottom' });
+        $(".lobby-panel .nano-slider").css("background", "rgba(255,255,255,.5)")
+      .nano
+        .nano-content
+          - if !@room_list.nil?
+            - @room_list.each do |room|
+              - if room.id==params[:id].to_i
+                %li.active#room
+                  =link_to "#{room.name}",room_path(:id=>room.id),:room_id => room.id
+              -else
+                %li#room
+                  =link_to "#{room.name}",room_path(:id=>room.id), :room_id => room.id
   #status_ui
     =image_tag avatar_url(current_user, 50),:class => "avatar_mini"
     .dropdown
@@ -64,7 +68,7 @@
           %span.glyphicon.glyphicon-search
         %form.dropdown-menu.search-form{"aria-labelledby" => "drop3", :method => "get", :role => "menu"}
           %input#search{:placeholder=>"Search", :type => "search"}
-  - if @room_users != nil && @cur_user_present_in_room == true
+  -if @room_users != nil && @cur_user_present_in_room == true
     .tabbable
       %ul.nav.nav-tabs
         %li.active

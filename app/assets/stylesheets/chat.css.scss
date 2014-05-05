@@ -43,12 +43,12 @@
 
 
 .chat {
-  overflow-y: scroll;
-  overflow-x: hidden;
+//  overflow-y: scroll;
+//  overflow-x: hidden;
   height:100%;
   list-style: none;
   margin: 5px -20px 0px -20px;
-  padding: 0 45px;
+  padding: 0px;
   li {
     margin-bottom: 10px;
     padding-bottom: 5px;
@@ -126,4 +126,7 @@
 #send_invite{
   background-color:#697686;
   color:white;
+}
+#messages-wrapper{
+  padding:0 45px;
 }

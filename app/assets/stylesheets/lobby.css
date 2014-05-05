@@ -53,6 +53,7 @@ body {background-color: #f0f0f0;line-height: normal;}
     padding-bottom: 74px;
 }
 .content p{
+    text-shadow:0 0 3px rgba(150,150,150,.5);
     font-size: 13px;
 }
 .chat-txt{
@@ -297,6 +298,7 @@ h2.public{
     background-color: #FFFFFF;
     border: 1px solid #E2E2E2;
     width: 100%;
+    margin: 0 -5px;
 }
 
 .tableContainer{
@@ -307,6 +309,7 @@ h2.public{
     position: absolute;
     right: 205px;
     top: 180px;
+    margin: 0 -5px;
 }
 
 .rooms_group tr{
