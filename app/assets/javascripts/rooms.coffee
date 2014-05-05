@@ -85,7 +85,7 @@ jQuery ($) ->
         user_id: $(this).data("user-id")
     ).done (response) ->
       window.system_message "User: " + response.joined_user.login + " has been added to room: " + response.room_name
-      $("div[friend_id=" + response.joined_user.id + "]").remove()
+      $('.user_friend[data-user-id = ' + response.joined_user.id + ']').parent().remove();
       return
 
     false

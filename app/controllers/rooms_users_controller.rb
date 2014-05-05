@@ -43,7 +43,7 @@ class RoomsUsersController < ApplicationController
                                                                                :room_id => params[:room_id]})
 
     Pusher["private-#{params[:user_id]}"].trigger_async('private_del_user_from_room', {:room_id => params[:room_id],
-                                                                                           :rooms_name => room.name})
+                                                                                       :rooms_name => room.name})
     render json: {:drop_user_id => params[:user_id],:user_login=>user.login,:room_name=>room.name}
   end
 
