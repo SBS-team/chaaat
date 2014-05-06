@@ -1,5 +1,5 @@
-require 'spec_helper'
-
-describe GithubRegistrationsController do
-
-end
+#require 'spec_helper'
+#
+#describe GithubRegistrationsController do
+#
+#end

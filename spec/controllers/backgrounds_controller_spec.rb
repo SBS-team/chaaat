@@ -1,5 +1,5 @@
-require 'spec_helper'
-
-describe BackgroundsController do
-
-end
+#require 'spec_helper'
+#
+#describe BackgroundsController do
+#
+#end
