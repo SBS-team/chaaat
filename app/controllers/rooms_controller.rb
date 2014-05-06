@@ -29,19 +29,19 @@ class RoomsController < ApplicationController
       respond_to do |format|
         format.html { redirect_to rooms_path}
         format.js {}
-        format.json { render json: @room_list, status: :created}
+        format.json { render json: @room_list, status: :created }
       end
     end
   end
 
   def show
     if Room.includes(:rooms_users).where( 'rooms_users.user_id' => current_user.id, 'rooms.id' => params[:id].to_i ).exists?
-      @room=Room.find(params[:id])
+      @room = Room.find(params[:id])
       @message = Message.new
       gon.room_id = params[:id]
       @message_count = Message.where( room_id: params[:id] ).preload(:user).count
       @messages = Message.where( room_id: params[:id] ).preload(:user).order(created_at: :asc).last(10)
-      @links = Message.where( 'room_id = ? AND (body LIKE ? OR body LIKE ? OR body LIKE ?)', params[:id],'%http://%","%https://%","%ftp://%' )
+      @links = Message.where( 'room_id = ? AND (body LIKE ? OR body LIKE ? OR body LIKE ?)', params[:id], '%http://%","%https://%","%ftp://%' )
                       .preload(:user).order(created_at: :asc)
       @attah = Message.where( 'room_id = ? AND attach_path IS NOT NULL', params[:id] ).preload(:user).order(created_at: :asc)
       @room_users = User.includes(:rooms_users).where( 'rooms_users.room_id' => params[:id] )
@@ -76,10 +76,10 @@ class RoomsController < ApplicationController
 
 
   def load_previous_10_msg
-    if Room.includes(:rooms_users).where('rooms_users.user_id'=>current_user.id,'rooms.id'=>params[:room_id].to_i).exists?
-      previous_messages = Message.where("room_id = ? AND id < ?", params[:room_id],params[:messages]).order(created_at: :asc).last(10);
+    if Room.includes(:rooms_users).where( 'rooms_users.user_id' => current_user.id, 'rooms.id' => params[:room_id].to_i ).exists?
+      previous_messages = Message.where( 'room_id = ? AND id < ?', params[:room_id], params[:messages] ).order(created_at: :asc).last(10);
       previous_messages.sort!
-      render :json =>previous_messages, :root=>"messages"
+      render json: previous_messages, root: 'messages'
     end
   end
 
@@ -92,7 +92,7 @@ class RoomsController < ApplicationController
   end
 
   def room_params
-    params.require(:room).permit( :name, :topic)
+    params.require(:room).permit( :name, :topic )
   end
 
 end
