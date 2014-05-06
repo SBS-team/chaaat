@@ -1,6 +1,7 @@
 class RoomsController < ApplicationController
   before_filter :authenticate_user!
   before_filter :init_gon
+  before_filter :find_room, only: [ :show, :update ]
 
   def new
     @new_room = Room.new
@@ -35,39 +36,31 @@ class RoomsController < ApplicationController
   end
 
   def show
-    if Room.includes(:rooms_users).where( 'rooms_users.user_id' => current_user.id, 'rooms.id' => params[:id].to_i ).exists?
-      @room = Room.find(params[:id])
-      @message = Message.new
-      gon.room_id = params[:id]
-      @message_count = Message.where( room_id: params[:id] ).preload(:user).count
-      @messages = Message.where( room_id: params[:id] ).preload(:user).order(created_at: :asc).last(10)
-      @links = Message.where( 'room_id = ? AND (body LIKE ? OR body LIKE ? OR body LIKE ?)', params[:id], '%http://%","%https://%","%ftp://%' )
-                      .preload(:user).order(created_at: :asc)
-      @attah = Message.where( 'room_id = ? AND attach_path IS NOT NULL', params[:id] ).preload(:user).order(created_at: :asc)
-      @room_users = User.includes(:rooms_users).where( 'rooms_users.room_id' => params[:id] )
-      gon.rooms_users = @room_users.pluck(:login)
-    else
-      gon.room_id = 0
-    end
-    @room_list = Room.where( id: RoomsUser.get_room_ids( current_user.id )).order(id: :asc)
-    room_user_ids = RoomsUser.where( room_id: @room.id ).map{ |item| item.user_id }
+    @room_users = @room.users
+    @message = Message.new
+    @messages = Message.where( room_id: params[:id] ).preload( :user )
+    @links = @messages.where( 'room_id = ? AND (body LIKE ? OR body LIKE ? OR body LIKE ?)', params[:id], '%http://%', '%https://%', '%ftp://%' )
+    @attah = @messages.where( 'room_id = ? AND attach_path IS NOT NULL', params[:id] )
+
+    @room_list = Room.where( user_id: current_user ).order( id: :asc )
+
+    gon.room_id = params[:id]
+    gon.rooms_users = @room_users.pluck(:login)
     gon.user_login = current_user.login
     gon.user_id = current_user.id
-    @cur_user_present_in_room = room_user_ids.to_a.include? current_user.id
   end
 
   def update
-    room = Room.find(params[:id])
-    previous_topic=room.topic
-      if RoomsUser.where( 'user_id=? AND room_id=?', current_user.id,params[:id] ).first
+    previous_topic = @room.topic
+      if RoomsUser.where( 'user_id=? AND room_id=?', current_user.id, params[:id] ).first
         Pusher["private-#{params[:id]}"].trigger( 'change-topic', topic: params[:query] )
-        room.update( topic: params[:query] )
+        @room.update( topic: params[:query] )
         end
     render json: { curr_topic: params[:query], prev_topic: previous_topic }
   end
 
   def destroy
-    room = Room.where( 'user_id = ? AND id = ?', current_user.id,params[:id] ).first
+    room = Room.where( 'user_id = ? AND id = ?', current_user.id, params[:id] ).first
     room.destroy
     Pusher['status'].trigger( 'delete_room', room_id: params[:id] )
     render text: 'Success'
@@ -93,6 +86,10 @@ class RoomsController < ApplicationController
 
   def room_params
     params.require(:room).permit( :name, :topic )
+  end
+
+  def find_room
+    @room = Room.find(params[:id])
   end
 
 end

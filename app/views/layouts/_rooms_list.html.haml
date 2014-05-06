@@ -59,7 +59,7 @@
           %span.glyphicon.glyphicon-search
         %form.dropdown-menu.search-form{ 'aria-labelledby' => 'drop3', method: 'get', role: 'menu' }
           %input#search{ placeholder: 'Search', type: 'search' }
-  - if @room_users.present? && @cur_user_present_in_room
+  - if @room_users.present? && check_current_user
     .tabbable
       %ul.nav.nav-tabs
         %li.active
