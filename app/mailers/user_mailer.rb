@@ -1,16 +1,15 @@
 class UserMailer < ActionMailer::Base
   default :from => "chaaat.chaaat@gmail.com"
 
+
   def welcome_email(user)
     @user = user
-    @url = ENV["HOSTNAME_SITE"]
-    mail(to: @user.email, subject: 'Welcome to '+ENV["TITLE_SITE"])
+    @url = "http://localhost:3000" #FIXME wat?
+    mail(to: @user.email, subject: 'Welcome to InYourShoes!')
   end
-
 	def offline_message(user,message)
 		@user = user
 		@message = message
     mail(to: @user, subject: 'Someone write you!')
-  end
-
+	end
 end

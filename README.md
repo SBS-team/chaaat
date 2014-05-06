@@ -54,11 +54,11 @@ There is a couple things you need to start working with Chaaat on your machine. 
 ```
     rake db:create
 ```
-    
+
 - Run the database migration:
 ```
     rake db:migrate
-``` 
+```
 - Start the web server:
 ```
     rails s
