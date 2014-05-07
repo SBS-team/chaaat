@@ -79,7 +79,7 @@ describe RoomsController do
     end
   end
   it "update" do
-    @room = FactoryGirl.create(:room)
+    @room = FactoryGirl.create(:room, :user_id => user.id)
     put :update, :room_id => @room.id, :topic => "mkd"
     expect(response.status).to eq(200)
   end

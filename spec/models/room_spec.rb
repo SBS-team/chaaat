@@ -14,7 +14,7 @@ require 'spec_helper'
 
 describe Room do
   before do
-    @room = FactoryGirl.create(:room)
+    @room = FactoryGirl.create(:room, :user_id => "1")
   end
   subject { @room }
   context 'Room db columns' do
