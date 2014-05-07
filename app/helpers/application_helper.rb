@@ -2,7 +2,7 @@ module ApplicationHelper
   def avatar_url(user, foto_size)
     if user.avatar.present?
       if foto_size == 50
-       user.avatar
+        user.avatar
       else
         user.profile_avatar
       end
@@ -13,17 +13,16 @@ module ApplicationHelper
 
   def get_user_status_style(user_status)
     case user_status
-     when "Available"
+      when "Available"
         "glyphicon glyphicon-eye-open drop-av drop-col-mar"
-     when "Away"
+      when "Away"
         "glyphicon glyphicon-eye-close drop-away drop-col-mar"
-     when "Do not disturb"
+      when "Do not disturb"
         "glyphicon glyphicon-eye-close drop-dnd drop-col-mar"
-     when "Offline"
+      when "Offline"
         "glyphicon glyphicon-eye-close drop-col-mar"
-     when "Help"
+      when "Help"
         "glyphicon glyphicon-question-sign drop-hlp drop-col-mar"
     end
   end
 end
-

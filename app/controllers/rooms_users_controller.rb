@@ -25,7 +25,7 @@ class RoomsUsersController < ApplicationController
                                                                                  :room_members_count => @room_users.count})
         #render :text => "Success"
       end
-      render json : {:joined_user => joined_user, :room_id => @room.id, :room_name => @room.name}
+      render json: {:joined_user => joined_user, :room_id => @room.id, :room_name => @room.name}
     end
   end
 
@@ -44,7 +44,7 @@ class RoomsUsersController < ApplicationController
 
     Pusher["private-#{params[:user_id]}"].trigger_async('private_del_user_from_room', {:room_id => params[:room_id],
                                                                                        :rooms_name => room.name})
-    render json : {:drop_user_id => params[:user_id], :user_login => user.login, :room_name => room.name}
+    render json: {:drop_user_id => params[:user_id], :user_login => user.login, :room_name => room.name}
   end
 
 end

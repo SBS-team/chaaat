@@ -645,7 +645,7 @@ span.glyphicon.glyphicon-remove:hover{
 
 }
 .lobby_friends li{
-   height: 20px;
+    height: 20px;
     cursor: pointer;
 }
 
