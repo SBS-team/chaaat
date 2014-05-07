@@ -50,10 +50,9 @@ class RoomsController < ApplicationController
 
   def update
     previous_topic = @room.topic
-      if RoomsUser.where( 'user_id=? AND room_id=?', current_user.id, params[:id] ).first
-        Pusher["private-#{params[:id]}"].trigger( 'change-topic', topic: params[:query] )
-        @room.update( topic: params[:query] )
-        end
+    if @room.update( topic: params[:query] )
+      Pusher["private-#{params[:id]}"].trigger( 'change-topic', topic: params[:query] )
+    end
     render json: { curr_topic: params[:query], prev_topic: previous_topic }
   end
 
@@ -66,7 +65,7 @@ class RoomsController < ApplicationController
 
 
   def load_previous_10_msg
-    if Room.includes(:rooms_users).where( 'rooms_users.user_id' => current_user.id, 'rooms.id' => params[:room_id].to_i ).exists?
+    if current_user.rooms.where(id: params[:room_id]).exists?
       previous_messages = Message.where( 'room_id = ? AND id < ?', params[:room_id], params[:messages] ).order(created_at: :asc).last(10);
       previous_messages.sort!
       render json: previous_messages, root: 'messages'
