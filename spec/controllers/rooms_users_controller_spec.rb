@@ -3,7 +3,7 @@ require 'spec_helper'
 describe RoomsUsersController do
 
   let(:user) { FactoryGirl.create(:user) }
-  let(:room) { FactoryGirl.create(:room) }
+  let(:room) { FactoryGirl.create(:room, :user_id => user.id) }
 
   let(:rooms_user) { FactoryGirl.create(:rooms_user, :user_id => user.id, :room_id => room.id) }
 
@@ -19,7 +19,7 @@ describe RoomsUsersController do
     response.should_not be_redirect
   end
   it "create" do
-    post :create, :rooms_user => rooms_user, :room_id => room
+    post :create, :room_id => rooms_user, :user_id => user
     response.should be_success
   end
   it "delete" do
