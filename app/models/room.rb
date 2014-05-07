@@ -20,5 +20,8 @@ class Room < ActiveRecord::Base
   validates :name, length: 1..100, presence: true
   validates :topic, length: 0..20, presence: true
 
+  def create_rooms_user_object( id )
+    self.rooms_users.create( user_id: id )
+  end
 
 end

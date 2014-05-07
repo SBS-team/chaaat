@@ -1,7 +1,7 @@
 class RoomsController < ApplicationController
   before_filter :authenticate_user!
   before_filter :init_gon
-  before_filter :find_room, only: [ :show, :update ]
+  before_filter :find_room, only: [ :show, :update, :destroy ]
   before_filter :get_room_list, only: [ :show, :create ]
 
   def new
@@ -12,23 +12,25 @@ class RoomsController < ApplicationController
   end
 
   def create
-    @room = current_user.build.rooms( room_params )
-    RoomsUser.create( user_id: current_user.id, room_id: @room.id )
-    if params[:express]
-      Pusher["private-#{params[:user_id]}"].trigger_async( 'user_add_to_room', { rooms_id: @room.id,
-                                                                                 rooms_name: @room.name,
-                                                                                 room_owner_id: @room.creator_id,
-                                                                                 user_login: current_user.login,
-                                                                                 user_id: current_user.id,
-                                                                                 rooms_owner_login: current_user.login,
-                                                                                 room_members_count: '2' } )
-      RoomsUser.create( user_id: params[:user_id], room_id: @room.id )
-      render json: @room.id, root: false
-    else
-      respond_to do |format|
-        format.html { redirect_to rooms_path}
-        format.js {}
-        format.json { render json: @room_list, status: :created }
+    @room = current_user.rooms.build( room_params )
+    if @room.save
+      @room.create_rooms_user_object( current_user.id )
+      if params[:express]
+        Pusher["private-#{params[:user_id]}"].trigger_async( 'user_add_to_room', { rooms_id: @room.id,
+                                                                                   rooms_name: @room.name,
+                                                                                   room_owner_id: @room.creator_id,
+                                                                                   user_login: current_user.login,
+                                                                                   user_id: current_user.id,
+                                                                                   rooms_owner_login: current_user.login,
+                                                                                   room_members_count: '2' } )
+        @room.create_rooms_user_object( params[:user_id] )
+        render json: @room.id, root: false
+      else
+        respond_to do |format|
+          format.html { redirect_to rooms_path}
+          format.js {}
+          format.json { render json: @room_list, status: :created }
+        end
       end
     end
   end
@@ -56,8 +58,7 @@ class RoomsController < ApplicationController
   end
 
   def destroy
-    room = Room.where( 'creator_id = ? AND id = ?', current_user.id, params[:id] ).first
-    room.destroy
+    @room.destroy
     Pusher['status'].trigger( 'delete_room', room_id: params[:id] )
     render text: 'Success'
   end
@@ -74,6 +75,7 @@ class RoomsController < ApplicationController
 
 
   private
+
   def init_gon
     gon.pusher_app = ENV['PUSHER_KEY']
     gon.user_login = current_user.login
