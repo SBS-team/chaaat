@@ -297,7 +297,7 @@ $(document).ready ->
     post: false
 
   $(".content").on "click", ".delete_room", (event) ->
-    @element_delete_room = event.currentTarget
+    root.element_delete_room = event.currentTarget
     return
 
   $(".delete_room").confirm
@@ -305,7 +305,7 @@ $(document).ready ->
     title: "Confirmation required"
     confirm: ->
       $.ajax
-        url: "../rooms/" + $(@element_delete_room).data("id")
+        url: "../rooms/" + $(root.element_delete_room).data("id")
         type: "POST"
         beforeSend: (xhr) ->
           xhr.setRequestHeader "X-CSRF-Token", $("meta[name=\"csrf-token\"]").attr("content")
@@ -313,7 +313,6 @@ $(document).ready ->
 
         data:
           _method: "DELETE"
-          id: $(root.element_delete_room).data("id")
 
         success: (response) ->
           $(root.element_delete_room).parents("table.rooms_group").hide()
