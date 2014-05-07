@@ -11,7 +11,7 @@
 #
 
 class Room < ActiveRecord::Base
-  has_many :message, dependent: :destroy
+  has_many :messages, dependent: :destroy
   has_many :rooms_users, dependent: :destroy
   has_many :users, through: :rooms_users
 

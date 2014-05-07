@@ -1,7 +1,7 @@
 class RoomsController < ApplicationController
   before_filter :authenticate_user!
   before_filter :init_gon
-  before_filter :find_room, only: [ :show, :update, :destroy ]
+  before_filter :find_room, only: [ :show, :update, :destroy, :load_previous_10_msg ]
   before_filter :get_room_list, only: [ :show, :create ]
 
   def new
@@ -65,9 +65,8 @@ class RoomsController < ApplicationController
 
 
   def load_previous_10_msg
-    if current_user.rooms.where(id: params[:room_id]).exists?
-      previous_messages = Message.where( 'room_id = ? AND id < ?', params[:room_id], params[:messages] ).order(created_at: :asc).last(10);
-      previous_messages.sort!
+    if @room
+      previous_messages = @room.messages.where( 'id < ?', params[:messages] ).order(created_at: :asc).last(10)
       render json: previous_messages, root: 'messages'
     end
   end
@@ -86,7 +85,7 @@ class RoomsController < ApplicationController
   end
 
   def find_room
-    @room = Room.find(params[:id])
+    @room = Room.find( params[:id] || params[:room_id] )
   end
 
   def get_room_list
