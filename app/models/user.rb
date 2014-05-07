@@ -46,7 +46,7 @@
 class User < ActiveRecord::Base
 
   has_many :message, dependent: :destroy
-  has_many :room, dependent: :destroy
+  has_many :rooms, dependent: :destroy, foreign_key: :creator_id
   has_many :friendships, dependent: :destroy
   has_many :inverse_friendships, :class_name => "Friendship", :foreign_key => "friend_id"
   has_many :inverse_friends, :through => :inverse_friendships, :source => :user

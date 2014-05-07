@@ -75,7 +75,7 @@
               .member{ data: { toggle: 'tooltip', user_id: user.id, room_id: @room.id }, title: get_status(user) }
                 %span{ class: get_user_status_style(user.user_status) }
                 = link_to "#{user.login}", '#'
-                - if user.id != current_user.id && @room.user_id == current_user.id
+                - if user.id != current_user.id && @room.creator_id == current_user.id
                   %span{ class: 'glyphicon glyphicon-minus pull-right drop_room_user' }
           .friend-list.right_search_user
             #panel1.panel.panel-default
@@ -95,9 +95,9 @@
                         %span.glyphicon.glyphicon-plus.pull-right.user_friend{data: { user_id: friend.id}}
         #pane2.tab-pane
           .list2
-            - if @attah
+            - if @attach
               %ul
-              -@attah.each do |attach|
+              -@attach.each do |attach|
                 %li
                   =link_to attach.attach_path.file.filename, attach.attach_path.url
                   %br
@@ -111,7 +111,7 @@
           .list2
             - if @links
               %ul
-              -@links.each do |link|
+              - @links.each do |link|
                 %li
                   =link_to link.body.match(/(\b\w+:\/\/\w+((\.\w)*\w+)*\.\w{2,3}(\/\S*|\.\w*|\?\w*\=\S*)*)/), link.body, {:target => "_blank"}
                   %br

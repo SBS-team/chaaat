@@ -31,7 +31,11 @@ class Message < ActiveRecord::Base
   validates  :room_id, :presence => true
   before_save :gsub_message, on: :create
 
+  scope :get_body_links, -> (messages) { messages.where( 'body LIKE ? OR body LIKE ? OR body LIKE ?', '%http://%', '%https://%', '%ftp://%' ) }
+  scope :get_body_attach, -> (messages) { messages.where( 'attach_path IS NOT NULL' ) }
+
   private
+
   def gsub_message
     self.body.gsub!(/[\n]/,"")
   end
