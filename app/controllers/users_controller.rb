@@ -30,7 +30,18 @@ class UsersController < ApplicationController
   end
 
   def change_status
-    User.update(current_user.id,:user_status=>params[:status].gsub(/[\n]/,""))
+    case params[:status].gsub(/[\n]/,"")
+      when "Available"
+        User.update(current_user.id,:user_status=>params[:status].gsub(/[\n]/,""))
+      when "Away"
+        User.update(current_user.id,:user_status=>params[:status].gsub(/[\n]/,""))
+      when "Do not disturb"
+        User.update(current_user.id,:user_status=>params[:status].gsub(/[\n]/,""))
+      when "Offline"
+        User.update(current_user.id,:user_status=>params[:status].gsub(/[\n]/,""))
+      when "Help"
+        User.update(current_user.id,:user_status=>params[:status].gsub(/[\n]/,""))
+    end
     user = User.find(current_user)
 
     if(params[:status] == "Offline")
