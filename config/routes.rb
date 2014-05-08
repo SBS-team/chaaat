@@ -4,6 +4,14 @@ Chat::Application.routes.draw do
   devise_for :admin_users, ActiveAdmin::Devise.config
   ActiveAdmin.routes(self)
 
+  namespace :api, defaults: {format: 'json'} do
+    resources :users, :only => [:index, :show]
+    post "users/search", :to=>"users#search"
+    post "users/invite_user", :to=>"users#invite_user", :as=>"invite_user"
+    resources :messages, :only => [:index]
+    post "messages/search", to: "messages#search"
+  end
+
 
   resources :friendships, :only => [:create, :destroy]
   resources :users,:path => :persons, :only => [:index, :show]
@@ -14,7 +22,6 @@ Chat::Application.routes.draw do
   get "messages/search/:search", to: "messages#search"
   get "users/search/:id", to: "users#search"
 
-  get "messages/search/:search", to: "messages#search"
   resources :rooms, :only => [:new, :create, :show, :index, :destroy]
   resources :rooms_users, :only => [:create, :destroy]
   get "users/status/", :to=>"users#change_status"
