@@ -5,6 +5,7 @@ describe RoomsController do
   let(:user) { FactoryGirl.create(:user) }
   let(:room) { FactoryGirl.create(:room, :user_id => user.id) }
   let(:rooms_user) { FactoryGirl.create(:rooms_user, :room_id => room.id, :user_id => user.id) }
+  let(:message) { FactoryGirl.create(:message) }
 
   before { sign_in user }
   it "should not save room" do
@@ -80,11 +81,15 @@ describe RoomsController do
   end
   it "update" do
     @room = FactoryGirl.create(:room, :user_id => user.id)
-    put :update, :room_id => @room.id, :topic => "mkd"
+    put :update, :room_id => @room.id, :user_id => user.id, :query => "mkd"
     expect(response.status).to eq(200)
   end
   it 'show' do
     get :show, :id => rooms_user
+    expect(response.status).to eq(200)
+  end
+  it 'load_previous_10_msg' do
+    get :load_previous_10_msg, :id => rooms_user, :room_id => room.id, :message => message
     expect(response.status).to eq(200)
   end
 end

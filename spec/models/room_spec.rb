@@ -26,6 +26,8 @@ describe Room do
 
   context 'Room relationship' do
     it { should have_many(:rooms_users) }
+    it { should have_many(:messages) }
+
   end
   it { should respond_to(:name) }
   it { should respond_to(:topic) }
