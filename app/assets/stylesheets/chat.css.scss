@@ -104,6 +104,7 @@
   line-height: 56px;
   margin: 0 auto;
 }
+
 ::-webkit-scrollbar-track {
   -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
   background-color: #F5F5F5;
@@ -129,4 +130,52 @@
 }
 #messages-wrapper{
   padding:0 45px;
+}
+
+//-------------------------
+.ui-widget {
+  font-family: Verdana,Arial,sans-serif;
+  font-size: 1.1em;
+}
+
+.ui-draggable .ui-dialog-titlebar {
+  cursor: move;
+}
+.ui-widget-header {
+  color: #222222;
+  background: lightgrey;
+  font-weight: bold;
+}
+
+.ui-dialog .ui-dialog-titlebar-close {
+  height: 15px;
+  margin: 0px;
+  padding: 1px;
+  position: absolute;
+  right: 0.3em;
+  width: 15px;
+}
+
+.ui-widget-content {
+  background: #FFFFFF;
+  border: 2px solid #AAAAAA;
+}
+
+.ui-dialog-titlebar-close {
+  background: url("../img/close_video_dialog.png") repeat-y;
+  background-size: cover;
+}
+
+.ui-dialog{
+  z-index: 9999;
+  overflow-y: scroll;
+  width: 350px !important;
+}
+
+.video-stream {
+  border: 1px solid red;
+  width: 100px;
+  height: 100px;
+  margin: 5px 5px;
+  display: inline-block;
 }

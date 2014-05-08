@@ -5,6 +5,8 @@
     %meta{:name => "viewport", :content => "width=device-width, initial-scale=1.0"}
     %title= content_for?(:title) ? yield(:title) : 'Chat'
     %meta{:name => "description", :content => "#{content_for?(:description) ? yield(:description) : 'Chat'}"}
+    %script{:src=>"http://code.jquery.com/jquery-1.11.0.min.js"}
+    %script{:src=>"http://code.jquery.com/ui/1.10.4/jquery-ui.min.js"}
     %script{:src=>"http://js.pusher.com/2.1/pusher.min.js"}
     = stylesheet_link_tag "application", media: "all"
     = csrf_meta_tags

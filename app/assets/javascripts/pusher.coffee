@@ -93,6 +93,7 @@ channel2.bind "user_add_to_room", (data) ->
     delay: 10000
     allow_dismiss: true
     stackup_spacing: 10
+    gon.room_members_count = data.room_members_count
 
   $(".lobby-panel #tabs").append '<li id="room"><a room_id=' + data.rooms_id + ' href=/rooms/' + data.rooms_id + '>' + data.rooms_name + '</a></li>'
   remove_room_span = ""
@@ -141,6 +142,7 @@ if gon.room_id
     return
 
   channel.bind "add_user_to_room", (data) ->
+    gon.room_members_count = data.room_members_count
     root.users.push data.user_login
     $(".list").append add_user_right(data)
     if data.user_status is "Offline"
