@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140407105848) do
+ActiveRecord::Schema.define(version: 20140508134008) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -81,6 +81,7 @@ ActiveRecord::Schema.define(version: 20140407105848) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "user_id"
+    t.string   "secret_token"
   end
 
   create_table "rooms_users", force: true do |t|
@@ -109,6 +110,7 @@ ActiveRecord::Schema.define(version: 20140407105848) do
     t.string   "uid"
     t.string   "login"
     t.string   "avatar"
+    t.datetime "sign_out_at"
     t.string   "invitation_token"
     t.datetime "invitation_created_at"
     t.datetime "invitation_sent_at"
@@ -117,6 +119,7 @@ ActiveRecord::Schema.define(version: 20140407105848) do
     t.integer  "invited_by_id"
     t.string   "invited_by_type"
     t.integer  "invitations_count",      default: 0
+    t.string   "profile_avatar"
     t.string   "user_status"
   end
 

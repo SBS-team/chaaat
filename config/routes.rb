@@ -5,11 +5,7 @@ Chat::Application.routes.draw do
   ActiveAdmin.routes(self)
 
   namespace :api, defaults: {format: 'json'} do
-    resources :users, :only => [:index, :show]
-    post "users/search", :to=>"users#search"
-    post "users/invite_user", :to=>"users#invite_user", :as=>"invite_user"
-    resources :messages, :only => [:index]
-    post "messages/search", to: "messages#search"
+    resource :webhooks,:only=>[:create]
   end
 
 

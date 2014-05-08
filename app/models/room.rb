@@ -2,12 +2,13 @@
 #
 # Table name: rooms
 #
-#  id         :integer          not null, primary key
-#  name       :string(255)
-#  topic      :string(255)
-#  created_at :datetime
-#  updated_at :datetime
-#  user_id    :integer
+#  id           :integer          not null, primary key
+#  name         :string(255)
+#  topic        :string(255)
+#  created_at   :datetime
+#  updated_at   :datetime
+#  user_id      :integer
+#  secret_token :string(255)
 #
 
 class Room < ActiveRecord::Base
@@ -16,6 +17,9 @@ class Room < ActiveRecord::Base
   belongs_to :user
   validates :name, length: 1..100, :presence => true
   validates :topic, length: 0..20, :presence => true
+
+  before_validation { self.secret_token = SecureRandom.hex }
+  validates :secret_token, presence: true, uniqueness: true
 
 
 end
