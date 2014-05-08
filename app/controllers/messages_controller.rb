@@ -40,9 +40,9 @@ class MessagesController < ApplicationController
         end
       end
 
-      #render :text => 'Success'
+      render :text => 'Success'
     end
-    render :nothing => true
+    #render :nothing => true
   end
 
   def search
