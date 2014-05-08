@@ -30,13 +30,13 @@ class MessagesController < ApplicationController
         offline_user_emails=User.includes(:rooms_users).where('login = ? AND user_status = ? AND rooms_users.room_id = ?',
                                                               users,"Offline",params[:messages][:room_id]).pluck(:email)
         offline_user_emails.each do |email|
-          UserMailer.offline_message(email,message.body).deliver
+          UserMailer.offline_message(email,message.body,params[:messages][:room_id]).deliver
         end
       elsif !message.body.match(/@all/).nil?
         offline_user_emails=User.includes(:rooms_users).where('user_status = ? AND rooms_users.room_id = ?',
                                                               "Offline",params[:messages][:room_id]).pluck(:email)
         offline_user_emails.each do |email|
-          UserMailer.offline_message(email,message.body).deliver
+          UserMailer.offline_message(email,message.body,params[:messages][:room_id].to_i).deliver
         end
       end
 
