@@ -16,9 +16,9 @@ class MessagesController < ApplicationController
         end
       end
       message.send_emails
-      render :text => 'Success'
+      render text: 'Success'
     else
-      render :text => 'shit is happens'
+      render text: 'shit happens'
     end
   end
 
@@ -28,7 +28,7 @@ class MessagesController < ApplicationController
                else
                  Message.where( 'body like ? AND room_id = ?', "%#{params[:query]}%", params[:room_id] ).preload( :user )
                end
-    render :json => messages
+    render json: messages
   end
 
   private

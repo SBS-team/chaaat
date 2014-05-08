@@ -57,9 +57,12 @@ class RoomsController < ApplicationController
   end
 
   def destroy
-    @room.destroy
-    Pusher['status'].trigger( 'delete_room', room_id: params[:id] )
-    render text: 'Success'
+    if @room.destroy
+      Pusher['status'].trigger( 'delete_room', room_id: params[:id] )
+      render text: 'Success'
+    else
+      render text: 'Shit happens'
+    end
   end
 
   def load_previous_10_msg
