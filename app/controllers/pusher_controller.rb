@@ -1,12 +1,12 @@
 class PusherController < ApplicationController
-  protect_from_forgery :except => :auth # stop rails CSRF protection for this action
+  protect_from_forgery except: :auth # stop rails CSRF protection for this action
 
   def auth
-    authentication_query = if current_user && params[:room_id]
-                              Room.includes(:rooms_users).where( 'rooms_users.user_id' => current_user.id,
-                             'rooms.id' => params[:room_id].to_i ).exists? && ( params[:channel_name] == "private-#{params[:room_id]}" ||
-                                                                                authentication_status )
-                              end || authentication_status                                                         
+    authentication_query =
+        if current_user && params[:room_id]
+          current_user.rooms.find(params[:room_id]).exists? &&
+          ( params[:channel_name] == "private-#{params[:room_id]}" || authentication_status )
+        end || authentication_status
     if authentication_query
       render json: Pusher[params[:channel_name]].authenticate( params[:socket_id], user_id: current_user.id )
     else
