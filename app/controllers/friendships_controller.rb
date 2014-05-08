@@ -1,12 +1,13 @@
 class FriendshipsController < ApplicationController
 
   def create
-    friendship = current_user.friendships.build(:friend_id => friendship_params[:friend_id])
-    added_friend = friendship.friend
-    inverse_friendship = added_friend.friendships.build(:friend_id => current_user.id)
-    friendship.save
-    inverse_friendship.save
-
+    if !params[:friend_id].blank?
+      friendship = current_user.friendships.build(:friend_id => friendship_params[:friend_id])
+      added_friend = friendship.friend
+      inverse_friendship = added_friend.friendships.build(:friend_id => current_user.id)
+      friendship.save
+      inverse_friendship.save
+    end
     render :json => friendship_params[:friend_id]
   end
 
