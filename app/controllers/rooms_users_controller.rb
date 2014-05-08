@@ -30,11 +30,9 @@ class RoomsUsersController < ApplicationController
   end
 
   def destroy
-    if Room.where( id: params[:room_id] )
-      room = Room.find(params[:room_id])
-    end
-    user = User.where( id: params[:user_id] ).first
-    room_user = RoomsUser.where( 'user_id = ? AND room_id = ?', params[:user_id], params[:room_id] ).first
+    room = Room.find( params[:room_id] ) if params[:room_id]
+    user = User.find( params[:user_id] ) if params[:user_id]
+    room_user = RoomsUser.where( user_id: params[:user_id], room_id: params[:room_id] ).first
     room_user.destroy
     Pusher["private-#{params[:room_id]}"].trigger_async( 'del_user_from_room', { user_login: user.login,
                                                                                  drop_user_id: params[:user_id],
