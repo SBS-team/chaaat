@@ -21,6 +21,9 @@
 //= require jquery.nanoscroller.js
 //= require jquery.blockUI
 //= require jquery.nanoscroller.js
+//= require socket.io
+//= require RTCPeerConnection-v1.5
+//= require conference
 //= require user
 //= require main
 //= require jquery.timeago.js
