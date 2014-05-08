@@ -473,7 +473,6 @@ $(document).ready ->
 
       success: (response) ->
         if response.messages.length > 0
-          $("#messages-wrapper").prepend "<div class=\"glyphicon glyphicon-resize-vertical\" style=\"margin:0 50% 0 50%;opacity:0.5;font-size:20px\"></div>"
           $("#messages-wrapper").prepend template(response)
           smiles_render()
           message_offset += 10
