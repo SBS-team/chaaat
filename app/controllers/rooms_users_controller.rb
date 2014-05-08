@@ -14,11 +14,11 @@ class RoomsUsersController < ApplicationController
                                                                                    room_id: @room.id,
                                                                                    user_status: joined_user.user_status,
                                                                                    user_sign_out_time: joined_user.updated_at,
-                                                                                   rooms_owner_id: @room.user_id } )
+                                                                                   rooms_owner_id: @room.creator_id } )
 
         Pusher["private-#{params[:user_id]}"].trigger_async( 'user_add_to_room', { rooms_id: @room.id,
                                                                                    rooms_name: @room.name,
-                                                                                   room_owner_id: @room.user_id,
+                                                                                   room_owner_id: @room.creator_id,
                                                                                    user_login: joined_user.login,
                                                                                    user_id: joined_user.id,
                                                                                    rooms_owner_login: room_owner_login,
