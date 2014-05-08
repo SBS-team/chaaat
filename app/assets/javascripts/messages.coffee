@@ -286,8 +286,9 @@ $(document).ready ->
           user_id: root.joined_member.data("user-id")
 
         success: (response) ->
-          root.system_message "User: " + response.user_login + " has been deleted from room: " + response.room_name
+          root.system_message "User: " + response.users.login + " has been deleted from room"
           root.joined_member.remove()
+          $(".right_search").html search_user_right(response)
           return
 
       return

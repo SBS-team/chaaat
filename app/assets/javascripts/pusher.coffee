@@ -165,6 +165,8 @@ if gon.room_id
             user_id: joined_member.attr("data-user-id")
 
           success: (response) ->
+            search_user_right = Handlebars.compile("{{#users}}<div class=\"member\"><a data-method=\"post\" href=\"/persons/{{login}}\" rel=\"nofollow\"><span class=\"{{#get_icon_status user_status}}{{/get_icon_status}}\"></span>{{login}}</a><span class=\"glyphicon glyphicon-plus pull-right user_friend\" data-user-id=\"{{id}}\"></span></div>{{/users}}")
+            $(".right_search").append search_user_right(response)
             joined_member.remove()
             return
 
