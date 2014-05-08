@@ -38,7 +38,7 @@ class RoomsController < ApplicationController
   def show
     @room_users = @room.users
     @message = Message.new
-    @messages = Message.where( room_id: params[:id] ).preload( :user )
+    @messages = @room.messages.preload( :user )
     @links = Message.get_body_links(@messages)
     @attach = Message.get_body_attach(@messages)
 
@@ -62,15 +62,12 @@ class RoomsController < ApplicationController
     render text: 'Success'
   end
 
-
-
   def load_previous_10_msg
     if @room
       previous_messages = @room.messages.where( 'id < ?', params[:messages] ).order(created_at: :asc).last(10)
       render json: previous_messages, root: 'messages'
     end
   end
-
 
   private
 

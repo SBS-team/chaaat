@@ -3,7 +3,7 @@ class RoomsUsersController < ApplicationController
   def create
     @room = Room.find(params[:room_id])
     if RoomsUser.where( user_id: current_user.id, room_id: @room.id ).first
-      room_owner_login = @room.user.login
+      room_owner_login = @room.creator.login
       joined_user = User.find(params[:user_id])
       if !RoomsUser.create( room_id: @room.id, user_id: joined_user.id ).new_record?
         room_user_ids = RoomsUser.where( room_id: @room.id ).pluck(:user_id)

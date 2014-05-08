@@ -17,6 +17,4 @@ class RoomsUser < ActiveRecord::Base
 
   validates :user_id, uniqueness: { scope: :room_id }
 
-  scope :get_room_ids, -> (user_id) { where( user_id: user_id ).pluck(:room_id) }
-
 end

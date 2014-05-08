@@ -45,7 +45,7 @@
 
 class User < ActiveRecord::Base
 
-  has_many :message, dependent: :destroy
+  has_many :messages, dependent: :destroy
   has_many :rooms, dependent: :destroy, foreign_key: :creator_id
   has_many :friendships, dependent: :destroy
   has_many :inverse_friendships, :class_name => "Friendship", :foreign_key => "friend_id"
@@ -63,7 +63,7 @@ class User < ActiveRecord::Base
 
   before_save :default_stat
 
-  def self.create_with_omniauth(auth, signed_in_resource=nil)
+  def self.create_with_omniauth(auth, signed_in_resource = nil)
     user = User.where(:provider => auth.provider, :uid => auth.uid.to_s).first
     if user
       return user
