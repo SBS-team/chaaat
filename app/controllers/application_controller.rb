@@ -33,7 +33,7 @@ class ApplicationController < ActionController::Base
   private
   def rooms_user
     if current_user.is_a? User
-      @room_list=Room.includes(:rooms_users).where('rooms_users.user_id'=>current_user.id).preload(:user).order(id: :asc)
+      @room_list=Room.includes(:rooms_users).includes(:user).where('rooms_users.user_id'=>current_user.id).order(id: :asc)
     end
   end
 

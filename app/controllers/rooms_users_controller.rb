@@ -7,7 +7,7 @@ class RoomsUsersController < ApplicationController
       joined_user = User.find(params[:user_id])
       if !RoomsUser.create(:room_id => @room.id, :user_id => joined_user.id).new_record?
         room_user_ids = RoomsUser.where(:room_id => @room.id).pluck(:user_id)
-        @room_users = User.where("id IN (?)", room_user_ids)
+        @room_users = User.includes(:rooms_users).where("id IN (?)", room_user_ids)
         Pusher["private-#{params[:room_id]}"].trigger_async('add_user_to_room', {:user_id => joined_user.id,
                                                                                  :user_login => joined_user.login,
                                                                                  :rooms_name => @room.name,
