@@ -71,12 +71,7 @@ ul#friends_list {
   list-style: none;
   overflow-y: auto;
 }
-.glyphicon-plus{
-  top: 18px;
-}
-.glyphicon-minus{
-  top: 18px;
-}
+
 .friend{
   float: left;
   width: 440px;
@@ -99,6 +94,7 @@ ul#friends_list {
 }
 .add_new_friend
 {
+  top: 18px;
   cursor: pointer;
 }
 .add_friend
@@ -107,6 +103,7 @@ ul#friends_list {
 }
 .remove_friend
 {
+  top: 18px;
   cursor: pointer;
 }
 .friend:hover {
