@@ -14,26 +14,14 @@
           Lobby
   %nav.lobby-panel
     %ul#tabs.tabs.ui-sortable
-<<<<<<< HEAD
-
-      - @room_list.each do |room|
-        %li#room
-          = link_to "#{room.name}", room_path( id: room.id ), room_id: room.id, class: "#{get_link_class(room)}"
-=======
       %script
         $(".nano").nanoScroller({ scroll: 'bottom' });
         $(".lobby-panel .nano-slider").css("background", "rgba(255,255,255,.5)")
       .nano
         .nano-content
-          - if !@room_list.nil?
-            - @room_list.each do |room|
-              - if room.id==params[:id].to_i
-                %li.active#room
-                  =link_to "#{room.name}",room_path(:id=>room.id),:room_id => room.id
-              -else
-                %li#room
-                  =link_to "#{room.name}",room_path(:id=>room.id), :room_id => room.id
->>>>>>> develop
+          - @room_list.each do |room|
+            %li#room
+              = link_to "#{room.name}", room_path( id: room.id ), room_id: room.id, class: "#{get_link_class(room)}"
   #status_ui
     =image_tag avatar_url(current_user, 50), class: 'avatar_mini'
     .dropdown
