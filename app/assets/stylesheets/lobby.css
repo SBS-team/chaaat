@@ -635,6 +635,7 @@ span.glyphicon.glyphicon-remove:hover{
     position: fixed;
     padding: 0 5px;
     overflow: auto;
+    width: 10.5%;
 }
 
 .left h1{
