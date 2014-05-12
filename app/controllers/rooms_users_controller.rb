@@ -35,7 +35,8 @@ before_filter :find_room_and_user
 
     Pusher["private-#{params[:user_id]}"].trigger_async( 'private_del_user_from_room', { room_id: params[:room_id],
                                                                                          rooms_name: @room.name } )
-    render json: { drop_user_id: params[:user_id], user_login: @joined_user.login, room_name: @room.name }
+    # render json: { drop_user_id: params[:user_id], user_login: @joined_user.login, room_name: @room.name }
+    render :json => user, :root => "users"
   end
 
   def find_room_and_user

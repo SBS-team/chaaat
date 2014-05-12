@@ -20,12 +20,13 @@
 //= require jquery.confirm.min.js
 //= require jquery.overlay
 //= require jquery.textcomplete.min
+//= require jquery.nanoscroller.js
 //= require jquery.blockUI
+//= require jquery.nanoscroller.js
 //= require user
 //= require main
 //= require jquery.timeago.js
 //= require messages
-//= require pusher.js
+//= require pusher
 //= require bootstrap
-//= require rooms.js
-
+//= require rooms

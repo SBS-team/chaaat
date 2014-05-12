@@ -14,7 +14,7 @@ require 'spec_helper'
 
 describe Room do
   before do
-    @room = Room.new(name: "bla bla")
+    @room = FactoryGirl.create(:room, :user_id => "1")
   end
   subject { @room }
   context 'Room db columns' do
@@ -25,17 +25,19 @@ describe Room do
   end
 
   context 'Room relationship' do
-    it { should have_many(:messages) }
     it { should have_many(:rooms_users) }
+    it { should have_many(:messages) }
+
   end
   it { should respond_to(:name) }
+  it { should respond_to(:topic) }
 
   describe "when name is not present" do
     before { @room.name = "" }
     it { should_not be_valid }
   end
   describe "when name is too long" do
-    before { @room.name = "a" * 51 }
+    before { @room.name = "a" * 151 }
     it { should_not be_valid }
   end
   describe "when topic is too long" do

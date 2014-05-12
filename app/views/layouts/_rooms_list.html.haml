@@ -14,10 +14,26 @@
           Lobby
   %nav.lobby-panel
     %ul#tabs.tabs.ui-sortable
+<<<<<<< HEAD
 
       - @room_list.each do |room|
         %li#room
           = link_to "#{room.name}", room_path( id: room.id ), room_id: room.id, class: "#{get_link_class(room)}"
+=======
+      %script
+        $(".nano").nanoScroller({ scroll: 'bottom' });
+        $(".lobby-panel .nano-slider").css("background", "rgba(255,255,255,.5)")
+      .nano
+        .nano-content
+          - if !@room_list.nil?
+            - @room_list.each do |room|
+              - if room.id==params[:id].to_i
+                %li.active#room
+                  =link_to "#{room.name}",room_path(:id=>room.id),:room_id => room.id
+              -else
+                %li#room
+                  =link_to "#{room.name}",room_path(:id=>room.id), :room_id => room.id
+>>>>>>> develop
   #status_ui
     =image_tag avatar_url(current_user, 50), class: 'avatar_mini'
     .dropdown
@@ -57,9 +73,15 @@
       .dropdown
         %button#drop3.btn.btn-default.dropdown-toggle.tf-but{ 'data-toggle' => 'dropdown', type: '' }
           %span.glyphicon.glyphicon-search
+<<<<<<< HEAD
         %form.dropdown-menu.search-form{ 'aria-labelledby' => 'drop3', method: 'get', role: 'menu' }
           %input#search{ placeholder: 'Search', type: 'search' }
   - if @room_users.present? && check_current_user
+=======
+        %form.dropdown-menu.search-form{"aria-labelledby" => "drop3", :method => "get", :role => "menu"}
+          %input#search{:placeholder=>"Search", :type => "search"}
+  -if @room_users != nil && @cur_user_present_in_room == true
+>>>>>>> develop
     .tabbable
       %ul.nav.nav-tabs
         %li.active

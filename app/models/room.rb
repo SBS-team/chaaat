@@ -18,6 +18,7 @@ class Room < ActiveRecord::Base
 
   belongs_to :creator, foreign_key: :creator_id, class_name: 'User'
 
+  validates :creator_id, :presence => true
   validates :name, length: 1..100, presence: true
   validates :topic, length: 0..20, presence: true
 

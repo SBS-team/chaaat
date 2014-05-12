@@ -23,7 +23,7 @@ require 'spec_helper'
 describe Message do
 
   before do
-    @message = Message.new(user_id: "1", body: "bla bla", room_id: "1")
+    @message = FactoryGirl.create(:message)
   end
   subject { @message }
   context 'Message db columns' do
@@ -43,16 +43,18 @@ describe Message do
   it { should respond_to(:body) }
   it { should respond_to(:room_id) }
   it { should respond_to(:user_id) }
+  it { should respond_to(:attach_path) }
+  it { should respond_to(:attach_size) }
+  it { should be_valid }
 
-
-
-  describe "when user is not present" do
-    before { @message.user_id = "" }
-    it { should_not be_valid }
-  end
 
   describe "when room is not present" do
     before { @message.room_id = "" }
     it { should_not be_valid }
   end
+  describe "when room is  present" do
+    before { @message.user_id = "" }
+    it { should be_valid }
+  end
+
 end

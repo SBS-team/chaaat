@@ -70,7 +70,6 @@ describe User do
     it { should have_db_column(:uid).of_type(:string)}
   end
   context 'User relationship' do
-    it { should have_many(:messages) }
     it { should have_many(:rooms_users) }
   end
   it { should respond_to(:email) }
@@ -78,7 +77,15 @@ describe User do
   it { should respond_to(:login) }
   it { should respond_to(:lastname) }
   it { should respond_to(:firstname) }
+  it { should respond_to(:last_sign_in_at) }
+  it { should respond_to(:reset_password_token) }
+  it { should respond_to(:sign_in_count) }
   it { should respond_to(:user_status) }
+  it { should respond_to(:current_sign_in_ip) }
+  it { should respond_to(:last_sign_in_ip) }
+  it { should respond_to(:provider) }
+  it { should respond_to(:uid) }
+
 
   describe "when login is not present" do
     before { @user.login = "" }

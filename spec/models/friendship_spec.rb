@@ -29,6 +29,8 @@ describe Friendship do
     it { should belong_to(:friend) }
   end
   it { should respond_to(:user) }
+  it { should respond_to(:friend) }
+
 
 
 end
