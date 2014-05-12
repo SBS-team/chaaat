@@ -12,7 +12,7 @@ class RoomsController < ApplicationController
   end
 
   def create
-    @room = current_user.rooms.build( room_params )
+    @room = Room.new( room_params.merge!( creator_id: current_user.id.to_i ) )
     if @room.save
       @room.create_rooms_user_object( current_user.id )
       if params[:express]
