@@ -73,15 +73,9 @@
       .dropdown
         %button#drop3.btn.btn-default.dropdown-toggle.tf-but{ 'data-toggle' => 'dropdown', type: '' }
           %span.glyphicon.glyphicon-search
-<<<<<<< HEAD
         %form.dropdown-menu.search-form{ 'aria-labelledby' => 'drop3', method: 'get', role: 'menu' }
           %input#search{ placeholder: 'Search', type: 'search' }
   - if @room_users.present? && check_current_user
-=======
-        %form.dropdown-menu.search-form{"aria-labelledby" => "drop3", :method => "get", :role => "menu"}
-          %input#search{:placeholder=>"Search", :type => "search"}
-  -if @room_users != nil && @cur_user_present_in_room == true
->>>>>>> develop
     .tabbable
       %ul.nav.nav-tabs
         %li.active
