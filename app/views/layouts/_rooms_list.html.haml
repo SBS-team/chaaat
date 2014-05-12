@@ -14,9 +14,6 @@
           Lobby
   %nav.lobby-panel
     %ul#tabs.tabs.ui-sortable
-      %script
-        $(".nano").nanoScroller({ scroll: 'bottom' });
-        $(".lobby-panel .nano-slider").css("background", "rgba(255,255,255,.5)")
       .nano
         .nano-content
           - @room_list.each do |room|
@@ -126,3 +123,7 @@
                     = "#{link.created_at}"
                   %br
   .footer
+
+:javascript
+  $(".nano").nanoScroller({ scroll: 'bottom' });
+  $(".lobby-panel .nano-slider").css("background", "rgba(255,255,255,.5)")
