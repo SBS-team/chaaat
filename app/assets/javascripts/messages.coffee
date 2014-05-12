@@ -358,6 +358,7 @@ $(document).ready ->
     if input_file
       $(".attach_wrapper").remove()
       $("label.upload-but").popover "hide"
+      message_textarea.val("");
     return
 
   $("#search").keyup ->
