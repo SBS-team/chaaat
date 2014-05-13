@@ -69,6 +69,9 @@ GEM
       sass (>= 3.2.0)
       thor
     builder (3.1.4)
+    bullet (4.9.0)
+      activesupport
+      uniform_notifier (~> 1.6.0)
     capistrano (3.1.0)
       i18n
       rake (>= 10.0.0)
@@ -388,6 +391,7 @@ GEM
     unicorn-rails (1.1.0)
       rack
       unicorn
+    uniform_notifier (1.6.1)
     warden (1.2.3)
       rack (>= 1.0)
     webrobots (0.1.1)
@@ -410,6 +414,7 @@ DEPENDENCIES
   better_errors
   binding_of_caller
   bootstrap-sass
+  bullet
   capistrano
   capistrano-bundler
   capistrano-rails

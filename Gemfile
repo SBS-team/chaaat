@@ -33,6 +33,7 @@ gem 'exception_notification'
 gem 'gravatar-ultimate'
 gem 'will_paginate'
 group :development do
+  gem 'bullet'
   gem 'better_errors'
   gem 'binding_of_caller', :platforms=>[:mri_19, :mri_20, :rbx]
   gem 'foreman'
