@@ -3,6 +3,22 @@ $ ->
     $("#myModal").modal "hide"
     return
 
+  $("#secret_b").on "click", ->
+    $.ajax(
+      type: "POST"
+      beforeSend: (xhr) ->
+        xhr.setRequestHeader "X-CSRF-Token", $("meta[name=\"csrf-token\"]").attr("content")
+        return
+      url: "/rooms/secret"
+      data:
+        room_id: @getAttribute "data-id"
+    ).done (secret) ->
+       alert("sss")
+       $("#secret-token").html(secret)
+       return
+    return
+
+
   $(".script").each ->
     eval_ $(this).text()
     return
@@ -31,3 +47,6 @@ $ ->
       range.select()
     $textarea.keyup()
   return
+
+
+

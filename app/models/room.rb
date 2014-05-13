@@ -17,8 +17,10 @@ class Room < ActiveRecord::Base
   belongs_to :user
   validates :name, length: 1..100, :presence => true
   validates :topic, length: 0..20, :presence => true
-
-  before_validation { self.secret_token = SecureRandom.hex }
+  before_validation :change_secret,if: :name_changed?
+  def change_secret
+    self.secret_token = SecureRandom.hex
+  end
   validates :secret_token, presence: true, uniqueness: true
 
 

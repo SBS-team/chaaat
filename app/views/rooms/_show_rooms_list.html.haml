@@ -14,6 +14,24 @@
           =link_to "#{room.user.login}", user_path(room.user.login)
         %td.set-arr
           -if room.user.login==current_user.login
+            %span.update_room_token.glyphicon.glyphicon-cog{:data=>{:id=>room.id},"data-target" => "#myModal#{room.id}", "data-toggle" => "modal"}
+            %div{'id' => "myModal#{room.id}", 'class' => 'modal fade', "aria-hidden" => "true", "aria-labelledby" => "myModalLabel", role: "dialog", tabindex: "-1"}
+              .modal-dialog
+                .modal-content
+                  .modal-header
+                    %button.close{"aria-hidden" => "true", "data-dismiss" => "modal", type: "button"}
+                    %h4#myModalLabel.modal-title You secret token
+                  .modal-body
+                    .form-group
+                      %label You secret token
+                      -if room.secret_token
+                        %label#secret-token
+                          =room.secret_token
+                    .form-group
+                      =button_tag "Change token", :class=>"btn btn-primary lobby-btn", :id=>"secret_b",:data=>{:id=>room.id}, :type=>"button"
+                    .modal-footer
+                      .action
+                        %button.btn.btn-primary.lobby-btn{"data-dismiss" => "modal", type: "button"} Close
             %span.delete_room.glyphicon.glyphicon-remove-circle{:data=>{:id=>room.id}}
 
 

@@ -553,6 +553,10 @@ div.server-upsell {
 {
     cursor: pointer;
 }
+#secret-token
+{
+    font-weight: 100;
+}
 /* sign_up end */
 .tabbable .active{background-color: white;}
 .textcomplete-wrapper{height:100%;}

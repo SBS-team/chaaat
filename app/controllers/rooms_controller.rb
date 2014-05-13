@@ -60,8 +60,14 @@ class RoomsController < ApplicationController
       if RoomsUser.where('user_id=? AND room_id=?',current_user.id,params[:room_id]).first
         Pusher["private-#{params[:room_id]}"].trigger('change-topic',:topic=>params[:query])
         room.update(:topic=>params[:query])
-        end
+      end
     render :json=>{:curr_topic=>params[:query],:prev_topic=>previous_topic}
+  end
+
+  def change_secret_token
+    room = Room.find(params[:room_id])
+    room.update(:secret_token=>room.change_secret)
+    render :json =>  room.secret_token, :root=>false
   end
 
   def destroy
