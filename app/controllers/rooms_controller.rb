@@ -38,11 +38,11 @@ class RoomsController < ApplicationController
   def show
     @room_users = @room.users
     @message = Message.new
-    @messages = @room.messages.preload( :user )
+    @messages = @room.messages.preload(:user)
     @links = Message.get_body_links(@messages)
     @attach = Message.get_body_attach(@messages)
 
-    gon.room_id = params[:id]
+    gon.room_id = params[:id].to_i
     gon.rooms_users = @room_users.pluck(:login)
     gon.user_login = current_user.login
     gon.user_id = current_user.id
