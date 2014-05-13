@@ -21,12 +21,16 @@ var conference = function(config) {
                 defaultSocket = socket;
             }
         });
+//        def = config.openSocket({
+//            onmessage: onDefaultSocketResponse,
+//            callback: function(socket) {
+//                def = socket;
+//            }
+//        });
     }
 
     function onDefaultSocketResponse(response) {
         if (response.userToken == self.userToken) return;
-
-//        config.onRemoteStream(response.my_id);
 
 
         if (isGetNewRoom && response.roomToken && response.broadcaster) config.onRoomFound(response);
@@ -37,7 +41,8 @@ var conference = function(config) {
             channels += response.userToken + '--';
             openSubSocket({
                 isofferer: true,
-                channel: response.channel || response.userToken
+                channel: response.channel || response.userToken,
+                user_id: "temp"
             });
         }
         // to make sure room is unlisted if owner leaves
@@ -51,6 +56,7 @@ var conference = function(config) {
         var socketConfig = {
             channel: _config.channel,
             onmessage: socketResponse,
+            user_id: "temp",
             onopen: function() {
                 if (isofferer && !peer) initPeer();
                 sockets[sockets.length] = socket;
@@ -69,7 +75,7 @@ var conference = function(config) {
             inner = { },
             peer;
 
-        var peerConfig = {
+         var peerConfig = {
             attachStream: config.attachStream,
             onICE: function(candidate) {
                 socket.send({
@@ -77,7 +83,8 @@ var conference = function(config) {
                     candidate: {
                         sdpMLineIndex: candidate.sdpMLineIndex,
                         candidate: JSON.stringify(candidate.candidate)
-                    }
+                    },
+                    user_id: gon.user_id
                 });
             },
             onRemoteStream: function(stream) {
@@ -90,7 +97,7 @@ var conference = function(config) {
                 onRemoteStreamStartsFlowing();
             },
             onRemoteStreamEnded: function(stream) {
-                alert("delete");
+
                 if (config.onRemoteStreamEnded)
                     config.onRemoteStreamEnded(stream, video);
             }
@@ -122,7 +129,8 @@ var conference = function(config) {
                     /* broadcasting newly connected participant for video-conferencing! */
                     defaultSocket.send({
                         newParticipant: socket.channel,
-                        userToken: self.userToken
+                        userToken: self.userToken,
+                        user_id: gon.user_id
                     });
                 }
 
@@ -132,7 +140,8 @@ var conference = function(config) {
         function sendsdp(sdp) {
             socket.send({
                 userToken: self.userToken,
-                sdp: JSON.stringify(sdp)
+                sdp: JSON.stringify(sdp),
+                user_id: gon.user_id
             });
         }
 
@@ -173,14 +182,20 @@ var conference = function(config) {
     }
 
     function leave() {
-        alert("leave conference");
+//        sockets.disconnect();
+//        config.attachStream.stop();
+//        socket.socket.disconnect();
         var length = sockets.length;
         for (var i = 0; i < length; i++) {
             var socket = sockets[i];
+            alert("leave conference");
+//            sockets[i].disconnect();
+
             if (socket) {
                 socket.send({
                     left: true,
-                    userToken: self.userToken
+                    userToken: self.userToken,
+                    user_id: gon.user_id
                 });
                 delete sockets[i];
             }
@@ -191,7 +206,8 @@ var conference = function(config) {
             defaultSocket.send({
                 left: true,
                 userToken: self.userToken,
-                roomToken: self.roomToken
+                roomToken: self.roomToken,
+                user_id: "temp"
             });
         }
 
@@ -210,7 +226,8 @@ var conference = function(config) {
         defaultSocket && defaultSocket.send({
             roomToken: self.roomToken,
             roomName: self.roomName,
-            broadcaster: self.userToken
+            broadcaster: self.userToken,
+            user_id: gon.user_id
         });
         setTimeout(startBroadcasting, 3000);
     }
@@ -221,14 +238,16 @@ var conference = function(config) {
 
         var new_channel = uniqueToken();
         openSubSocket({
-            channel: new_channel
+            channel: new_channel,
+            user_id: "temp"
         });
 
         defaultSocket.send({
             participant: true,
             userToken: self.userToken,
             joinUser: channel,
-            channel: new_channel
+            channel: new_channel,
+            user_id: gon.user_id
         });
     }
 
@@ -257,19 +276,20 @@ var conference = function(config) {
 
             self.joinedARoom = true;
             self.broadcasterid = _config.joinUser;
-
+            self.my_id=gon.user_id;
             openSubSocket({
-                channel: self.userToken
+                channel: self.userToken,
+                user_id: "temp"
             });
-
-
 
             defaultSocket.send({
                 participant: true,
                 userToken: self.userToken,
                 joinUser: _config.joinUser,
-                my_id: gon.user_id
+                user_id: "temp"
             });
+
+
         },
         leaveRoom: leave
     };

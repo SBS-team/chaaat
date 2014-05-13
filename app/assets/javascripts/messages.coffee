@@ -353,11 +353,12 @@ $(document).ready ->
     document.getElementById("message").value += "\r\n"  if e.keyCode is 13 and e.ctrlKey
     return
 
-  $(".send_message_button").click ->
+  $(".send_message_button").click (e) ->
     send_message()
     if input_file
       $(".attach_wrapper").remove()
       $("label.upload-but").popover "hide"
+    message_textarea.val("");
     return
 
   $("#search").keyup ->
