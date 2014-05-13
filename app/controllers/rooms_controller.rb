@@ -39,7 +39,7 @@ class RoomsController < ApplicationController
     @room_users = @room.users
     @message = Message.new
     @messages = @room.messages.preload(:user)
-    @links = Message.get_body_links(@messages)
+    @links = Message.get_body_links(@messages).paginate( page: params[:page], per_page: 14)
     @attach = Message.get_body_attach(@messages)
 
     gon.room_id = params[:id].to_i

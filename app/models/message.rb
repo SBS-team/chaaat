@@ -32,8 +32,7 @@ class Message < ActiveRecord::Base
 
   before_save :gsub_message, on: :create
 
-  scope :get_body_links, ->  ( messages ) { messages.where( 'body LIKE ? OR body LIKE ? OR body LIKE ?', '%http://%', '%https://%', '%ftp://%' )
-                                                    .paginate( page: params[:page], per_page: 14) }
+  scope :get_body_links, ->  ( messages ) { messages.where( 'body LIKE ? OR body LIKE ? OR body LIKE ?', '%http://%', '%https://%', '%ftp://%' ) }
   scope :get_body_attach, -> ( messages ) { messages.where( 'attach_path IS NOT NULL' ) }
 
   def   send_emails
