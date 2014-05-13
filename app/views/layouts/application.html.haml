@@ -85,6 +85,9 @@
                   .action
                     %button#edit-modal-submit.btn.btn-primary.lobby-btn{type: "submit"} Submit changes
                     %button.btn.btn-primary.lobby-btn{"data-dismiss" => "modal", type: "button"} Close
+            .modal-footer
+              You can
+              = link_to "delete your account", registration_path(current_user), :method => :delete, :data => {:confirm => "Are you sure you want to delete your account?"}, :class => "button right"
       = yield
 
 
