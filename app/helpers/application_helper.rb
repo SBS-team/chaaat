@@ -1,4 +1,5 @@
 module ApplicationHelper
+
   def avatar_url(user, foto_size)
     if user.avatar.present?
       foto_size == 50 ? user.avatar : user.profile_avatar

@@ -19,7 +19,7 @@ class ApplicationController < ActionController::Base
     if current_admin_user.is_a? AdminUser
       super
     elsif resource.is_a? User
-        User.update(current_user, sign_out_at: Time.now)
+        User.update( current_user, sign_out_at: Time.now )
         root_path
       else
         super
@@ -45,13 +45,13 @@ class ApplicationController < ActionController::Base
 
   def configure_permitted_parameters
     devise_parameter_sanitizer.for(:sign_up) << :login
-    devise_parameter_sanitizer.for(:sign_in) { |u| u.permit(:email, :password, :remember_me) }
-    devise_parameter_sanitizer.for(:sign_up) { |u| u.permit({ roles: [] },:firstname,:lastname,:avatar, :email, :password, :password_confirmation, :login) }
+    devise_parameter_sanitizer.for(:sign_in) { |u| u.permit( :email, :password, :remember_me ) }
+    devise_parameter_sanitizer.for(:sign_up) { |u| u.permit( { roles: [] }, :firstname, :lastname, :avatar, :email, :password, :password_confirmation, :login ) }
     devise_parameter_sanitizer.for(:account_update) { |u|
-      u.permit(:login, :firstname, :lastname, :email, :password, :password_confirmation, :current_password)
+      u.permit( :login, :firstname, :lastname, :email, :password, :password_confirmation, :current_password )
     }
     devise_parameter_sanitizer.for(:accept_invitation) { |u|
-      u.permit(:firstname,:lastname, :password, :password_confirmation,:invitation_token)
+      u.permit( :firstname, :lastname, :password, :password_confirmation, :invitation_token )
     }
   end
 

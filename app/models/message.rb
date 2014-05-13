@@ -37,7 +37,7 @@ class Message < ActiveRecord::Base
 
   def   send_emails
     self.room.users.where( user_status: 'Offline' ).pluck( :email ).each do |email|
-      UserMailer.offline_message( email, self.body, self.room ).deliver
+      UserMailer.offline_message( user, self.body, self.room ).deliver
     end
   end
 
