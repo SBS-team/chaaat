@@ -38,7 +38,6 @@ $ ->
           user_login_dom_el = $(".current_user_login")
           user_login_dom_el.html parsed_login
           $("#editModal").modal "hide"
-        console.log response
         return
     false
 
