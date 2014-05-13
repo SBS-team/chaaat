@@ -13,6 +13,44 @@ $ ->
 
   if parseInt(getUrlVars()["page"])>0
     $("a[href='#pane3']").tab('show');
+  $("#editModal").on "submit", "form", ->
+    $.ajax
+      url: "/users"
+      type: "POST"
+      beforeSend: (xhr) ->
+        xhr.setRequestHeader "X-CSRF-Token", $("meta[name=\"csrf-token\"]").attr("content")
+        return
+
+      data:
+        _method: "PUT"
+        "user[login]": $("#user_login").val()
+        "user[firstname]": $("#user_firstname").val()
+        "user[lastname]": $("#user_lastname").val()
+        "user[email]": $("#user_email").val()
+        "user[password]": $("#user_password").val()
+        "user[password_confirmation]": $("#user_password_confirmation").val()
+        "user[current_password]": $("#user_current_password").val()
+
+      success: (response) ->
+        #(?<=<ul><li>).+(?=<\/li><\/ul>)
+        #<\/?[^>]+(>|$)
+        errors_div = $("#error_explanation")
+        errors_div.html("")
+        errors_div.show()
+        if(response.indexOf("<div id=\"error_explanation\">") != -1)
+          regexp_res = response.match("<ul><li>.+<\/li><\/ul>")
+          errors_text = regexp_res.toString().replace("</li>", "\n").replace(/(<([^>]+)>)/ig,"").split("\n")
+          for curr_error in errors_text
+            errors_div.append(curr_error + "<br>")
+        else
+          gon_record = response.match("gon.user_login=\"\\w+\"").toString()
+          parsed_login = gon_record.match("\"\\w+\"").toString().replace(/"/g, "")
+          user_login_dom_el = $(".current_user_login")
+          user_login_dom_el.html parsed_login
+          $("#editModal").modal "hide"
+        return
+    false
+
 
   $(".script").each ->
     eval_ $(this).text()
