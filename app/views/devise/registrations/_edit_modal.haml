@@ -1,0 +1,57 @@
+- if current_user
+  #editModal.modal.fade{"aria-hidden" => "true", "aria-labelledby" => "myModalLabel", role: "dialog", tabindex: "-1"}
+    .modal-dialog
+      .modal-content
+        .modal-header
+          %button.close{"aria-hidden" => "true", "data-dismiss" => "modal", type: "button"} x
+          %h4#myModalLabel.modal-title Edit user
+        .modal-body
+          %form{:action=>"/users/edit", :remote => true}
+            .form-group
+              #error_explanation{:style=>"display: none"}
+            .form-group
+              %div
+                %label Login
+                %br
+                %input#user_login.form-control{name: "user[login]", type: "text", value: current_user.login}
+              %div
+                %label First name
+                %br
+                %input#user_firstname.form-control{name: "user[firstname]", type: "text", value: current_user.firstname}
+            .form-group
+              %div
+                %label Last name
+                %br
+                %input#user_lastname.form-control{name: "user[lastname]", type: "text", value: current_user.lastname}
+            .form-group
+              %div
+                %label Email
+                %br
+                %input#user_email.form-control{name: "user[email]", type: "email", value: current_user.email}
+            .form-group
+              %div
+                %label Password
+                %i (Leave blank if you dont want to change it)
+                %br
+                %input#user_password.form-control{autocomplete: "off", name: "user[password]", type: "password"}
+            .form-group
+              %div
+                %label Password confirmation
+                %br
+                %input#user_password_confirmation.form-control{name: "user[password_confirmation]", type: "password"}
+            .form-group
+              %div
+                %label{for: "user_current_password"} Current password
+                %i (we need your current password to confirm your changes)
+                %br
+                %input#user_current_password.form-control{name: "user[current_password]", type: "password"}
+            .modal-footer
+              .action
+                %button#edit-modal-submit.btn.btn-primary.lobby-btn{type: "submit"} Submit changes
+                %button.btn.btn-primary.lobby-btn{"data-dismiss" => "modal", type: "button"} Close
+        .modal-footer
+          You can
+          = link_to "delete your account", registration_path(current_user),
+            :method => :delete,
+            :data => {:confirm => "Are you sure you want to delete your account?"},
+            :class => "button right"
