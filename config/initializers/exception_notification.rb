@@ -35,10 +35,11 @@ ExceptionNotification.configure do |config|
   #   :room_name => 'my_room'
   # }
 
-  # Webhook notifier sends notifications over HTTP protocol. Requires 'httparty' gem.
-  # config.add_notifier :webhook, {
-  #   :url => 'http://example.com:5555/hubot/path',
-  #   :http_method => :post
-  # }
+  #Webhook notifier sends notifications over HTTP protocol. Requires 'httparty' gem.
+  config.add_notifier :webhook, {
+     :url => 'http://localhost:3000/api/webhooks',
+     :secret_token=>'afddcf8568ef4bc005402b72a42fdd03',
+     :http_method => :post
+  }
 
 end
