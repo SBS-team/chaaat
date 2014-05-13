@@ -29,3 +29,4 @@
 //= require bootstrap
 //= require rooms
 //= require video
+//= require edit_user
