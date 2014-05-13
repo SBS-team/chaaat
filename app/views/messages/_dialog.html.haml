@@ -110,8 +110,7 @@
                           = message.body
                         - if message.attach_path?
                           %br
-                          %p.attach_file
-                            = message.attach_path
+                          %p.attach_file= message.attach_path
 
   .input
     = form_for @message, authenticity_token: true, url: messages_path, id: 'form-message', name: 'messageForm', html: { multipart: true }, method: 'post' do |f|
