@@ -91,7 +91,7 @@ class User < ActiveRecord::Base
     if user
       user
     else
-      registered_user = User.where(:email => auth.info.email).first
+      registered_user = User.where( email: auth.info.email ).first
       if registered_user
         registered_user
       else
