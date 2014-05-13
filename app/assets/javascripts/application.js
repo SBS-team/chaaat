@@ -20,7 +20,6 @@
 //= require jquery.textcomplete.min
 //= require jquery.nanoscroller.js
 //= require jquery.blockUI
-//= require jquery.nanoscroller.js
 //= require user
 //= require main
 //= require jquery.timeago.js
@@ -29,4 +28,3 @@
 //= require bootstrap
 //= require rooms
 //= require video
-//= require edit_user
