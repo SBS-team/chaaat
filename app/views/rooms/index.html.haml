@@ -2,25 +2,25 @@
 .content
   .lobby-header
     %h1.pull-left
-      ="#{current_user.login} Rooms"
-    %button#createRoom.btn.btn-primary.lobby-btn{"data-target" => "#myModal", "data-toggle" => "modal"}Create Room
-    #myModal.modal.fade{"aria-hidden" => "true", "aria-labelledby" => "myModalLabel", role: "dialog", tabindex: "-1"}
+      = "#{current_user.login} Rooms"
+    %button#createRoom.btn.btn-primary.lobby-btn{ 'data-target' => '#myModal', 'data-toggle' => 'modal' } Create Room
+    #myModal.modal.fade{ 'aria-hidden' => 'true', 'aria-labelledby' => 'myModalLabel', role: 'dialog', tabindex: '-1' }
       .modal-dialog
         .modal-content
           .modal-header
-            %button.close{"aria-hidden" => "true", "data-dismiss" => "modal", type: "button"}
+            %button.close{ 'aria-hidden' => 'true', 'data-dismiss' => 'modal', type: 'button' }
             %h4#myModalLabel.modal-title Create new room
           .modal-body
             = form_for Room.new,remote:true do |f|
               .form-group
                 %label Name:
-                =f.text_field :name
+                = f.text_field :name
               .form-group
                 %label Topic:
-                =f.text_field :topic
+                = f.text_field :topic
               .modal-footer
                 .action
-                  %button#modal-submit.btn.btn-primary.lobby-btn{type: "submit"} Create
-                  %button.btn.btn-primary.lobby-btn{"data-dismiss" => "modal", type: "button"} Close
+                  %button#modal-submit.btn.btn-primary.lobby-btn{ type: 'submit' } Create
+                  %button.btn.btn-primary.lobby-btn{ 'data-dismiss' => 'modal', type: 'button' } Close
   #room_list
     =render 'rooms/show_rooms_list'

@@ -4,7 +4,7 @@
     %tr
       %td.name
         %a.clean
-          = link_to "#{room.name}",room_path( id: room.id ), room_id: room.id
+          = link_to "#{room.name}", room_path( id: room.id )
       %td.memb-count
         = room.users.count
         = 'members'
