@@ -1,3 +1,3 @@
-$(document).ready ->
-  $("a.glyphicon-cog").click ->
-    $("#editModal").modal()
+#$(document).ready ->
+#  $("a.glyphicon-cog").click ->
+#    $("#editModal").modal()

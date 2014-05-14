@@ -50,8 +50,10 @@ $ ->
           $("#editModal").modal "hide"
         return
     false
-
-
+#  ---------------------------------- user profile photo from gravatar here  ---------------------------------------
+  $("a.glyphicon-cog").click ->
+    $("#profile_avatar").attr("src", $(".avatar_mini").attr("src"))
+# ----------------------------------------------------------------------------------------------------------------
   $(".script").each ->
     eval_ $(this).text()
     return

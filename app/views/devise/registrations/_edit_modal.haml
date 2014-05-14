@@ -46,6 +46,12 @@
                 %br
                 %input#user_current_password.form-control{name: "user[current_password]", type: "password"}
             .modal-footer
+              #avatar_info_group
+                .avatar
+                  = image_tag("",:size => "50x50", :id => "profile_avatar")
+                %span#gravatar_link
+                  Change your avatar on
+                  = link_to 'gravatar.com', 'https://ru.gravatar.com', {:target => "_blank"}
               .action
                 %button#edit-modal-submit.btn.btn-primary.lobby-btn{type: "submit"} Submit changes
                 %button.btn.btn-primary.lobby-btn{"data-dismiss" => "modal", type: "button"} Close
