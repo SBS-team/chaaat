@@ -111,8 +111,9 @@
         %tbody
           %tr
             %td
-              .textwrapper
-                = f.text_area :body , :class => "form-control", :id=>"message", :autocomplete => "off"
+              %div#dropZone
+                .textwrapper
+                  = f.text_area :body , :class => "form-control", :id=>"message", :autocomplete => "off"
             %td.up-pl-wrap{:width => "10%"}
               %span.glyphicon.glyphicon-ok.ok#lineh
               %label.upload-place
