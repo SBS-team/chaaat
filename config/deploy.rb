@@ -11,7 +11,7 @@ set :scm, :git
 set :repo_url, 'git@github.com:SBS-team/chaaat.git'
 
 set :rvm_type, :user
-set :rvm_ruby_version, 'ruby-2.1.0-p0@chat'      # Defaults to: 'default'
+set :rvm_ruby_version, 'ruby 2.1.2p95@chat'      # Defaults to: 'default'
 
 # Имя пользователя на сервере и папка с проектом
 set :user, 'deployer'
