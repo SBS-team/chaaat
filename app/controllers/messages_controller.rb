@@ -13,7 +13,8 @@ class MessagesController < ApplicationController
                                                                                       :attach_file_path=>message.attach_path.url,
                                                                                       :create_at=>message.created_at.strftime("%a %T")})
       else
-        message=Message.create(message_params.merge(:user_id=>current_user.id,:body=>params[:messages][:body]))
+        message_sent=Message.create(message_params.merge(:user_id=>current_user.id,:body=>params[:messages][:body]))
+        message=Message.find(message_sent.id)
         Pusher["private-#{message.room_id}"].trigger_async('new_message', :messages=>{:id=>message.id,
                                                                                       :room_id=>message.room_id,
                                                                                       :user_id=>current_user.id,
@@ -40,9 +41,9 @@ class MessagesController < ApplicationController
         end
       end
 
-      #render :text => 'Success'
+      render :text => 'Success'
     end
-    render :nothing => true
+    #render :nothing => true
   end
 
   def search

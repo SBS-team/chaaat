@@ -7,14 +7,15 @@ class RoomsUsersController < ApplicationController
       joined_user = User.find(params[:user_id])
       if !RoomsUser.create(:room_id => @room.id, :user_id => joined_user.id).new_record?
         room_user_ids = RoomsUser.where(:room_id => @room.id).pluck(:user_id)
-        @room_users = User.where("id IN (?)", room_user_ids)
+        @room_users = User.includes(:rooms_users).where("id IN (?)", room_user_ids)
         Pusher["private-#{params[:room_id]}"].trigger_async('add_user_to_room', {:user_id => joined_user.id,
                                                                                  :user_login => joined_user.login,
                                                                                  :rooms_name => @room.name,
                                                                                  :room_id => @room.id,
                                                                                  :user_status => joined_user.user_status,
-                                                                                 :user_sign_out_time => joined_user.updated_at,
-                                                                                 :rooms_owner_id => @room.user_id})
+                                                                                 :user_sign_out_time=>joined_user.updated_at,
+                                                                                 :rooms_owner_id => @room.user_id,
+                                                                                  :room_members_count => @room_users.count})
 
         Pusher["private-#{params[:user_id]}"].trigger_async('user_add_to_room', {:rooms_id => @room.id,
                                                                                  :rooms_name => @room.name,

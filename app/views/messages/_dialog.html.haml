@@ -87,7 +87,7 @@
                           %p= message.body
                           -if message.attach_path?
                             %br
-                            %p.attach_file= message.attach_path
+                            %p.attach_file= message.attach_path.url
                 -else
                   %li.to.clearfix{:data=>{:id=>message.id}}
                     %span.chat-img.pull-left
@@ -103,7 +103,7 @@
                           %p=message.body
                           -if message.attach_path?
                             %br
-                            %p.attach_file= message.attach_path
+                            %p.attach_file= message.attach_path.url
 
   .input
     = form_for @message, :authenticity_token => true, :url => messages_path,:id=>"form-message", :name => "messageForm", :html => {:multipart => true}, :method=>"post" do |f|
@@ -117,6 +117,9 @@
               %span.glyphicon.glyphicon-ok.ok#lineh
               %label.upload-place
                 = f.file_field :attach_path ,:id=>"attach_path"
+            %td{:width => "1px"}
+              %div.video-chat.upload-but
+                %span.glyphicon.glyphicon-earphone
             %td{:width => "1%"}
               = f.hidden_field :room_id, :value=>@room_id
               %label.upload-but{:for => "attach_path"}

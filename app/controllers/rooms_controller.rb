@@ -7,7 +7,7 @@ class RoomsController < ApplicationController
   end
 
   def index
-    @rooms_preload=RoomsUser.preload(:user)
+    @rooms_preload=RoomsUser.all
   end
 
   def create
@@ -40,7 +40,7 @@ class RoomsController < ApplicationController
       gon.room_id = params[:id]
       @message_count = Message.where(:room_id=>params[:id]).count
       @messages = Message.where(:room_id=>params[:id]).preload(:user).order(created_at: :asc).last(10)
-      @links = Message.where("room_id = ? AND (body LIKE ? OR body LIKE ? OR body LIKE ?)",params[:id],"%http://%","%https://%","%ftp://%").preload(:user).order(created_at: :asc)
+      @links = Message.where("room_id = ? AND (body LIKE ? OR body LIKE ? OR body LIKE ?)",params[:id],"%http://%","%https://%","%ftp://%").preload(:user).order(created_at: :desc).paginate(:page => params[:page], :per_page => 14)
       @attah = Message.where("room_id = ? AND attach_path IS NOT NULL",params[:id]).preload(:user).order(created_at: :asc)
       @room_users = User.includes(:rooms_users).where('rooms_users.room_id'=>params[:id])
       gon.rooms_users = @room_users.pluck(:login)
@@ -57,10 +57,10 @@ class RoomsController < ApplicationController
   def update
     room = Room.find(params[:room_id])
     previous_topic=room.topic
-      if RoomsUser.where('user_id=? AND room_id=?',current_user.id,params[:room_id]).first
-        Pusher["private-#{params[:room_id]}"].trigger('change-topic',:topic=>params[:query])
-        room.update(:topic=>params[:query])
-        end
+    if RoomsUser.where('user_id=? AND room_id=?',current_user.id,params[:room_id]).first
+      Pusher["private-#{params[:room_id]}"].trigger('change-topic',:topic=>params[:query])
+      room.update(:topic=>params[:query])
+    end
     render :json=>{:curr_topic=>params[:query],:prev_topic=>previous_topic}
   end
 

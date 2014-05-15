@@ -25,22 +25,11 @@ describe MessagesController do
 
   it "message create" do
     expect {
-      post :create, :messages => FactoryGirl.create(:message).attributes, :user_id => user
+      post :create, :room_id => room, :messages => FactoryGirl.create(:message).attributes, :user_id => user.id
     }.to change(Message, :count).by(1)
     end
 
   it "message create" do
       get :search, :body => "a"
   end
-
-  #it "message create" do
-  #
-  #  get :message_params, :message => FactoryGirl.create(:message, :user_id => user.id).attributes
-  #
-  #end
-  #it "should return the same value" do
-  #  messages = FactoryGirl.create(:message)
-  #
-  #  expect(messages).to eq(messages)
-  #end
 end

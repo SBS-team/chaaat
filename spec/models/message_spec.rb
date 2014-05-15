@@ -10,13 +10,13 @@
 #  room_id     :integer
 #  created_at  :datetime
 #  updated_at  :datetime
+#  url         :text
 #
 # Indexes
 #
 #  index_messages_on_room_id  (room_id)
 #  index_messages_on_user_id  (user_id)
 #
-
 
 require 'spec_helper'
 

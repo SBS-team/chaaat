@@ -27,12 +27,7 @@ $(document).ready ->
       emojify.run message[i]
       i++
     return
-  check_file = (attach_file_path) ->
-    url_to_file = location.origin + attach_file_path
-    if url_to_file.match(/http.*(jpg|gif|jpeg|png)/)
-      '<img src="' + url_to_file + '" height="200px" width="200px"/>'
-    else
-      '<a href="' + url_to_file + '" download><span class="glyphicon glyphicon-download-alt"></span>' + attach_file_path.match(/(\w|[-.])+$/)[0] + '</a>'
+
   send_message = ->
     ++i
     (($(".chat").prepend "<div class=\"pag\"><div class=\"glyphicon glyphicon-chevron-up\"></div></div>")  if pagExist isnt true)  if i is 31
@@ -46,6 +41,7 @@ $(document).ready ->
       fd.append "messages[body]", $.trim(message_textarea.val())
       fd.append "messages[room_id]", gon.room_id
       fd.append "messages[attach_path]", $("input[type=\"file\"]")[0].files[0]
+      console.log $("input[type=\"file\"]")[0].files[0]
       $.ajax
         type: "POST"
         beforeSend: (xhr) ->
@@ -57,6 +53,7 @@ $(document).ready ->
         processData: false
         contentType: false
         success: (data) ->
+          console.log data
           $("#new_message")[0].reset()
           $(".input").unblock()
           return
@@ -121,10 +118,6 @@ $(document).ready ->
     attached_file = $(".attach_file")
     i = 0
 
-    while i < attached_file.length
-      attached_file[i].innerHTML = check_file(attached_file[i].innerHTML)
-      i++
-    return
   changetags = (text) ->
     words = text.split(" ")
     results = []
@@ -136,9 +129,9 @@ $(document).ready ->
         results.push word.replace(/\@\S*/, "<span class=\"to-user\">" + $.trim(word.match(/\@\S*/)[0]) + "</span> ")
       else if word.match(/http.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?].\S\S*)/)
         results.push word.replace(/http.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?].\S\S*)/, "<br><iframe width=\"560\" height=\"315\" src=\"//www.youtube.com/embed/" + youtube_parser(word) + "\" frameborder=\"0\" allowfullscreen></iframe><br>")
-      else if word.match(/http.*(jpg|gif|jpeg|png)/)
-        src = word.match(/http.*(jpg|gif|jpeg|png)/)
-        results.push word.replace(/http.*(jpg|gif|jpeg|png)/, "<br><img src=" + src[0] + " height=\"500px\" width=\"300px\"/a>")
+      else if word.match(/http.*(jpg|JPG|gif|jpeg|png)/)
+        src = word.match(/http.*(jpg|JPG|gif|jpeg|png)/)
+        results.push word.replace(/http.*(jpg|JPG|gif|jpeg|png)/, "<br><img src=" + src[0] + " height=\"500px\" width=\"300px\"/a>")
       else if word.match(/http:\/\/(coub\.com\/view\/.*|coub\.com\/embed\/.*)/i)
         word = word.replace("view", "embed")
         src = "\"" + word.slice(0, 27) + "?muted=false&autostart=false&originalSize=false&hideTopBar=false&noSiteButtons=false&startWithHD=false" + "\""
@@ -203,7 +196,7 @@ $(document).ready ->
 
   Handlebars.registerHelper "safe_mess", (messag) ->
     if messag.length > 800
-      if messag.match(/http.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?].\S\S*)/) or messag.match(/http.*(jpg|gif|jpeg|png)/) or messag.match(/http:\/\/(coub\.com\/view\/.*|coub\.com\/embed\/.*)/i)
+      if messag.match(/http.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?].\S\S*)/) or messag.match(/http.*(jpg|JPG|gif|jpeg|png)/) or messag.match(/http:\/\/(coub\.com\/view\/.*|coub\.com\/embed\/.*)/i)
         "<div id=\"short-text\" style=\"display: block;\">" + "<small class=\"pull-right text-muted\">" + "<span class=\"glyphicon glyphicon-chevron-down\" style=\"cursor: pointer;\"></span></small>" + "<p class=\"primary-font\">" + "<div class=\"text-muted\">" + "<i>" + "this message has a content..." + "</i></div></p></div>" + "<div id=\"long-text\" style=\"display: none;\">" + "<small class=\"pull-right text-muted\">" + "<span class=\"glyphicon glyphicon-chevron-up\" style=\"cursor: pointer;\"></span></small>" + "<p>" + $.trim(changetags(safe_tags_replace(messag))) + "</p>" + "</div>"
       else
         if messag.match(/(\b\w+:\/\/\w+((\.\w)*\w+)*\.\S{2,3}(\/\S*|\.\w*|\?\w*\=\S*)*)/)
@@ -212,9 +205,6 @@ $(document).ready ->
           "<div id=\"short-text\" style=\"display: block;\">" + "<small class=\"pull-right text-muted\">" + "<span class=\"glyphicon glyphicon-chevron-down\" style=\"cursor: pointer;\"></span></small>" + "<p>" + $.trim(changetags(safe_tags_replace(messag))).substr(0, 109) + "..." + "</p></div>" + "<div id=\"long-text\" style=\"display: none;\">" + "<small class=\"pull-right text-muted\">" + "<span class=\"glyphicon glyphicon-chevron-up\" style=\"cursor: pointer;\"></span></small>" + "<p>" + $.trim(changetags(safe_tags_replace(messag))) + "</p>" + "</div>"
     else
       "<p>" + $.trim(changetags(safe_tags_replace(messag))) + "</p>"
-
-  Handlebars.registerHelper "attach-files", (attach_file_path) ->
-    check_file attach_file_path
 
   Handlebars.registerHelper "change_login", (user_id, login) ->
     if user_id?
@@ -358,6 +348,7 @@ $(document).ready ->
     if input_file
       $(".attach_wrapper").remove()
       $("label.upload-but").popover "hide"
+      message_textarea.val("");
     return
 
   $("#search").keyup ->
@@ -473,7 +464,6 @@ $(document).ready ->
 
       success: (response) ->
         if response.messages.length > 0
-          $("#messages-wrapper").prepend "<div class=\"glyphicon glyphicon-resize-vertical\" style=\"margin:0 50% 0 50%;opacity:0.5;font-size:20px\"></div>"
           $("#messages-wrapper").prepend template(response)
           smiles_render()
           message_offset += 10
