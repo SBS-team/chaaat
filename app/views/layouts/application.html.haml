@@ -16,6 +16,11 @@
       = yield
   - else
     %body
+      /[if lt IE 10]
+        %div{style: "position: fixed; z-index:9999; height:100%; width:100%; background:white; text-align:center;"}
+          %a{href: " http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode", target: "_blank"}
+            %img{alt: "You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today.", border: "0", height: "42",
+                  src: " http://storage.ie6countdown.com/assets/100/images/banners/warning_bar_0000_us.jpg", width: "820"}
       %script{:type=>"text/template", :id=>"template_message"}
         {{#messages}}
         %li{:class=>"{{#equal user_id}}{{/equal}} clearfix", "data"=>{"id" => "{{id}}"}}
