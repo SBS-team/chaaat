@@ -27,7 +27,12 @@ $(document).ready ->
       emojify.run message[i]
       i++
     return
-
+  check_file = (attach_file_path) ->
+    url_to_file = location.origin + attach_file_path
+    if url_to_file.match(/http.*(jpg|JPG|gif|jpeg|png)/)
+      '<img src="' + url_to_file + '" height="200px" width="200px"/>'
+    else
+      '<a href="' + url_to_file + '" download><span class="glyphicon glyphicon-download-alt"></span>' + attach_file_path.match(/(\w|[-.])+$/)[0] + '</a>'
   send_message = ->
     ++i
     (($(".chat").prepend "<div class=\"pag\"><div class=\"glyphicon glyphicon-chevron-up\"></div></div>")  if pagExist isnt true)  if i is 31
