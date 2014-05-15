@@ -28,4 +28,4 @@
 //= require bootstrap
 //= require rooms
 //= require video
-//= require edit_user
+//= require drag_and_drop

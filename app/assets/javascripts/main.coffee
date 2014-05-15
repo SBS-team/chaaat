@@ -13,6 +13,7 @@ $ ->
 
   if parseInt(getUrlVars()["page"])>0
     $("a[href='#pane3']").tab('show');
+
   $("#editModal").on "submit", "form", ->
     $.ajax
       url: "/users"
@@ -43,15 +44,23 @@ $ ->
           for curr_error in errors_text
             errors_div.append(curr_error + "<br>")
         else
-          gon_record = response.match("gon.user_login=\"\\w+\"").toString()
-          parsed_login = gon_record.match("\"\\w+\"").toString().replace(/"/g, "")
+          gon_record = response.match(/gon.user_login=\"[a-zA-Z0-9\.\-_]+\"/).toString()
+          parsed_login = gon_record.match(/\"[a-zA-Z0-9\.\-_]+\"/).toString().replace(/"/g, "")
           user_login_dom_el = $(".current_user_login")
           user_login_dom_el.html parsed_login
+          $(errors_div).hide()
           $("#editModal").modal "hide"
         return
     false
 
+  $("#editModal").on "hidden.bs.modal", ->
+    $("#error_explanation").hide()
+    return
 
+#  ---------------------------------- user profile photo from gravatar here  ---------------------------------------
+  $("a.glyphicon-cog").click ->
+    $("#profile_avatar").attr("src", $(".avatar_mini").attr("src"))
+# ----------------------------------------------------------------------------------------------------------------
   $(".script").each ->
     eval_ $(this).text()
     return
