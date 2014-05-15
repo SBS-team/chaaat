@@ -54,7 +54,7 @@ class User < ActiveRecord::Base
   validates :email, :encrypted_password, :presence => true
   validates_uniqueness_of :login, :message => "has already been taken"
   validates :login, format: { with: /\A[a-zA-Z0-9._-]+\Z/ }
-  validates :login, length: 1..20, :presence => true
+  validates :login, length: 1..15, :presence => true
   devise :invitable, :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable,:omniauthable, :omniauth_providers => [:github,:facebook]
   before_save :default_stat
