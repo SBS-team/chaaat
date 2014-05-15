@@ -2,7 +2,7 @@
 
 SSHKit.config.command_map[:rake]  = "bundle exec rake" #8
 
-lock '3.1.0'
+lock '3.2.1'
 
 set :application, 'ruby-chat'
 
