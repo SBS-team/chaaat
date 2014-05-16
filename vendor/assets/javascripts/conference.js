@@ -21,12 +21,7 @@ var conference = function(config) {
                 defaultSocket = socket;
             }
         });
-//        def = config.openSocket({
-//            onmessage: onDefaultSocketResponse,
-//            callback: function(socket) {
-//                def = socket;
-//            }
-//        });
+
     }
 
     function onDefaultSocketResponse(response) {
@@ -182,13 +177,14 @@ var conference = function(config) {
     }
 
     function leave() {
-//        sockets.disconnect();
+//        sockets.socket.disconnect();
 //        config.attachStream.stop();
 //        socket.socket.disconnect();
+        alert("leave conference");
+        console.log("sockets",sockets);
         var length = sockets.length;
         for (var i = 0; i < length; i++) {
             var socket = sockets[i];
-            alert("leave conference");
 //            sockets[i].disconnect();
 
             if (socket) {

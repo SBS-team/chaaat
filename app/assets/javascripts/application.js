@@ -22,8 +22,7 @@
 //= require jquery.blockUI
 //= require jquery.nanoscroller.js
 //= require socket.io
-//= require RTCPeerConnection-v1.5
-//= require conference
+//= require RTCMultiConnection-v1.7
 //= require user
 //= require main
 //= require jquery.timeago.js
@@ -32,29 +31,3 @@
 //= require bootstrap
 //= require rooms
 //= require video
-
-//$(document).ready(function(){
-//$(".video-chat").click(function() {
-//    if (document.getElementById("video.js")){
-//        src=document.getElementById("video.js")
-//        src.remove();
-//        $('script[src="' + src + '"]').remove()
-//    }
-//
-//
-//
-//    var fileref=document.createElement('script');
-////the Date added to the file doesn't effect the results but helps IE be sure to refresh the data and not use cache
-//
-//    var d = new Date();
-//    var t = d.getTime();
-//    fileref.setAttribute("src", "/assets/video.js?date="+t);
-//    fileref.setAttribute("id", "video.js");
-////    $('head').append(fileref);
-//    console.log("fileref",fileref);
-//
-//
-//
-//      $('<script>').attr('src', "/assets/video.js?date="+t).appendTo('head')
-//});
-//});

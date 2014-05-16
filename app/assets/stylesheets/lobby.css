@@ -702,5 +702,5 @@ span.glyphicon.glyphicon-remove:hover{
 }
 .stream{
     display: inline;
-    border: 3px solid red;
+    /*border: 3px solid red;*/
 }
