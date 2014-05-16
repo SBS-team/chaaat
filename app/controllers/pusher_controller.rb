@@ -22,16 +22,18 @@ class PusherController < ApplicationController
   end
 
   def stat
-    previous_status=User.find(params[:user_id]).user_status
-    if params[:client_status]=='Available' && previous_status!='Offline'
-      user_status=previous_status
-    elsif params[:client_status]=='Available'
-      user_status='Available'
-    else
-      user_status='Offline'
+    if User.where(id: params[:user_id]).any?
+      previous_status=User.find(params[:user_id]).user_status
+      if params[:client_status]=='Available' && previous_status!='Offline'
+        user_status=previous_status
+      elsif params[:client_status]=='Available'
+        user_status='Available'
+      else
+        user_status='Offline'
+      end
+      Pusher['presence-status'].trigger_async('change_status', :status=>user_status,:user_id=>params[:user_id])
+      User.update(params[:user_id], :user_status =>user_status)
     end
-    Pusher['presence-status'].trigger_async('change_status', :status=>user_status,:user_id=>params[:user_id])
-    User.update(params[:user_id], :user_status =>user_status)
     render :text=>"Success"
   end
 

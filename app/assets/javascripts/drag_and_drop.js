@@ -1,13 +1,10 @@
 $(document).ready(function () {
-    console.log("aaaa")
     var dropZone = $('#dropZone'),
         maxFileSize = 10000000;
     if (typeof(window.FileReader) == 'undefined') {
-//        alert('не поддерживается браузером "drag and drop"!');
         dropZone.addClass('error');
     }
     dropZone[0].ondragover = function () {
-        console.log("bbbb")
         dropZone.addClass('hover');
         return false;
     };
@@ -20,7 +17,6 @@ $(document).ready(function () {
         dropZone.removeClass('hover');
         dropZone.addClass('drop');
         var file = event.dataTransfer.files[0];
-        console.log(file)
 
     if (file.size > maxFileSize) {
         alert('Файл слишком большой!');
