@@ -3,17 +3,6 @@ $ ->
     $("#myModal").modal "hide"
     return
 
-  getUrlVars = ->
-    vars = {}
-    parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/g, (m, key, value) ->
-      vars[key] = value
-      return
-    )
-    vars
-
-  if parseInt(getUrlVars()["page"])>0
-    $("a[href='#pane3']").tab('show');
-
   $("#editModal").on "submit", "form", ->
     $.ajax
       url: "/users"

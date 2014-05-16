@@ -58,5 +58,19 @@ $(document).ready(function () {
             }
         });
     };
+    jQuery.ajaxSetup({
+        'beforeSend': function(xhr) {xhr.setRequestHeader("Accept", "text/javascript")}
+    });
+
+    $.fn.ajaxPagination = function() {
+        this.on("click", function () {
+            $.get(this.href, null, null, "script");
+            return false;
+        });
+    };
+
+    $(document).ready(function() {
+        $( ".pagination a" ).ajaxPagination();
+    })
 
 });

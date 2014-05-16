@@ -40,10 +40,11 @@ class RoomsController < ApplicationController
       gon.room_id = params[:id]
       @message_count = Message.where(:room_id=>params[:id]).count
       @messages = Message.where(:room_id=>params[:id]).preload(:user).order(created_at: :asc).last(10)
-      @links = Message.where("room_id = ? AND (body LIKE ? OR body LIKE ? OR body LIKE ?)",params[:id],"%http://%","%https://%","%ftp://%").preload(:user).order(created_at: :desc).paginate(:page => params[:page], :per_page => 14)
+      @links = Message.where("room_id = ? AND (body LIKE ? OR body LIKE ? OR body LIKE ?)",params[:id],"%http://%","%https://%","%ftp://%").preload(:user).order(created_at: :desc).paginate(:page => params[:page], :per_page => 10)
       @attah = Message.where("room_id = ? AND attach_path IS NOT NULL",params[:id]).preload(:user).order(created_at: :asc)
       @room_users = User.includes(:rooms_users).where('rooms_users.room_id'=>params[:id])
       gon.rooms_users = @room_users.pluck(:login)
+
     else
       gon.room_id = 0
     end
@@ -52,8 +53,12 @@ class RoomsController < ApplicationController
     gon.user_login = current_user.login
     gon.user_id = current_user.id
     @cur_user_present_in_room = room_user_ids.to_a.include? current_user.id
+    respond_to do |format|
+      format.html # index.html.erb
+      format.json { render json: @order_requests }
+      format.js
+    end
   end
-
   def update
     room = Room.find(params[:room_id])
     previous_topic=room.topic
