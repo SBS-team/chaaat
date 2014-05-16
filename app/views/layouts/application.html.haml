@@ -36,6 +36,7 @@
               .message
                 {{#safe_mess messages}}{{/safe_mess}}
               {{#if attach_file_path}}
+              %img.message_image
               %p.attach-file
                 {{#attach-files attach_file_path}}{{/attach-files}}
               {{/if}}
