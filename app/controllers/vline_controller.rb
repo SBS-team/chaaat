@@ -1,5 +1,5 @@
 require 'digest/md5'
-require 'vline'
+#require 'vline'
 
 class VlineController < ApplicationController
   # require login
