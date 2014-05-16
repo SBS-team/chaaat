@@ -1,6 +1,5 @@
 .content
   .alert.alert-success.top-alert
-    -#%input.form-control#search{:placeholder=>"Search..."}
     %h3.room_topic #{@room.topic}
     .dropdown
       %span#drop1.change_topic.glyphicon.glyphicon-pencil{"data-toggle"=>"dropdown"}
@@ -25,7 +24,7 @@
                     .chat-body.clearfix
                       .header
                         %strong.primary-font
-                          =link_to message.user.login, user_path(message.user.login)
+                          =link_to "#{message.user.firstname} #{message.user.lastname}" , user_path(message.user.login)
                         %small.pull-right.text-muted
                           %span.glyphicon.glyphicon-time>
                           =message.created_at.strftime("%a %T")
@@ -52,7 +51,7 @@
                     .chat-body.clearfix
                       .header
                         %strong.primary-font
-                          =link_to message.user.login, user_path(message.user.login)
+                          =link_to "#{message.user.firstname} #{message.user.lastname}" , user_path(message.user.login)
                         %small.pull-right.text-muted
                           %span.glyphicon.glyphicon-time>
                           =message.created_at.strftime("%a %T")
@@ -79,7 +78,7 @@
                     .chat-body.clearfix
                       .header
                         %strong.primary-font
-                          =(message.user) ? (link_to message.user.login, user_path(message.user.login)) : "chat notification"
+                          =(message.user) ? (link_to "#{message.user.firstname} #{message.user.lastname}" , user_path(message.user.login)) : "chat notification"
                         %small.pull-right.text-muted
                           %span.glyphicon.glyphicon-time>
                           =message.created_at.strftime("%a %T")
@@ -95,7 +94,7 @@
                     .chat-body.clearfix
                       .header
                         %strong.primary-font
-                          =(message.user) ? (link_to message.user.login, user_path(message.user.login)) : "chat notification"
+                          =(message.user) ? (link_to "#{message.user.firstname} #{message.user.lastname}" , user_path(message.user.login)) : "chat notification"
                         %small.pull-right.text-muted
                           %span.glyphicon.glyphicon-time>
                           =message.created_at.strftime("%a %T")

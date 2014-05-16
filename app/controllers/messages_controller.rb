@@ -18,7 +18,7 @@ class MessagesController < ApplicationController
         Pusher["private-#{message.room_id}"].trigger_async('new_message', :messages=>{:id=>message.id,
                                                                                       :room_id=>message.room_id,
                                                                                       :user_id=>current_user.id,
-                                                                                      :login=>current_user.login,
+                                                                                      :login=>"#{current_user.firstname} #{current_user.lastname}",
                                                                                       :avatar=>avatar_url(current_user,50),
                                                                                       :messages=>message.body,
                                                                                       :attach_file_path=>message.attach_path.url,
