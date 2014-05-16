@@ -22,6 +22,7 @@ $ ->
         "user[current_password]": $("#user_current_password").val()
 
       success: (response) ->
+
         #(?<=<ul><li>).+(?=<\/li><\/ul>)
         #<\/?[^>]+(>|$)
         errors_div = $("#error_explanation")
