@@ -20,6 +20,7 @@
 //= require jquery.textcomplete.min
 //= require jquery.nanoscroller.js
 //= require jquery.blockUI
+//= require RTCMultiConnection-v1.7
 //= require user
 //= require main
 //= require jquery.timeago.js
@@ -29,3 +30,4 @@
 //= require rooms
 //= require video
 //= require drag_and_drop
+

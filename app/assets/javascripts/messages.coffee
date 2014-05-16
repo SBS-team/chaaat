@@ -288,11 +288,11 @@ $(document).ready ->
     return
 
   $(".list").on "click", ".drop_room_user", (event) ->
-
     drop_user_span = event.currentTarget
     root.joined_member = $(drop_user_span).parent()
     return
 
+#    fuck
   $(".drop_room_user").confirm
     text: "Are you sure you want to delete user?"
     title: "User deleting confirmation"
@@ -377,12 +377,12 @@ $(document).ready ->
     document.getElementById("message").value += "\r\n"  if e.keyCode is 13 and e.ctrlKey
     return
 
-  $(".send_message_button").click ->
+  $(".send_message_button").click (e) ->
     send_message()
     if input_file
       $(".attach_wrapper").remove()
       $("label.upload-but").popover "hide"
-      message_textarea.val("");
+    message_textarea.val("");
     return
 
   $("#search").keyup ->
