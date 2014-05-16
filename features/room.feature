@@ -12,5 +12,3 @@ Feature: users
     And click the 'Create' button
     And I wait 2 seconds
     And I have to get a new room
-
-    #FIXME remove cucuber and add rspec + capybara
