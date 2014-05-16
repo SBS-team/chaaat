@@ -11,6 +11,7 @@
     = stylesheet_link_tag "application", media: "all"
     = csrf_meta_tags
     = javascript_include_tag "application"
+
   - if !@background_image.nil?
     %body{:style=>("background-images:url('#{@background_image.path}');")}
       = yield

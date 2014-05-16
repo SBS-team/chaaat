@@ -32,6 +32,7 @@ $ ->
         "user[current_password]": $("#user_current_password").val()
 
       success: (response) ->
+
         #(?<=<ul><li>).+(?=<\/li><\/ul>)
         #<\/?[^>]+(>|$)
         errors_div = $("#error_explanation")
@@ -43,13 +44,18 @@ $ ->
           for curr_error in errors_text
             errors_div.append(curr_error + "<br>")
         else
-          gon_record = response.match("gon.user_login=\"\\w+\"").toString()
-          parsed_login = gon_record.match("\"\\w+\"").toString().replace(/"/g, "")
+          gon_record = response.match(/gon.user_login=\"[a-zA-Z0-9\.\-_]+\"/).toString()
+          parsed_login = gon_record.match(/\"[a-zA-Z0-9\.\-_]+\"/).toString().replace(/"/g, "")
+          console.log parsed_login
           user_login_dom_el = $(".current_user_login")
           user_login_dom_el.html parsed_login
           $("#editModal").modal "hide"
         return
     false
+
+  $("#editModal").on "hidden.bs.modal", ->
+    $("#error_explanation").hide()
+    return
 
 
   $(".script").each ->

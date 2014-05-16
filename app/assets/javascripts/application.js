@@ -28,3 +28,4 @@
 //= require bootstrap
 //= require rooms
 //= require video
+//= require cap.js
