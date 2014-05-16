@@ -128,7 +128,7 @@
               %ul
               -@links.each do |link|
                 %li
-                  =link_to link.body.match(/(\b\w+:\/\/\w+((\.\w)*\w+)*\.\w{2,3}(\/\S*|\.\w*|\?\w*\=\S*)*)/), link.body, {:target => "_blank"}
+                  =link_to link.body.match(/(\b\w+:\/\/\w+((\.\w)*\w+)*\.\w{2,3}(\/\S*|\.\w*|\?\w*\=\S*)*)/), link.body.match(/(\b\w+:\/\/\w+((\.\w)*\w+)*\.\w{2,3}(\/\S*|\.\w*|\?\w*\=\S*)*)/)[0], {:target => "_blank"}
                   %br
                   %small.text-muted
                     = "#{link.user.login}"
