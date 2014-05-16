@@ -68,8 +68,8 @@ $(document).ready ->
   show_attachment = ->
     $popup_target = $("label.upload-but")
     input_file.change ->
-      if input_file[0].files[0].size > 40000000
-        $.bootstrapGrowl "File size over than 40mb",
+      if input_file[0].files[0].size > 5000000
+        $.bootstrapGrowl "File size over than 5mb",
           type: "success"
           offset:
             from: "bottom"

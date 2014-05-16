@@ -1,13 +1,10 @@
 $(document).ready(function () {
-    console.log("aaaa")
     var dropZone = $('#dropZone'),
-        maxFileSize = 10000000;
+        maxFileSize = 500000;
     if (typeof(window.FileReader) == 'undefined') {
-//        alert('не поддерживается браузером "drag and drop"!');
         dropZone.addClass('error');
     }
     dropZone[0].ondragover = function () {
-        console.log("bbbb")
         dropZone.addClass('hover');
         return false;
     };
@@ -20,13 +17,28 @@ $(document).ready(function () {
         dropZone.removeClass('hover');
         dropZone.addClass('drop');
         var file = event.dataTransfer.files[0];
-        console.log(file)
 
-    if (file.size > maxFileSize) {
-        alert('Файл слишком большой!');
-        dropZone.addClass('error');
-        return false;
-    }
+        if (file.size > maxFileSize) {
+            $.bootstrapGrowl("File size over than 1mb", {
+                type: "success",
+                offset: {
+                    from: "bottom",
+                    amount: 50
+                },
+                align: "center",
+                width: 250,
+                delay: 5000,
+                allow_dismiss: true,
+                stackup_spacing: 10
+            });
+            dropZone.addClass('error');
+            return false;
+        }
+//        if (file.size > maxFileSize) {
+//        alert('Файл слишком большой!');
+//            dropZone.addClass('error');
+//            return false;
+//        }
         var formData = new FormData();
         formData.append("messages[body]", $("#message").val());
         formData.append("messages[room_id]", gon.room_id);
