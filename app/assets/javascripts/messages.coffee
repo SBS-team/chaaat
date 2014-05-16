@@ -18,7 +18,6 @@ root = exports ? this
   return
 
 $(document).ready ->
-
   smiles_render = ->
     message = document.getElementsByClassName("chat-body")
     i = 0
@@ -100,7 +99,7 @@ $(document).ready ->
           $(".attach_wrapper").remove()
           $popup_target.popover "hide"
           return
-
+#      showImageToMessage()
       return
 
     return
@@ -109,6 +108,7 @@ $(document).ready ->
     $(".nano").nanoScroller()
     $(".nano").nanoScroller({ scroll: 'bottom' })
     smiles_render()
+    showImageToMessage()
     return
   invoted_users = ->
     messages = $("li .chat-body p")
@@ -117,19 +117,43 @@ $(document).ready ->
     while i < messages.length
       messages[i].innerHTML = changetags(messages[i].innerHTML)
       emojify.run messages[i]
+      showImageToMessage()
       i++
     attached_file = $(".attach_file")
     i = 0
 
     while i < attached_file.length
       attached_file[i].innerHTML = check_file(attached_file[i].innerHTML)
+      showImageToMessage()
       i++
     return
+
+  showImageToMessage= ->
+    $.each $('.url_image'), (index,el) ->
+      src =  $(el).attr('src')
+      if src
+        image = new Image()
+        image.onload = =>
+          $(el).attr('src', src)
+        image.onerror = =>
+          $(el).remove()
+        image.src = src
+    $.each $('.attach_file'), (index,el) ->
+      src =  $(el).find('img').attr('src')
+      if src
+        image = new Image()
+        image.onload = =>
+          $(el).find('img').attr('src', src)
+        image.onerror = =>
+          $(el).find('img').remove()
+        image.src = src
+
+
+
   changetags = (text) ->
     words = text.split(" ")
     results = []
     i = 0
-
     while i < words.length
       word = words[i]
       if (word.match(/\@\S*/)) and (not word.match(/<span>\@\S*/) and ((word.match(/\@\S*/g)[0] is "@" + gon.user_login) or (word.match(/\@\S*/g)[0] is "@all")))
@@ -138,7 +162,7 @@ $(document).ready ->
         results.push word.replace(/http.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?].\S\S*)/, "<br><iframe width=\"560\" height=\"315\" src=\"//www.youtube.com/embed/" + youtube_parser(word) + "\" frameborder=\"0\" allowfullscreen></iframe><br>")
       else if word.match(/http.*(jpg|JPG|gif|jpeg|png)/)
         src = word.match(/http.*(jpg|JPG|gif|jpeg|png)/)
-        results.push word.replace(/http.*(jpg|JPG|gif|jpeg|png)/, "<br><img src=" + src[0] + " height=\"500px\" width=\"300px\"/a>")
+        results.push word.replace(/http.*(jpg|JPG|gif|jpeg|png)/, "<br><img class='url_image' src=" + src[0] + " height=\"500px\" width=\"300px\"/a>")
       else if word.match(/http:\/\/(coub\.com\/view\/.*|coub\.com\/embed\/.*)/i)
         word = word.replace("view", "embed")
         src = "\"" + word.slice(0, 27) + "?muted=false&autostart=false&originalSize=false&hideTopBar=false&noSiteButtons=false&startWithHD=false" + "\""
@@ -375,6 +399,7 @@ $(document).ready ->
     ).done (msg) ->
       $("#messages-wrapper").html template(msg)
       smiles_render()
+      showImageToMessage()
       return
 
     return
@@ -476,6 +501,7 @@ $(document).ready ->
         if response.messages.length > 0
           $("#messages-wrapper").prepend template(response)
           smiles_render()
+          showImageToMessage()
           message_offset += 10
         return
 
