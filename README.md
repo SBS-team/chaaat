@@ -11,8 +11,8 @@ Chaat is an open-source application which creates for real-time commnication wit
 Requirements
 -------------
 
-- ruby 2.1.0p0
-- Rails 4.0.4
+- ruby 2.1.2
+- Rails 4.1.1
 - PostgreSQL 9.1.13
 
 Getting Started
