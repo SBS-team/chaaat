@@ -1,3 +1,4 @@
+=render 'layouts/navigation'
 .authform
   = form_for(resource, :as => resource_name, :url => session_path(resource_name), :html => { :role => 'form'}) do |f|
     %h3 Log in
@@ -13,6 +14,10 @@
       = f.label :password
       = f.password_field :password, class: 'form-control'
     = f.submit 'Log in', :class => 'button right'
+    = link_to  user_omniauth_authorize_path(:facebook) do
+      %img{:src=>"../img/facebook.png",:class=>"social-button"}
+    = link_to  user_omniauth_authorize_path(:github) do
+      %img{:src=>"../img/github.jpg", :class=>"social-button"}
     - if devise_mapping.rememberable?
       .checkbox
         = f.check_box :remember_me

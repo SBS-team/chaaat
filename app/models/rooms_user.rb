@@ -1,5 +1,3 @@
-class RoomsUser < ActiveRecord::Base
-
 # == Schema Information
 #
 # Table name: rooms_users
@@ -10,9 +8,12 @@ class RoomsUser < ActiveRecord::Base
 #  created_at :datetime
 #  updated_at :datetime
 #
+
+
+class RoomsUser < ActiveRecord::Base
+
   belongs_to :user
   belongs_to :room
-
   validates :user_id, :uniqueness => {:scope => :room_id}
 
 end

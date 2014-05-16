@@ -1,16 +1,14 @@
 class ApplicationController < ActionController::Base
   before_filter :configure_permitted_parameters, if: :devise_controller?
+  before_filter :rooms_user,:except=>[:new,:create,:facebook, :github]
+  before_filter :background_image, if: :devise_controller?
 
-  helper_method :background_image
 
-  def configure_permitted_parameters
-    devise_parameter_sanitizer.for(:sign_in) { |u| u.permit(:email, :password, :remember_me) }
-    devise_parameter_sanitizer.for(:sign_up) { |u| u.permit(:firstname,:lastname,:avatar, :email, :password, :password_confirmation,:login) }
-  end
 
   def after_sign_in_path_for(resource)
-    User.update(current_user.id, :user_stat_id=>1)
     if resource.is_a? User
+      gon.user_login = current_user.login
+      gon.user_id = current_user.id
         rooms_path
     else
       super
@@ -18,22 +16,42 @@ class ApplicationController < ActionController::Base
   end
 
   def after_sign_out_path_for(resource)
-    User.update(current_user.id, :user_stat_id=>4)
-    User.update(current_user.id, :sign_out_at => Time.now)
-    if resource.is_a? User
-      root_path
-    else
+    if current_admin_user.is_a? AdminUser
       super
+    elsif resource.is_a? User
+        User.update(:id=>current_user.id, :sign_out_at => Time.now)
+        root_path
+      else
+        super
+      end
+    end
+
+  def background_image
+    @background_image = Background.all.shuffle.first
+  end
+
+  private
+  def rooms_user
+    if current_user.is_a? User
+      @room_list=Room.includes(:rooms_users).includes(:user).where('rooms_users.user_id'=>current_user.id).order(id: :asc)
     end
   end
 
-  def background_image()
-    Dir.chdir(Rails.root+"public/background")
-    target = Dir.new("#{Dir.pwd}")
-    target.entries.sort![rand(2..target.entries.size-1)]
+  def init_gon
+    gon.pusher_app=ENV['PUSHER_KEY']
   end
 
-  # Prevent CSRF attacks by raising an exception.
-  # For APIs, you may want to use :null_session instead.
-  protect_from_forgery with: :exception
+
+  def configure_permitted_parameters
+    devise_parameter_sanitizer.for(:sign_up) << :login
+    devise_parameter_sanitizer.for(:sign_in) { |u| u.permit(:email, :password, :remember_me) }
+    devise_parameter_sanitizer.for(:sign_up) { |u| u.permit({ roles: [] },:firstname,:lastname,:avatar, :email, :password, :password_confirmation, :login) }
+    devise_parameter_sanitizer.for(:account_update) { |u|
+      u.permit(:login, :firstname, :lastname, :email, :password, :password_confirmation, :current_password)
+    }
+    devise_parameter_sanitizer.for(:accept_invitation) { |u|
+      u.permit(:firstname,:lastname, :password, :password_confirmation,:invitation_token)
+    }
+  end
+
 end

@@ -1,0 +1,13 @@
+%h1>
+  ="Hello #{@user}!"
+%br
+%p
+  You have 1 message
+%hr
+%br
+%p
+  ="#{@message}"
+%hr
+%br
+%p
+  =link_to("Go to room", ENV['HOSTNAME_SITE']+"/rooms/#{@room}")

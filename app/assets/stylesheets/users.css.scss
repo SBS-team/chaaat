@@ -1,3 +1,157 @@
 // Place all the styles related to the users controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+img#er{
+
+}
+
+.avatar {
+  width: 50px;
+  height: 50px;
+  float: left;
+  border-radius: 20%;
+}
+.avatar_mini {
+  float: left;
+  height: 30px;
+  margin: 3px;
+  width: 30px;
+  border-radius: 20%;
+}
+
+.img-profle {
+  float: left;
+  border-radius: 30%;
+  padding: 5px 25px;
+}
+
+#current_user > .dropdown {
+  display: inline;
+}
+
+.user_name {
+  font: 16px sans-serif;
+}
+
+#user_search {
+  float: right;
+}
+
+span#user_name {
+  font-size: 16px;
+}
+
+
+#user_info {
+  height: 50px;
+  padding: 15px 0px;
+}
+
+#photo {
+  float: left;
+  width: 175px;
+  height: 150px;
+  display: inline-block;
+}
+
+.profile {
+  height: 150px;
+  width: 500px;
+  margin: 0px auto;
+}
+
+#friendship {
+  text-align: center;
+  margin-top: 20px;
+}
+
+ul#friends_list {
+  width: 500px;
+  padding: 0px;
+  list-style: none;
+  overflow-y: auto;
+}
+
+.friend{
+  float: left;
+  width: 440px;
+  margin-left: 5px;
+  margin-bottom: 1px;
+  background: rgba(80,80,80, 0.1);
+}
+
+.friend_action {
+
+  width: 60px;
+  height: 60px;
+  float: right;
+  padding: 10px;
+  text-align: center;
+}
+
+.friend_action:hover {
+  background: #a0aabf;
+}
+.add_new_friend
+{
+  top: 18px;
+  cursor: pointer;
+}
+.add_friend
+{
+  cursor: pointer;
+}
+.remove_friend
+{
+  top: 18px;
+  cursor: pointer;
+}
+.friend:hover {
+  background: rgba(80,80,80, 0.25);
+}
+
+.friend_photo {
+  width: 50px;
+  height: 50px;
+  margin-right: 10px;
+  float: left;
+  border-radius: 20%;
+}
+
+.friend_name {
+  float: right;
+  height: 50px;
+  padding-top: 15px;
+}
+
+.friend_name a {
+  text-decoration: none;
+  display: block;
+  margin-top: 15px;
+}
+
+#find_more_friends{
+  font-size: 20px;
+}
+
+.title {
+  font-size: 20px;
+  margin-top: 0px;
+}
+
+#avatar_info_group {
+  margin: 0px;
+  width: 300px;
+  height: 55px;
+  border: 2px dashed #505050;
+}
+
+#gravatar_link{
+  margin-left: 10px;
+  padding-top: 10px;
+  float: left;
+}
+
+#profile_avatar {
+  border-radius: 20%;
+}

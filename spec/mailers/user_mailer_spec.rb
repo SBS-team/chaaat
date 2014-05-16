@@ -1,5 +1,6 @@
-require "spec_helper"
+require 'spec_helper'
 
-describe UserMailer do
-  pending "add some examples to (or delete) #{__FILE__}"
+class UserMailerTest < ActionMailer::TestCase
+
 end
+

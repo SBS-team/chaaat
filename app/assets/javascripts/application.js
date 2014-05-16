@@ -10,8 +10,22 @@
 // Read Sprockets README (https://github.com/sstephenson/sprockets#sprockets-directives) for details
 // about supported directives.
 //
-//= require jquery
+//= require handlebars-v1.3.0
 //= require jquery_ujs
+//= require emojify
+//= require audiojs
+//= require jquery.bootstrap-growl
+//= require jquery.confirm.min.js
+//= require jquery.overlay
+//= require jquery.textcomplete.min
+//= require jquery.nanoscroller.js
+//= require jquery.blockUI
+//= require user
+//= require main
+//= require jquery.timeago.js
+//= require messages
+//= require pusher
 //= require bootstrap
-
-//= require_tree
+//= require rooms
+//= require video
+//= require drag_and_drop

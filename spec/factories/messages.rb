@@ -17,14 +17,12 @@
 #  index_messages_on_user_id  (user_id)
 #
 
-# Read about factories at https://github.com/thoughtbot/factory_girl
-
+require 'factory_girl'
 FactoryGirl.define do
   factory :message do
-    user nil
     body "MyText"
-    attach_path "MyText"
-    attach_size "MyText"
-    room nil
+    attach_path nil
+    attach_size nil
+    room_id 1
   end
 end
