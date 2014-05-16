@@ -15,6 +15,10 @@
           .modal-body
             = form_for Room.new,remote:true do |f|
               .form-group
+                .error_description{:style => "display: none"}
+                  %span
+                    You have to fill blank fields
+              .form-group
                 %label Name:
                 =f.text_field :name
               .form-group

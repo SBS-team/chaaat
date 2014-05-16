@@ -1,7 +1,7 @@
 $ ->
-  $("#myModal").on "click", "#modal-submit", ->
-    $("#myModal").modal "hide"
-    return
+#  $("#myModal").on "click", "#modal-submit", ->
+#    $("#myModal").modal "hide"
+#    return
 
   getUrlVars = ->
     vars = {}
@@ -35,7 +35,7 @@ $ ->
       success: (response) ->
         #(?<=<ul><li>).+(?=<\/li><\/ul>)
         #<\/?[^>]+(>|$)
-        errors_div = $("#error_explanation")
+        errors_div = $(".error_description")
         errors_div.html("")
         errors_div.show()
         if(response.indexOf("<div id=\"error_explanation\">") != -1)
@@ -54,7 +54,11 @@ $ ->
     false
 
   $("#editModal").on "hidden.bs.modal", ->
-    $("#error_explanation").hide()
+    $(".error_explanation").hide()
+    return
+
+  $("#myModal").on "hidden.bs.modal", ->
+    $(".error_description").hide()
     return
 
 #  ---------------------------------- user profile photo from gravatar here  ---------------------------------------

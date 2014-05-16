@@ -1,25 +1,16 @@
-mymodal = $("#myModal")
-$("#modal-submit").click ->
-  mymodal.hide()
-  $(".modal-backdrop").hide()
-  return
+#$("#modal-submit").click ->
+#  mymodal.hide()
+#  $(".modal-backdrop").hide()
+#  return
 
 $ ->
+  mymodal = $("#myModal")
   $("#modal-submit").click ->
-    if $("#room_topic").val() is ""
-      $.bootstrapGrowl "You have write TOPIC",
-        type: "success" # (null, 'info', 'error', 'success')
-        offset: # 'top', or 'bottom'
-          from: "top"
-          amount: 50
-
-        align: "center" # ('left', 'right', or 'center')
-        width: 250 # (integer, or 'auto')
-        delay: 10000
-        allow_dismiss: true
-        stackup_spacing: 10 # spacing between consecutively stacked growls.
-
+    if ( ($("#room_topic").val() is "") or ($("#room_name").val() is "") )
+      $(".error_description").show()
+    else
       mymodal.hide()
+#      $(".error_description").hide()
       $(".modal-backdrop").hide()
     return
 
@@ -68,9 +59,9 @@ jQuery ($) ->
       return
 
     return
-  mymodal.on "click", "#modal-submit", ->
-    mymodal.modal "hide"
-    return
+#  mymodal.on "click", "#modal-submit", ->
+#    mymodal.modal "hide"
+#    return
 
   $(".right_search_user").on "click", ".user_friend", (event) ->
     $.ajax(

@@ -103,6 +103,17 @@ section {
 #error_explanation h2 {
   font-size: 16px;
 }
+
+//----------------------------
+.error_description {
+  @extend .alert;
+  @extend .alert-danger;
+}
+.error_description h2 {
+  font-size: 16px;
+}
+//----------------------------
+
 .button-xs {
   @extend .btn;
   @extend .btn-primary;
