@@ -10,8 +10,8 @@ before_filter :find_room_and_user
                                                                                    room_id: @room.id,
                                                                                    user_status: @joined_user.user_status,
                                                                                    user_sign_out_time: @joined_user.updated_at,
-                                                                                   rooms_owner_id: @room.creator_id } )
-
+                                                                                   rooms_owner_id: @room.creator_id,
+                                                                                   room_members_count: @room.users.count } )
         Pusher["private-#{params[:user_id]}"].trigger_async( 'user_add_to_room', { rooms_id: @room.id,
                                                                                    rooms_name: @room.name,
                                                                                    room_owner_id: @room.creator_id,

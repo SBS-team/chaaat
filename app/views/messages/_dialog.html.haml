@@ -118,12 +118,16 @@
         %tbody
           %tr
             %td
-              .textwrapper
-                = f.text_area :body, class: 'form-control', id: 'message', autocomplete: 'off'
+              %div#dropZone
+                .textwrapper
+                  = f.text_area :body, class: 'form-control', id: 'message', autocomplete: 'off'
             %td.up-pl-wrap{ width: '10%' }
               %span.glyphicon.glyphicon-ok.ok#lineh
               %label.upload-place
                 = f.file_field :attach_path, id: 'attach_path'
+            %td{ width: '1px' }
+              %div.video-chat.upload-but
+                %span.glyphicon.glyphicon-facetime-video
             %td{ width: '1%' }
               = f.hidden_field :room_id, value: @room_id
               %label.upload-but{ for: 'attach_path' }

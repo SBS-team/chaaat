@@ -51,7 +51,10 @@
           = link_to destroy_user_session_path, method: 'delete',  tabindex: '-1'  do
             %span.glyphicon.glyphicon-share-alt.drop-col-mar>
             Sign out
-    %a.glyphicon.glyphicon-cog{ href: edit_user_registration_path }
+    -#--------------------------------------------------------------------
+    -#%a.glyphicon.glyphicon-cog{:href=>edit_user_registration_path}
+    %a.glyphicon.glyphicon-cog{ 'data-target' => '#editModal', 'data-toggle' => 'modal', type: 'button' }
+    -#--------------------------------------------------------------------
 %aside.right_panel
   .top-form
     -if request.path != '/rooms' and @room
@@ -73,9 +76,9 @@
         #pane1.tab-pane.active
           .list
             - @room_users.each do |user|
-              .member{ data: { toggle: 'tooltip', user_id: user.id, room_id: @room.id }, title: get_status(user) }
+              .member{ data: { toggle: 'tooltip', user_id: user.id, room_id: @room.id }, title: "#{user.user_status == 'Offline' ? 'Offline ' + time_ago_in_words(user.updated_at) : user.user_status}" }
                 %span{ class: get_user_status_style(user.user_status) }
-                = link_to "#{user.login}", '#'
+                  = link_to "#{user.login}", '#', class: ( user == current_user ? 'current_user_login' : nil )
                 - if user.id != current_user.id && @room.creator_id == current_user.id
                   %span{ class: 'glyphicon glyphicon-minus pull-right drop_room_user' }
           .friend-list.right_search_user
@@ -114,7 +117,7 @@
               %ul
               - @links.each do |link|
                 %li
-                  = link_to link.body.match(/(\b\w+:\/\/\w+((\.\w)*\w+)*\.\w{2,3}(\/\S*|\.\w*|\?\w*\=\S*)*)/), link.body, { target: '_blank' }
+                  =link_to link.body.match(/(\b\w+:\/\/\w+((\.\w)*\w+)*\.\w{2,3}(\/\S*|\.\w*|\?\w*\=\S*)*)/), link.body.match(/(\b\w+:\/\/\w+((\.\w)*\w+)*\.\w{2,3}(\/\S*|\.\w*|\?\w*\=\S*)*)/)[0], { target: '_blank' }
                   %br
                   %small.text-muted
                     = "#{link.user.login}"

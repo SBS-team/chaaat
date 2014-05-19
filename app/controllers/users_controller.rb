@@ -11,7 +11,6 @@ class UsersController < ApplicationController
     render json: users, root: 'users'
   end
 
-
   def index
     friend_ids = current_user.friends.pluck(:id)
     @possible_friends = if friend_ids.count == 0 && params[:search].nil?

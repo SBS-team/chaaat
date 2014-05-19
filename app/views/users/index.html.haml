@@ -5,7 +5,7 @@
       %span.user_name
         = link_to "#{current_user.firstname} #{current_user.lastname}", user_path(current_user.login)
       = form_tag users_path, id: 'user_search', method: 'get' do
-        = text_field_tag 'search', params[:search], id: 'search-box'
+        = text_field_tag 'search', params[:search], id: 'search-box', placeholder: 'Login'
         = submit_tag 'Search', class: 'btn btn-primary lobby-btn'
   %h3 Invite user
   = form_tag invite_user_path, method: 'post' do

@@ -16,15 +16,17 @@ class PusherController < ApplicationController
 
   def stat
     user = User.find(params[:user_id])
-    user_status = if params[:client_status] == 'Available' && user.user_status != 'Offline'
-                    user.user_status
-                  elsif params[:client_status] == 'Available'
-                    'Available'
-                  end || 'Offline'
-    if user.update( user_status: user_status )
-      Pusher['presence-status'].trigger_async( 'change_status', status: user_status, user_id: params[:user_id] )
-      render text: 'Success'
-    end || ( render text: 'Error' )
+    if user.present?
+      user_status = if params[:client_status] == 'Available' && user.user_status != 'Offline'
+                      user.user_status
+                    elsif params[:client_status] == 'Available'
+                      'Available'
+                    end || 'Offline'
+      if user.update( user_status: user_status )
+        Pusher['presence-status'].trigger_async( 'change_status', status: user_status, user_id: params[:user_id] )
+        render text: 'Success'
+      end || ( render text: 'Error' )
+    end
   end
 
   private

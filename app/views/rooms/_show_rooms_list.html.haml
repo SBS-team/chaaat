@@ -1,18 +1,19 @@
 %h2.public OPEN ROOMS
-- @room_list.each do |room|
-  %table.rooms_group{ data: { room: room.id } }
-    %tr
-      %td.name
-        %a.clean
-          = link_to "#{room.name}", room_path( id: room.id )
-      %td.memb-count
-        = room.users.count
-        = 'members'
-      %td.owner
-        = 'Owned by: '
-        = link_to "#{room.creator.login}", user_path(room.creator.login)
-      %td.set-arr
-        -if room.creator.login == current_user.login
-          %span.delete_room.glyphicon.glyphicon-remove-circle{ data: { id: room.id } }
+- if @room_list.present?
+  - @room_list.each do |room|
+    %table.rooms_group{ data: { room: room.id } }
+      %tr
+        %td.name
+          %a.clean
+            = link_to "#{room.name}", room_path( id: room.id )
+        %td.memb-count
+          = room.users.count
+          = 'members'
+        %td.owner
+          = 'Owned by: '
+          = link_to "#{room.creator.login}", user_path(room.creator.login), class: 'current_user_login'
+        %td.set-arr
+          - if room.creator.login == current_user.login
+            %span.delete_room.glyphicon.glyphicon-remove-circle{ data: { id: room.id } }
 
 

@@ -1,0 +1,28 @@
+.bws_reload{
+    position: absolute;
+    top: 40px;
+    width: 100%;
+}
+.bws_reload .cwrp{
+    width: 783px;height:100%;
+    margin: auto;
+
+    background-color: white;
+    border: 2px solid #EF641D;
+}
+
+.firefox{background:url('../img/cap/big-firefox.gif') no-repeat 10px top;}
+.ie{background:url('../img/cap/big-ie.gif') no-repeat 5px top;}
+.chrome{background:url('../img/cap/big-chrome.gif') no-repeat 15px top;}
+.opera{background:url('../img/cap/big-opera.gif') no-repeat left top;}
+
+.firefox, .ie, .chrome, .opera{padding-left:130px; margin-top:20px;}
+
+.firefox .file li{background:url('../img/cap/fav-firefox.gif') no-repeat left;}
+.ie .file li{background:url('../img/cap/fav-ie.gif') no-repeat left;}
+.chrome .file li{background:url('../img/cap/fav-chrome.gif') no-repeat left;}
+.opera .file li{background:url('../img/cap/fav-opera.gif') no-repeat left;}
+
+.bws_reload .file {padding:0; margin:10px 0 0;}
+.bws_reload li{list-style:none;}
+.file li a{margin-left: 25px;}

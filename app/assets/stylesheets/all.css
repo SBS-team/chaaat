@@ -457,7 +457,7 @@ table.form td.label {
 	white-space: nowrap;
 	width: 1px;
 }
-input[type="text"], input[type="password"], textarea {
+input[type="text"], input[type="password"], input[type="email"], textarea {
 	background: none repeat scroll 0 0 #FAFAFA;
 	border: 1px solid #DBDBDB;
 	border-radius: 5px;
@@ -552,6 +552,15 @@ div.server-upsell {
 .user_friend
 {
     cursor: pointer;
+}
+.social-button
+{
+    display: inline;
+    width: 35px;
+}
+.navbar-brand>.social-button
+{
+    width: 20px;
 }
 /* sign_up end */
 .tabbable .active{background-color: white;}

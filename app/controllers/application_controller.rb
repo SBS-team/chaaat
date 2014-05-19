@@ -33,9 +33,7 @@ class ApplicationController < ActionController::Base
   private
 
   def rooms_user
-    if current_user.is_a? User
-      @room_list = current_user.rooms.order(id: :asc)
-    end
+    @room_list = current_user.rooms.order(id: :asc) if current_user.is_a? User
   end
 
   def init_gon

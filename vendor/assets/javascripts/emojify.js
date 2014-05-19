@@ -81,14 +81,14 @@
                     'CODE': 1
                 }
             };
-//            <span class="emoji" style="background-image:url(emoji/2764.png)">:heart:</span>
+//            <span class="emoji" style="background-images:url(emoji/2764.png)">:heart:</span>
 //            <img class="emoji" align="absmiddle" title=":bowtie:" src="/assets/bowtie.png">
             /* Returns true if the given char is whitespace */
             function isWhitespace(s) {
                 return s === ' ' || s === '\t' || s === '\r' || s === '\n' || s === '';
             }
 
-            /* Given a match in a node, replace the text with an image */
+            /* Given a match in a node, replace the text with an images */
             function insertEmojicon(node, match, emojiName) {
                 var emojiImg = document.createElement('div');
                 emojiImg.setAttribute('class','smile sprite-' + emojiName);
@@ -117,7 +117,7 @@
             }
 
             function defaultReplacer(emoji, name) {
-                return "<div class='smile sprite-'" + emojiName + "style ='background-image:url('" + defaultConfig.img_dir + '/' + emojiName + '.png)'+">:"+name+":</span>";
+                return "<div class='smile sprite-'" + emojiName + "style ='background-images:url('" + defaultConfig.img_dir + '/' + emojiName + '.png)'+">:"+name+":</span>";
             }
 
             function Validator() {

@@ -9,6 +9,7 @@ class RoomsController < ApplicationController
   end
 
   def index
+    @rooms_preload = RoomsUser.all
   end
 
   def create
@@ -37,21 +38,29 @@ class RoomsController < ApplicationController
 
   def show
     @room_users = @room.users
+    @room_list = current_user.rooms.order(id: :asc)
     @message = Message.new
     @messages = @room.messages.preload(:user)
-    @links = Message.get_body_links(@messages).paginate( page: params[:page], per_page: 14)
-    @attach = Message.get_body_attach(@messages)
+    @links = Message.get_body_links(@messages).order(created_at: :desc).paginate( page: params[:page], per_page: 10)
+    @attach = Message.get_body_attach(@messages).order(created_at: :asc)
 
     gon.room_id = params[:id].to_i
     gon.rooms_users = @room_users.pluck(:login)
     gon.user_login = current_user.login
     gon.user_id = current_user.id
+
+    respond_to do |format|
+      format.html # index.html.erb
+      format.json { render json: @order_requests }
+      format.js
+    end
   end
 
   def update
     previous_topic = @room.topic
-    if @room.update( topic: params[:query] )
+    if current_user.rooms.pluck(:id).include?( params[:room_id].to_i )
       Pusher["private-#{params[:id]}"].trigger( 'change-topic', topic: params[:query] )
+      @room.update( topic: params[:query] )
     end
     render json: { curr_topic: params[:query], prev_topic: previous_topic }
   end
