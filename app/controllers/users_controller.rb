@@ -11,6 +11,7 @@ class UsersController < ApplicationController
   end
 
   def index
+    @user = current_user
     friend_ids = current_user.friends.map {|item| item.id}
     if friend_ids.count == 0 && params[:search].nil?
       @possible_friends = User.where('id != ? AND login IS NOT NULL', current_user.id).order(:lastname => :asc)
