@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe UsersController do
   let(:user) { FactoryGirl.create(:user) }
-  let(:room) { FactoryGirl.create(:room, :user_id => user.id) }
+  let(:room) { FactoryGirl.create(:room, :creator_id => user.id) }
 
   before { sign_in user }
   describe "GET #index" do
