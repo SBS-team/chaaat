@@ -1,7 +1,7 @@
+%h3 Friends
 .tableContainer
   .nano
     .nano-content
-      %h3 Friends
       %table.rooms_group
         - @user.friendships.each do |friendship|
           - if friendship.friend

@@ -2,7 +2,7 @@ $(document).ready(function () {
 
     var dropZone = $('#dropZone'),
         maxFileSize = 500000;
-    if (dropZone){
+    if (dropZone[0]){
     if (typeof(window.FileReader) == 'undefined') {
         dropZone.addClass('error');
     }
