@@ -37,13 +37,11 @@
                               %i
                                 = 'this message has a content...'
                           - else
-                            %p
-                              = truncate( message.body, separator: ' ', length: 112 )
+                            %p= truncate( message.body, separator: ' ', length: 112 )
                         #long-text{ style: 'display: none;' }
                           %small.pull-right.text-muted
                             %span.glyphicon.glyphicon-chevron-up{ style: 'cursor: pointer;' }
-                          %p
-                            = message.body
+                          %p= message.body
                           - if message.attach_path?
                             %br
               - else
@@ -71,8 +69,7 @@
                         #long-text{ style: 'display: none;' }
                           %small.pull-right.text-muted
                             %span.glyphicon.glyphicon-chevron-up{ style: 'cursor: pointer;' }
-                          %p
-                            = message.body
+                          %p= message.body
                           - if message.attach_path?
                             %br
             - else
@@ -88,12 +85,10 @@
                         %span.glyphicon.glyphicon-time>
                         = message.created_at.strftime('%a %T')
                       .message
-                        %p
-                          = message.body
+                        %p= message.body
                         - if message.attach_path?
                           %br
-                          %p.attach_file
-                            = message.attach_path
+                          %p.attach_file= message.attach_path
               - else
                 %li.to.clearfix{ data: { id: message.id } }
                   %span.chat-img.pull-left
@@ -106,8 +101,7 @@
                         %span.glyphicon.glyphicon-time>
                         = message.created_at.strftime('%a %T')
                       .message
-                        %p
-                          = message.body
+                        %p= message.body
                         - if message.attach_path?
                           %br
                           %p.attach_file= message.attach_path
