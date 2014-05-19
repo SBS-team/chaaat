@@ -48,10 +48,10 @@ class RoomsController < ApplicationController
       gon.room_id = 0
     end
     @room_list = Room.where("id in (?)",RoomsUser.where(:user_id=>current_user.id).pluck(:room_id)).order(id: :asc)
-    room_user_ids = RoomsUser.where(:room_id => @room.id).map{|item| item.user_id}
+    #room_user_ids = RoomsUser.where(:room_id => @room.id).map{|item| item.user_id}
     gon.user_login = current_user.login
     gon.user_id = current_user.id
-    @cur_user_present_in_room = room_user_ids.to_a.include? current_user.id
+    #@cur_user_present_in_room = room_user_ids.to_a.include? current_user.id
   end
 
   def update

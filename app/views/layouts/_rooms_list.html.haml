@@ -71,7 +71,7 @@
           %span.glyphicon.glyphicon-search
         %form.dropdown-menu.search-form{"aria-labelledby" => "drop3", :method => "get", :role => "menu"}
           %input#search{:placeholder=>"Search", :type => "search"}
-  -if @room_users != nil && @cur_user_present_in_room == true
+  -if @room_users != nil #&& @cur_user_present_in_room == true
     .tabbable
       %ul.nav.nav-tabs
         %li.active
@@ -96,7 +96,7 @@
             #panel1.panel.panel-default
               .panel-heading
                 %p
-                  Add new friends
+                  Add new roommate
                   %h4.collapsed{"data-target" => "#collapseTwo", "data-toggle" => "collapse"}
               #collapseTwo.panel-collapse.collapse
                 %input#search-user.form-control{:placeholder=>"Search...",:width=>"70%"}

@@ -612,6 +612,11 @@ span.glyphicon.glyphicon-remove:hover{
     content: "\e113";
     float: right;
 }
+
+.panel-heading h4:hover, .panel-heading h4.collapsed:hover {
+    color: white;
+}
+
 #panel1.panel.panel-default{
     position: fixed;
     height: auto;
