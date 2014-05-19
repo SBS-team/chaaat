@@ -1,4 +1,5 @@
 Build Status:
+[![Build Status](https://travis-ci.org/SBS-team/chaaat.svg?branch=pedalki)](https://travis-ci.org/SBS-team/chaaat)
 Site Description
 ----------------
 Chaat is an open-source application which creates for real-time commnication with your partners, friends e.t.c. This app executes in HipChat style and has such functionality as:
