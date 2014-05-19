@@ -4,13 +4,13 @@
     #current_user
       %span.user_name
         = link_to "#{current_user.firstname} #{current_user.lastname}", user_path(current_user.login)
-      = form_tag users_path, :id => 'user_search', :method => 'get' do
-        = text_field_tag 'search', params[:search], :id => 'search-box', :placeholder=>"Login"
-        = submit_tag 'Search', :class=>"btn btn-primary lobby-btn"
+      = form_tag users_path, id: 'user_search', method: 'get' do
+        = text_field_tag 'search', params[:search], id: 'search-box', placeholder: 'Login'
+        = submit_tag 'Search', class: 'btn btn-primary lobby-btn'
   %h3 Invite user
-  = form_tag invite_user_path, :method => 'post' do
-    = text_field_tag 'email', nil, :placeholder=>"E-mail", :type => 'email'
-    = button_tag 'Send invite', :class=>"btn btn-primary lobby-btn inv"
+  = form_tag invite_user_path, method: 'post' do
+    = text_field_tag 'email', nil, placeholder: 'E-mail', type: 'email'
+    = button_tag 'Send invite', class: 'btn btn-primary lobby-btn inv'
   %h3
     Possible friends
   .tableContainer
@@ -18,11 +18,11 @@
       .nano-content
         %table.rooms_group
           - @possible_friends.each do |user|
-            %tr{:friend_id => user.id}
+            %tr{ friend_id: user.id }
               %td.name
                 .friend_photo
-                  = image_tag avatar_url(user,50),:class => "avatar"
+                  = image_tag avatar_url( user, 50 ), class: 'avatar'
                 .friend_name
                 = link_to "#{user.login}", user_path(user.login)
               %td.friend_action.add_friend
-                %span{:class => "glyphicon glyphicon-plus add_new_friend"}
+                %span{ class: 'glyphicon glyphicon-plus add_new_friend' }

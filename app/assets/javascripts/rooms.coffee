@@ -52,13 +52,15 @@ jQuery ($) ->
 
     return
   change_topic = ->
+    element = $('#drop1.change_topic.glyphicon.glyphicon-pencil')
+    id = element.data('id')
     $.ajax(
-      type: "POST"
+      type: "PUT"
       beforeSend: (xhr) ->
         xhr.setRequestHeader "X-CSRF-Token", $("meta[name=\"csrf-token\"]").attr("content")
         return
 
-      url: "/rooms/change"
+      url: '/rooms/' + id
       data:
         query: $("input[name='change']").val()
         room_id: gon.room_id
