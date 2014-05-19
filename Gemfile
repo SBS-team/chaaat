@@ -17,6 +17,8 @@ gem 'unicorn-rails'
 gem 'omniauth'
 gem 'omniauth-facebook'
 gem 'omniauth-github'
+gem "omniauth-google-oauth2"
+gem 'omniauth-twitter'
 gem 'pusher'
 gem 'rails-erd'
 gem 'gon'

@@ -56,7 +56,7 @@ class User < ActiveRecord::Base
   validates :login, format: { with: /\A[a-zA-Z0-9._-]+\Z/ }
   validates :login, length: 1..12, :presence => true
   devise :invitable, :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :trackable, :validatable,:omniauthable, :omniauth_providers => [:github,:facebook]
+         :recoverable, :rememberable, :trackable, :validatable,:omniauthable, :omniauth_providers => [:github, :facebook, :twitter, :google_oauth2]
   before_save :default_stat
 
   def self.create_with_omniauth(auth, signed_in_resource=nil)
@@ -79,6 +79,25 @@ class User < ActiveRecord::Base
 
       end
     end
+  end
+
+  def self.find_for_google_oauth2(access_token, signed_in_resource=nil)
+    data = access_token.info.tap {|u|
+      logger.info "*" * 25 + "USER INFO " + "*" * 25
+
+      logger.info data
+
+      logger.info "*" * 50
+    }
+    user = User.where(:email => data["email"]).first
+
+    unless user
+         user = User.create(name: data["name"],
+            email: data["email"],
+            password: Devise.friendly_token[0,20]
+         )
+    end
+    user
   end
 
   def self.find_for_facebook_oauth(auth, signed_in_resource=nil)  #FIXME refactoring
