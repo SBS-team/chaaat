@@ -1,3 +1,4 @@
+- body = /(\b\w+:\/\/\w+((\.\w)*\w+)*\.\w{2,3}(\/\S*|\.\w*|\?\w*\=\S*)*)/
 %aside.left
   %h1.logo
     %a
@@ -117,7 +118,7 @@
               %ul
               - @links.each do |link|
                 %li
-                  =link_to link.body.match(/(\b\w+:\/\/\w+((\.\w)*\w+)*\.\w{2,3}(\/\S*|\.\w*|\?\w*\=\S*)*)/), link.body.match(/(\b\w+:\/\/\w+((\.\w)*\w+)*\.\w{2,3}(\/\S*|\.\w*|\?\w*\=\S*)*)/).try([0]), { target: '_blank' }
+                  =link_to link.body.match(body), link.body.match(body).present? ? link.body.match(body)[0] : nil, { target: '_blank' }
                   %br
                   %small.text-muted
                     = "#{link.user.login}"
