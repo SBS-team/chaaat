@@ -3,20 +3,6 @@ $(document).ready ->
   $("#dialog-modal").hide
   modal_open=true
   $(".video-chat").click ->
-    $.ajax(
-      url: "/rooms_users"
-      type: "POST"
-      beforeSend: (xhr) ->
-        xhr.setRequestHeader "X-CSRF-Token", $("meta[name=\"csrf-token\"]").attr("content")
-        return
-
-      data:
-        room_id: gon.room_id
-        user_id: gon.user_id
-    ).done (response) ->
-      window.system_message "User: " + gon.user_login + " has been created video conference"
-      return
-
     if modal_open is true
       $("#dialog-modal").html("")
       $("#dialog-modal").append "<div id='videos-container'></div></section>"
@@ -30,6 +16,19 @@ $(document).ready ->
         sessionDescription = data.val()
         # checking for room; if not available "open" otherwise "join"
         unless sessionDescription?
+          $.ajax(
+            url: "/rooms_users"
+            type: "POST"
+            beforeSend: (xhr) ->
+              xhr.setRequestHeader "X-CSRF-Token", $("meta[name=\"csrf-token\"]").attr("content")
+              return
+            data:
+              room_id: gon.room_id
+              user_id: gon.user_id
+          ).done (response) ->
+            window.system_message "User: " + gon.user_login + " has been created video conference"
+            return
+
           connection.open connection.sessionid
 
           # storing room on server
