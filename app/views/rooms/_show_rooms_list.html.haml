@@ -1,19 +1,19 @@
 %h2.public OPEN ROOMS
-- if !@room_list.nil?
+- if @room_list.present?
   - @room_list.each do |room|
-    %table.rooms_group{:data=>{:room=>room.id}}
+    %table.rooms_group{ data: { room: room.id } }
       %tr
         %td.name
           %a.clean
-            =link_to "#{room.name}",room_path(:id=>room.id),:room_id => room.id
+            = link_to "#{room.name}", room_path( id: room.id )
         %td.memb-count
-          = count_members(@rooms_preload,room.id)
-          ="members"
+          = room.users.count
+          = 'members'
         %td.owner
-          ="Owned by: "
-          =link_to "#{room.user.login}", user_path(room.user.login), :class => "current_user_login"
+          = 'Owned by: '
+          = link_to "#{room.creator.login}", user_path(room.creator.login), class: 'current_user_login'
         %td.set-arr
-          -if room.user.login==current_user.login
-            %span.delete_room.glyphicon.glyphicon-remove-circle{:data=>{:id=>room.id}}
+          - if room.creator.login == current_user.login
+            %span.delete_room.glyphicon.glyphicon-remove-circle{ data: { id: room.id } }
 
 

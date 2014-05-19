@@ -1,7 +1,7 @@
 = render 'layouts/rooms_list'
 .content
   #photo
-    = image_tag avatar_url(@user,125), :class => "img-profle"
+    = image_tag avatar_url(@user,125), class: 'img-profle'
   %span#user_name
     = "#{@user.firstname} #{@user.lastname}"
   %br
@@ -10,10 +10,11 @@
       = "#{@user.email}"
   %br
     Avatar supported by
-    = link_to 'gravatar.com', 'https://ru.gravatar.com', {:target => "_blank"}
+    = link_to 'gravatar.com', 'https://ru.gravatar.com', { target: '_blank' }
   %br
   %br
   %span#find_more_friends
     -#= link_to 'Find new friends', users_path
   #friendship
   = render 'friends'
+

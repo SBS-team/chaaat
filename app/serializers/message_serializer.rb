@@ -6,9 +6,7 @@ class MessageSerializer < ActiveModel::Serializer
   end
 
   def login
-    if object.user.respond_to?('login')
-      object.user.login
-    end
+    object.user.login if object.user.respond_to?('login')
   end
 
   def attach_file_path
@@ -16,22 +14,20 @@ class MessageSerializer < ActiveModel::Serializer
   end
 
   def create_at
-  	object.created_at.strftime("%a %T")
+  	object.created_at.strftime('%a %T')
   end
 
   def avatar
     if object.user.respond_to?('avatar')
+      object.user.avatar
+      if object.user.avatar.blank?
+        Gravatar.new(object.user.email).image_url( size: 50, default: 'http://cdn2.vox-cdn.com/images/verge/default-avatar.v9899025.gif?s=50' )
+      else
         object.user.avatar
-        if object.user.avatar==nil
-          Gravatar.new(object.user.email).image_url(:size => 50, :default => "http://cdn2.vox-cdn.com/images/verge/default-avatar.v9899025.gif?s=50" )
-        else
-          object.user.avatar
-        end
+      end
     else
-      default_url="../img/sys-notification.png"
+      '../img/sys-notification.png'
     end
-
-
   end
 
 end
