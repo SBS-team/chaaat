@@ -436,10 +436,6 @@ $(document).ready ->
       , 100)
       return
 
-    "textComplete:hide": ->
-      clearInterval set_top  if set_top
-      return
-
   $(".friend").click ->
     sender = $(this)
     unless self.location.toString().indexOf("persons/") is -1

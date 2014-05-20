@@ -12,6 +12,7 @@ class UsersController < ApplicationController
   end
 
   def index
+    @user = current_user
     friend_ids = current_user.friends.pluck(:id)
     @possible_friends = if friend_ids.count == 0 && params[:search].nil?
                           User.where( 'id != ? AND login IS NOT NULL', current_user.id ).order( lastname: :asc )
