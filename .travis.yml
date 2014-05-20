@@ -2,11 +2,10 @@ language: ruby
 rvm:
   - "2.1.2"
 env:
-  - DB=postgresql
-script:
-  - RAILS_ENV=test bundle exec rake --trace db:migrate test
+  - RAILS_ENV=TEST
 before_script:
-  - psql -c 'CREATE ROLE moroka LOGIN'
+  - psql -c 'create database "chat_test";'
+  - cp config/database.yml.travis config/database.yml
 addons:
   postgresql: "9.1"
   code_climate:
