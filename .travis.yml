@@ -3,11 +3,14 @@ rvm:
   - "2.1.2"
 env:
   - DB=postgresql
+script:
+  - RAILS_ENV=test bundle exec rake db:migrate --trace
+  - bundle exec rake db:test:prepare
+  - bundle exec rake
+before_script:
+  - cp config/database.travis.yml config/database.yml
+  - psql -c 'create database travis_ci_test' -U moroka
 addons:
   postgresql: "9.1"
   code_climate:
     repo_token: cc1a355c83e6a69ce263c41c4a7f0c405bb05dd1461efb2bfcfe155815f43d32
-script:
-  - export RAILS_ENV=test
-  - bundle exec rake db:create db:migrate
-  - bundle exec rake db:test:prepare
