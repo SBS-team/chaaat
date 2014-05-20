@@ -1,3 +1,6 @@
+Pusher.log = (message) ->
+  window.console.log message  if window.console and window.console.log
+  return
 root = exports ? this
 @get_user_status_style = (user_status_id) ->
 
