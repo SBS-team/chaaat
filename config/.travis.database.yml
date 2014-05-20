@@ -1,7 +1,0 @@
-postgresql: &postgresql
-  adapter: postgresql
-  username: moroka
-  password: dmm_trued
-  database: chat_test
-  pool: 5
-  timeout: 5000
