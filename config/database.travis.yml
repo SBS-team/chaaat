@@ -1,7 +1,7 @@
-#postgresql: &postgresql
-#  adapter: postgresql
-#  username: moroka
-#  password: dmm_trued
-#  database: travis_ci_test
-#  pool: 5
-#  timeout: 5000
+postgresql: &postgresql
+  adapter: postgresql
+  username: moroka
+  password: dmm_trued
+  database: chat_test
+  pool: 5
+  timeout: 5000
