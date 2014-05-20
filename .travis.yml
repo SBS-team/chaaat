@@ -1,13 +1,8 @@
 language: ruby
 rvm:
   - "2.1.2"
-env:
-  - DB=postgresql
-script:
-  - RAILS_ENV=test bundle exec rake --trace db:migrate test
 before_script:
-  - psql -c 'create user moroka with  password "dmm_trued"'
-  - psql -c 'create database chat_test' -U moroka
+  - psql -c 'create database chat_test;' -U moroka
 addons:
   postgresql: "9.1"
   code_climate:
