@@ -11,6 +11,7 @@ Chaat is an open-source application which creates for real-time commnication wit
 - every user has his own profile which he can customize
 
 
+
 Requirements
 -------------
 
