@@ -20,14 +20,14 @@ Chat::Application.configure do
   # config.action_dispatch.rack_cache = true
 
   # Disable Rails's static asset server (Apache or nginx will already do this).
-  config.serve_static_assets = false
+  config.serve_static_assets = true
 
   # Compress JavaScripts and CSS.
   config.assets.js_compressor = :uglifier
   # config.assets.css_compressor = :sass
 
   # Do not fallback to assets pipeline if a precompiled asset is missed.
-  config.assets.compile = false
+  config.assets.compile = true
 
   # Generate digests for assets URLs.
   config.assets.digest = true
@@ -82,7 +82,12 @@ Chat::Application.configure do
       user_name: ENV["GMAIL_USERNAME"],
       password: ENV["GMAIL_PASSWORD"]
   }
-
+  Chat::Application.config.middleware.use ExceptionNotification::Rack,
+                                          :email => {
+                                              :email_prefix => "[chaaat] ",
+                                              :sender_address => %{"notifier" <chaaat.chaaat@gmail.com>},
+                                              :exception_recipients => %w{artem.galas@gmail.com}
+                                          }
   # ActionMailer Config
   config.action_mailer.default_url_options = {:host => "ruby-chat-st.loc"}
   config.action_mailer.delivery_method = :smtp
