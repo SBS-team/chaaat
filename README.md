@@ -1,6 +1,7 @@
 Build Status:
 [![Build Status](https://travis-ci.org/SBS-team/chaaat.svg?branch=pedalki)](https://travis-ci.org/SBS-team/chaaat)
 [![Code Climate](https://codeclimate.com/repos/5375f4216956800d6d009602/badges/fe68f6232634377e2b5e/gpa.png)](https://codeclimate.com/repos/5375f4216956800d6d009602/feed)
+[![Coverage Status](https://coveralls.io/repos/SBS-team/chaaat/badge.png)](https://coveralls.io/r/SBS-team/chaaat)
 Site Description
 ----------------
 Chaat is an open-source application which creates for real-time commnication with your partners, friends e.t.c. This app executes in HipChat style and has such functionality as:
