@@ -2,8 +2,8 @@ class ApplicationController < ActionController::Base
   before_filter :configure_permitted_parameters, if: :devise_controller?
   before_filter :rooms_user, except: [ :new,:create,:facebook, :github ]
   before_filter :background_image, if: :devise_controller?
-  rescue_from ActiveRecord::RecordNotFound, :with => :record_not_found
-  rescue_from NoMethodError, :with => :record_not_found
+  #rescue_from ActiveRecord::RecordNotFound, :with => :record_not_found
+  #rescue_from NoMethodError, :with => :record_not_found
 
 
   def after_sign_in_path_for(resource)
@@ -32,9 +32,9 @@ class ApplicationController < ActionController::Base
   end
 
   private
-  def record_not_found
-    render :file => 'public/404.html', :status => :not_found, :layout => false
-  end
+  #def record_not_found
+  #  render :file => 'public/404.html', :status => :not_found, :layout => false
+  #end
   def rooms_user
     @room_list = current_user.rooms.order(id: :asc) if current_user.is_a? User
   end
