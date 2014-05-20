@@ -261,7 +261,9 @@ $(document).ready ->
 #    Pusher.wss_port = 8081
     console.log("gon.pusher_app",gon.pusher_app)
     pusher = new Pusher(gon.pusher_app,
-      authEndpoint: "/pusher/auth?room_id=" + gon.room_id
+      authEndpoint: "/pusher/auth?room_id=" + gon.room_id,{
+        cluster: 'eu'
+      }
     )
     channel = pusher.subscribe("private-" + gon.room_id)
     channel.bind "new_message", (data) ->
