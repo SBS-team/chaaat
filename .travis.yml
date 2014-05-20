@@ -1,6 +1,10 @@
 language: ruby
 rvm:
   - "2.1.2"
+env:
+  - DB=postgresql
+script:
+  - RAILS_ENV=test bundle exec rake --trace db:migrate test
 addons:
   postgresql: "9.1.13"
   code_climate:
