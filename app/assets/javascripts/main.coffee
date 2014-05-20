@@ -50,6 +50,7 @@ $ ->
           user_login_dom_el.html parsed_login
           $(errors_div).hide()
           $("#editModal").modal "hide"
+          console.log response
         return
     false
 

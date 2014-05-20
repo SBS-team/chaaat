@@ -4,7 +4,7 @@ rvm:
 env:
   - RAILS_ENV=TEST
 before_script:
-  - psql -c 'create database "chat_test";'
+  - psql -c 'create database "chat_test";' -U moroka
   - cp config/database.yml.travis config/database.yml
 addons:
   postgresql: "9.1"
