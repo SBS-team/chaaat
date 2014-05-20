@@ -28,7 +28,7 @@ template_add_user_right = "<div class=\"member\" id=\"{{user_id}}\" data-room-id
 add_user_right = Handlebars.compile(template_add_user_right)
 timer = undefined
 timerId = undefined
-pusher_stat = new Pusher(gon.pusher_app,{
+pusher_stat = new Pusher('ba68fc42ae63898c17b4',{
   cluster: 'eu'
 })
 channel_status = pusher_stat.subscribe("presence-status")
@@ -82,7 +82,7 @@ channel_status.bind "delete_room", (data) ->
   $("a[room_id='" + data.room_id + "']").parents("li#room").hide()
   return
 
-pusher = new Pusher(gon.pusher_app,{
+pusher = new Pusher('ba68fc42ae63898c17b4',{
   cluster: 'eu'
 })
 channel2 = pusher.subscribe("private-" + gon.user_id)
@@ -126,10 +126,10 @@ channel2.bind 'private_del_user_from_room', (data) ->
   return
 
 if gon.room_id
-  pusher = new Pusher(gon.pusher_app,
-    authEndpoint: "/pusher/auth?room_id=" + gon.room_id,{
+  pusher = new Pusher('ba68fc42ae63898c17b4',{
       cluster: 'eu'
-    }
+      },
+    authEndpoint: "/pusher/auth?room_id=" + gon.room_id
   )
   channel = pusher.subscribe("private-" + gon.room_id)
   channel3 = pusher.subscribe("private-" + gon.user_id)
