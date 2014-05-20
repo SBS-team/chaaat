@@ -25,10 +25,10 @@
 //= require main
 //= require jquery.timeago.js
 //= require messages
-//= require pusher
 //= require bootstrap
 //= require rooms
 //= require video
 //= require drag_and_drop
 //= require cap.js
+//= require pusher
 

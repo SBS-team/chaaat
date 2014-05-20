@@ -12,9 +12,9 @@ root = exports ? this
       "glyphicon glyphicon-question-sign drop-hlp drop-col-mar"
     when "Offline"
       "glyphicon glyphicon-eye-close drop-col-mar"
-Pusher.host = "192.168.137.75"
-Pusher.ws_port = 8081
-Pusher.wss_port = 8081
+#Pusher.host = "192.168.137.75"
+#Pusher.ws_port = 8081
+#Pusher.wss_port = 8081
 Handlebars.registerHelper "get_icon_status", (value) ->
   get_user_status_style value
 
