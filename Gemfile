@@ -33,7 +33,7 @@ gem 'exception_notification'
 gem 'gravatar-ultimate'
 gem 'will_paginate'
 gem "codeclimate-test-reporter", group: :test, require: nil
-gem 'caveralls', require: false
+gem 'coveralls', require: false
 group :development do
   gem 'bullet'
   gem 'better_errors'
