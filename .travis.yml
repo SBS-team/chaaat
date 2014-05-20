@@ -5,3 +5,6 @@ addons:
   postgresql: "9.1.13"
   code_climate:
     repo_token: cc1a355c83e6a69ce263c41c4a7f0c405bb05dd1461efb2bfcfe155815f43d32
+before_script:
+  - cp config/database.yml.travis config/database.yml
+  - psql -c 'create database travis_ci_test;' -U moroka
