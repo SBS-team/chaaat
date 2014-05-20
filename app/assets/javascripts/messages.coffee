@@ -256,9 +256,9 @@ $(document).ready ->
   invoted_users()
   show_attachment()
   if gon.room_id
-    Pusher.host = "192.168.137.75"
-    Pusher.ws_port = 8081
-    Pusher.wss_port = 8081
+#    Pusher.host = "192.168.137.75"
+#    Pusher.ws_port = 8081
+#    Pusher.wss_port = 8081
     pusher = new Pusher(gon.pusher_app,
       authEndpoint: "/pusher/auth?room_id=" + gon.room_id
     )
