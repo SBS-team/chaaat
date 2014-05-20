@@ -259,6 +259,7 @@ $(document).ready ->
 #    Pusher.host = "192.168.137.75"
 #    Pusher.ws_port = 8081
 #    Pusher.wss_port = 8081
+    console.log("gon.pusher_app",gon.pusher_app)
     pusher = new Pusher(gon.pusher_app,
       authEndpoint: "/pusher/auth?room_id=" + gon.room_id
     )
