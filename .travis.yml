@@ -3,10 +3,10 @@ rvm:
   - "2.1.2"
 env:
   - DB=postgresql
-before_script:
-  – psql -c "create database webcalendar_test;" -U postgres
 script:
-  – RAILS_ENV=test bundle exec rake -–trace db:migrate spec
+  - RAILS_ENV=test bundle exec rake --trace db:migrate test
+before_script:
+  - psql -c 'create database chat_test' -U moroka
 addons:
   postgresql: "9.1"
   code_climate:
