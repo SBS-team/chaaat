@@ -3,8 +3,6 @@ rvm:
   - "2.1.2"
 env:
   - RAILS_ENV=TEST
-before_script:
-  - psql -c 'create database "chat_test";' -U moroka
 addons:
   postgresql: "9.1"
   code_climate:
