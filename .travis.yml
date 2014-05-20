@@ -4,12 +4,13 @@ rvm:
 env:
   - DB=postgresql
 script:
-  - RAILS_ENV=test bundle exec rake db:migrate --trace
-  - bundle exec rake db:test:prepare
-  - bundle exec rake
+#  - RAILS_ENV=test bundle exec rake db:migrate --trace
+#  - bundle exec rake db:test:prepare
+#  - bundle exec rake
+  - RAILS_ENV=test bundle exec rake --trace db:migrate test
 before_script:
   - cp config/database.travis.yml config/database.yml
-  - psql -c "CREATE USER moroka WITH PASSWORD 'dmm_trued';" -U 'moroka'
+  - psql -c "CREATE USER 'moroka' WITH PASSWORD 'dmm_trued';"
   - psql -c 'CREATE DATABASE travis_ci_test' -U 'moroka'
 addons:
   postgresql: "9.1"
