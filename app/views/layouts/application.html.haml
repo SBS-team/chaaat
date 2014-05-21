@@ -1,6 +1,7 @@
 !!!
 %html
   %head
+    %link{href: "/img/favicon.png", rel: "icon", type: "image/png"}/
     = include_gon( init: true )
     %meta{ name: 'viewport', content: 'width=device-width, initial-scale=1.0' }
     %title= content_for?(:title) ? yield(:title) : 'Chat'
