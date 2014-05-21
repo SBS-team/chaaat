@@ -14,8 +14,12 @@
       = f.label :password
       = f.password_field :password, class: 'form-control'
     = f.submit 'Log in', :class => 'button right'
+    = link_to  user_omniauth_authorize_path(:google_oauth2) do
+      %img{:src=>"../img/google.jpg",:class=>"social-button"}
     = link_to  user_omniauth_authorize_path(:facebook) do
       %img{:src=>"../img/facebook.png",:class=>"social-button"}
+    = link_to  user_omniauth_authorize_path(:twitter) do
+      %img{:src=>"../img/twitter.png",:class=>"social-button"}
     = link_to  user_omniauth_authorize_path(:github) do
       %img{:src=>"../img/github.jpg", :class=>"social-button"}
     - if devise_mapping.rememberable?
