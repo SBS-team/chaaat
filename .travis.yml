@@ -3,6 +3,8 @@ rvm:
   - "2.1.2"
 env:
   - RAILS_ENV=TEST
+script:
+  - bundle exec rake spec
 addons:
   postgresql: "9.1"
   code_climate:
