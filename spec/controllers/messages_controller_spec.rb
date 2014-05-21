@@ -5,7 +5,6 @@ describe MessagesController do
   let(:room) { FactoryGirl.create(:room, :creator_id => user.id ) }
 
   before { sign_in user
-  #@message = FactoryGirl.create(:message)
   }
   it "should  save message" do
     response.should be_success
