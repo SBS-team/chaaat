@@ -5,7 +5,7 @@
 #
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
-# Environment variables (ENV['...']) can be set in the file .env file.
+# Environment variables (ENV['...']) can be set in the file .development.env file.
 #User.delete_all
 #Room.delete_all
 #RoomsUser.delete_all

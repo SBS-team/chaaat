@@ -1,17 +1,15 @@
 require 'pusher'
-#Pusher.app_id = '68323'
-#Pusher.key = '255267aae6802ec7914f'
-#Pusher.secret = '456aa3a324e2b5e8a2f2'
+if ENV['PUSHER_APP']
+  Pusher.url = "http://#{ENV['PUSHER_KEY']}:#{ENV['PUSHER_SECRET']}@api-eu.pusher.com/apps/#{ENV['PUSHER_APP']}"
+end
 
+if ENV['SLANGER_APP']
+  Pusher.app_id = ENV['SLANGER_APP']
+  Pusher.key = ENV['SLANGER_KEY']
+  Pusher.secret = ENV['SLANGER_SECRET']
+  Pusher.host = ENV['SLANGER_HOST']
+  Pusher.port = ENV['SLANGER_PORT']
+end
 
-
-#Pusher.app_id = '75414'
-#Pusher.key    = 'af50ff06ce881179e1c6'
-#Pusher.secret = 'df516d4610e1196537c1'
-#Pusher.url = "http://ba68fc42ae63898c17b4:461e26812d021a073980@api-eu.pusher.com/apps/75461"
-#Pusher.url = "http://255267aae6802ec7914f:456aa3a324e2b5e8a2f2@api.pusherapp.com/apps/68323"
-Pusher.url = "http://5576ad6e6f0c44d04a98:2ffcc03e4843f41d6f79@api-eu.pusher.com/apps/75462"
 Pusher.logger = Rails.logger
 
-#Pusher.host   = '192.168.137.75'
-#Pusher.port   = 4567

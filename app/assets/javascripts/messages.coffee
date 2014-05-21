@@ -18,9 +18,9 @@ root = exports ? this
   return
 
 $(document).ready ->
-  Pusher.log = (message) ->
-    window.console.log message  if window.console and window.console.log
-    return
+#  Pusher.log = (message) ->
+#    window.console.log message  if window.console and window.console.log
+#    return
   smiles_render = ->
     message = document.getElementsByClassName("chat-body")
     i = 0
