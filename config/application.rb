@@ -9,6 +9,7 @@ Bundler.require(:default, Rails.env)
 module Chat
   class Application < Rails::Application
       config.time_zone = 'Kyiv'
+      config.assets.enabled = true
     # don't generate RSpec tests for views and helpers
     config.generators do |g|
       
