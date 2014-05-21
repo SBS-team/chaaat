@@ -4,7 +4,7 @@ rvm:
 env:
   - RAILS_ENV=TEST
 script:
-  - bundle exec rake spec
+  - bundle exec rake coveralls
 addons:
   postgresql: "9.1"
   code_climate:
