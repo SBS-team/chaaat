@@ -3,10 +3,8 @@ rvm:
   - "2.1.2"
 env:
   - RAILS_ENV=TEST
-before_script:
-  - "cp ./.travis.database.yml ./config/database.yml"
 script:
-  - bundle exec rspec spec
+  - bundle exec rake spec
 addons:
   postgresql: "9.1"
   code_climate:
