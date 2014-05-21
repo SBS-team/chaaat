@@ -1,0 +1,4 @@
+<%= form_for(@user, :as => "user", :url => account_create_path, :html => {:class => "form-inline"}) do |f| %>
+    <%= f.email_field :email, :placeholder => User.human_attribute_name(:email), :class => "input-medium" %>
+    <%= f.submit "Finish registration", :class => "btn btn-small" %>
+<% end %>

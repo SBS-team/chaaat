@@ -51,12 +51,13 @@ class User < ActiveRecord::Base
   has_many :inverse_friends, :through => :inverse_friendships, :source => :user
   has_many :rooms_users, dependent: :destroy
   has_many :friends, :through => :friendships
-  validates :email, :encrypted_password, :presence => true
+  validates_format_of :email, :with => Devise.email_regexp, :allow_blank => true, :if => :email_changed?
+  validates  :encrypted_password, :presence => true
   validates_uniqueness_of :login, :message => "has already been taken"
   validates :login, format: { with: /\A[a-zA-Z0-9._-]+\Z/ }
   validates :login, length: 1..12, :presence => true
   devise :invitable, :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :trackable, :validatable,:omniauthable, :omniauth_providers => [:github, :facebook, :twitter, :google_oauth2]
+         :recoverable, :rememberable, :trackable, :validatable,:omniauthable, :omniauth_providers => [:github, :facebook, :google_oauth2, :twitter]
   before_save :default_stat
 
   def self.create_with_omniauth(auth, signed_in_resource=nil)
@@ -85,7 +86,6 @@ class User < ActiveRecord::Base
     user = User.where(:email => access_token.info.email).first
     google_login=access_token.info.email.split('@')
     unless user
-
          user = User.create(
             firstname: access_token.info.name,
             provider:"google_oauth2",
@@ -98,6 +98,32 @@ class User < ActiveRecord::Base
     end
     user
   end
+
+  def self.find_for_twitter_oauth(auth, signed_in_resource=nil)
+    user = User.where(:provider => auth[:provider], :uid => auth[:uid].to_s).first
+    unless user
+      user=User.create(
+                :firstname => auth[:first_name],
+                :login => auth[:login],
+                :provider => auth[:provider],
+                :uid => auth[:uid],
+                :avatar => auth[:avatar],
+                :profile_avatar => auth[:profile_avatar],
+                :password=> Devise.friendly_token[0,20]
+            )
+    end
+    user
+ end
+
+  def self.build_twitter_auth_cookie_hash data
+    {
+        :provider => data.provider, :uid => data.uid.to_i,
+        :access_token => data.credentials.token, :access_secret => data.credentials.secret,
+        :first_name => data.info.name, :login=> data.info.nickname, :avatar=> data.info.image, :profile_avatar=>data.info.image.sub("_normal", ""),
+    }
+  end
+
+
 
   def self.find_for_facebook_oauth(auth, signed_in_resource=nil)  #FIXME refactoring
     user = User.where(:provider => auth.provider, :uid => auth.uid).first

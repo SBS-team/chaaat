@@ -22,6 +22,10 @@
       %img{:src=>"../img/facebook.png",:class=>"social-button"}
       Sign in with facebook
   %li
+    = link_to user_omniauth_authorize_path(:twitter), class: 'navbar-brand' do
+      %img{:src=>"../img/twitter.png", :class=>"social-button"}
+      Sign in with twitter
+  %li
     = link_to user_omniauth_authorize_path(:google_oauth2), class: 'navbar-brand' do
       %img{:src=>"../img/google.png", :class=>"social-button"}
       Sign in with google

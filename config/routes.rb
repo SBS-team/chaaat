@@ -26,8 +26,10 @@ Chat::Application.routes.draw do
   post 'pusher/auth'
   post 'pusher/stat'
 
+
   devise_scope :user do
     root to: "devise/sessions#new"
+    post "account/create" => "users/accounts#create"
   end
   match "rooms_users/:id/:room_id", :to => "rooms_users#destroy" , :as => "delete_user", :via => :delete
 
