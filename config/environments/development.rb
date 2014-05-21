@@ -40,12 +40,8 @@ config.action_mailer.delivery_method = :smtp
 
   config.action_mailer.default_url_options = {:host => "ruby-chat-st.loc"}
   config.action_mailer.perform_deliveries = true
-  # ActionMailer Config
-  #config.action_mailer.default_url_options = { :host => 'localhost:3000' }
-  #config.action_mailer.delivery_method = :smtp
-  #config.action_mailer.raise_delivery_errors = true
-  ## Send email in development mode.
-  #config.action_mailer.perform_deliveries = false
-  # Send email in development mode.
-  #FIXME remove
+  require 'pusher'
+    Pusher.app_id = '75462'
+    Pusher.key    = '5576ad6e6f0c44d04a98'
+    Pusher.secret = '2ffcc03e4843f41d6f79'
 end
