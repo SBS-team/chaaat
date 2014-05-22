@@ -1,0 +1,24 @@
+$('body').prepend("<div id='limit' class='modal fade in' tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='false' style='display: block;'>"+
+        "<div class='modal-dialog'>"+
+        "<div class='modal-content'>"+
+        "<div class='modal-header'>"+
+        "<button class='close' type='button' data-dismiss='modal' aria-hidden='true'></button>"+
+        "<h4 id='myModalLabel' class='modal-title'> Over Limit</h4>"+
+        "</div>"+
+        "<div class='modal-body><h4 id='myModalLabel' class='modal-title'>You can create only 3 rooms and type less then 20 messages there</h4>"+
+        "<div class='modal-footer'>"+
+        "<div class='action'>"+
+        "<button id='modal-submit' class='btn btn-primary lobby-btn' type='submit'>Close</button>"+
+//        "<button class='btn btn-primary lobby-btn' type='button' data-dismiss='modal'>Close</button>"+
+        "</div>"+
+        "</div>"+
+        "</div>"+
+        "</div>"+
+        "</div></div>");
+var limitmodal;
+
+limitmodal = $("#limit");
+
+$("#modal-submit").click(function() {
+    limitmodal.hide();
+});

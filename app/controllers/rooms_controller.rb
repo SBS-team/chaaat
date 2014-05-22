@@ -33,6 +33,8 @@ class RoomsController < ApplicationController
           format.json { render json: @room_list, status: :created }
         end
       end
+    else
+      render template: 'layouts/limit_message'
     end
   end
 

@@ -18,7 +18,8 @@ class MessagesController < ApplicationController
       message.send_emails
       render text: 'Success'
     else
-      render text: 'shit happens'
+
+      render template: 'layouts/limit_message'
     end
   end
 

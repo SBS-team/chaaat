@@ -19,6 +19,11 @@ describe UsersController do
       get :index
       expect(response).to render_template("index")
     end
+
+
+  end
+  it "show" do
+    get :show, :id => user.login
   end
   it "should be success" do
     response.should be_success

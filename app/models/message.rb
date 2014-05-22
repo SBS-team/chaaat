@@ -24,7 +24,7 @@ class Message < ActiveRecord::Base
 
   belongs_to :user
   belongs_to :room
-
+  validate :limit_message, :on => :create
   mount_uploader :attach_path, ImageUploader
 
   validates :attach_path, file_size: { maximum: 20.megabytes.to_i }
@@ -41,6 +41,12 @@ class Message < ActiveRecord::Base
     end
   end
 
+  def limit_message
+    limit = User.find_by(id).messages.where('created_at > ?', 24.hours.ago).count
+    if limit >= 20
+      errors.add(:limit_message, 'The name cant be blank.')
+    end
+  end
   private
 
     def gsub_message

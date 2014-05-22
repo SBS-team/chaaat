@@ -21,9 +21,15 @@ class Room < ActiveRecord::Base
   validates :creator_id, :presence => true
   validates :name, length: 1..100, presence: true
   validates :topic, length: 0..20, presence: true
+  validate :limit_room, :on => :create, :message => "must be provided"
 
   def create_rooms_user_object( id )
     self.rooms_users.create( user_id: id )
   end
-
+  def limit_room
+    limit = User.find_by(id).rooms.count
+    if limit >= 3
+      errors.add(:limit_room, "limit")
+    end
+  end
 end
