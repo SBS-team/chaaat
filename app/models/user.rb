@@ -51,28 +51,20 @@ class User < ActiveRecord::Base
   has_many :inverse_friendships, class_name: 'Friendship', foreign_key: :friend_id
   has_many :inverse_friends, through: :inverse_friendships, source: :user
   has_many :rooms_users, dependent: :destroy
-<<<<<<< HEAD
   has_many :rooms, through: :rooms_users
   has_many :friends, through: :friendships
-
-  validates :email, :encrypted_password, presence: true
-  validates_uniqueness_of :login, message: 'has already been taken'
-=======
   has_many :friends, :through => :friendships
   validates_format_of :email, :with => Devise.email_regexp, :allow_blank => true, :if => :email_changed?
   validates  :encrypted_password, :presence => true
   validates_uniqueness_of :login, :message => "has already been taken"
->>>>>>> omniauth_reg
   validates :login, format: { with: /\A[a-zA-Z0-9._-]+\Z/ }
   validates :login, length: 1..12, presence: true
 
   devise :invitable, :database_authenticatable, :registerable,
-<<<<<<< HEAD
-         :recoverable, :rememberable, :trackable, :validatable, :omniauthable, omniauth_providers: [ :github, :facebook ]
+         :recoverable, :rememberable, :trackable, :validatable,
+         :omniauthable,
+         :omniauth_providers => [:github, :facebook, :google_oauth2, :twitter]
 
-=======
-         :recoverable, :rememberable, :trackable, :validatable,:omniauthable, :omniauth_providers => [:github, :facebook, :google_oauth2, :twitter]
->>>>>>> omniauth_reg
   before_save :default_stat
 
   def self.create_with_omniauth( auth, signed_in_resource = nil )
@@ -97,10 +89,7 @@ class User < ActiveRecord::Base
     end
   end
 
-<<<<<<< HEAD
-  def self.find_for_facebook_oauth( auth, signed_in_resource = nil )  #FIXME refactoring
-    user = User.where( provider: auth.provider, uid: auth.uid ).first
-=======
+
   def self.find_for_google_oauth2(access_token, signed_in_resource=nil)
     user = User.where(:email => access_token.info.email).first
     google_login=access_token.info.email.split('@')
@@ -144,9 +133,8 @@ class User < ActiveRecord::Base
 
 
 
-  def self.find_for_facebook_oauth(auth, signed_in_resource=nil)  #FIXME refactoring
+  def self.find_for_facebook_oauth(auth, signed_in_resource=nil)
     user = User.where(:provider => auth.provider, :uid => auth.uid).first
->>>>>>> omniauth_reg
     if user
       user
     else
