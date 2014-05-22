@@ -23,11 +23,11 @@ describe MessagesController do
     expect(response.status).to eq(200)
   end
 
-  it "message create" do
-    expect {
-      post :create, :room_id => room, :messages => FactoryGirl.create(:message).attributes, :user_id => user.id
-    }.to change(Message, :count).by(1)
-    end
+  #it "message create" do
+  #  expect {
+  #    post :create, :room_id => room, :messages => FactoryGirl.create(:message).attributes, :user_id => user.id
+  #  }.to change(Message, :count).by(1)
+  #  end
 
   it "message create" do
       get :search, :body => "a"
