@@ -4,6 +4,8 @@ rvm:
   - "2.1.2"
 env:
   - CODECLIMATE_REPO_TOKEN=cc1a355c83e6a69ce263c41c4a7f0c405bb05dd1461efb2bfcfe155815f43d32
+after_success:
+  - CI=true TRAVIS=true coveralls --verbose
 addons:
   postgresql: "9.1"
   code_climate:
