@@ -3,6 +3,7 @@ rvm:
   - "2.1.2"
 env:
   - RAILS_ENV=TEST
+script:
   - CODECLIMATE_REPO_TOKEN=cc1a355c83e6a69ce263c41c4a7f0c405bb05dd1461efb2bfcfe155815f43d32 bundle exec rake
 addons:
   postgresql: "9.1"
