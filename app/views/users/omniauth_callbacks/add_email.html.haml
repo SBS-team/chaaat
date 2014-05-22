@@ -1,0 +1,11 @@
+%header
+  %nav.navbar-inverse.navbar-fixed-top{:role=>"navigation"}
+    .collapse.navbar-collapse.navbar-ex1-collapse
+      %ul.nav.navbar-nav.navbar-right.navbar-user
+.authform
+  = form_for(@user, :as => "user", :url => account_create_path,:html => { :role => 'form'}) do |f|
+    .form-group
+      = f.label :email
+      = f.email_field :email, :autofocus => true, class: 'form-control'
+      %br
+      = f.submit "Finish registration", :class => 'button right'
