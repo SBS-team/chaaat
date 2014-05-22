@@ -1,15 +1,15 @@
-require 'coveralls'
-Coveralls.wear!('rails')
 require "codeclimate-test-reporter"
 CodeClimate::TestReporter.start
+require 'simplecov'
+require 'coveralls'
+Coveralls.wear!('rails')
 # This file is copied to spec/ when you run 'rails generate rspec:install'
 ENV["RAILS_ENV"] ||= 'test'
 require File.expand_path("../../config/environment", __FILE__)
 require 'rspec/rails'
 require 'email_spec'
 require 'rspec/autorun'
-require 'simplecov'
-SimpleCov.start
+#SimpleCov.start
 require 'shoulda-matchers'
 require 'capybara/rails'
 require 'capybara/rspec'
