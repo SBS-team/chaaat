@@ -29,7 +29,7 @@ $(document).ready ->
   check_file = (attach_file_path) ->
     url_to_file = location.origin + attach_file_path
     if url_to_file.match(/http.*(jpg|JPG|gif|jpeg|png)/)
-      '<img src="' + url_to_file + '" height="200px" width="200px"/>'
+      '<a href="'+url_to_file+'"></a><img src="' + url_to_file + '" height="200px" width="200px"/>'
     else
       '<a href="' + url_to_file + '" download><span class="glyphicon glyphicon-download-alt"></span>' + attach_file_path.match(/(\w|[-.])+$/)[0] + '</a>'
   send_message = ->
@@ -162,7 +162,7 @@ $(document).ready ->
         results.push word.replace(/http.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?].\S\S*)/, "<br><iframe width=\"560\" height=\"315\" src=\"//www.youtube.com/embed/" + youtube_parser(word) + "\" frameborder=\"0\" allowfullscreen></iframe><br>")
       else if word.match(/http.*(jpg|JPG|gif|jpeg|png)/)
         src = word.match(/http.*(jpg|JPG|gif|jpeg|png)/)
-        results.push word.replace(/http.*(jpg|JPG|gif|jpeg|png)/, "<br><img class='url_image' src=" + src[0] + " height=\"500px\" width=\"300px\"/a>")
+        results.push word.replace(/http.*(jpg|JPG|gif|jpeg|png)/, " <a href="+src[0]+">#{src[0]}</a><img class='url_image' src=" + src[0] + " height=\"500px\" width=\"300px\"/>")
       else if word.match(/http:\/\/(coub\.com\/view\/.*|coub\.com\/embed\/.*)/i)
         word = word.replace("view", "embed")
         src = "\"" + word.slice(0, 27) + "?muted=false&autostart=false&originalSize=false&hideTopBar=false&noSiteButtons=false&startWithHD=false" + "\""

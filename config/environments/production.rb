@@ -82,7 +82,12 @@ Chat::Application.configure do
       user_name: ENV["GMAIL_USERNAME"],
       password: ENV["GMAIL_PASSWORD"]
   }
-
+  Chat::Application.config.middleware.use ExceptionNotification::Rack,
+                                          :email => {
+                                              :email_prefix => "[chaaat] ",
+                                              :sender_address => %{"notifier" <chaaat.chaaat@gmail.com>},
+                                              :exception_recipients => %w{artem.galas@gmail.com}
+                                          }
   # ActionMailer Config
   config.action_mailer.default_url_options = {:host => "ruby-chat-st.loc"}
   config.action_mailer.delivery_method = :smtp
