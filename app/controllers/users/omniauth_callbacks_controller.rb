@@ -1,4 +1,5 @@
 class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
+  
   def facebook
     @user = User.find_for_facebook_oauth(request.env['omniauth.auth'], current_user)
     if @user.persisted?
@@ -12,12 +13,7 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
   end
 
   def github
-<<<<<<< HEAD
     user = User.create_with_omniauth(request.env['omniauth.auth'])
-
-=======
-    user = User.create_with_omniauth(request.env["omniauth.auth"])
->>>>>>> omniauth_reg
     if user.persisted?
       flash[:notice] = I18n.t 'devise.omniauth_callbacks.success', kind: 'Github'
       sign_in_and_redirect user, event: :authentication
