@@ -4,17 +4,23 @@ require File.expand_path("../../config/environment", __FILE__)
 require 'rspec/rails'
 require 'email_spec'
 require 'rspec/autorun'
-require 'simplecov'
 
+require "simplecov"
+require "coveralls"
+require "codeclimate-test-reporter"
 
-require 'coveralls'
 Coveralls.wear!('rails')
-
-require 'codeclimate-test-reporter'
 CodeClimate::TestReporter.start
+SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter[
+    Coveralls::SimpleCov::Formatter,
+    SimpleCov::Formatter::HTMLFormatter,
+    CodeClimate::TestReporter::Formatter
+]
 
+SimpleCov.start do
+  add_filter "/spec/"
+end
 
-SimpleCov.start
 require 'shoulda-matchers'
 require 'capybara/rails'
 require 'capybara/rspec'
