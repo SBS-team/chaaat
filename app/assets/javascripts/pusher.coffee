@@ -130,9 +130,9 @@ channel2.bind 'private_del_user_from_room', (data) ->
 
 if gon.room_id
   pusher = new Pusher(gon.pusher_app,{
-      cluster: 'eu'
-      },
-    authEndpoint: "/pusher/auth?room_id=" + gon.room_id
+      cluster: 'eu',
+
+    authEndpoint: "/pusher/auth?room_id=" + gon.room_id}
   )
   channel = pusher.subscribe("private-" + gon.room_id)
   channel3 = pusher.subscribe("private-" + gon.user_id)

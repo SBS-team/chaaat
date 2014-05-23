@@ -4,7 +4,7 @@ class ApplicationController < ActionController::Base
   before_filter :background_image, if: :devise_controller?
   #rescue_from ActiveRecord::RecordNotFound, :with => :record_not_found
   #rescue_from NoMethodError, :with => :record_not_found
-  before_filter :current_user_for_model, only: [:index]
+  before_filter :current_user_for_model
 
   def current_user_for_model
     Thread.current['current_user']=current_user
@@ -19,6 +19,8 @@ class ApplicationController < ActionController::Base
       super
     end
   end
+
+
 
   def after_sign_out_path_for(resource)
     Thread.current['current_user']=nil
