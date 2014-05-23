@@ -4,21 +4,23 @@ require File.expand_path("../../config/environment", __FILE__)
 require 'rspec/rails'
 require 'email_spec'
 require 'rspec/autorun'
-SimpleCov.start
-require 'shoulda-matchers'
-require 'capybara/rails'
-require 'capybara/rspec'
-require 'database_cleaner'
+require 'simplecov'
+
 
 require 'coveralls'
 Coveralls.wear!('rails')
 
 require 'codeclimate-test-reporter'
 CodeClimate::TestReporter.start
-require 'simplecov'
 
 
-  include Devise::TestHelpers
+SimpleCov.start
+require 'shoulda-matchers'
+require 'capybara/rails'
+require 'capybara/rspec'
+require 'database_cleaner'
+
+include Devise::TestHelpers
 # Requires supporting ruby files with custom matchers and macros, etc,
 # in spec/support/ and its subdirectories.
 Dir[Rails.root.join("spec/support/**/*.rb")].each {|f| require f}
