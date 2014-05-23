@@ -10,6 +10,7 @@ Chat::Application.routes.draw do
 
 
   resources :messages, :only => [:show, :create,:index]
+
   post "messages/search", to: "messages#search"
   get "messages/search/:search", to: "messages#search"
   get "users/search/:id", to: "users#search"

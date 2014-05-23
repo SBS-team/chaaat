@@ -2,9 +2,6 @@ class PusherController < ApplicationController
   protect_from_forgery except: :auth # stop rails CSRF protection for this action
 
   def auth
-    logger.info("*"*50)
-    logger.info(params[:channel_name])
-    logger.info(params[:room_id])
     authentication_query =
         if current_user && params[:room_id].present? && current_user.rooms.present?
           current_user.rooms.find(params[:room_id]).present? &&
