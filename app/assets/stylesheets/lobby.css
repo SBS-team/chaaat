@@ -158,7 +158,8 @@ body {background-color: #f0f0f0;line-height: normal;}
     color: #333;
 }
 
-#status_ui span.glyphicon-user{
+#status_ui
+span.glyphicon-user{
     display: block;
     width: 25px;
     height: 25px;
@@ -208,7 +209,7 @@ body {background-color: #f0f0f0;line-height: normal;}
     font-size: 15px;
 }
 .avail-drop{
-    top: -172px;
+    top: -147px;
     width: 198px;
     font-size: 14px;
     border-radius: 0;
@@ -218,7 +219,7 @@ body {background-color: #f0f0f0;line-height: normal;}
 }
 #status_ui a.glyphicon-cog:hover{
     font-size: 17px;
-    padding-left: 6px;
+    padding-left: 3px;
 }
 /*.lobby-panel .tabs li.selected {*/
 /*background: url("../img/vtab_selected_bg.png") repeat-x scroll 0 0 rgba(0, 0, 0, 0);*/
@@ -703,4 +704,22 @@ span.glyphicon.glyphicon-remove:hover{
 .stream{
     display: inline;
     /*border: 3px solid red;*/
+}
+span.glyphicon-log-out{
+    border-left: 1px solid #313949;
+    box-shadow: 1px 0 0 #727B8E inset, -1px 0 0 #727B8E;
+    color: #999999;
+    display: block;
+    float: right;
+    font-size: 16px;
+    line-height: 30px;
+    margin-right: 5px;
+    margin-top: 2px;
+    padding-left: 4px;
+    text-decoration: none;
+    text-shadow: 1px 1px 2px #000000;
+}
+span.glyphicon-log-out:hover{
+    font-size: 17px;
+    padding-left: 3px;
 }

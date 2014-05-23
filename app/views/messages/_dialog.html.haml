@@ -107,7 +107,6 @@
                           %p.attach_file= message.attach_path
 
   .input
-    =Thread.current['current_user'].id
     = form_for @message, authenticity_token: true, url: messages_path, id: 'form-message', name: 'messageForm', html: { multipart: true }, method: 'post' do |f|
       %table{ cellspacing: '0', width: '100%' }
         %tbody

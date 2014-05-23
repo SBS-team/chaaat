@@ -4,10 +4,13 @@ class ApplicationController < ActionController::Base
   before_filter :background_image, if: :devise_controller?
   #rescue_from ActiveRecord::RecordNotFound, :with => :record_not_found
   #rescue_from NoMethodError, :with => :record_not_found
+  before_filter :current_user_for_model, only: [:index]
 
+  def current_user_for_model
+    Thread.current['current_user']=current_user
+  end
 
   def after_sign_in_path_for(resource)
-    Thread.current['current_user']=current_user
     if resource.is_a? User
       gon.user_login = current_user.login
       gon.user_id = current_user.id

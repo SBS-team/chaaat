@@ -26,7 +26,6 @@
       %a#drop1.dropdown-toggle.avail{ 'data-toggle' => 'dropdown', href: '#', role: 'button', type: 'button' }
         %span{ class: get_user_status_style(current_user.user_status) }>
         = current_user.user_status
-        %span.glyphicon.glyphicon-hand-down
       %ul.dropdown-menu.avail-drop{ 'aria-labelledby' => 'drop1', role: 'menu' }
         %li
           %a.change-status{ tabindex: '-1' }
@@ -48,10 +47,8 @@
           %a.change-status{ tabindex: '-1' }
             %span.glyphicon.glyphicon-eye-close.drop-col-mar>
             Offline
-        %li
-          = link_to destroy_user_session_path, method: 'delete',  tabindex: '-1'  do
-            %span.glyphicon.glyphicon-share-alt.drop-col-mar>
-            Sign out
+    = link_to destroy_user_session_path, method: 'delete',  tabindex: '-1'  do
+      %span.glyphicon.glyphicon-log-out
     -#--------------------------------------------------------------------
     -#%a.glyphicon.glyphicon-cog{:href=>edit_user_registration_path}
     %a.glyphicon.glyphicon-cog{ 'data-target' => '#editModal', 'data-toggle' => 'modal', type: 'button' }
