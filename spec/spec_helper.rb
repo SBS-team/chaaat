@@ -4,7 +4,7 @@ require File.expand_path("../../config/environment", __FILE__)
 require "simplecov"
 require "coveralls"
 require "codeclimate-test-reporter"
-#Coveralls.wear!('rails')
+Coveralls.wear!('rails')
 #CodeClimate::TestReporter.start
 SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter[
     Coveralls::SimpleCov::Formatter,
