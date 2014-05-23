@@ -9,17 +9,15 @@ require "simplecov"
 require "coveralls"
 require "codeclimate-test-reporter"
 
-Coveralls.wear!('rails')
-CodeClimate::TestReporter.start
+#Coveralls.wear!('rails')
+#CodeClimate::TestReporter.start
 SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter[
     Coveralls::SimpleCov::Formatter,
     SimpleCov::Formatter::HTMLFormatter,
     CodeClimate::TestReporter::Formatter
 ]
 
-SimpleCov.start do
-  add_filter "/spec/"
-end
+SimpleCov.start
 
 require 'shoulda-matchers'
 require 'capybara/rails'
