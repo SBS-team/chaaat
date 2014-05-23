@@ -7,6 +7,7 @@ class ApplicationController < ActionController::Base
 
 
   def after_sign_in_path_for(resource)
+    Thread.current['current_user']=current_user
     if resource.is_a? User
       gon.user_login = current_user.login
       gon.user_id = current_user.id
@@ -17,6 +18,7 @@ class ApplicationController < ActionController::Base
   end
 
   def after_sign_out_path_for(resource)
+    Thread.current['current_user']=nil
     if current_admin_user.is_a? AdminUser
       super
     elsif resource.is_a? User
