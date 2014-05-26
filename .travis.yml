@@ -2,11 +2,11 @@ language: ruby
 rvm:
   - "2.1.2"
 env:
-  -DB=postgres
   - RAILS_ENV=test
-before_script:
-  - bundle exec rake config_db
-#  - bundle exec rake db:create db:migrate db:schema:load
+  - DB=postgres
+#before_script:
+##  - bundle exec rake config_db
+##  - bundle exec rake db:create db:migrate db:schema:load
 script:
   - COVERALLS_REPO_TOKEN=fvaF1YdUI6MaFapP9bakPNRBWUwSpIAR5 bundle exec rake spec
 gemfile:
