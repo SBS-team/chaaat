@@ -2,7 +2,9 @@ language: ruby
 rvm:
   - "2.1.2"
 before_script:
-  - psql -c "CREATE USER moroka WITH PASSWORD 'dmm_trued';" -U postgres
+  - RAILS_ENV=test bundle exec rake db:migrate --trace
+  - bundle exec rake db:test:prepare
+  - bundle exec rake
 script:
   - COVERALLS_REPO_TOKEN=fvaF1YdUI6MaFapP9bakPNRBWUwSpIAR5 bundle exec rake spec
 addons:
