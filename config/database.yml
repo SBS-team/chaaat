@@ -7,19 +7,14 @@ development:
   username: moroka
   password: dmm_trued
 
-#test:
-#  adapter: postgresql
-#  encoding: unicode
-#  database: chat_test
-#  pool: 5
-#  timeout: 5000
-#  username: moroka
-#  password: dmm_trued
-
 test:
   adapter: postgresql
-  database: travis_ci_test
-  username: postgres
+  encoding: unicode
+  database: chat_test
+  pool: 5
+  timeout: 5000
+  username: moroka
+  password: dmm_trued
 
 production:
   adapter:  postgresql
