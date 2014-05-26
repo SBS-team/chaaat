@@ -5,8 +5,8 @@ env:
   - RAILS_ENV=test
   - DB=postgres
 before_script:
+  - psql -c 'create database travis_ci_test;' -U postgres
   - cp config/database.yml.travis config/database.yml
-  - bundle exec rake db:create db:migrate db:schema:load
 script:
   - COVERALLS_REPO_TOKEN=fvaF1YdUI6MaFapP9bakPNRBWUwSpIAR5 bundle exec rake spec
 gemfile:
