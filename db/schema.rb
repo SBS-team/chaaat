@@ -80,7 +80,7 @@ ActiveRecord::Schema.define(version: 20140508134008) do
     t.string   "topic"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "user_id"
+    t.integer  "creator_id"
   end
 
   create_table "rooms_users", force: true do |t|

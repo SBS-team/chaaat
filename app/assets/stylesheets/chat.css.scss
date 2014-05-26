@@ -34,7 +34,7 @@
 }
 
 .active{
- background-color:rgba(10,10,10,0.5);
+  background-color:rgba(10,10,10,0.5);
 }
 .bootstrap-growl.alert.alert-success {
   background-color: rgba(10, 10, 10, 0.7);
@@ -43,8 +43,8 @@
 
 
 .chat {
-//  overflow-y: scroll;
-//  overflow-x: hidden;
+  //  overflow-y: scroll;
+  //  overflow-x: hidden;
   height:100%;
   list-style: none;
   margin: 5px -20px 0px -20px;
@@ -142,8 +142,8 @@
   cursor: move;
 }
 .ui-widget-header {
-  color: #222222;
-  background: lightgrey;
+  color: white;
+  background: #697686;
   font-weight: bold;
 }
 
@@ -158,22 +158,24 @@
 
 .ui-widget-content {
   background: #FFFFFF;
-  border: 2px solid #AAAAAA;
 }
 
 .ui-dialog-titlebar-close {
-  background: url("../img/close_video_dialog.png") repeat-y;
+  background: url("../img/close_video_dialog.png");
   background-size: cover;
+  border:none;
+  display:none;
 }
 
 .ui-dialog{
   z-index: 9999;
-  overflow-y: scroll;
-  width: 350px !important;
+  //  overflow-y: scroll;
+  width: 650px !important;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
 }
 
 .video-stream {
-  border: 1px solid red;
+
   width: 100px;
   height: 100px;
   margin: 5px 5px;

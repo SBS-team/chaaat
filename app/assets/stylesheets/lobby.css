@@ -150,7 +150,7 @@ body {background-color: #f0f0f0;line-height: normal;}
 .lobby-btn{
     border-color: #333;
     background: #313949;
-    padding: 2px 12px;
+    padding: 2px 2px;
     box-shadow: 0 0 5px #333;
 }
 .lobby-btn:hover{
@@ -308,7 +308,7 @@ h2.public{
     overflow: auto;
     position: absolute;
     right: 205px;
-    top: 180px;
+    top: 220px;
     margin: 0 -5px;
 }
 
@@ -687,4 +687,20 @@ span.glyphicon.glyphicon-remove:hover{
     width: 50px;
     height: 50px;
     margin-left:50px;
+}
+
+#videos-container video{
+    width: 320px;
+    height: 240px;
+
+}
+
+#videos-container video{
+    max-width: 900px;
+    height: 240px;
+
+}
+.stream{
+    display: inline;
+    /*border: 3px solid red;*/
 }

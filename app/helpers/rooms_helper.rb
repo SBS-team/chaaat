@@ -1,21 +1,15 @@
 module RoomsHelper
 
-  def count_members(rooms_preload,room_id)
-    member_count=0
-    rooms_preload.each do |t|
-      if t.room_id == room_id
-         member_count=member_count+1
-      end
-    end
-    member_count
+  def user_in_room?(room_id, user_id)
+    RoomsUser.where(room_id: room_id, user_id: user_id).first.present?
   end
 
-  def user_in_room?(room_id, user_id)
-    if RoomsUser.where(:room_id => room_id, :user_id => user_id).first != nil
-      true
-    else
-      false
-    end
+  def get_10_messages
+    @messages.order( created_at: :asc ).last(10)
+  end
+
+  def check_current_user
+    @room_users.pluck(:id).to_a.include? current_user.id
   end
 
 end

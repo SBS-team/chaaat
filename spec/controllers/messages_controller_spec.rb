@@ -2,10 +2,9 @@ require 'spec_helper'
 
 describe MessagesController do
   let(:user) { FactoryGirl.create(:user) }
-  let(:room) { FactoryGirl.create(:room, :user_id => user.id ) }
+  let(:room) { FactoryGirl.create(:room, :creator_id => user.id ) }
 
   before { sign_in user
-  #@message = FactoryGirl.create(:message)
   }
   it "should  save message" do
     response.should be_success
@@ -26,7 +25,11 @@ describe MessagesController do
   it "message create" do
     expect {
       post :create, :room_id => room, :messages => FactoryGirl.create(:message).attributes, :user_id => user.id
+<<<<<<< HEAD
     }.to change(Message, :count).by(1)
+=======
+    }.to change(Message, :count).by(2)
+>>>>>>> develop
     end
 
   it "message create" do

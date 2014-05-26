@@ -7,14 +7,14 @@
 #  topic      :string(255)
 #  created_at :datetime
 #  updated_at :datetime
-#  user_id    :integer
+#  creator_id :integer
 #
 
 require 'spec_helper'
 
 describe Room do
   before do
-    @room = FactoryGirl.create(:room, :user_id => "1")
+    @room = FactoryGirl.create(:room, :creator_id => "1")
   end
   subject { @room }
   context 'Room db columns' do

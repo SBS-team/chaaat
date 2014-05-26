@@ -44,76 +44,128 @@
 #
 
 class User < ActiveRecord::Base
-  has_many :message, dependent: :destroy
-  has_many :room, dependent: :destroy
+
+  has_many :messages, dependent: :destroy
+  has_many :rooms, dependent: :destroy, foreign_key: :creator_id
   has_many :friendships, dependent: :destroy
-  has_many :inverse_friendships, :class_name => "Friendship", :foreign_key => "friend_id"
-  has_many :inverse_friends, :through => :inverse_friendships, :source => :user
+  has_many :inverse_friendships, class_name: 'Friendship', foreign_key: :friend_id
+  has_many :inverse_friends, through: :inverse_friendships, source: :user
   has_many :rooms_users, dependent: :destroy
+  has_many :rooms, through: :rooms_users
+  has_many :friends, through: :friendships
   has_many :friends, :through => :friendships
-  validates :email, :encrypted_password, :presence => true
+  validates_format_of :email, :with => Devise.email_regexp, :allow_blank => true, :if => :email_changed?
+  validates  :encrypted_password, :presence => true
   validates_uniqueness_of :login, :message => "has already been taken"
   validates :login, format: { with: /\A[a-zA-Z0-9._-]+\Z/ }
-  validates :login, length: 1..12, :presence => true
-  validates_uniqueness_of :firstname, :message => "has already been taken"
+  validates :login, length: 1..12, presence: true
   validates :firstname, format: { with: /\A[a-zA-Z0-9._-]+\Z/ }
-  validates :firstname, length: 1..12, :presence => true
-  validates_uniqueness_of :lastname, :message => "has already been taken"
+  validates :firstname, length: 1..12, presence: true
   validates :lastname, format: { with: /\A[a-zA-Z0-9._-]+\Z/ }
-  validates :lastname, length: 1..12, :presence => true
+  validates :lastname, length: 1..12, presence: true
+
   devise :invitable, :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :trackable, :validatable,:omniauthable, :omniauth_providers => [:github,:facebook]
+         :recoverable, :rememberable, :trackable, :validatable,
+         :omniauthable,
+         :omniauth_providers => [:github, :facebook, :google_oauth2, :twitter]
+
   before_save :default_stat
 
-  def self.create_with_omniauth(auth, signed_in_resource=nil)
-    user = User.where(:provider => auth.provider, :uid => auth.uid.to_s).first
+  def self.create_with_omniauth( auth, signed_in_resource = nil )
+    user = User.where( provider: auth.provider, uid: auth.uid.to_s ).first
     if user
-      return user
+      user
     else
-      registered_user = User.where(:email => auth.email).first
+      registered_user = User.where( email: auth.email ).first
       if registered_user
-        return registered_user
+        registered_user
       else
         User.create(
-            firstname:auth.info.name,
-            login:auth.extra.raw_info.login,
-            provider:auth.provider,
-            uid:auth.uid,
-            email:auth.info.email,
-            password:Devise.friendly_token[0,20]
+            firstname: auth.info.name,
+            login: auth.extra.raw_info.login,
+            provider: auth.provider,
+            uid: auth.uid,
+            email: auth.info.email,
+            password: Devise.friendly_token[ 0, 20 ]
         )
 
       end
     end
   end
 
+
+  def self.find_for_google_oauth2(access_token, signed_in_resource=nil)
+    user = User.where(:email => access_token.info.email).first
+    google_login=access_token.info.email.split('@')
+    unless user
+      user = User.create(
+          firstname: access_token.info.name,
+          provider:"google_oauth2",
+          email: access_token.info.email,
+          login: google_login[0],
+          avatar: access_token.info.image,
+          profile_avatar: access_token.info.image.sub("sz=50", "sz=125"),
+          password: Devise.friendly_token[0,20]
+      )
+    end
+    user
+  end
+
+  def self.find_for_twitter_oauth(auth, signed_in_resource=nil)
+    user = User.where(:provider => auth[:provider], :uid => auth[:uid].to_s).first
+    unless user
+      user=User.create(
+          :firstname => auth[:first_name],
+          :login => auth[:login],
+          :provider => auth[:provider],
+          :uid => auth[:uid],
+          :avatar => auth[:avatar],
+          :profile_avatar => auth[:profile_avatar],
+          :password=> Devise.friendly_token[0,20]
+      )
+    end
+    user
+  end
+
+  def self.build_twitter_auth_cookie_hash data
+    {
+        :provider => data.provider, :uid => data.uid.to_i,
+        :access_token => data.credentials.token, :access_secret => data.credentials.secret,
+        :first_name => data.info.name, :login=> data.info.nickname, :avatar=> data.info.image, :profile_avatar=>data.info.image.sub("_normal", ""),
+    }
+  end
+
+
+
   def self.find_for_facebook_oauth(auth, signed_in_resource=nil)
     user = User.where(:provider => auth.provider, :uid => auth.uid).first
     if user
-      return user
+      user
     else
-      registered_user = User.where(:email => auth.info.email).first
+      registered_user = User.where( email: auth.info.email ).first
       if registered_user
-        return registered_user
+        registered_user
       else
-        User.create(firstname:auth.extra.raw_info.first_name,
-                    lastname:auth.extra.raw_info.last_name,
-                    provider:auth.provider,
-                    uid:auth.uid,
-                    avatar:auth.info.image+"?width=50&height=50",
-                    profile_avatar:auth.info.image+"?width=125&height=125",
-                    email:auth.info.email,
-                    login:auth.extra.raw_info.username,
-                    password:Devise.friendly_token[0,20]
+        User.create(firstname: auth.extra.raw_info.first_name,
+                    lastname: auth.extra.raw_info.last_name,
+                    provider: auth.provider,
+                    uid: auth.uid,
+                    avatar: auth.info.image + "?width=50&height=50",
+                    profile_avatar: auth.info.image + "?width=125&height=125",
+                    email: auth.info.email,
+                    login: auth.extra.raw_info.username,
+                    password: Devise.friendly_token[ 0, 20 ]
         )
       end
     end
   end
 
   private
+
   def default_stat
-     if self.user_status==nil
-     self.user_status="Offline"
+    if self.user_status.blank?
+      self.user_status = 'Offline'
     end
   end
+
 end

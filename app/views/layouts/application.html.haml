@@ -1,46 +1,49 @@
 !!!
 %html
   %head
-    = include_gon(:init => true)
-    %meta{:name => "viewport", :content => "width=device-width, initial-scale=1.0"}
+    %link{href: "/img/favicon.png", rel: "icon", type: "image/png"}/
+    = include_gon( init: true )
+    %meta{ name: 'viewport', content: 'width=device-width, initial-scale=1.0' }
     %title= content_for?(:title) ? yield(:title) : 'Chat'
-    %meta{:name => "description", :content => "#{content_for?(:description) ? yield(:description) : 'Chat'}"}
-    %script{:src=>"http://code.jquery.com/jquery-1.11.0.min.js"}
-    %script{:src=>"http://code.jquery.com/ui/1.10.4/jquery-ui.min.js"}
-    %script{:src=>"http://js.pusher.com/2.1/pusher.min.js"}
-    = stylesheet_link_tag "application", media: "all"
+    %meta{ name: 'description', content: "#{content_for?(:description) ? yield(:description) : 'Chat'}" }
+    %script{ src: 'http://code.jquery.com/jquery-1.11.0.min.js' }
+    %script{ src: 'http://code.jquery.com/ui/1.10.4/jquery-ui.min.js' }
+    %script{ src: 'http://js.pusher.com/2.1/pusher.min.js' }
+    %script{ src: '//www.webrtc-experiment.com/firebase.js' }
+
+    = stylesheet_link_tag 'application', media: 'all'
     = csrf_meta_tags
-    = javascript_include_tag "application"
-  - if !@background_image.nil?
-    %body{:style=>("background-images:url('#{@background_image.path}');")}
+    = javascript_include_tag 'application'
+
+  - if @background_image.present?
+    %body{ style: ( "background-images:url('#{@background_image.path}');" ) }
       = yield
   - else
     %body
       /[if lt IE 10]
-        %div{style: "position: fixed; z-index:9999; height:100%; width:100%; background:white; text-align:center;"}
-          %a{href: " http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode", target: "_blank"}
-            %img{alt: "You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today.", border: "0", height: "42",
-                  src: " http://storage.ie6countdown.com/assets/100/images/banners/warning_bar_0000_us.jpg", width: "820"}
-      %script{:type=>"text/template", :id=>"template_message"}
+        %div{ style: 'position: fixed; z-index:9999; height:100%; width:100%; background:white; text-align:center;' }
+          %a{ href: ' http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode', target: '_blank' }
+            %img{ alt: 'You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today.', border: '0', height: '42',
+                  src: ' http://storage.ie6countdown.com/assets/100/images/banners/warning_bar_0000_us.jpg', width: '820' }
+      %script{ type: 'text/template', id: 'template_message' }
         {{#messages}}
-        %li{:class=>"{{#equal user_id}}{{/equal}} clearfix", "data"=>{"id" => "{{id}}"}}
+        %li{ class: '{{#equal user_id}}{{/equal}} clearfix', 'data' => { 'id' => '{{id}}' } }
           %span.chat-img.pull-left
-            %img.avatar{src: "{{avatar}}"}
+            %img.avatar{ src: '{{avatar}}' }
           .chat-body.clearfix
             .header
               %strong.primary-font
-                {{#change_login user_id login}}{{/change_login}}
+                {{#change_login user_id login firstname lastname}}{{/change_login}}
               %small.pull-right.text-muted
                 %span.glyphicon.glyphicon-time
                 {{create_at}}
               .message
                 {{#safe_mess messages}}{{/safe_mess}}
               {{#if attach_file_path}}
+              %img.message_image
               %p.attach-file
-                {{attach_file_path}}
+                {{#attach-files attach_file_path}}{{/attach-files}}
               {{/if}}
         {{/messages}}
-      =render "devise/registrations/edit_modal"
+      =render 'devise/registrations/edit_modal'
       = yield
-
-

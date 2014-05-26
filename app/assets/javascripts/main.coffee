@@ -3,17 +3,6 @@ $ ->
     $("#myModal").modal "hide"
     return
 
-  getUrlVars = ->
-    vars = {}
-    parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/g, (m, key, value) ->
-      vars[key] = value
-      return
-    )
-    vars
-
-  if parseInt(getUrlVars()["page"])>0
-    $("a[href='#pane3']").tab('show');
-
   $("#editModal").on "submit", "form", ->
     $.ajax
       url: "/users"
@@ -33,6 +22,7 @@ $ ->
         "user[current_password]": $("#user_current_password").val()
 
       success: (response) ->
+
         #(?<=<ul><li>).+(?=<\/li><\/ul>)
         #<\/?[^>]+(>|$)
         errors_div = $("#error_explanation")
@@ -48,18 +38,22 @@ $ ->
           parsed_login = gon_record.match(/\"[a-zA-Z0-9\.\-_]+\"/).toString().replace(/"/g, "")
           user_login_dom_el = $(".current_user_login")
           user_login_dom_el.html parsed_login
+          $("#user_name").html $("#user_firstname").val() + $("#user_lastname").val()
+          person_link="/persons/"+parsed_login.toString();
+          $(".user_name").html ("<a href=\""+person_link + "\">" + $("#user_firstname").val() + " " + $("#user_lastname").val() + "</a>")
           $(errors_div).hide()
           $("#editModal").modal "hide"
         return
     false
+
   $("#editModal").on "hidden.bs.modal", ->
     $("#error_explanation").hide()
     return
 
-#  ---------------------------------- user profile photo from gravatar here  ---------------------------------------
+  #  ---------------------------------- user profile photo from gravatar here  ---------------------------------------
   $("a.glyphicon-cog").click ->
     $("#profile_avatar").attr("src", $(".avatar_mini").attr("src"))
-# ----------------------------------------------------------------------------------------------------------------
+  # ----------------------------------------------------------------------------------------------------------------
   $(".script").each ->
     eval_ $(this).text()
     return

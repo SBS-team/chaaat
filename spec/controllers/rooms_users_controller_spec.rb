@@ -3,7 +3,7 @@ require 'spec_helper'
 describe RoomsUsersController do
 
   let(:user) { FactoryGirl.create(:user) }
-  let(:room) { FactoryGirl.create(:room, :user_id => user.id) }
+  let(:room) { FactoryGirl.create(:room, :creator_id => user.id) }
 
   let(:rooms_user) { FactoryGirl.create(:rooms_user, :user_id => user.id, :room_id => room.id) }
 

@@ -1,6 +1,6 @@
 GIT
   remote: git://github.com/gregbell/active_admin.git
-  revision: fdc6a3d9faee98b4df21153636036006076a43a4
+  revision: 0af41dfdcab1f3974814d27d0b6f32929a0c682d
   specs:
     activeadmin (1.0.0.pre)
       arbre (~> 1.0)
@@ -65,7 +65,7 @@ GEM
       debug_inspector (>= 0.0.1)
     bootstrap-sass (3.1.1.1)
       sass (~> 3.2)
-    bourbon (3.2.1)
+    bourbon (3.2.3)
       sass (~> 3.2)
       thor
     builder (3.2.2)
@@ -99,12 +99,6 @@ GEM
       activesupport (>= 3.2.0)
       json (>= 1.7)
       mime-types (>= 1.16)
-    carrierwave-dropbox (1.2.1)
-      carrierwave (~> 0.9)
-      dropbox-sdk (~> 1.6)
-    carrierwave-google_drive (0.0.2)
-      carrierwave (>= 0.7.1)
-      parallel588_google_drive (= 0.3.4)
     childprocess (0.5.3)
       ffi (~> 1.0, >= 1.0.11)
     choice (0.1.6)
@@ -129,7 +123,7 @@ GEM
       mime-types (~> 1.16)
       nokogiri (~> 1.5)
       rails (>= 3, < 5)
-    database_cleaner (1.2.0)
+    database_cleaner (1.3.0)
     debug_inspector (0.0.2)
     devise (3.2.4)
       bcrypt (~> 3.0)
@@ -150,8 +144,6 @@ GEM
     dotenv-deployment (0.0.2)
     dotenv-rails (0.11.1)
       dotenv (= 0.11.1)
-    dropbox-sdk (1.6.4)
-      json
     email_spec (1.5.0)
       launchy (~> 2.1)
       mail (~> 2.2)
@@ -161,7 +153,6 @@ GEM
     exception_notification (4.0.1)
       actionmailer (>= 3.0.4)
       activesupport (>= 3.0.4)
-    excon (0.33.0)
     execjs (2.0.2)
     factory_girl (4.4.0)
       activesupport (>= 3.0.0)
@@ -195,17 +186,6 @@ GEM
       actionpack (>= 3.2, < 5)
       activesupport (>= 3.2, < 5)
     hashie (2.1.1)
-    heroku (3.7.3)
-      heroku-api (~> 0.3.17)
-      launchy (>= 0.3.2)
-      netrc (~> 0.7.7)
-      rest-client (~> 1.6.1)
-      rqrcode (~> 0.4.2)
-      rubyzip
-      term-ansicolor (~> 1.3.0)
-    heroku-api (0.3.18)
-      excon (~> 0.27)
-      multi_json (~> 1.8)
     hike (1.2.3)
     hpricot (0.8.6)
     html2haml (1.0.1)
@@ -229,8 +209,7 @@ GEM
     jquery-ui-rails (4.2.1)
       railties (>= 3.2.16)
     json (1.8.1)
-    jwt (0.1.13)
-      multi_json (>= 1.5)
+    jwt (1.0.0)
     kaminari (0.15.1)
       actionpack (>= 3.0.0)
       activesupport (>= 3.0.0)
@@ -238,10 +217,6 @@ GEM
     launchy (2.4.2)
       addressable (~> 2.3)
     libv8 (3.16.14.3)
-    little-plugger (1.1.3)
-    logging (1.8.2)
-      little-plugger (>= 1.1.3)
-      multi_json (>= 1.8.4)
     mail (2.5.4)
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
@@ -256,8 +231,8 @@ GEM
       webrobots (>= 0.0.9, < 0.2)
     mime-types (1.25.1)
     mini_portile (0.6.0)
-    minitest (5.3.3)
-    multi_json (1.10.0)
+    minitest (5.3.4)
+    multi_json (1.10.1)
     multi_test (0.1.1)
     multi_xml (0.5.5)
     multipart-post (2.0.0)
@@ -266,14 +241,13 @@ GEM
     net-scp (1.2.1)
       net-ssh (>= 2.6.5)
     net-ssh (2.9.1)
-    netrc (0.7.7)
     nokogiri (1.6.2.1)
       mini_portile (= 0.6.0)
     ntlm-http (0.1.1)
     oauth (0.4.7)
-    oauth2 (0.9.3)
+    oauth2 (0.9.4)
       faraday (>= 0.8, < 0.10)
-      jwt (~> 0.1.8)
+      jwt (~> 1.0)
       multi_json (~> 1.3)
       multi_xml (~> 0.5)
       rack (~> 1.2)
@@ -285,16 +259,21 @@ GEM
     omniauth-github (1.1.2)
       omniauth (~> 1.0)
       omniauth-oauth2 (~> 1.1)
+    omniauth-google-oauth2 (0.2.4)
+      omniauth (~> 1.0)
+      omniauth-oauth2 (~> 1.1)
+    omniauth-oauth (1.0.1)
+      oauth
+      omniauth (~> 1.0)
     omniauth-oauth2 (1.1.2)
       faraday (>= 0.8, < 0.10)
       multi_json (~> 1.3)
       oauth2 (~> 0.9.3)
       omniauth (~> 1.2)
+    omniauth-twitter (1.0.1)
+      multi_json (~> 1.3)
+      omniauth-oauth (~> 1.0)
     orm_adapter (0.5.0)
-    parallel588_google_drive (0.3.4)
-      nokogiri (>= 1.4.4, != 1.5.2, != 1.5.1)
-      oauth (>= 0.3.6)
-      oauth2 (>= 0.5.0)
     pg (0.17.1)
     poltergeist (1.5.0)
       capybara (~> 2.1)
@@ -335,7 +314,7 @@ GEM
       rake (>= 0.8.7)
       thor (>= 0.18.1, < 2.0)
     raindrops (0.13.0)
-    rake (10.3.1)
+    rake (10.3.2)
     ransack (1.2.3)
       actionpack (>= 3.0)
       activerecord (>= 3.0)
@@ -345,9 +324,6 @@ GEM
     ref (1.0.5)
     responders (1.0.0)
       railties (>= 3.2, < 5)
-    rest-client (1.6.7)
-      mime-types (>= 1.16)
-    rqrcode (0.4.2)
     rspec (2.14.1)
       rspec-core (~> 2.14.0)
       rspec-expectations (~> 2.14.0)
@@ -377,7 +353,7 @@ GEM
       sprockets (~> 2.8, <= 2.11.0)
       sprockets-rails (~> 2.0)
     selenium-client (1.2.18)
-    selenium-webdriver (2.41.0)
+    selenium-webdriver (2.42.0)
       childprocess (>= 0.5.0)
       multi_json (~> 1.0)
       rubyzip (~> 1.0)
@@ -462,8 +438,6 @@ DEPENDENCIES
   capybara
   capybara-mechanize
   carrierwave
-  carrierwave-dropbox
-  carrierwave-google_drive
   coffee-rails (~> 4.0.1)
   cucumber
   cucumber-rails
@@ -480,15 +454,15 @@ DEPENDENCIES
   gon
   gravatar-ultimate
   haml-rails (~> 0.5.3)
-  heroku
   html2haml
   jbuilder
   jquery-rails (~> 3.1.0)
   launchy
-  logging (~> 1.8.2)
   omniauth
   omniauth-facebook
   omniauth-github
+  omniauth-google-oauth2
+  omniauth-twitter
   pg
   poltergeist
   pusher

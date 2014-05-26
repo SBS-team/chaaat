@@ -1,5 +1,5 @@
 %h1>
-  ="Hello #{@user}!"
+  ="Hello #{@user.login}!"
 %br
 %p
   You have 1 message
@@ -10,4 +10,4 @@
 %hr
 %br
 %p
-  =link_to("Go to room", ENV['HOSTNAME_SITE']+"/rooms/#{@room}")
+  = link_to( 'Go to room', ENV['HOSTNAME_SITE']+"/rooms/#{@room}" )

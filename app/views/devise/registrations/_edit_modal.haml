@@ -28,23 +28,24 @@
                 %label Email
                 %br
                 %input#user_email.form-control{name: "user[email]", type: "email", value: current_user.email}
-            .form-group
-              %div
-                %label Password
-                %i (Leave blank if you dont want to change it)
-                %br
-                %input#user_password.form-control{autocomplete: "off", name: "user[password]", type: "password"}
-            .form-group
-              %div
-                %label Password confirmation
-                %br
-                %input#user_password_confirmation.form-control{name: "user[password_confirmation]", type: "password"}
-            .form-group
-              %div
-                %label{for: "user_current_password"} Current password
-                %i (we need your current password to confirm your changes)
-                %br
-                %input#user_current_password.form-control{name: "user[current_password]", type: "password"}
+            -if current_user.provider==nil
+              .form-group
+                %div
+                  %label Password
+                  %i (Leave blank if you dont want to change it)
+                  %br
+                  %input#user_password.form-control{autocomplete: "off", name: "user[password]", type: "password"}
+              .form-group
+                %div
+                  %label Password confirmation
+                  %br
+                  %input#user_password_confirmation.form-control{name: "user[password_confirmation]", type: "password"}
+              .form-group
+                %div
+                  %label{for: "user_current_password"} Current password
+                  %i (we need your current password to confirm your changes)
+                  %br
+                  %input#user_current_password.form-control{name: "user[current_password]", type: "password"}
             .modal-footer
               #avatar_info_group
                 .avatar

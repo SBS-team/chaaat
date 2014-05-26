@@ -10,7 +10,6 @@
 #  room_id     :integer
 #  created_at  :datetime
 #  updated_at  :datetime
-#  url         :text
 #
 # Indexes
 #
@@ -19,21 +18,33 @@
 #
 
 require 'file_size_validator'
+require 'carrierwave'
+
 class Message < ActiveRecord::Base
-  require 'carrierwave'
+
   belongs_to :user
   belongs_to :room
+
   mount_uploader :attach_path, ImageUploader
-  validates :attach_path,
-            :file_size => {
-                :maximum => 20.megabytes.to_i
-            }
-  validates  :room_id, :presence => true
+
+  validates :attach_path, file_size: { maximum: 20.megabytes.to_i }
+  validates  :room_id, presence: true
+
   before_save :gsub_message, on: :create
 
-  private
-  def gsub_message
-    self.body.gsub!(/[\n]/,"")
+  scope :get_body_links, ->  ( messages ) { messages.where( 'body LIKE ? OR body LIKE ? OR body LIKE ?', '%http://%', '%https://%', '%ftp://%' ) }
+  scope :get_body_attach, -> ( messages ) { messages.where( 'attach_path IS NOT NULL' ) }
+
+  def   send_emails
+    self.room.users.where( user_status: 'Offline' ).pluck( :email ).each do |email|
+      UserMailer.offline_message( user, self.body, self.room ).deliver
+    end
   end
+
+  private
+
+    def gsub_message
+      self.body.gsub!(/[\n]/,"")
+    end
 
 end

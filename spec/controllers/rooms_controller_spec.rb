@@ -3,7 +3,7 @@ describe RoomsController do
 
 
   let(:user) { FactoryGirl.create(:user) }
-  let(:room) { FactoryGirl.create(:room, :user_id => user.id) }
+  let(:room) { FactoryGirl.create(:room, :creator_id=> user.id) }
   let(:rooms_user) { FactoryGirl.create(:rooms_user, :room_id => room.id, :user_id => user.id) }
   let(:message) { FactoryGirl.create(:message) }
 
@@ -41,7 +41,12 @@ describe RoomsController do
     do_create
     response.should redirect_to(rooms_path)
   end
+  it "renders the index template" do
+    get :index
+    response.should be_success
+    expect(response.status).to eq(200)
 
+  end
 
   it "room create" do
     expect {
@@ -80,8 +85,8 @@ describe RoomsController do
     end
   end
   it "update" do
-    @room = FactoryGirl.create(:room, :user_id => user.id)
-    put :update, :room_id => @room.id, :user_id => user.id, :query => "mkd"
+    @room = FactoryGirl.create(:room, :creator_id => user.id)
+    put :update, :id => @room,  :query => "aaa"
     expect(response.status).to eq(200)
   end
   it 'show' do
