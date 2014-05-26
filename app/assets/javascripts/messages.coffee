@@ -511,9 +511,34 @@ $(document).ready ->
   template_search_user_right = "{{#users}}<div class=\"member\"><a data-method=\"post\" href=\"/persons/{{login}}\" rel=\"nofollow\"><span class=\"{{#get_icon_status user_status}}{{/get_icon_status}}\"></span>{{login}}</a><span class=\"glyphicon glyphicon-plus pull-right user_friend\" data-user-id=\"{{id}}\"></span></div>{{/users}}"
   search_user_right = Handlebars.compile(template_search_user_right)
   $("#search-user").keyup ->
-    if $(this).val().match(/^[-a-z0-9!#$%&'*+\/=?^_`{|}~]+(\.[-a-z0-9!#$%&'*+\/=?^_`{|}~]+)*@([a-z0-9]([-a-z0-9]{0,61}[a-z0-9])?\.)*(aero|arpa|asia|biz|cat|com|coop|edu|gov|info|int|jobs|mil|mobi|museum|name|net|org|pro|tel|travel|[a-z][a-z])$/)
-      $(".right_search").html "<li style='text-align:center'><button class='btn send_invite'>Send invite</button></li>"
-      send_invite()
+    if $("#search-user").val() is ''
+      $(".right_search").html('')
+    else
+      if $(this).val().match(/^[-a-z0-9!#$%&'*+\/=?^_`{|}~]+(\.[-a-z0-9!#$%&'*+\/=?^_`{|}~]+)*@([a-z0-9]([-a-z0-9]{0,61}[a-z0-9])?\.)*(aero|arpa|asia|biz|cat|com|coop|edu|gov|info|int|jobs|mil|mobi|museum|name|net|org|pro|tel|travel|[a-z][a-z])$/)
+        $(".right_search").html "<li style='text-align:center'><button class='btn send_invite'>Send invite</button></li>"
+        send_invite()
+      else
+        $.ajax
+          url: "/users/search"
+          type: "POST"
+          beforeSend: (xhr) ->
+            xhr.setRequestHeader "X-CSRF-Token", $("meta[name=\"csrf-token\"]").attr("content")
+            return
+
+          data:
+            login: $("#search-user").val()
+            room_id: $("li.active").find("a").attr("room_id")
+          success: (response) ->
+            $(".right_search").html search_user_right(response)
+            return
+
+    return
+
+  template_search_user = "{{#users}}<tr friend_id=\"{{id}}\"><td><div class=\"friend_photo\"><img class=\"avatar\" src=\"{{avatar}}\"></div><div class=\"friend_name\"></div><a href=\"/persons/{{login}}\">{{login}}</a></td><td class=\"friend_action add_friend\"><span class=\"glyphicon glyphicon-plus add_new_friend\"></span></td></tr>{{/users}}"
+  search_user = Handlebars.compile(template_search_user)
+  $("#search-box").keyup ->
+    if $("#search-box").val() is ''
+      $(".rooms_group").html('')
     else
       $.ajax
         url: "/users/search"
@@ -523,31 +548,12 @@ $(document).ready ->
           return
 
         data:
-          login: $("#search-user").val()
-          room_id: $("li.active").find("a").attr("room_id")
+          login: $("#search-box").val()
+          room_id: 0
+
         success: (response) ->
-          $(".right_search").html search_user_right(response)
+          $(".rooms_group").html search_user(response)
           return
-
-    return
-
-  template_search_user = "{{#users}}<tr friend_id=\"{{id}}\"><td><div class=\"friend_photo\"><img class=\"avatar\" src=\"{{avatar}}\"></div><div class=\"friend_name\"></div><a href=\"/persons/{{login}}\">{{login}}</a></td><td class=\"friend_action add_friend\"><span class=\"glyphicon glyphicon-plus add_new_friend\"></span></td></tr>{{/users}}"
-  search_user = Handlebars.compile(template_search_user)
-  $("#search-box").keyup ->
-    $.ajax
-      url: "/users/search"
-      type: "POST"
-      beforeSend: (xhr) ->
-        xhr.setRequestHeader "X-CSRF-Token", $("meta[name=\"csrf-token\"]").attr("content")
-        return
-
-      data:
-        login: $("#search-box").val()
-        room_id: 0
-
-      success: (response) ->
-        $(".rooms_group").html search_user(response)
-        return
 
     return
 
