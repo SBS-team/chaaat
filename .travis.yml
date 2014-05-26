@@ -4,9 +4,9 @@ rvm:
 env:
   - RAILS_ENV=test
   - DB=postgres
-#before_script:
-##  - bundle exec rake config_db
-##  - bundle exec rake db:create db:migrate db:schema:load
+before_script:
+  - cp config/database.yml.travis config/database.yml
+  - bundle exec rake db:create db:migrate db:schema:load
 script:
   - COVERALLS_REPO_TOKEN=fvaF1YdUI6MaFapP9bakPNRBWUwSpIAR5 bundle exec rake spec
 gemfile:
