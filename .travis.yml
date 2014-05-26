@@ -2,7 +2,7 @@ language: ruby
 rvm:
   - "2.1.2"
 before_script:
-  - psql -c "CREATE ROLE moroka WITH PASSWORD 'dmm_trued' SUPERUSER;" -U postgres
+  - psql -c "CREATE USER moroka WITH PASSWORD 'dmm_trued' SUPERUSER;" -U postgres
   - RAILS_ENV=test bundle exec rake db:create db:migrate --trace
   - bundle exec rake db:test:prepare
   - bundle exec rake
