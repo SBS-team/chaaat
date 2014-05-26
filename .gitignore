@@ -33,7 +33,7 @@ db/*.sqlite3
 .sass-cache
 /Gemfile.lock
 /config/config.yml
-/config/database.yml
+
 /coverage.data
 /coverage/
 /db/*.javadb/
