@@ -1,0 +1,1 @@
+FileUtils.cp "config/database.#{ENV['DB'] || 'postgres'}.yml", 'config/database.yml'
