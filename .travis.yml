@@ -3,6 +3,7 @@ rvm:
   - "2.1.2"
 env:
   - RAILS_ENV=TEST
+  - COVERALLS_REPO_TOKEN=fvaF1YdUI6MaFapP9bakPNRBWUwSpIAR5 bundle exec rspec spec
 script:
   - bundle exec rake spec
 gemfile:
