@@ -2,8 +2,8 @@ language: ruby
 rvm:
   - "2.1.2"
 before_script:
-  - RAILS_ENV=test bundle exec rake db:create db:migrate --trace
   - psql -c "CREATE USER moroka WITH PASSWORD 'dmm_trued';" -U postgres
+  - RAILS_ENV=test bundle exec rake db:create db:migrate --trace
   - bundle exec rake db:test:prepare
   - bundle exec rake
 script:
