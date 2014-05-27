@@ -90,7 +90,7 @@
                 .panel-body.right_search
                   - current_user.friends.each do |friend|
                     - if !user_in_room?( @room.id, friend.id )
-                      .member{ friend_id: friend.id, data: {toggle:'tooltip'}, title:"#{friend.firstname+' '+friend.lastname}"}
+                      .member{ friend_id: friend.id, data: {toggle:'tooltip'}, title:"#{friend.firstname}"+" #{friend.lastname}"}
                         = link_to user_path(friend.login)  do
                           %span{ class: get_user_status_style(friend.user_status)}
                           = "#{friend.login}"
