@@ -16,7 +16,7 @@
     = javascript_include_tag 'application'
 
   - if @background_image.present?
-    %body{ style: ( "background-images:url('#{@background_image.path}');" ) }
+    %body{ style: ( "background-image:url('#{@background_image.path}');" ) }
       = yield
   - else
     %body
