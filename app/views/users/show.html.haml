@@ -5,6 +5,11 @@
   %span#user_name
     = "#{@user.firstname} #{@user.lastname}"
   %br
+    %span#user_name
+      My login:
+      = "#{@user.login}"
+  %br
+  %br
     %span#user_email
       Write me on:
       = "#{@user.email}"
