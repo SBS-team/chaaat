@@ -99,7 +99,7 @@ $(document).ready ->
           $(".attach_wrapper").remove()
           $popup_target.popover "hide"
           return
-#      showImageToMessage()
+      #      showImageToMessage()
       return
 
     return
@@ -240,9 +240,9 @@ $(document).ready ->
   Handlebars.registerHelper "attach-files", (attach_file_path) ->
     check_file attach_file_path
 
-  Handlebars.registerHelper "change_login", (user_id, login) ->
+  Handlebars.registerHelper "change_login", (user_id, login, firstname, lastname) ->
     if user_id?
-      "<a href=\"/persons/" + login + "\">" + login + "</a>"
+      "<a href=\"/persons/" + login + "\">" + firstname+" "+lastname + "</a>"
     else
       "chat notification"
   template = Handlebars.compile($("#template_message").html())
@@ -292,7 +292,7 @@ $(document).ready ->
     root.joined_member = $(drop_user_span).parent()
     return
 
-#    fuck
+  #    fuck
   $(".drop_room_user").confirm
     text: "Are you sure you want to delete user?"
     title: "User deleting confirmation"
@@ -508,7 +508,11 @@ $(document).ready ->
     e.preventDefault()
     return
 
-  template_search_user_right = "{{#users}}<div class=\"member\"><a data-method=\"post\" href=\"/persons/{{login}}\" rel=\"nofollow\"><span class=\"{{#get_icon_status user_status}}{{/get_icon_status}}\"></span>{{login}}</a><span class=\"glyphicon glyphicon-plus pull-right user_friend\" data-user-id=\"{{id}}\"></span></div>{{/users}}"
+  template_search_user_right = "{{#users}}<div class=\"member\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"{{firstname}} {{lastname}}\">
+                                <a data-method=\"post\" href=\"/persons/{{login}}\" rel=\"nofollow\">
+                                    <span class=\"{{#get_icon_status user_status}}{{/get_icon_status}}\"></span>{{login}}</a>
+                                <span class=\"glyphicon glyphicon-plus pull-right user_friend\" data-user-id=\"{{id}}\"></span>
+                              </div>{{/users}}"
   search_user_right = Handlebars.compile(template_search_user_right)
   $("#search-user").keyup ->
     if $("#search-user").val() is ''
@@ -534,7 +538,10 @@ $(document).ready ->
 
     return
 
-  template_search_user = "{{#users}}<tr friend_id=\"{{id}}\"><td><div class=\"friend_photo\"><img class=\"avatar\" src=\"{{avatar}}\"></div><div class=\"friend_name\"></div><a href=\"/persons/{{login}}\">{{login}}</a></td><td class=\"friend_action add_friend\"><span class=\"glyphicon glyphicon-plus add_new_friend\"></span></td></tr>{{/users}}"
+  template_search_user = "{{#users}}<tr friend_id=\"{{id}}\"><td><div class=\"friend_photo\">
+                        <img class=\"avatar\" src=\"{{avatar}}\"></div>
+                        <div class=\"friend_name\"></div><a href=\"/persons/{{login}}\">{{login}}</a></td>
+                    <td class=\"friend_action add_friend\"><span class=\"glyphicon glyphicon-plus add_new_friend\"></span></td></tr>{{/users}}"
   search_user = Handlebars.compile(template_search_user)
   $("#search-box").keyup ->
     if $("#search-box").val() is ''

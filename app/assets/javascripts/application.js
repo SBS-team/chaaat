@@ -31,4 +31,3 @@
 //= require video
 //= require drag_and_drop
 //= require cap.js
-

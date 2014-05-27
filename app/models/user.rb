@@ -98,15 +98,15 @@ class User < ActiveRecord::Base
     user = User.where(:email => access_token.info.email).first
     google_login=access_token.info.email.split('@')
     unless user
-         user = User.create(
-            firstname: access_token.info.name,
-            provider:"google_oauth2",
-            email: access_token.info.email,
-            login: google_login[0],
-            avatar: access_token.info.image,
-            profile_avatar: access_token.info.image.sub("sz=50", "sz=125"),
-            password: Devise.friendly_token[0,20]
-         )
+      user = User.create(
+          firstname: access_token.info.name,
+          provider:"google_oauth2",
+          email: access_token.info.email,
+          login: google_login[0],
+          avatar: access_token.info.image,
+          profile_avatar: access_token.info.image.sub("sz=50", "sz=125"),
+          password: Devise.friendly_token[0,20]
+      )
     end
     user
   end
@@ -115,17 +115,17 @@ class User < ActiveRecord::Base
     user = User.where(:provider => auth[:provider], :uid => auth[:uid].to_s).first
     unless user
       user=User.create(
-                :firstname => auth[:first_name],
-                :login => auth[:login],
-                :provider => auth[:provider],
-                :uid => auth[:uid],
-                :avatar => auth[:avatar],
-                :profile_avatar => auth[:profile_avatar],
-                :password=> Devise.friendly_token[0,20]
-            )
+          :firstname => auth[:first_name],
+          :login => auth[:login],
+          :provider => auth[:provider],
+          :uid => auth[:uid],
+          :avatar => auth[:avatar],
+          :profile_avatar => auth[:profile_avatar],
+          :password=> Devise.friendly_token[0,20]
+      )
     end
     user
- end
+  end
 
   def self.build_twitter_auth_cookie_hash data
     {
@@ -162,10 +162,10 @@ class User < ActiveRecord::Base
 
   private
 
-    def default_stat
-       if self.user_status.blank?
-        self.user_status = 'Offline'
-      end
+  def default_stat
+    if self.user_status.blank?
+      self.user_status = 'Offline'
     end
+  end
 
 end

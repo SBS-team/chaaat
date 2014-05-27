@@ -23,7 +23,11 @@ Handlebars.registerHelper "set_user_to_drop", (room_owner_id) ->
   drop_room_user_span = '<span class="glyphicon glyphicon-minus pull-right drop_room_user"></span>'  if room_owner_id is gon.user_id
   drop_room_user_span
 
-template_add_user_right = "<div class=\"member\" id=\"{{user_id}}\" data-room-id=\"{{room_id}}\" data-toggle=\"tooltip\" data-user-id=\"{{user_id}}\" title=\"{{user_status}}\"><span class =\"{{#get_icon_status user_status}}{{/get_icon_status}}\"></span><a href=\"#\">{{user_login}}</a>{{#set_user_to_drop rooms_owner_id}}{{/set_user_to_drop}}</div>"
+template_add_user_right = "<div class=\"member\" id=\"{{user_id}}\" data-room-id=\"{{room_id}}\"
+                                                                    data-toggle=\"tooltip\"
+                                                                    data-user-id=\"{{user_id}}\" title=\"{{user_status}}\">
+                          <span class =\"{{#get_icon_status user_status}}{{/get_icon_status}}\"></span>
+                            <a href=\"#\">{{user_firstname}} {{user_lastname}}</a>{{#set_user_to_drop rooms_owner_id}}{{/set_user_to_drop}}</div>"
 add_user_right = Handlebars.compile(template_add_user_right)
 timer = undefined
 timerId = undefined
@@ -144,6 +148,8 @@ if gon.room_id
   channel.bind "add_user_to_room", (data) ->
     gon.room_members_count = data.room_members_count
     root.users.push data.user_login
+    root.users.push data.user_firstname
+    root.users.push data.user_lastname
     $(".list").append add_user_right(data)
     if data.user_status is "Offline"
       document.getElementById(data.user_id).title = "Offline " + jQuery.timeago(data.user_sign_out_time)

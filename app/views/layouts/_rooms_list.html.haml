@@ -52,10 +52,7 @@
           = link_to destroy_user_session_path, method: 'delete',  tabindex: '-1'  do
             %span.glyphicon.glyphicon-share-alt.drop-col-mar>
             Sign out
-    -#--------------------------------------------------------------------
-    -#%a.glyphicon.glyphicon-cog{:href=>edit_user_registration_path}
     %a.glyphicon.glyphicon-cog{ 'data-target' => '#editModal', 'data-toggle' => 'modal', type: 'button' }
-    -#--------------------------------------------------------------------
 %aside.right_panel
   .top-form
     -if request.path != '/rooms' and @room
@@ -79,7 +76,7 @@
             - @room_users.each do |user|
               .member{ data: { toggle: 'tooltip', user_id: user.id, room_id: @room.id }, title: "#{user.user_status == 'Offline' ? 'Offline ' + time_ago_in_words(user.updated_at) : user.user_status}" }
                 %span{ class: get_user_status_style(user.user_status) }
-                = link_to "#{user.login}", '#'
+                = link_to "#{user.firstname+' '+user.lastname}", '#'
                 - if user.id != current_user.id && @room.creator_id == current_user.id
                   %span{ class: 'glyphicon glyphicon-minus pull-right drop_room_user' }
           .friend-list.right_search_user
@@ -93,9 +90,9 @@
                 .panel-body.right_search
                   - current_user.friends.each do |friend|
                     - if !user_in_room?( @room.id, friend.id )
-                      .member{ friend_id: friend.id }
-                        = link_to user_path(friend.login) do
-                          %span{ class: get_user_status_style(friend.user_status) }
+                      .member{ friend_id: friend.id, data: {toggle:'tooltip'}, title:"#{friend.firstname+' '+friend.lastname}"}
+                        = link_to user_path(friend.login)  do
+                          %span{ class: get_user_status_style(friend.user_status)}
                           = "#{friend.login}"
                         %span.glyphicon.glyphicon-plus.pull-right.user_friend{data: { user_id: friend.id}}
         #pane2.tab-pane

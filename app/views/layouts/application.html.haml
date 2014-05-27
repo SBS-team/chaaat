@@ -33,7 +33,7 @@
           .chat-body.clearfix
             .header
               %strong.primary-font
-                {{#change_login user_id login}}{{/change_login}}
+                {{#change_login user_id login firstname lastname}}{{/change_login}}
               %small.pull-right.text-muted
                 %span.glyphicon.glyphicon-time
                 {{create_at}}
@@ -47,5 +47,3 @@
         {{/messages}}
       =render 'devise/registrations/edit_modal'
       = yield
-
-

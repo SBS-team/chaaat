@@ -1,5 +1,5 @@
 class MessageSerializer < ActiveModel::Serializer
-  attributes :id, :messages, :user_id, :login, :avatar, :create_at, :attach_file_path
+  attributes :id, :messages, :user_id, :login, :firstname, :lastname, :avatar, :create_at, :attach_file_path
 
   def messages
     object.body
@@ -7,6 +7,14 @@ class MessageSerializer < ActiveModel::Serializer
 
   def login
     object.user.login if object.user.respond_to?('login')
+  end
+
+  def firstname
+    object.user.firstname if object.user.respond_to?('firstname')
+  end
+
+  def lastname
+    object.user.lastname if object.user.respond_to?('lastname')
   end
 
   def attach_file_path

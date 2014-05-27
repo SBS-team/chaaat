@@ -1,142 +1,140 @@
 .content
   .alert.alert-success.top-alert
-    -#%input.form-control#search{:placeholder=>"Search..."}
     %h3.room_topic #{@room.topic}
     .dropdown
-      %span#drop1.change_topic.glyphicon.glyphicon-pencil{ 'data-toggle' => 'dropdown', 'data-id' => @room.id }
-      %form.dropdown-menu.search-form.change-topic{ action: '', 'aria-labelledby' => 'drop3', method: 'put', role: 'menu' }
-        %input{ name: 'change', id: 'change', placeholder: 'Change topic', type: 'search' }
-          %button{ type: 'submit' }
+      %span#drop1.change_topic.glyphicon.glyphicon-pencil{"data-toggle"=>"dropdown"}
+      %form.dropdown-menu.search-form.change-topic{:action => "", "aria-labelledby" => "drop3", :method => "post", :role => "menu"}
+        %input{:name => "change",:id=>'change', :placeholder => "Change topic", :type => "search"}
+          %button{:type => "submit"}
             %span.glyphicon.glyphicon-record
   .chat
     .nano
       .nano-content
-        - if @messages.count > 10
+        -if @messages.count>10
           .pag
             .glyphicon.glyphicon-chevron-up
         #messages-wrapper
-          - get_10_messages.each do |message|
-            - if message.body.length > 800
-              - if message.user_id == current_user.id
-                %li.from.clearfix{ data: { id: message.id } }
-                  %span.chat-img.pull-left
-                    = image_tag avatar_url(message.user, 50), class: 'avatar'
-                  .chat-body.clearfix
-                    .header
-                      %strong.primary-font
-                        = link_to message.user.login, user_path(message.user.login)
-                      %small.pull-right.text-muted
-                        %span.glyphicon.glyphicon-time>
-                        = message.created_at.strftime('%a %T')
-                      .message
-                        #short-text
-                          %small.pull-right.text-muted
-                            %span.glyphicon.glyphicon-chevron-down{ style: 'cursor: pointer;' }
-                          - if message_body_scan?(message)
-                            .text-muted
-                              %i
-                                = 'this message has a content...'
-                          - else
-                            %p= truncate( message.body, separator: ' ', length: 112 )
-                        #long-text{ style: 'display: none;' }
-                          %small.pull-right.text-muted
-                            %span.glyphicon.glyphicon-chevron-up{ style: 'cursor: pointer;' }
+          - if @messages
+            -@messages.each_with_index do |message, i|
+              -if message.body.length>800
+                -if message.user_id==current_user.id
+                  %li.from.clearfix{:data=>{:id=>message.id}}
+                    %span.chat-img.pull-left
+                      =image_tag avatar_url(message.user, 50),:class => "avatar"
+                    .chat-body.clearfix
+                      .header
+                        %strong.primary-font
+                          =link_to "#{message.user.firstname} #{message.user.lastname}" , user_path(message.user.login)
+                        %small.pull-right.text-muted
+                          %span.glyphicon.glyphicon-time>
+                          =message.created_at.strftime("%a %T")
+                        .message
+                          #short-text
+                            %small.pull-right.text-muted
+                              %span.glyphicon.glyphicon-chevron-down{style: "cursor: pointer;"}
+                            -if message.body.scan(/http.*(jpg|gif|jpeg|png)/)!=[] || message.body.scan(/http.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?].\S\S*)/)!=[] || message.body.scan(/http:\/\/(coub\.com\/view\/.*|coub\.com\/embed\/.*)/i)!=[]
+                              .text-muted
+                                %i= "this message has a content..."
+                            -else
+                              %p= truncate(message.body, separator: ' ', length: 112)
+                          #long-text{style: "display: none;"}
+                            %small.pull-right.text-muted
+                              %span.glyphicon.glyphicon-chevron-up{style: "cursor: pointer;"}
+                            %p= message.body
+                            -if message.attach_path?
+                              %br
+
+                -else
+                  %li.to.clearfix{:data=>{:id=>message.id}}
+                    %span.chat-img.pull-left
+                      =image_tag avatar_url(message.user, 50),:class => "avatar"
+                    .chat-body.clearfix
+                      .header
+                        %strong.primary-font
+                          =link_to "#{message.user.firstname} #{message.user.lastname}" , user_path(message.user.login)
+                        %small.pull-right.text-muted
+                          %span.glyphicon.glyphicon-time>
+                          =message.created_at.strftime("%a %T")
+                        .message
+                          #short-text
+                            %small.pull-right.text-muted
+                              %span.glyphicon.glyphicon-chevron-down{style: "cursor: pointer;"}
+                            -if message.body.scan(/http.*(jpg|gif|jpeg|png)/)!=[] || message.body.scan(/http.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?].\S\S*)/)!=[] || message.body.scan(/http:\/\/(coub\.com\/view\/.*|coub\.com\/embed\/.*)/i)!=[]
+                              .text-muted
+                                %i= "this message has a content..."
+                            -else
+                              %p= truncate(message.body, separator: ' ', length: 112)
+                          #long-text{style: "display: none;"}
+                            %small.pull-right.text-muted
+                              %span.glyphicon.glyphicon-chevron-up{style: "cursor: pointer;"}
+                            %p= message.body
+                            -if message.attach_path?
+                              %br
+              -else
+                -if message.user_id==current_user.id
+                  %li.from.clearfix{:data=>{:id=>message.id}}
+                    %span.chat-img.pull-left
+                      =image_tag (message.user) ? avatar_url(message.user, 50) : "../img/sys-notification.png",:class => "avatar"
+                    .chat-body.clearfix
+                      .header
+                        %strong.primary-font
+                          =(message.user) ? (link_to "#{message.user.firstname} #{message.user.lastname}" , user_path(message.user.login)) : "chat notification"
+                        %small.pull-right.text-muted
+                          %span.glyphicon.glyphicon-time>
+                          =message.created_at.strftime("%a %T")
+                        .message
                           %p= message.body
-                          - if message.attach_path?
+                          -if message.attach_path?
                             %br
-              - else
-                %li.to.clearfix{ data: { id: message.id } }
-                  %span.chat-img.pull-left
-                    = image_tag avatar_url( message.user, 50 ), class: 'avatar'
-                  .chat-body.clearfix
-                    .header
-                      %strong.primary-font
-                        = link_to message.user.login, user_path(message.user.login)
-                      %small.pull-right.text-muted
-                        %span.glyphicon.glyphicon-time>
-                        = message.created_at.strftime('%a %T')
-                      .message
-                        #short-text
-                          %small.pull-right.text-muted
-                            %span.glyphicon.glyphicon-chevron-down{ style: 'cursor: pointer;' }
-                          - if message_body_scan?(message)
-                            .text-muted
-                              %i
-                                = 'this message has a content...'
-                          - else
-                            %p
-                              = truncate( message.body, separator: ' ', length: 112 )
-                        #long-text{ style: 'display: none;' }
-                          %small.pull-right.text-muted
-                            %span.glyphicon.glyphicon-chevron-up{ style: 'cursor: pointer;' }
-                          %p= message.body
-                          - if message.attach_path?
+                            %p.attach_file= message.attach_path.url
+                -else
+                  %li.to.clearfix{:data=>{:id=>message.id}}
+                    %span.chat-img.pull-left
+                      =image_tag (message.user) ? avatar_url(message.user, 50) : "../img/sys-notification.png",:class => "avatar"
+                    .chat-body.clearfix
+                      .header
+                        %strong.primary-font
+                          =(message.user) ? (link_to "#{message.user.firstname} #{message.user.lastname}" , user_path(message.user.login)) : "chat notification"
+                        %small.pull-right.text-muted
+                          %span.glyphicon.glyphicon-time>
+                          =message.created_at.strftime("%a %T")
+                        .message
+                          %p=message.body
+                          -if message.attach_path?
                             %br
-            - else
-              - if message.user_id == current_user.id
-                %li.from.clearfix{ data: { id: message.id } }
-                  %span.chat-img.pull-left
-                    = image_tag (message.user) ? avatar_url( message.user, 50 ) : '../img/sys-notification.png', class: 'avatar'
-                  .chat-body.clearfix
-                    .header
-                      %strong.primary-font
-                        = (message.user) ? ( link_to message.user.login, user_path(message.user.login) ) : 'chat notification'
-                      %small.pull-right.text-muted
-                        %span.glyphicon.glyphicon-time>
-                        = message.created_at.strftime('%a %T')
-                      .message
-                        %p= message.body
-                        - if message.attach_path?
-                          %br
-                          %p.attach_file= message.attach_path
-              - else
-                %li.to.clearfix{ data: { id: message.id } }
-                  %span.chat-img.pull-left
-                    = image_tag (message.user) ? avatar_url(message.user, 50) : '../img/sys-notification.png', class: 'avatar'
-                  .chat-body.clearfix
-                    .header
-                      %strong.primary-font
-                        = (message.user) ? ( link_to message.user.login, user_path(message.user.login) ) : 'chat notification'
-                      %small.pull-right.text-muted
-                        %span.glyphicon.glyphicon-time>
-                        = message.created_at.strftime('%a %T')
-                      .message
-                        %p= message.body
-                        - if message.attach_path?
-                          %br
-                          %p.attach_file= message.attach_path
+                            %p.attach_file= message.attach_path.url
 
   .input
-    = form_for @message, authenticity_token: true, url: messages_path, id: 'form-message', name: 'messageForm', html: { multipart: true }, method: 'post' do |f|
-      %table{ cellspacing: '0', width: '100%' }
+    = form_for @message, :authenticity_token => true, :url => messages_path,:id=>"form-message", :name => "messageForm", :html => {:multipart => true}, :method=>"post" do |f|
+      %table{:cellspacing => "0", :width => "100%"}
         %tbody
           %tr
             %td
               %div#dropZone
                 .textwrapper
-                  = f.text_area :body, class: 'form-control', id: 'message', autocomplete: 'off'
-            %td.up-pl-wrap{ width: '10%' }
+                  = f.text_area :body , :class => "form-control", :id=>"message", :autocomplete => "off"
+            %td.up-pl-wrap{:width => "10%"}
               %span.glyphicon.glyphicon-ok.ok#lineh
               %label.upload-place
-                = f.file_field :attach_path, id: 'attach_path'
-            %td{ width: '1px' }
+                = f.file_field :attach_path ,:id=>"attach_path"
+            %td{:width => "1px"}
               %div.video-chat.upload-but
                 %span.glyphicon.glyphicon-facetime-video
-            %td{ width: '1%' }
-              = f.hidden_field :room_id, value: @room_id
-              %label.upload-but{ for: 'attach_path' }
+            %td{:width => "1%"}
+              = f.hidden_field :room_id, :value=>@room_id
+              %label.upload-but{:for => "attach_path"}
                 %span.glyphicon.glyphicon-paperclip#lineh
-            %td{ width: '1%' }
+            %td{:width => "1%"}
               %div.form-but.upload-but
-                - smile = render 'layouts/index'
-                %span.glyphicon.glyphicon-thumbs-up#lineh#pop{ 'data-container' => 'body',
-                                                        'data-content' => smile,
-                                                        'data-placement' => 'top',
-                                                        'data-toggle' => 'popover', type: 'button' }
-            %td{ width: '1%' }
+                -smile=render "layouts/index"
+                %span.glyphicon.glyphicon-thumbs-up#lineh#pop{"data-container" => "body",
+                                                        "data-content" => smile,
+                                                        "data-placement" => "top",
+                                                        "data-toggle" => "popover", type: "button"}
+            %td{:width => "1%"}
               %div.form-but.upload-but.send_message_button
                 %span.glyphicon.glyphicon-send
 
 %audio#new-message
-  %source{ src: '../sounds/button_tiny.ogg', type: 'audio/ogg' }
-  %source{ src: '../sounds/button_tiny.mp3', type: 'audio/mp3' }
+  %source{:src=>"../sounds/button_tiny.ogg", :type=>"audio/ogg"}
+  %source{:src=>"../sounds/button_tiny.mp3", :type=>"audio/mp3"}
