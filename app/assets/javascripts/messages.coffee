@@ -508,7 +508,11 @@ $(document).ready ->
     e.preventDefault()
     return
 
-  template_search_user_right = "{{#users}}<div class=\"member\"><a data-method=\"post\" href=\"/persons/{{login}}\" rel=\"nofollow\"><span class=\"{{#get_icon_status user_status}}{{/get_icon_status}}\"></span>{{login}}</a><span class=\"glyphicon glyphicon-plus pull-right user_friend\" data-user-id=\"{{id}}\"></span></div>{{/users}}"
+  template_search_user_right = "{{#users}}<div class=\"member\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"{{firstname}} {{lastname}}\">
+                                <a data-method=\"post\" href=\"/persons/{{login}}\" rel=\"nofollow\">
+                                    <span class=\"{{#get_icon_status user_status}}{{/get_icon_status}}\"></span>{{login}}</a>
+                                <span class=\"glyphicon glyphicon-plus pull-right user_friend\" data-user-id=\"{{id}}\"></span>
+                              </div>{{/users}}"
   search_user_right = Handlebars.compile(template_search_user_right)
   $("#search-user").keyup ->
     if $("#search-user").val() is ''
@@ -534,7 +538,10 @@ $(document).ready ->
 
     return
 
-  template_search_user = "{{#users}}<tr friend_id=\"{{id}}\"><td><div class=\"friend_photo\"><img class=\"avatar\" src=\"{{avatar}}\"></div><div class=\"friend_name\"></div><a href=\"/persons/{{login}}\">{{login}}</a></td><td class=\"friend_action add_friend\"><span class=\"glyphicon glyphicon-plus add_new_friend\"></span></td></tr>{{/users}}"
+  template_search_user = "{{#users}}<tr friend_id=\"{{id}}\"><td><div class=\"friend_photo\">
+                        <img class=\"avatar\" src=\"{{avatar}}\"></div>
+                        <div class=\"friend_name\"></div><a href=\"/persons/{{login}}\">{{login}}</a></td>
+                    <td class=\"friend_action add_friend\"><span class=\"glyphicon glyphicon-plus add_new_friend\"></span></td></tr>{{/users}}"
   search_user = Handlebars.compile(template_search_user)
   $("#search-box").keyup ->
     if $("#search-box").val() is ''
