@@ -1,4 +1,3 @@
-//#FIXME
 /*!
  * jQuery.textoverlay.js
  *

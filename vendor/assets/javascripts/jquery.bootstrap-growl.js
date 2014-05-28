@@ -1,4 +1,3 @@
-//#FIXME
 (function() {
   var $;
 

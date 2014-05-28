@@ -17,6 +17,8 @@ gem 'unicorn-rails'
 gem 'omniauth'
 gem 'omniauth-facebook'
 gem 'omniauth-github'
+gem "omniauth-google-oauth2"
+gem 'omniauth-twitter'
 gem 'pusher'
 gem 'rails-erd'
 gem 'gon'
@@ -32,6 +34,7 @@ gem 'audiojs', '~> 0.1.2'
 gem 'exception_notification'
 gem 'gravatar-ultimate'
 gem 'will_paginate'
+
 group :development do
   gem 'bullet'
   gem 'better_errors'

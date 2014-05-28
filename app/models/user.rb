@@ -53,14 +53,21 @@ class User < ActiveRecord::Base
   has_many :rooms_users, dependent: :destroy
   has_many :rooms, through: :rooms_users
   has_many :friends, through: :friendships
-
-  validates :email, :encrypted_password, presence: true
-  validates_uniqueness_of :login, message: 'has already been taken'
+  has_many :friends, :through => :friendships
+  validates_format_of :email, :with => Devise.email_regexp, :allow_blank => true, :if => :email_changed?
+  validates  :encrypted_password, :presence => true
+  validates_uniqueness_of :login, :message => "has already been taken"
   validates :login, format: { with: /\A[a-zA-Z0-9._-]+\Z/ }
   validates :login, length: 1..12, presence: true
+  validates :firstname, format: { with: /\A[a-zA-Z0-9._-]+\Z/ }
+  validates :firstname, length: 1..12, presence: true
+  validates :lastname, format: { with: /\A[a-zA-Z0-9._-]+\Z/ }
+  validates :lastname, length: 1..12, presence: true
 
   devise :invitable, :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :trackable, :validatable, :omniauthable, omniauth_providers: [ :github, :facebook ]
+         :recoverable, :rememberable, :trackable, :validatable,
+         :omniauthable,
+         :omniauth_providers => [:github, :facebook, :google_oauth2, :twitter]
 
   before_save :default_stat
 
@@ -86,8 +93,52 @@ class User < ActiveRecord::Base
     end
   end
 
-  def self.find_for_facebook_oauth( auth, signed_in_resource = nil )  #FIXME refactoring
-    user = User.where( provider: auth.provider, uid: auth.uid ).first
+
+  def self.find_for_google_oauth2(access_token, signed_in_resource=nil)
+    user = User.where(:email => access_token.info.email).first
+    google_login=access_token.info.email.split('@')
+    unless user
+      user = User.create(
+          firstname: access_token.info.name,
+          provider:"google_oauth2",
+          email: access_token.info.email,
+          login: google_login[0],
+          avatar: access_token.info.image,
+          profile_avatar: access_token.info.image.sub("sz=50", "sz=125"),
+          password: Devise.friendly_token[0,20]
+      )
+    end
+    user
+  end
+
+  def self.find_for_twitter_oauth(auth, signed_in_resource=nil)
+    user = User.where(:provider => auth[:provider], :uid => auth[:uid].to_s).first
+    unless user
+      user=User.create(
+          :firstname => auth[:first_name],
+          :login => auth[:login],
+          :provider => auth[:provider],
+          :uid => auth[:uid],
+          :avatar => auth[:avatar],
+          :profile_avatar => auth[:profile_avatar],
+          :password=> Devise.friendly_token[0,20]
+      )
+    end
+    user
+  end
+
+  def self.build_twitter_auth_cookie_hash data
+    {
+        :provider => data.provider, :uid => data.uid.to_i,
+        :access_token => data.credentials.token, :access_secret => data.credentials.secret,
+        :first_name => data.info.name, :login=> data.info.nickname, :avatar=> data.info.image, :profile_avatar=>data.info.image.sub("_normal", ""),
+    }
+  end
+
+
+
+  def self.find_for_facebook_oauth(auth, signed_in_resource=nil)
+    user = User.where(:provider => auth.provider, :uid => auth.uid).first
     if user
       user
     else
@@ -111,10 +162,10 @@ class User < ActiveRecord::Base
 
   private
 
-    def default_stat
-       if self.user_status.blank?
-        self.user_status = 'Offline'
-      end
+  def default_stat
+    if self.user_status.blank?
+      self.user_status = 'Offline'
     end
+  end
 
 end

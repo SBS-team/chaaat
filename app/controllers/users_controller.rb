@@ -4,9 +4,9 @@ class UsersController < ApplicationController
   def search
     users = if params[:room_id].to_i > 0
               user_id = RoomsUser.where( room_id: params[:room_id] ).pluck(:user_id)
-              User.where( 'login like ? AND id != ? AND id NOT IN (?)', "%#{params[:login]}%", current_user.id, user_id )
+              User.where( 'login like ? AND id != ? AND id NOT IN (?)', "#{params[:login]}%", current_user.id, user_id )
             else
-              User.where( 'login like ? AND id != ?', "%#{params[:login]}%", current_user.id )
+              User.where( 'login like ? AND id != ?', "#{params[:login]}%", current_user.id )
             end
     render json: users, root: 'users'
   end
