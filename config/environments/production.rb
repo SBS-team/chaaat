@@ -86,7 +86,7 @@ Chat::Application.configure do
                                               :exception_recipients => %w{artem.galas@gmail.com}
                                           }
   # ActionMailer Config
-  config.action_mailer.default_url_options = {:host => "ruby-chat-st.loc"}
+  config.action_mailer.default_url_options = {:host => "chaaat.herokuapp.com"}
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.perform_deliveries = true
 

@@ -35,7 +35,7 @@ config.action_mailer.delivery_method = :smtp
       password: ENV["GMAIL_PASSWORD"]
   }
 
-  config.action_mailer.default_url_options = {:host => "ruby-chat-st.loc"}
+  config.action_mailer.default_url_options = {:host => "chaaat.herokuapp.com"}
   config.action_mailer.perform_deliveries = true
   require 'pusher'
     Pusher.app_id = '75462'
