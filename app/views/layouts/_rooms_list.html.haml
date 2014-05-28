@@ -74,9 +74,14 @@
         #pane1.tab-pane.active
           .list
             - @room_users.each do |user|
-              .member{ data: { toggle: 'tooltip', user_id: user.id, room_id: @room.id }, title: "#{user.user_status == 'Offline' ? 'Offline ' + time_ago_in_words(user.updated_at) : user.user_status}" }
+              .member.dropdown{ data: { user_login:user.login, user_id: user.id, room_id: @room.id }, title: "#{user.user_status == 'Offline' ? 'Offline ' + time_ago_in_words(user.updated_at) : user.user_status}" }
                 %span{ class: get_user_status_style(user.user_status) }
-                = link_to "#{user.firstname}"+" #{user.lastname}", '#', 'data-user-login' => user.login
+                = link_to "#{user.firstname}"+" #{user.lastname}", '#','data-toggle'=>"dropdown"
+                %ul.dropdown-menu{:role=>'menu','aria-labelledby'=>"dLabel"}
+                  %li
+                    =link_to "Create Room",'#',class:'create-room'
+                  %li
+                    =link_to "Go to profile", '#' , class:'go-profile'
                 - if user.id != current_user.id && @room.creator_id == current_user.id
                   %span{ class: 'glyphicon glyphicon-minus pull-right drop_room_user' }
           .friend-list.right_search_user

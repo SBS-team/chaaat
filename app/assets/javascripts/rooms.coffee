@@ -26,10 +26,10 @@ $ ->
   return
 
 jQuery ($) ->
-  singleClick = (e) ->
-    self.location = "/persons/" + e
-    return
-  doubleClick = (user_login, user_id) ->
+
+  $('.create-room').on "click", ->
+    href_query = $(this).parents('.member').attr('data-user-login')
+    user_id = $(this).parents('.member').attr('data-user-id')
     unless parseInt(user_id) is gon.user_id
       $.ajax(
         type: "POST"
@@ -37,13 +37,20 @@ jQuery ($) ->
         data:
           express: true
           room:
-            name: gon.user_login + " vs. " + user_login
+            name: gon.user_login + " vs. " + href_query
             topic: "express chat"
-
           user_id: user_id
       ).done (response) ->
         self.location = response
         return
+
+    return false
+
+  $('.go-profile').on "click", ->
+    href_query = $(this).parents('.member').attr('data-user-login')
+    user_id = $(this).parents('.member').attr('data-user-id')
+    self.location = "/persons/" + href_query
+    return false
 
   change_topic = ->
     element = $('#drop1.change_topic.glyphicon.glyphicon-pencil')
@@ -85,23 +92,6 @@ jQuery ($) ->
       return
 
     false
-
-  clickCount = 0
-  $(".list").on "click", "a", ->
-    clickCount++
-    href_query = $(this).attr('data-user-login')
-    user_id = $(this).parents('.member').attr('data-user-id')
-    if clickCount is 1
-      singleClickTimer = setTimeout(=>
-        clickCount = 0
-        singleClick href_query
-        return
-      , 400)
-    else if clickCount is 2
-      clearTimeout singleClickTimer
-      clickCount = 0
-      doubleClick href_query, user_id
-    return
 
   $(".change-topic").on "submit", ->
     change_topic()

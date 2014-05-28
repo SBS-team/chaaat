@@ -47,7 +47,7 @@ $(document).ready ->
       data:
         status: strTagStrippedText
     ).done (msg) ->
-      $("#drop1.dropdown-toggle.avail")[0].innerHTML = '<span class="' + window.get_user_status_style(msg) + '"></span>' + msg + '<span class="glyphicon glyphicon-hand-down"></span>'
+      $("#drop1")[0].innerHTML = '<span class="' + window.get_user_status_style(msg) + '"></span>' + msg + '<span class="glyphicon glyphicon-hand-down"></span>'
       return
 
     return
