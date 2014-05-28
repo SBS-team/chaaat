@@ -8,16 +8,16 @@ $ ->
   $("#modal-submit").click ->
     if $("#room_topic").val() is ""
       $.bootstrapGrowl "You have write TOPIC",
-        type: "success" # (null, 'info', 'error', 'success')
-        offset: # 'top', or 'bottom'
+        type: "success"
+        offset:
           from: "top"
           amount: 50
 
-        align: "center" # ('left', 'right', or 'center')
-        width: 250 # (integer, or 'auto')
+        align: "center"
+        width: 250
         delay: 10000
         allow_dismiss: true
-        stackup_spacing: 10 # spacing between consecutively stacked growls.
+        stackup_spacing: 10
 
       mymodal.hide()
       $(".modal-backdrop").hide()
@@ -27,30 +27,24 @@ $ ->
 
 jQuery ($) ->
   singleClick = (e) ->
-    self.location = "/persons/" + $(e).html()
+    self.location = "/persons/" + e
     return
-  doubleClick = (e) ->
-    unless $(e).parent().attr("data-user-id") is gon.user_id.toString()
-      strInputCode = $(e).html()
-      strInputCode = strInputCode.replace(/&(lt|gt);/g, (strMatch, p1) ->
-        (if (p1 is "lt") then "<" else ">")
-      )
-      strTagStrippedText = strInputCode.replace(/<\/?[^>]+(>|$)/g, "")
+  doubleClick = (user_login, user_id) ->
+    unless parseInt(user_id) is gon.user_id
       $.ajax(
         type: "POST"
         url: "/rooms"
         data:
           express: true
           room:
-            name: gon.user_login + " vs. " + strTagStrippedText
+            name: gon.user_login + " vs. " + user_login
             topic: "express chat"
 
-          user_id: $(e).parent().attr("data-user-id")
+          user_id: user_id
       ).done (response) ->
         self.location = response
         return
 
-    return
   change_topic = ->
     element = $('#drop1.change_topic.glyphicon.glyphicon-pencil')
     id = element.data('id')
@@ -95,9 +89,10 @@ jQuery ($) ->
   clickCount = 0
   $(".list").on "click", "a", ->
     clickCount++
-    href_query = this
+    href_query = $(this).attr('data-user-login')
+    user_id = $(this).parents('.member').attr('data-user-id')
     if clickCount is 1
-      singleClickTimer = setTimeout(->
+      singleClickTimer = setTimeout(=>
         clickCount = 0
         singleClick href_query
         return
@@ -105,7 +100,7 @@ jQuery ($) ->
     else if clickCount is 2
       clearTimeout singleClickTimer
       clickCount = 0
-      doubleClick href_query
+      doubleClick href_query, user_id
     return
 
   $(".change-topic").on "submit", ->
