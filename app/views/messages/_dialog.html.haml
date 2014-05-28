@@ -2,7 +2,7 @@
   .alert.alert-success.top-alert
     %h3.room_topic #{@room.topic}
     .dropdown
-      %span#drop1.change_topic.glyphicon.glyphicon-pencil{"data-toggle"=>"dropdown"}
+      %span#drop1.change_topic.glyphicon.glyphicon-pencil{"data-toggle"=>"dropdown", 'data-id' => @room.id }
       %form.dropdown-menu.search-form.change-topic{:action => "", "aria-labelledby" => "drop3", :method => "post", :role => "menu"}
         %input{:name => "change",:id=>'change', :placeholder => "Change topic", :type => "search"}
           %button{:type => "submit"}
