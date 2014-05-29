@@ -563,7 +563,7 @@ $(document).ready ->
           return
 
     return
-  if $("#search-box").val().length > 0
+  if $("#search-box")[0] && $("#search-box").val().length > 0
     $.ajax
       url: "/users/search"
       type: "POST"
