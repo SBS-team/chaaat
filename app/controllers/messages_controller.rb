@@ -18,8 +18,7 @@ class MessagesController < ApplicationController
       message.send_emails
       render text: 'Success'
     else
-
-      render template: 'layouts/limit_message'
+      render template: 'layouts/limit_message', :locals => { :error => message}
     end
   end
 
