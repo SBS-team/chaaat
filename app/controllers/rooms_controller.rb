@@ -34,7 +34,7 @@ class RoomsController < ApplicationController
         end
       end
     else
-      render template: 'layouts/limit_message'
+      render template: 'layouts/limit_message', :locals => { :error => @room}
     end
   end
 

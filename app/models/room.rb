@@ -29,7 +29,7 @@ class Room < ActiveRecord::Base
   def limit_room
     limit = User.find(Thread.current['current_user'].id).rooms.count
     if limit >= 3
-      errors.add(:limit_room, "limit")
+      errors.add(:limit_room, "You can create 3 rooms")
     end
   end
 end

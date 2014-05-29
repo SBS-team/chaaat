@@ -44,7 +44,7 @@ class Message < ActiveRecord::Base
   def limit_message
     limit = User.find(Thread.current['current_user'].id).messages.where('created_at > ?', 24.hours.ago).count
     if limit >= 20
-      errors.add(:limit_message, 'The name cant be blank.')
+      errors.add(:limit_message, 'You can type less then 20 messages per day')
     end
   end
   private
