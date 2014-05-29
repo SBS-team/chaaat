@@ -53,16 +53,13 @@ class User < ActiveRecord::Base
   has_many :rooms_users, dependent: :destroy
   has_many :rooms, through: :rooms_users
   has_many :friends, through: :friendships
-  has_many :friends, :through => :friendships
   validates_format_of :email, :with => Devise.email_regexp, :allow_blank => true, :if => :email_changed?
   validates  :encrypted_password, :presence => true
   validates_uniqueness_of :login, :message => "has already been taken"
   validates :login, format: { with: /\A[a-zA-Z0-9._-]+\Z/ }
-  validates :login, length: 1..12, presence: true
-  validates :firstname, format: { with: /\A[a-zA-Z0-9._-]+\Z/ }
-  validates :firstname, length: 1..12, presence: true
-  validates :lastname, format: { with: /\A[a-zA-Z0-9._-]+\Z/ }
-  validates :lastname, length: 1..12, presence: true
+  validates :login, length: 1..20, presence: true
+  validates :firstname, length: 1..20, presence: true
+  validates :lastname, length: 1..20, presence: true
 
   devise :invitable, :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable,
@@ -153,7 +150,7 @@ class User < ActiveRecord::Base
                     avatar: auth.info.image + "?width=50&height=50",
                     profile_avatar: auth.info.image + "?width=125&height=125",
                     email: auth.info.email,
-                    login: auth.extra.raw_info.username,
+                    login: auth.info.email.split('@')[0],
                     password: Devise.friendly_token[ 0, 20 ]
         )
       end
