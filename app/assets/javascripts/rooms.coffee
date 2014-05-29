@@ -4,27 +4,6 @@ $("#modal-submit").click ->
   $(".modal-backdrop").hide()
   return
 
-$ ->
-  $("#modal-submit").click ->
-    if $("#room_topic").val() is ""
-      $.bootstrapGrowl "You have write TOPIC",
-        type: "success"
-        offset:
-          from: "top"
-          amount: 50
-
-        align: "center"
-        width: 250
-        delay: 10000
-        allow_dismiss: true
-        stackup_spacing: 10
-
-      mymodal.hide()
-      $(".modal-backdrop").hide()
-    return
-
-  return
-
 jQuery ($) ->
 
   $('.create-room').on "click", ->
