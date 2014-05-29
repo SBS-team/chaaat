@@ -3,7 +3,7 @@
   .lobby-header
     %h1.pull-left
       %span.current_user_login
-        ="#{current_user.login}"
+        ="#{current_user.firstname}"+" #{current_user.lastname}"
       Rooms
     %button#createRoom.btn.btn-primary.lobby-btn{ 'data-target' => '#myModal', 'data-toggle' => 'modal' } Create Room
     #myModal.modal.fade{ 'aria-hidden' => 'true', 'aria-labelledby' => 'myModalLabel', role: 'dialog', tabindex: '-1' }

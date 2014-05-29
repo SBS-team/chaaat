@@ -41,7 +41,12 @@ describe RoomsController do
     do_create
     response.should redirect_to(rooms_path)
   end
+  it "renders the index template" do
+    get :index
+    response.should be_success
+    expect(response.status).to eq(200)
 
+  end
 
   it "room create" do
     expect {
@@ -81,7 +86,7 @@ describe RoomsController do
   end
   it "update" do
     @room = FactoryGirl.create(:room, :creator_id => user.id)
-    put :update, :room_id => @room.id, :query => "mkd"
+    put :update, :id => @room,  :query => "aaa"
     expect(response.status).to eq(200)
   end
   it 'show' do

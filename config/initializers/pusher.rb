@@ -10,6 +10,3 @@ if ENV['SLANGER_APP']
   Pusher.host = ENV['SLANGER_HOST']
   Pusher.port = ENV['SLANGER_PORT']
 end
-
-Pusher.logger = Rails.logger
-

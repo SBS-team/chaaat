@@ -38,6 +38,9 @@ $ ->
           parsed_login = gon_record.match(/\"[a-zA-Z0-9\.\-_]+\"/).toString().replace(/"/g, "")
           user_login_dom_el = $(".current_user_login")
           user_login_dom_el.html parsed_login
+          $("#user_name").html $("#user_firstname").val() + $("#user_lastname").val()
+          person_link="/persons/"+parsed_login.toString();
+          $(".user_name").html ("<a href=\""+person_link + "\">" + $("#user_firstname").val() + " " + $("#user_lastname").val() + "</a>")
           $(errors_div).hide()
           $("#editModal").modal "hide"
         return
@@ -47,10 +50,10 @@ $ ->
     $("#error_explanation").hide()
     return
 
-#  ---------------------------------- user profile photo from gravatar here  ---------------------------------------
+  #  ---------------------------------- user profile photo from gravatar here  ---------------------------------------
   $("a.glyphicon-cog").click ->
     $("#profile_avatar").attr("src", $(".avatar_mini").attr("src"))
-# ----------------------------------------------------------------------------------------------------------------
+  # ----------------------------------------------------------------------------------------------------------------
   $(".script").each ->
     eval_ $(this).text()
     return

@@ -6,12 +6,12 @@ class MessagesController < ApplicationController
     message = Message.new( message_params )
     if message.save
       standard_hash = { id: message.id, room_id: message.room_id, messages: message.body,
-                       attach_file_path: message.attach_path.url, create_at: message.created_at.strftime('%a %T') }
+                        attach_file_path: message.attach_path.url, create_at: message.created_at.strftime('%a %T') }
       if params[:messages][:message_type] == 'system'
         prepare_pusher_data( message, standard_hash, avatar: '../img/sys-notification.png' )
       else
         if message.update( user_id: current_user.id )
-          prepare_pusher_data( message, standard_hash, user_id: current_user.id, login: current_user.login, avatar: avatar_url( current_user, 50 ) )
+          prepare_pusher_data( message, standard_hash, user_id: current_user.id, login: current_user.login, lastname: current_user.lastname, firstname: current_user.firstname, avatar: avatar_url( current_user, 50 ) )
           message.room.users.each { |user| sent_pusher( 'notification-room', user.id, { room_id: message.room_id } ) }
         end
       end

@@ -4,17 +4,17 @@ Chat::Application.configure do
   # In the development environment your application's code is reloaded on
   # every request. This slows down response time but is perfect for development
   # since you don't have to restart the web server when you make code changes.
-  config.cache_classes = false
+  config.cache_classes = true
 
   # Do not eager load code on boot.
-  config.eager_load = false
+  config.eager_load = true
 
   # Show full error reports and disable caching.
   config.consider_all_requests_local       = true
-  config.action_controller.perform_caching = false
+  config.action_controller.perform_caching = true
 
   # Don't care if the mailer can't send.
-  config.action_mailer.raise_delivery_errors = false
+  config.action_mailer.raise_delivery_errors = true
 
   # Print deprecation notices to the Rails logger.
   config.active_support.deprecation = :log
@@ -27,18 +27,21 @@ Chat::Application.configure do
   # number of complex assets.
   config.assets.debug = true
 
-config.action_mailer.delivery_method = :smtp
+  config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
       address: "smtp.mandrillapp.com",
       port: 587,
-      user_name: ENV["GMAIL_USERNAME"],
-      password: ENV["GMAIL_PASSWORD"]
+      user_name: ENV["MANDRILL_USERNAME"],
+      password: ENV["MANDRILL_APIKEY"],
+      :authentication => :plain
   }
 
   config.action_mailer.default_url_options = {:host => "chaaat.herokuapp.com"}
   config.action_mailer.perform_deliveries = true
+
   require 'pusher'
     Pusher.app_id = '75462'
     Pusher.key    = '5576ad6e6f0c44d04a98'
     Pusher.secret = '2ffcc03e4843f41d6f79'
 end
+

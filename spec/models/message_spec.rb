@@ -17,7 +17,6 @@
 #  index_messages_on_user_id  (user_id)
 #
 
-
 require 'spec_helper'
 
 describe Message do

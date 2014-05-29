@@ -1,11 +1,13 @@
 class RoomsUsersController < ApplicationController
-before_filter :find_room_and_user
+  before_filter :find_room_and_user
 
   def create
     if current_user.rooms.find( @room )
       if !@joined_user.rooms_users.create( room_id: @room.id).new_record?
         Pusher["private-#{params[:room_id]}"].trigger_async( 'add_user_to_room', { user_id: @joined_user.id,
                                                                                    user_login: @joined_user.login,
+                                                                                   user_firstname: @joined_user.firstname,
+                                                                                   user_lastname: @joined_user.lastname,
                                                                                    rooms_name: @room.name,
                                                                                    room_id: @room.id,
                                                                                    user_status: @joined_user.user_status,
