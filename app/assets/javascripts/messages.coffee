@@ -568,6 +568,21 @@ $(document).ready ->
           return
 
     return
+  if $("#search-box")[0] && $("#search-box").val().length > 0
+    $.ajax
+      url: "/users/search"
+      type: "POST"
+      beforeSend: (xhr) ->
+        xhr.setRequestHeader "X-CSRF-Token", $("meta[name=\"csrf-token\"]").attr("content")
+        return
+
+      data:
+        login: $("#search-box").val()
+        room_id: 0
+
+      success: (response) ->
+        $(".rooms_group").html search_user(response)
+        return
 
   $("body").on "click", (e) ->
     $("[data-toggle=\"popover\"]").each ->
