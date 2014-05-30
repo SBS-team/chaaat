@@ -6,8 +6,8 @@ $("#modal-submit").click ->
 
 $ ->
   $("#modal-submit").click ->
-    if $("#room_topic").val() is ""
-      $.bootstrapGrowl "You have write TOPIC",
+    if $("#room_topic").val() is "" or $("#room_name").val() is ""
+      $.bootstrapGrowl "You don't filed in requered fields",
         type: "success"
         offset:
           from: "top"
