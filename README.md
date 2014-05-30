@@ -91,6 +91,7 @@ Current Staging Location
 [ruby-chat-st.loc](http://ruby-chat-st.loc/)
 
 [ruby-chat.tk](http://www.ruby-chat.tk)
+
 [chaaat.herokuapp.com](chaaat.herokuapp.com)
 
 
