@@ -24,5 +24,6 @@
       %img{:src=>"../img/github.jpg", :class=>"social-button"}
     - if devise_mapping.rememberable?
       .checkbox
+      %p
         = f.check_box :remember_me
         = f.label :remember_me
