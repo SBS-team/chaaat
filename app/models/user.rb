@@ -58,8 +58,8 @@ class User < ActiveRecord::Base
   validates_uniqueness_of :login, :message => "has already been taken"
   validates :login, format: { with: /\A[a-zA-Z0-9._-]+\Z/ }
   validates :login, length: 1..20, presence: true
-  validates :firstname, length: 1..20, presence: true
-  validates :lastname, length: 1..20, presence: true
+  validates :firstname, :length => { :maximum => 20 }
+  validates :lastname, :length => { :maximum => 20 }
 
   devise :invitable, :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable,
