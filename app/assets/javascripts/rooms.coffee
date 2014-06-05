@@ -34,6 +34,24 @@ jQuery ($) ->
   change_topic = ->
     element = $('#drop1.change_topic.glyphicon.glyphicon-pencil')
     id = element.data('id')
+    if $("#change").val() is ""
+      $.bootstrapGrowl "You don't filed in requered fields",
+        type: "success"
+        offset:
+          from: "top"
+          amount: 50
+
+        align: "center"
+        width: 250
+        delay: 10000
+        allow_dismiss: true
+        stackup_spacing: 10
+
+      mymodal.hide()
+      $(".modal-backdrop").hide()
+      return
+
+    else
     $.ajax(
       type: "PUT"
       beforeSend: (xhr) ->
