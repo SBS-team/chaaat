@@ -49,7 +49,9 @@ group :development do
   gem 'capistrano-rails'
   gem "disable_assets_logger"
 end
-
+group :production, :staging do
+  gem 'rails_12factor'
+end
 group :development, :test do
   gem 'factory_girl_rails'
   gem 'capybara'
