@@ -34,6 +34,7 @@ jQuery ($) ->
   change_topic = ->
     element = $('#drop1.change_topic.glyphicon.glyphicon-pencil')
     id = element.data('id')
+    console.log($("#change").val())
     if $("#change").val() is ""
       $.bootstrapGrowl "You don't filed in requered fields",
         type: "success"
