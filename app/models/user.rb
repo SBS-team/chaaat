@@ -22,6 +22,7 @@
 #  sign_out_at            :datetime
 #  login                  :string(255)
 #  avatar                 :string(255)
+#  profile_avatar         :string(255)
 #  invitation_token       :string(255)
 #  invitation_created_at  :datetime
 #  invitation_sent_at     :datetime
@@ -30,11 +31,15 @@
 #  invited_by_id          :integer
 #  invited_by_type        :string(255)
 #  invitations_count      :integer          default(0)
-#  profile_avatar         :string(255)
 #  user_status            :string(255)
+#  confirmation_token     :string(255)
+#  confirmed_at           :datetime
+#  confirmation_sent_at   :datetime
+#  unconfirmed_email      :string(255)
 #
 # Indexes
 #
+#  index_users_on_confirmation_token    (confirmation_token) UNIQUE
 #  index_users_on_email                 (email) UNIQUE
 #  index_users_on_invitation_token      (invitation_token) UNIQUE
 #  index_users_on_invitations_count     (invitations_count)
@@ -60,10 +65,9 @@ class User < ActiveRecord::Base
   validates :login, length: 1..20, presence: true
   validates :firstname, :length => { :maximum => 20 }
   validates :lastname, :length => { :maximum => 20 }
-
   devise :invitable, :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable,
-         :omniauthable,
+         :omniauthable, :confirmable,
          :omniauth_providers => [:github, :facebook, :google_oauth2, :twitter]
 
   before_save :default_stat
