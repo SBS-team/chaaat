@@ -146,6 +146,7 @@ if gon.room_id
     return
 
   channel.bind "add_user_to_room", (data) ->
+    console.log "+++++++++++++++++++++++++++++++++++++"
     gon.room_members_count = data.room_members_count
     root.users.push data.user_login
     root.users.push data.user_firstname
