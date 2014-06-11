@@ -42,7 +42,7 @@ class RoomsController < ApplicationController
     @room_users = @room.users
     @room_list = current_user.rooms.order(id: :asc)
     @message = Message.new
-    @messages = @room.messages.preload(:user)
+    @messages = @room.messages.preload(:user).order(created_at: :asc)
     @links = Message.get_body_links(@messages).order(created_at: :desc).paginate( page: params[:page], per_page: 10)
     @attach = Message.get_body_attach(@messages).order(created_at: :asc)
 
