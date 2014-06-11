@@ -82,7 +82,7 @@
                     =link_to "Create Room",'#',class:'create-room'
                   %li
                     =link_to "Go to profile", '#' , class:'go-profile'
-                - if user.id != current_user.id && @room.creator_id == current_user.id
+                - if (user.id != current_user.id && @room.creator_id == current_user.id) || (user.id == current_user.id && current_user.id != @room.creator_id)
                   %span{ class: 'glyphicon glyphicon-minus pull-right drop_room_user' }
           .friend-list.right_search_user
             #panel1.panel.panel-default
