@@ -18,7 +18,6 @@ class Devise::RegistrationsController < DeviseController
         set_flash_message :notice, :signed_up if is_flashing_format?
         sign_up(resource_name, resource)
         respond_with resource, location: after_sign_up_path_for(resource)
-        UserMailer.welcome_email(@user).deliver
       else
         set_flash_message :notice, :"signed_up_but_#{resource.inactive_message}" if is_flashing_format?
         expire_data_after_sign_in!
