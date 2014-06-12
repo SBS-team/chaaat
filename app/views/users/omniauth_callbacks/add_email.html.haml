@@ -4,6 +4,8 @@
       %ul.nav.navbar-nav.navbar-right.navbar-user
 .authform
   = form_for(@user, :as => "user", :url => account_create_path,:html => { :role => 'form'}) do |f|
+    #error_explanation
+      =@user.errors.full_messages.first
     .form-group
       = f.label :email
       = f.email_field :email, :autofocus => true, class: 'form-control'
