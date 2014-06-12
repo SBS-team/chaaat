@@ -160,6 +160,10 @@ class User < ActiveRecord::Base
       end
     end
   end
+  protected
+  def confirmation_required?
+    false
+ end
 
   private
 
