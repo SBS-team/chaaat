@@ -89,7 +89,6 @@ class User < ActiveRecord::Base
             email: auth.info.email,
             password: Devise.friendly_token[ 0, 20 ]
         )
-        UserMailer.welcome_email(user).deliver
       end
     end
   end
@@ -108,7 +107,6 @@ class User < ActiveRecord::Base
           profile_avatar: access_token.info.image.sub("sz=50", "sz=125"),
           password: Devise.friendly_token[0,20]
       )
-      UserMailer.welcome_email(user).deliver
     end
 
     user
@@ -126,7 +124,6 @@ class User < ActiveRecord::Base
           :profile_avatar => auth[:profile_avatar],
           :password=> Devise.friendly_token[0,20]
       )
-      UserMailer.welcome_email(user).deliver
     end
     user
   end
@@ -161,7 +158,6 @@ class User < ActiveRecord::Base
                     password: Devise.friendly_token[ 0, 20 ]
 
         )
-        UserMailer.welcome_email(user).deliver
       end
     end
   end
