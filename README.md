@@ -92,6 +92,8 @@ Current Staging Location
 
 [ruby-chat.tk](http://www.ruby-chat.tk)
 
+[chaaat.herokuapp.com](http://chaaat.herokuapp.com)
+
 
 License
 -------

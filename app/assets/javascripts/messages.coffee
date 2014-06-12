@@ -575,7 +575,6 @@ $(document).ready ->
       beforeSend: (xhr) ->
         xhr.setRequestHeader "X-CSRF-Token", $("meta[name=\"csrf-token\"]").attr("content")
         return
-
       data:
         login: $("#search-box").val()
         room_id: 0
@@ -584,6 +583,13 @@ $(document).ready ->
         $(".rooms_group").html search_user(response)
         return
 
+      data:
+        login: $("#search-box").val()
+        room_id: 0
+
+      success: (response) ->
+        $(".rooms_group").html search_user(response)
+        return
   $("body").on "click", (e) ->
     $("[data-toggle=\"popover\"]").each ->
       $(this).popover "hide"  if not $(this).is(e.target) and $(this).has(e.target).length is 0 and $(".popover").has(e.target).length is 0

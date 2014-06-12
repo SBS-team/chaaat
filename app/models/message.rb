@@ -32,8 +32,8 @@ class Message < ActiveRecord::Base
 
   before_save :gsub_message, on: :create
 
-  scope :get_body_links, ->  ( messages ) { messages.where( 'body LIKE ? OR body LIKE ? OR body LIKE ?', '%http://%', '%https://%', '%ftp://%' ) }
-  scope :get_body_attach, -> ( messages ) { messages.where( 'attach_path IS NOT NULL' ) }
+  #scope :get_body_links, ->  ( messages ) { messages.where( 'body LIKE ? OR body LIKE ? OR body LIKE ?', '%http://%', '%https://%', '%ftp://%' ) }
+  #scope :get_body_attach, -> ( messages ) { messages.where( 'attach_path IS NOT NULL' ) }
 
   def   send_emails
     self.room.users.where( user_status: 'Offline' ).pluck( :email ).each do |email|
@@ -41,13 +41,14 @@ class Message < ActiveRecord::Base
     end
   end
 
+
+  private
   def limit_message
     limit = User.find(Thread.current['current_user'].id).messages.where('created_at > ?', 24.hours.ago).count
     if limit >= 20
       errors.add(:limit_message, 'You can type less then 20 messages per day')
     end
   end
-  private
 
     def gsub_message
       self.body.gsub!(/[\n]/,"")

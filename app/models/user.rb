@@ -22,6 +22,7 @@
 #  sign_out_at            :datetime
 #  login                  :string(255)
 #  avatar                 :string(255)
+#  profile_avatar         :string(255)
 #  invitation_token       :string(255)
 #  invitation_created_at  :datetime
 #  invitation_sent_at     :datetime
@@ -30,7 +31,6 @@
 #  invited_by_id          :integer
 #  invited_by_type        :string(255)
 #  invitations_count      :integer          default(0)
-#  profile_avatar         :string(255)
 #  user_status            :string(255)
 #  confirmation_token     :string(255)
 #  confirmed_at           :datetime
@@ -59,13 +59,12 @@ class User < ActiveRecord::Base
   has_many :rooms, through: :rooms_users
   has_many :friends, through: :friendships
   validates_format_of :email, :with => Devise.email_regexp, :allow_blank => true, :if => :email_changed?
-  validates  :encrypted_password, :presence => true
+  validates :encrypted_password, :presence => true
   validates_uniqueness_of :login, :message => "has already been taken"
   validates :login, format: { with: /\A[a-zA-Z0-9._-]+\Z/ }
   validates :login, length: 1..20, presence: true
   validates :firstname, :length => { :maximum => 20 }
   validates :lastname, :length => { :maximum => 20 }
-
   devise :invitable, :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable,
          :omniauthable, :confirmable,
@@ -90,7 +89,7 @@ class User < ActiveRecord::Base
             email: auth.info.email,
             password: Devise.friendly_token[ 0, 20 ]
         )
-
+        UserMailer.welcome_email(user).deliver
       end
     end
   end
@@ -109,7 +108,9 @@ class User < ActiveRecord::Base
           profile_avatar: access_token.info.image.sub("sz=50", "sz=125"),
           password: Devise.friendly_token[0,20]
       )
+      UserMailer.welcome_email(user).deliver
     end
+
     user
   end
 
@@ -125,6 +126,7 @@ class User < ActiveRecord::Base
           :profile_avatar => auth[:profile_avatar],
           :password=> Devise.friendly_token[0,20]
       )
+      UserMailer.welcome_email(user).deliver
     end
     user
   end
@@ -157,7 +159,9 @@ class User < ActiveRecord::Base
                     email: auth.info.email,
                     login: auth.info.email.split('@')[0],
                     password: Devise.friendly_token[ 0, 20 ]
+
         )
+        UserMailer.welcome_email(user).deliver
       end
     end
   end
@@ -165,6 +169,11 @@ class User < ActiveRecord::Base
   def confirmation_required?
     false
   end
+
+  protected
+  def confirmation_required?
+    false
+ end
 
   private
 

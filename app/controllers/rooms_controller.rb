@@ -42,9 +42,10 @@ class RoomsController < ApplicationController
     @room_users = @room.users
     @room_list = current_user.rooms.order(id: :asc)
     @message = Message.new
-    @messages = @room.messages.preload(:user).order(created_at: :asc)
-    @links = Message.get_body_links(@messages).order(created_at: :desc).paginate( page: params[:page], per_page: 10)
-    @attach = Message.get_body_attach(@messages).order(created_at: :asc)
+    @message_count = Message.where(:room_id=>params[:id]).count
+    @messages = Message.where(:room_id=>params[:id]).preload(:user).order(created_at: :asc).last(10)
+    @links = Message.where("room_id = ? AND (body LIKE ? OR body LIKE ? OR body LIKE ?)",params[:id],"%http://%","%https://%","%ftp://%").preload(:user).order(created_at: :desc).paginate(:page => params[:page], :per_page => 14)
+    @attach = Message.where("room_id = ? AND attach_path IS NOT NULL",params[:id]).preload(:user).order(created_at: :asc)
 
     gon.room_id = params[:id].to_i
     gon.rooms_users = @room_users.pluck(:login)

@@ -3,6 +3,26 @@ $("#modal-submit").click ->
   mymodal.hide()
   $(".modal-backdrop").hide()
   return
+$ ->
+  $("#modal-submit").click ->
+    if $("#room_topic").val() is "" or $("#room_name").val() is ""
+      $.bootstrapGrowl "You don't filed in requered fields",
+        type: "success"
+        offset:
+          from: "top"
+          amount: 50
+
+        align: "center"
+        width: 250
+        delay: 10000
+        allow_dismiss: true
+        stackup_spacing: 10
+
+      mymodal.hide()
+      $(".modal-backdrop").hide()
+    return
+
+  return
 
 jQuery ($) ->
 
@@ -34,7 +54,6 @@ jQuery ($) ->
   change_topic = ->
     element = $('#drop1.change_topic.glyphicon.glyphicon-pencil')
     id = element.data('id')
-    console.log($("#change").val())
     if $("#change").val() is ""
       $.bootstrapGrowl "You don't filed in requered fields",
         type: "success"
