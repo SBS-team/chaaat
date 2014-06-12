@@ -71,6 +71,9 @@ class User < ActiveRecord::Base
          :omniauth_providers => [:github, :facebook, :google_oauth2, :twitter]
 
   before_save :default_stat
+  after_create :send_welcome_email
+
+
 
   def self.create_with_omniauth( auth, signed_in_resource = nil )
     user = User.where( provider: auth.provider, uid: auth.uid.to_s ).first
@@ -81,7 +84,7 @@ class User < ActiveRecord::Base
       if registered_user
         registered_user
       else
-        User.create(
+        user=User.create(
             firstname: auth.info.name,
             login: auth.extra.raw_info.login,
             provider: auth.provider,
@@ -156,7 +159,6 @@ class User < ActiveRecord::Base
                     email: auth.info.email,
                     login: auth.info.email.split('@')[0],
                     password: Devise.friendly_token[ 0, 20 ]
-
         )
       end
     end
@@ -164,15 +166,13 @@ class User < ActiveRecord::Base
   protected
   def confirmation_required?
     false
-  end
-
-  protected
-  def confirmation_required?
-    false
  end
 
   private
 
+  def send_welcome_email
+    UserMailer.welcome_email(self).deliver
+  end
   def default_stat
     if self.user_status.blank?
       self.user_status = 'Offline'
