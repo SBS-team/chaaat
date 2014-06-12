@@ -5,6 +5,7 @@
 .authform
   = form_for(@user, :as => "user", :url => account_create_path,:html => { :role => 'form'}) do |f|
     .form-group
+      = devise_error_messages!
       = f.label :email
       = f.email_field :email, :autofocus => true, class: 'form-control'
       %br
