@@ -84,7 +84,7 @@ Chat::Application.configure do
                                           :email => {
                                               :email_prefix => "[chaaat] ",
                                               :sender_address => %{"notifier" <chaaat.chaaat@gmail.com>},
-                                              :exception_recipients => %w{artem.galas@gmail.com}
+                                              :exception_recipients => %w{Chaaat.chaaat@gmail.com}
                                           }
   # ActionMailer Config
   config.action_mailer.default_url_options = {:host => "chaaat.herokuapp.com"}
